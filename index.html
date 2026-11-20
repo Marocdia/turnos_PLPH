@@ -115,9 +115,21 @@ td:last-child,th:last-child{text-align:right}
 
 <script>
 var SH={M:{n:'Mañana',i:'🌅'},T:{n:'Tarde',i:'🌇'},N:{n:'Noche',i:'🌙'},L:{n:'Libre',i:'🏖️'}};
-var ICONS=['🏍️','🎉','🚓','⭐','🌙','🚨','👮','📋'];
+var ICONS=['🏍️','🎉','🚓','⭐','🌙','🚨','👮','📋','⚖️','🎖️'];
 var DEF={cfg:{start:'2026-11-18',first:'M',seq:['M','T','N']},
- cat:[{id:1,n:'Mañana extraordinaria festivo',a:80,i:'🎉'},{id:2,n:'Moto',a:30,i:'🏍️'},{id:3,n:'Servicio extra',a:60,i:'🚓'}],days:{},nid:4};
+ cat:[
+  {id:1,n:'Agente Ordinario (AO · 8h)',a:250.08,i:'👮'},
+  {id:2,n:'Agente Festivo/Nocturno (AF/AN · 8h)',a:280.80,i:'🌙'},
+  {id:3,n:'Agente Festivo Nocturno (AFN · 8h)',a:311.60,i:'🚨'},
+  {id:4,n:'Servicios Especiales Ordinario',a:300.87,i:'🚓'},
+  {id:5,n:'Servicio Especial Extraordinario',a:120.36,i:'⭐'},
+  {id:6,n:'Servicio Especial Consideración',a:120.36,i:'📋'},
+  {id:7,n:'Juzgado Partido Judicial',a:120.36,i:'⚖️'},
+  {id:8,n:'Juzgado Provincia',a:144.41,i:'⚖️'},
+  {id:9,n:'Juzgado Fuera Provincia',a:156.46,i:'⚖️'},
+  {id:10,n:'Servicio Moto',a:14.46,i:'🏍️'},
+  {id:11,n:'Jefatura Grupo (Agente a Oficial)',a:19.84,i:'🎖️'}
+ ],days:{},nid:12};
 var S;
 try{S=JSON.parse(localStorage.getItem('plpilar')||'null')}catch(e){S=null}
 S=S||JSON.parse(JSON.stringify(DEF));
