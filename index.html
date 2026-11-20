@@ -63,6 +63,20 @@ td:last-child,th:last-child{text-align:right}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;z-index:50}
 .mb{background:var(--card);width:100%;max-width:480px;max-height:90vh;overflow:auto;border-radius:16px 16px 0 0;padding:16px;border-top:5px solid var(--gold)}
 @media(min-width:600px){.modal{align-items:center}.mb{border-radius:16px}}
+:root{--Lbg:#dcefe3}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--Lbg:#1b3a2c}}
+:root[data-theme="dark"]{--Lbg:#1b3a2c}
+.dc[data-s="M"]{background:var(--M);border-color:var(--M);color:#14213d}
+.dc[data-s="T"]{background:#e8772a;border-color:#e8772a;color:#fff}
+.dc[data-s="N"]{background:var(--N);border-color:var(--N);color:#fff}
+.dc[data-s="L"]{background:var(--Lbg);border-color:var(--line);color:var(--tx)}
+.dc{min-height:92px;padding:4px 3px;align-items:center;text-align:center;gap:1px}
+.dc .n{width:100%;font-size:13px}
+.dc .s{display:flex;flex-direction:column;align-items:center}
+.dc .si{font-size:28px;line-height:1.1}.dc .sl{font-size:11px;font-weight:700;text-transform:uppercase}
+.dc .x{font-size:15px;line-height:1}
+.dc.today{outline:3px solid var(--tx);outline-offset:-1px}
+@media(max-width:600px){.wrap{padding:8px}.cal{gap:3px}.dc{min-height:84px}.dc .si{font-size:26px}}
 </style>
 </head>
 <body>
@@ -92,7 +106,7 @@ td:last-child,th:last-child{text-align:right}
    </div>
   </div>
   <div id="turnos" class="hide">
-   <div class="tabs"><button class="tab on" data-t="cal">📅 Calendario</button><button class="tab" data-t="cat">💶 Gratificaciones</button><button class="tab" data-t="cfg">⚙️ Ajustes</button></div>
+   <div id="topc"></div><div class="tabs"><button class="tab on" data-t="cal">📅 Calendario</button><button class="tab" data-t="cat">💶 Gratificaciones</button><button class="tab" data-t="cfg">⚙️ Ajustes</button></div>
    <div id="t-cal"></div><div id="t-cat" class="hide"></div><div id="t-cfg" class="hide"></div>
   </div>
  </div>
@@ -262,6 +276,34 @@ function notesCard(){var t=new Date(),tk=key(t.getFullYear(),t.getMonth(),t.getD
 var _dcal3=drawCal;drawCal=function(){_dcal3();$('t-cal').insertAdjacentHTML('beforeend',notesCard());
  document.querySelectorAll('#t-cal .dc').forEach(function(el){var m=(el.getAttribute('onclick')||'').match(/'(\d{4}-\d\d-\d\d)'/);if(m&&S.notes&&S.notes[m[1]]&&S.notes[m[1]].length){var x=el.querySelector('.x');if(x)x.insertAdjacentText('beforeend','📝')}})};
 setInterval(dueCheck,30000);document.addEventListener('visibilitychange',dueCheck);
+function openRange(){var o=['M','T','N','L'].map(function(c){return '<option value="'+c+'"'+(rs===c?' selected':'')+'>'+SH[c].i+' '+SH[c].n+'</option>'}).join('');
+ $('modal').innerHTML='<div class="mb"><h3 style="margin:0 0 6px">⚡ Asignar turnos por rango</h3><p style="color:var(--mut);font-size:14px;margin:0 0 10px">Pon el mismo turno en varios días seguidos. Después puedes corregir días sueltos.</p><div class="fld"><label>Desde</label><input type="date" id="rf" value="'+rf+'"></div><div class="fld"><label>Hasta</label><input type="date" id="rt" value="'+rt+'"></div><div class="fld"><label>Turno</label><select id="rs">'+o+'</select></div><div class="row" style="justify-content:flex-end"><button class="btn sec" onclick="closeR()">Cancelar</button><button class="btn" onclick="applyR()">Aplicar</button></div></div>';$('modal').classList.remove('hide')}
+function closeR(){$('modal').classList.add('hide')}
+function applyR(){rf=$('rf').value;rt=$('rt').value;rs=$('rs').value;if(!rf||!rt||rt<rf){alert('Indica un rango válido');return}var d=new Date(rf+'T12:00:00'),e=new Date(rt+'T12:00:00'),n=0;while(d<=e&&n<400){var k=key(d.getFullYear(),d.getMonth(),d.getDate());var o=S.days[k]||(S.days[k]={s:'',x:[]});o.s=(rs===base(k))?'':rs;if(!o.s&&!(o.x&&o.x.length))delete S.days[k];d.setDate(d.getDate()+1);n++}save();closeR();drawCal()}
+drawCal=function(){
+ var s,e;if(vmode==='P'){s=new Date(Y,Mo-1,25);e=new Date(Y,Mo,24)}else{s=new Date(Y,Mo,1);e=new Date(Y,Mo+1,0)}
+ var nm=new Date(Y,Mo,1).toLocaleDateString('es-ES',{month:'long',year:'numeric'});
+ var fm=function(d){return d.toLocaleDateString('es-ES',{day:'numeric',month:'short'})};
+ var tot=0,agg={},cnt={L:0,M:0,T:0,N:0},cells=[];
+ for(var d=new Date(s);d<=e;d.setDate(d.getDate()+1)){var k=key(d.getFullYear(),d.getMonth(),d.getDate()),sh=shiftOf(k),o=S.days[k];cnt[sh]++;
+  if(o&&o.x)o.x.forEach(function(g){tot+=g.a;var a=agg[g.n]||(agg[g.n]={c:0,t:0,i:g.i});a.c++;a.t+=g.a});
+  cells.push({k:k,d:d.getDate(),m:d.getMonth(),sh:sh,o:o})}
+ var t=new Date(),tk=key(t.getFullYear(),t.getMonth(),t.getDate());
+ var h='<div class="card" style="padding:8px"><div class="bar"><button class="btn sec" onclick="mv(-1)">◀</button><h3 style="text-align:center">'+esc(nm)+(vmode==='P'?'<br><small style="font-weight:400;color:var(--mut);text-transform:none">'+fm(s)+' – '+fm(e)+'</small>':'')+'</h3><button class="btn sec" onclick="mv(1)">▶</button></div><div class="cal">';
+ ['L','M','X','J','V','S','D'].forEach(function(x){h+='<div class="dh">'+x+'</div>'});
+ for(var i=0;i<(s.getDay()+6)%7;i++)h+='<div></div>';
+ cells.forEach(function(c,ix){var mon=(ix===0||c.d===1)?new Date(2000,c.m,1).toLocaleDateString('es-ES',{month:'short'}):'';
+  var xs=((c.o&&c.o.x)?c.o.x.map(function(g){return g.i}).join(''):'')+((S.notes&&S.notes[c.k]&&S.notes[c.k].length)?'📝':'');
+  h+='<div class="dc'+(c.k===tk?' today':'')+'" data-s="'+c.sh+'" onclick="openDay(\''+c.k+'\')"><div class="n"><span>'+c.d+'</span><span style="font-weight:400;opacity:.8">'+mon+'</span></div><div class="s"><span class="si">'+SH[c.sh].i+'</span><span class="sl">'+SH[c.sh].n.slice(0,3)+'</span></div><div class="x">'+xs+'</div></div>'});
+ h+='</div></div><div class="card" style="padding:10px"><div style="font-size:13px;color:var(--mut);margin-bottom:6px">Elige un turno y toca los días para ponerlo seguido. Con ➕ Extras y notas, al tocar un día añades gratificaciones y anotaciones.</div><div class="tabs" style="margin:0">'+['M','T','N','L'].map(function(c){return '<button class="tab'+(brush===c?' on':'')+'" onclick="setBrush(\''+c+'\')">'+SH[c].i+' '+SH[c].n+'</button>'}).join('')+'<button class="tab'+(brush==='X'?' on':'')+'" onclick="setBrush(\'X\')">➕ Extras y notas</button><button class="tab" onclick="openRange()">⚡ Turnos por rango</button></div></div>';
+ $('topc').innerHTML=h;
+ var g='<div class="total"><span>💰 '+(vmode==='P'?'Cobro de <span style="text-transform:capitalize">'+esc(nm)+'</span><br><small>Periodo del '+fm(s)+' al '+fm(e)+'</small>':'Gratificaciones de '+esc(nm)+'<br><small>Mes natural</small>')+'</span><b>'+eur(tot)+'</b></div>';
+ g+='<div class="tabs"><button class="tab'+(vmode==='P'?' on':'')+'" onclick="setV(\'P\')">Periodo de cobro (25 → 24)</button><button class="tab'+(vmode==='N'?' on':'')+'" onclick="setV(\'N\')">Mes natural</button></div>';
+ g+='<div class="card"><b>Resumen '+(vmode==='P'?'del periodo de cobro':'del mes')+'</b><table><tr><th>Concepto</th><th>Nº</th><th>Importe</th></tr>';
+ var ks=Object.keys(agg);if(!ks.length)g+='<tr><td colspan="3" style="color:var(--mut)">Sin gratificaciones en este periodo.</td></tr>';
+ ks.forEach(function(n){g+='<tr><td>'+agg[n].i+' '+esc(n)+'</td><td>'+agg[n].c+'</td><td>'+eur(agg[n].t)+'</td></tr>'});
+ g+='<tr><td><b>TOTAL</b></td><td></td><td><b>'+eur(tot)+'</b></td></tr></table><div class="leg"><span>Días de trabajo: '+(cnt.M+cnt.T+cnt.N)+'</span><span>Libres: '+cnt.L+'</span></div></div>';
+ $('t-cal').innerHTML=g+notesCard()};
 $('u').value=S.name||'';setEsc();if(S.name)enter();dueCheck();
 </script>
 </body>
