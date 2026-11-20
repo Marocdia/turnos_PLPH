@@ -460,6 +460,176 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
 .chip:hover{border-color:var(--gold)}
 .chip .svg{color:var(--gold2)}
 
+
+/* Calculadora de Drogas */
+.dr-panel{
+  max-width:560px;
+  margin:0 auto;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+.dr-lbl{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.12em;
+  color:var(--mut);
+  text-transform:uppercase;
+  margin-bottom:9px;
+}
+.dr-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-bottom:14px;
+}
+.dr-item{
+  background:var(--card2);
+  border:1.5px solid var(--line);
+  border-radius:10px;
+  padding:10px 6px 9px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  cursor:pointer;
+  text-align:center;
+  transition:border-color .15s,background .15s,transform .08s,box-shadow .15s;
+}
+.dr-item:hover{border-color:rgba(200,157,60,.45);background:#172742}
+.dr-item:active{transform:scale(.97)}
+.dr-item.on{
+  border-color:var(--gold2);
+  background:linear-gradient(180deg,rgba(200,157,60,.16),rgba(19,33,56,.96));
+  box-shadow:0 0 0 1px rgba(226,189,104,.28),inset 0 0 16px rgba(200,157,60,.08);
+}
+.dr-item .di{width:26px;height:26px;display:flex;align-items:center;justify-content:center}
+.dr-item .dn{font-size:12px;font-weight:600;color:#cfd9ea;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.dr-item.on .dn{color:var(--gold2);font-weight:700}
+
+.dr-info{
+  background:var(--bg2);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:11px 13px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:14px;
+}
+.dr-info-l .dr-name{font-weight:700;font-size:14.5px;color:var(--gold2)}
+.dr-info-l .dr-harm{font-size:12px;color:var(--mut);display:flex;align-items:center;gap:6px;margin-top:2px}
+.dr-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dr-dot.g{background:#e64558;box-shadow:0 0 7px rgba(230,69,88,.65)}
+.dr-dot.ng{background:#e2bd68;box-shadow:0 0 7px rgba(226,189,104,.55)}
+.dr-info-r{text-align:right;flex-shrink:0}
+.dr-info-r small{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.08em;color:var(--mut);text-transform:uppercase}
+.dr-info-r b{font-size:16px;color:var(--gold2);font-variant-numeric:tabular-nums}
+
+.dr-inp-row{display:flex;gap:8px;margin-bottom:12px}
+.dr-inp{
+  flex:1;
+  min-width:0;
+  background:var(--bg2);
+  border:1.5px solid var(--line);
+  border-radius:10px;
+  padding:11px 14px;
+  font-size:21px;
+  font-weight:700;
+  text-align:right;
+  color:#fff;
+  font-variant-numeric:tabular-nums;
+}
+.dr-inp:focus{outline:none;border-color:var(--gold2)}
+.dr-unit{
+  display:flex;
+  background:var(--bg2);
+  border:1.5px solid var(--line);
+  border-radius:10px;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.dr-unit button{
+  border:0;
+  background:transparent;
+  color:var(--mut);
+  padding:0 13px;
+  font-weight:700;
+  font-size:14px;
+  cursor:pointer;
+  transition:background .15s,color .15s;
+}
+.dr-unit button.on{background:var(--navy);color:var(--gold2)}
+
+.dr-calc-btn{width:100%;padding:12px;font-size:14.5px;letter-spacing:.06em;text-transform:uppercase;border-radius:10px}
+
+.dr-res{
+  margin-top:14px;
+  border-radius:12px;
+  padding:14px;
+  border:1.5px solid var(--line);
+  background:var(--bg2);
+}
+.dr-res.delito{
+  border-color:#c9384a;
+  background:linear-gradient(180deg,rgba(125,29,44,.32),rgba(11,20,36,.96));
+}
+.dr-res.admin{
+  border-color:#2c8f63;
+  background:linear-gradient(180deg,rgba(36,194,120,.14),rgba(11,20,36,.96));
+}
+.dr-res.warn{
+  border-color:var(--gold);
+  background:linear-gradient(180deg,rgba(200,157,60,.18),rgba(11,20,36,.96));
+}
+.dr-verdict{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.dr-vico{
+  width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.dr-res.delito .dr-vico{background:rgba(201,56,74,.25);color:#ff7b8a}
+.dr-res.admin .dr-vico{background:rgba(36,194,120,.2);color:#5be3a2}
+.dr-res.warn .dr-vico{background:rgba(200,157,60,.22);color:var(--gold2)}
+.dr-vtit{font-size:15px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;line-height:1.2}
+.dr-res.delito .dr-vtit{color:#ff8694}
+.dr-res.admin .dr-vtit{color:#6de0a8}
+.dr-res.warn .dr-vtit{color:var(--gold2)}
+.dr-vsub{font-size:12.5px;color:#cdd7e8;margin-top:3px;line-height:1.4}
+
+.dr-stats{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+.dr-stat{
+  background:rgba(15,26,45,.85);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px 10px;
+}
+.dr-stat small{display:block;font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.dr-stat b{font-size:13.5px;color:#fff;font-variant-numeric:tabular-nums}
+
+.dr-ind-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:8px}
+@media(max-width:520px){.dr-ind-list{grid-template-columns:1fr}.dr-grid{gap:6px}.dr-item{padding:8px 4px}}
+.dr-chk{
+  display:flex;align-items:center;gap:7px;
+  background:var(--bg2);border:1px solid var(--line);border-radius:8px;
+  padding:7px 9px;font-size:12.5px;cursor:pointer;color:#cfd9ea;
+}
+.dr-chk input{width:16px;height:16px;accent-color:var(--gold);flex-shrink:0;margin:0}
+.dr-chk:has(input:checked){border-color:var(--gold);background:rgba(200,157,60,.1);color:#fff}
+.dr-note{
+  margin-top:10px;padding:9px 11px;border-radius:8px;
+  background:rgba(200,157,60,.1);border:1px solid rgba(200,157,60,.35);
+  font-size:12.5px;color:#f2dfae;line-height:1.4;
+}
+
 /* Modal */
 .modal{position:fixed;inset:0;background:rgba(5,10,20,.75);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;z-index:50}
 .mb{background:var(--card);width:100%;max-width:490px;max-height:90vh;overflow:auto;border-radius:16px 16px 0 0;padding:18px;border:1px solid var(--line);border-top:4px solid var(--gold);box-shadow:0 -8px 34px rgba(0,0,0,.55)}
@@ -497,6 +667,7 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
   <div class="nav">
    <button class="navbtn on" id="nv-menu" onclick="go('menu')"></button>
    <button class="navbtn" id="nv-turnos" onclick="go('turnos')"></button>
+   <button class="navbtn" id="nv-drogas" onclick="go('drogas')"></button>
    <button class="navbtn desk dim" id="nv-cod"></button>
    <button class="navbtn desk dim" id="nv-pen"></button>
    <button class="navbtn desk dim" id="nv-fav"></button>
@@ -545,6 +716,51 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
    <div id="t-cal"></div>
    <div id="t-cat" class="hide"></div>
    <div id="t-cfg" class="hide"></div>
+  </div>
+
+  <!-- MÓDULO CALCULADORA DE DROGAS -->
+  <div id="drogas" class="hide wrap-sm">
+   <div class="view-hd">
+    <div>
+     <h2 id="dr-title"></h2>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px">Ley 4/2015 Seguridad Ciudadana · Art. 368–370 Código Penal · Tablas INTCF</div>
+    </div>
+    <button class="btn sec" onclick="go('menu')" id="btn-back-dr"></button>
+   </div>
+
+   <div class="dr-panel">
+    <div class="dr-lbl">Sustancia</div>
+    <div class="dr-grid" id="dr-grid"></div>
+
+    <div class="dr-info" id="dr-info"></div>
+
+    <div class="dr-lbl">Cantidad incautada</div>
+    <div class="dr-inp-row">
+     <input class="dr-inp" id="dr-qty" type="number" inputmode="decimal" step="any" min="0" placeholder="0.00" onkeydown="if(event.key==='Enter')calcDrug()">
+     <div class="dr-unit">
+      <button type="button" id="du-g" class="on" onclick="setDrugUnit('g')">g</button>
+      <button type="button" id="du-mg" onclick="setDrugUnit('mg')">mg</button>
+     </div>
+    </div>
+
+    <button class="btn dr-calc-btn" id="dr-calc-btn" onclick="calcDrug()"></button>
+
+    <div id="dr-res"></div>
+   </div>
+
+   <div class="card" style="max-width:560px;margin:12px auto 0">
+    <div class="card-hd" id="dr-ind-hd"></div>
+    <p style="font-size:12.5px;color:var(--mut);margin:2px 0 6px">Marca si concurre algún indicio de preordenación al tráfico (jurisprudencia TS / guía IJESPOL). Se aplica incluso con cantidades inferiores al límite de 5 días.</p>
+    <div class="dr-ind-list" id="dr-ind-list"></div>
+   </div>
+
+   <div class="card" style="max-width:560px;margin:12px auto 0">
+    <div class="bar" style="margin-bottom:4px">
+     <div class="card-hd" style="margin:0" id="dr-tbl-hd"></div>
+     <button class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('dr-tbl-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
+    </div>
+    <div id="dr-tbl-wrap" class="hide" style="margin-top:8px;overflow-x:auto"></div>
+   </div>
   </div>
  </div>
 </div>
@@ -640,7 +856,7 @@ var DASH_TOOLS=[
   {t:'BLOC NOTAS',s:'Notas de vehículos, personas, otros',i:'note',c:'c-gold'},
   {t:'4/2015',s:'Infracciones de la LO 4/2015',i:'shield',c:'c-blue'},
   {t:'INFRACCIONES',s:'Consultar por ordenanza y leyes',i:'alert',c:'c-crim'},
-  {t:'DROGAS',s:'Calculadora de estupefacientes',i:'pill',c:'c-green'},
+  {t:'DROGAS',s:'Calculadora de estupefacientes',i:'pill',c:'c-green',act:1,go:'drogas'},
   {t:'MI CARPETA',s:'Briefing y notas de actuaciones',i:'folder',c:'c-gold'},
   {t:'FAVORITOS',s:'Infracciones guardadas',i:'heart',c:'c-crim'},
   {t:'LEYES',s:'Códigos y leyes nacionales',i:'book',c:'c-teal'},
@@ -755,26 +971,36 @@ function enter(){
   $('who-nip').textContent=S.name?S.name.toUpperCase():'GAO';
   go('menu');
 }
-function logout(){$('app').classList.add('hide');$('login').classList.remove('hide')}
+function logout(){resetDrugs(true);$('app').classList.add('hide');$('login').classList.remove('hide')}
 
 function go(v){
+  if(v!=='drogas')resetDrugs(true);
   $('menu').classList.toggle('hide',v!=='menu');
   $('turnos').classList.toggle('hide',v!=='turnos');
+  $('drogas').classList.toggle('hide',v!=='drogas');
   $('nv-menu').classList.toggle('on',v==='menu');
   $('nv-turnos').classList.toggle('on',v==='turnos');
+  $('nv-drogas').classList.toggle('on',v==='drogas');
   window.scrollTo(0,0);
   updateStatusBar();
   if(v==='turnos')draw();
+  if(v==='drogas')renderDrugs();
 }
 
 function initStaticIcons(){
   $('nv-menu').innerHTML=svg('home',14)+' Inicio';
   $('nv-turnos').innerHTML=svg('cal',14)+' Cuadrante';
+  $('nv-drogas').innerHTML=svg('pill',14)+' Drogas';
   $('nv-cod').innerHTML=svg('dgt',14)+' Codificados';
   $('nv-pen').innerHTML=svg('scale',14)+' Penal';
   $('nv-fav').innerHTML=svg('heart',14)+' Favoritos';
   $('cuad-title').innerHTML=svg('cal',18)+' Cuadrante y Gratificaciones';
   $('btn-back-home').innerHTML=svg('back',15)+' Inicio';
+  $('dr-title').innerHTML=svg('pill',18)+' Calculadora de Drogas';
+  $('btn-back-dr').innerHTML=svg('back',15)+' Inicio';
+  $('dr-calc-btn').innerHTML=svg('scale',16)+' Calcular';
+  $('dr-ind-hd').innerHTML=svg('alert',15)+' Indicios de tráfico (Art. 368 CP)';
+  $('dr-tbl-hd').innerHTML=svg('clip',15)+' Tabla oficial INTCF (3–5 días)';
   $('tab-cal').innerHTML=svg('cal',15)+' Calendario';
   $('tab-cat').innerHTML=svg('eur',15)+' Gratificaciones';
   $('tab-cfg').innerHTML=svg('cfg',15)+' Ajustes';
@@ -991,7 +1217,169 @@ function dueCheck(){
   if(ch)save();
 }
 
+
+/* ==================== CALCULADORA DE DROGAS (INTCF / TS / IJESPOL) ==================== */
+var DR_ICONS={
+  hachis:'<svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2.5" fill="#7c4a26" stroke="#c89d3c" stroke-width="1.3"/><path d="M7 10h10M7 14h6" stroke="#a86d3f" stroke-width="1.4" stroke-linecap="round"/></svg>',
+  marihuana:'<svg width="24" height="24" viewBox="0 0 24 24" fill="#3fa35b" stroke="#7de399" stroke-width=".9" stroke-linejoin="round"><path d="M12 3c1.2 3.2 1.6 6.2 1 9 2.2-1.8 4.4-2.8 6.8-2.6-1.2 2.2-2.8 3.8-5.1 4.6 1.8.4 3.2 1.1 4.3 2.2-2.2.8-4.4.7-6.3-.3v4.6h-1.4v-4.6c-1.9 1-4.1 1.1-6.3.3 1.1-1.1 2.5-1.8 4.3-2.2-2.3-.8-3.9-2.4-5.1-4.6 2.4-.2 4.6.8 6.8 2.6-.6-2.8-.2-5.8 1-9z"/></svg>',
+  cocaina:'<svg width="24" height="24" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2.5" fill="#eef3fa" stroke="#9bb2d4" stroke-width="1.2"/><path d="M5 9l7 4 7-4" fill="none" stroke="#b5c6e0" stroke-width="1.2"/></svg>',
+  heroina:'<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill="#94592c" stroke="#d4955d" stroke-width="1.3"/><circle cx="9.8" cy="9.8" r="2" fill="#c7834c" opacity=".65"/></svg>',
+  mdma:'<svg width="24" height="24" viewBox="0 0 24 24"><g transform="rotate(-35 12 12)"><rect x="5" y="8.5" width="7" height="7" rx="3.5" fill="#e04f5f"/><rect x="12" y="8.5" width="7" height="7" rx="3.5" fill="#e2bd68"/><rect x="5" y="8.5" width="14" height="7" rx="3.5" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1"/></g></svg>',
+  crystal:'<svg width="24" height="24" viewBox="0 0 24 24"><polygon points="12 3 19 9 12 21 5 9" fill="#4aa8f0" stroke="#a6dbff" stroke-width="1.2" stroke-linejoin="round"/><path d="M5 9h14M12 3l-2.5 6L12 21l2.5-12L12 3z" fill="none" stroke="#d1eeff" stroke-opacity=".55" stroke-width=".9"/></svg>',
+  speed:'<svg width="24" height="24" viewBox="0 0 24 24"><polygon points="12 3 20 12 12 21 4 12" fill="#e0842d" stroke="#f7c07b" stroke-width="1.3" stroke-linejoin="round"/></svg>',
+  meta:'<svg width="24" height="24" viewBox="0 0 24 24"><polygon points="12 3 18.5 7 18.5 17 12 21 5.5 17 5.5 7" fill="#2d74d6" stroke="#8ec2ff" stroke-width="1.3" stroke-linejoin="round"/><path d="M12 3v18M5.5 7l6.5 5 6.5-5" fill="none" stroke="#b5d8ff" stroke-opacity=".55" stroke-width="1"/></svg>',
+  lsd:'<svg width="24" height="24" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1.5" fill="#e9edf5" stroke="#9aa8bf" stroke-width="1.2" stroke-dasharray="2 1.5"/><circle cx="12" cy="12" r="3" fill="#c89d3c"/></svg>',
+  aceite:'<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 3.5C12 3.5 6.5 10.2 6.5 14.5a5.5 5.5 0 0 0 11 0C17.5 10.2 12 3.5 12 3.5z" fill="#c98b2c" stroke="#f0d084" stroke-width="1.3"/></svg>',
+  morfina:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b9c8e0" stroke-width="1.6" stroke-linecap="round"><path d="M18 6l-9 9-3 3M15 4l5 5M11 8l5 5M6 18l-2 2"/><path d="M12 10l2 2" stroke="#e2bd68" stroke-width="2"/></svg>',
+  ketamina:'<svg width="24" height="24" viewBox="0 0 24 24"><rect x="8" y="8" width="8" height="12" rx="1.8" fill="#247a5b" stroke="#7ae3bc" stroke-width="1.2"/><rect x="9.5" y="4.5" width="5" height="3.5" rx=".8" fill="#c4d1e6"/><path d="M8 13h8" stroke="#7ae3bc" stroke-width="1.1"/></svg>',
+  fentanilo:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e8eef7" stroke-width="1.5" stroke-linecap="round"><path d="M12 4a6 6 0 0 0-6 6c0 2.2 1.1 4 2.8 5v2.2h6.4V15c1.7-1 2.8-2.8 2.8-5a6 6 0 0 0-6-6z" fill="#243552"/><circle cx="9.8" cy="10.2" r="1.2" fill="#ff6b7a" stroke="none"/><circle cx="14.2" cy="10.2" r="1.2" fill="#ff6b7a" stroke="none"/><path d="M10 17.2v2m2-2v2m2-2v2"/></svg>',
+  metadona:'<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill="#c72b3d" stroke="#f28c99" stroke-width="1.3"/><path d="M8.5 12h7" stroke="#ffd1d7" stroke-width="1.4" stroke-linecap="round"/></svg>',
+  alprazolam:'<svg width="24" height="24" viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="8" rx="4" fill="#3a7ad9" stroke="#9ec4ff" stroke-width="1.2"/><path d="M12 8v8" stroke="#d1e4ff" stroke-width="1.1"/></svg>',
+  flunitrazepam:'<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill="#7d4db8" stroke="#cba8f7" stroke-width="1.3"/><path d="M12 7v10M7 12h10" stroke="#e3d0fc" stroke-width="1.1"/></svg>',
+  lorazepam:'<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.8" fill="#208a9c" stroke="#85e0ef" stroke-width="1.3"/><path d="M8.5 12h7" stroke="#d4f6fc" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  clorazepato:'<svg width="24" height="24" viewBox="0 0 24 24"><g transform="rotate(30 12 12)"><rect x="5" y="8.5" width="7" height="7" rx="3.5" fill="#6d7f9c"/><rect x="12" y="8.5" width="7" height="7" rx="3.5" fill="#c7d3e6"/></g></svg>'
+};
+
+/* Base de datos oficial según Tabla INTCF (rev. 01/08/2021) + Acuerdo Pleno TS 19/10/2001 + IJESPOL */
+var DRUGS=[
+  {id:'hachis',n:'Hachís',full:'Hachís (resina de cannabis)',harm:0,limG:25,u:'g',dailyG:5,habit:'0,3 – 0,5 g',minP:'10 mg THC (vía oral) / 5 mg/m²',ic:'hachis',note:'Acopio 5 días TS: 25 g (algunas STS aisladas admiten 10 días / 50 g; criterio policial mayoritario: 25 g).'},
+  {id:'marihuana',n:'Marihuana',full:'Marihuana (cannabis sativa)',harm:0,limG:100,u:'g',dailyG:20,habit:'1,5 – 2 g',minP:'10 mg THC (vía oral) / 5 mg/m²',ic:'marihuana',note:'Cultivo de plantas (art. 368 CP): no existe un mínimo legal de plantas permitidas.'},
+  {id:'cocaina',n:'Cocaína',full:'Cocaína HCl',harm:1,limG:7.5,u:'g',dailyG:1.5,habit:'100 – 250 mg',minP:'50 mg',minMg:50,ic:'cocaina',note:'Peso medio papelina 1997-99 (2 a 4 rayas). Consumo máx. 1,5 g/día.'},
+  {id:'heroina',n:'Heroína',full:'Heroína',harm:1,limG:3,u:'g',dailyG:0.6,habit:'50 – 150 mg (media 100 mg)',minP:'0,66 mg',minMg:0.66,ic:'heroina',note:'Peso papelinas con riqueza media 45–50%. Consumo máx. 600 mg/día.'},
+  {id:'mdma',n:'Éxtasis',full:'Éxtasis (MDMA)',harm:1,limG:2.4,u:'g',dailyG:0.48,habit:'20 – 150 mg (media 80 mg)',minP:'20 – 50 mg',minMg:20,ic:'mdma',note:'INTCF: 2,4 g para 5 días (480 mg/día). Manual IJESPOL indica 1,44 g para 3 días.'},
+  {id:'crystal',n:'Crystal',full:'MDA / MDEA (Crystal)',harm:1,limG:2.4,u:'g',dailyG:0.48,habit:'20 – 150 mg (media 80 mg)',minP:'20 – 50 mg',minMg:20,ic:'crystal',note:'Previsión INTCF 5 días: 2,4 g (consumo máx. 480 mg/día).'},
+  {id:'speed',n:'Speed',full:'Anfetamina Sulfato (Speed)',harm:1,limG:0.9,u:'g',dailyG:0.18,habit:'30 – 60 mg',minP:'10 mg',minMg:10,ic:'speed',note:'Consumo máx. 180 mg/día (3 a 6 comprimidos/día). Límite 5 días: 0,9 g (900 mg).'},
+  {id:'meta',n:'Metanfetamina',full:'Metanfetamina (d-Metanfetamina)',harm:1,limG:0.3,u:'g',dailyG:0.06,habit:'2,5 – 15 mg',minP:'No especificada INTCF',ic:'meta',note:'Consumo máx. 60 mg/día (4 dosis). Límite 5 días: 0,3 g (300 mg).'},
+  {id:'lsd',n:'LSD',full:'LSD (ácido lisérgico)',harm:1,limG:0.003,u:'mg',dailyG:0.0006,habit:'0,019 – 0,3 mg (media 0,132 mg)',minP:'0,02 – 0,025 mg',minMg:0.02,ic:'lsd',note:'Consumo máx. 0,6 mg/día. Límite 5 días: 3 mg (0,003 g).'},
+  {id:'aceite',n:'Aceite Hachís',full:'Aceite de Hachís',harm:0,limG:3,u:'g',dailyG:0.6,habit:'0,03 – 0,06 mg',minP:'10 mg THC (vía oral) / 5 mg/m²',ic:'aceite',note:'Cálculo sobre consumo diario máx. INTCF de 600 mg/día × 5 días = 3 g.'},
+  {id:'morfina',n:'Morfina',full:'Morfina',harm:1,limG:10,u:'g',dailyG:2,habit:'10 – 80 mg',minP:'2 mg (intravenosa)',minMg:2,ic:'morfina',note:'Cálculo sobre consumo diario máx. INTCF de 2000 mg/día × 5 días = 10 g.'},
+  {id:'ketamina',n:'Ketamina',full:'Ketamina',harm:1,limG:1,u:'g',dailyG:0.2,habit:'200 mg (dosis media)',minP:'30 mg',minMg:30,ic:'ketamina',note:'INTCF fija dosis media 200 mg y mín. psicoactiva 30 mg (sin previsión 5 días tabulada; referencia orientativa 1 g = 5 dosis).'},
+  {id:'fentanilo',n:'Fentanilo',full:'Fentanilo',harm:1,limG:0.0005,u:'mg',dailyG:0.0001,habit:'0,025 mg (dosis media)',minP:'0,025 mg/h (tabla INTCF)',ic:'fentanilo',note:'Opioide de altísima potencia. Consumo máx. INTCF 0,1 mg/día × 5 días = 0,5 mg.'},
+  {id:'metadona',n:'Metadona',full:'Metadona',harm:1,limG:1.2,u:'g',dailyG:0.24,habit:'40 – 120 mg',minP:'5 mg / 3–4 horas',minMg:5,ic:'metadona',note:'Consumo máx. INTCF 240 mg/día × 5 días = 1,2 g (1200 mg).'},
+  {id:'alprazolam',n:'Alprazolam',full:'Alprazolam (Trankimazín)',harm:0,limG:0.05,u:'mg',dailyG:0.01,habit:'1 mg (dosis media)',minP:'0,25 mg',minMg:0.25,ic:'alprazolam',note:'INTCF: consumo máx. 10 mg/día × 5 días = 50 mg (manual IJESPOL recoge 75 mg / 15 mg día).'},
+  {id:'flunitrazepam',n:'Flunitrazepam',full:'Flunitrazepam (Rohipnol)',harm:0,limG:0.05,u:'mg',dailyG:0.01,habit:'1 – 2 mg',minP:'0,5 mg',minMg:0.5,ic:'flunitrazepam',note:'Consumo máx. INTCF 10 mg/día × 5 días = 50 mg (0,05 g).'},
+  {id:'lorazepam',n:'Lorazepam',full:'Lorazepam (Orfidal)',harm:0,limG:0.075,u:'mg',dailyG:0.015,habit:'5 mg (dosis media)',minP:'1 mg',minMg:1,ic:'lorazepam',note:'Consumo máx. INTCF 15 mg/día × 5 días = 75 mg (0,075 g).'},
+  {id:'clorazepato',n:'Clorazepato',full:'Clorazepato dipotásico (Tranxilium)',harm:0,limG:0.75,u:'mg',dailyG:0.15,habit:'25 mg (dosis media)',minP:'5 mg',minMg:5,ic:'clorazepato',note:'Consumo máx. INTCF 150 mg/día × 5 días = 750 mg (0,75 g).'}
+];
+
+var DR_INDICIOS=[
+  'Dividida en dosis / papelinas',
+  'Ocultación en lugar recóndito',
+  'Dinero fraccionado (billetes bajos)',
+  'Báscula, bolsas zip o útiles de corte',
+  'Tenencia de varias sustancias distintas',
+  'Pase, entrega o venta observada',
+  'Anotaciones o contabilidad de ventas',
+  'Actitud huidiza o antecedentes 368 CP'
+];
+
+var curDrug='hachis',curUnit='g',indSel={};
+
+function getDrug(id){return DRUGS.filter(function(d){return d.id===id})[0]||DRUGS[0]}
+function fmtLim(d){
+  if(d.limG<0.1)return (d.limG*1000).toLocaleString('es-ES',{maximumFractionDigits:3})+' mg';
+  return d.limG.toLocaleString('es-ES',{maximumFractionDigits:3})+' g';
+}
+function fmtNum(v,dec){return v.toLocaleString('es-ES',{maximumFractionDigits:dec||2})}
+
+function resetDrugs(clearInd){
+  if($('dr-qty'))$('dr-qty').value='';
+  if($('dr-res'))$('dr-res').innerHTML='';
+  if(clearInd)indSel={};
+}
+
+function selectDrug(id){
+  curDrug=id;
+  var d=getDrug(id);
+  resetDrugs(false);
+  setDrugUnit(d.u,true);
+  renderDrugs();
+}
+
+function setDrugUnit(u,silent){
+  curUnit=u;
+  $('du-g').classList.toggle('on',u==='g');
+  $('du-mg').classList.toggle('on',u==='mg');
+  if(!silent&&$('dr-qty').value)calcDrug();
+}
+
+function togInd(ix,chk){
+  if(chk)indSel[ix]=1;else delete indSel[ix];
+  if($('dr-qty').value)calcDrug();
+}
+
+function renderDrugs(){
+  var d=getDrug(curDrug);
+  $('dr-grid').innerHTML=DRUGS.map(function(x){
+    return '<div class="dr-item'+(x.id===curDrug?' on':'')+'" onclick="selectDrug(\''+x.id+'\')"><div class="di">'+DR_ICONS[x.ic]+'</div><div class="dn">'+esc(x.n)+'</div></div>';
+  }).join('');
+
+  $('dr-info').innerHTML='<div class="dr-info-l"><div class="dr-name">'+esc(d.full)+'</div><div class="dr-harm"><span class="dr-dot '+(d.harm?'g':'ng')+'"></span>'+(d.harm?'Causa grave daño a la salud (3–6 años)':'No causa grave daño a la salud (1–3 años)')+'</div></div><div class="dr-info-r"><small>Consumo propio</small><b>≤ '+fmtLim(d)+'</b></div>';
+
+  $('du-g').classList.toggle('on',curUnit==='g');
+  $('du-mg').classList.toggle('on',curUnit==='mg');
+
+  $('dr-ind-list').innerHTML=DR_INDICIOS.map(function(txt,ix){
+    return '<label class="dr-chk"><input type="checkbox" '+(indSel[ix]?'checked':'')+' onchange="togInd('+ix+',this.checked)"><span>'+esc(txt)+'</span></label>';
+  }).join('');
+
+  var th='<table><tr><th>Sustancia</th><th>Tipo</th><th>Diario máx.</th><th>Límite 5 días</th></tr>';
+  DRUGS.forEach(function(x){
+    th+='<tr><td><b>'+esc(x.n)+'</b></td><td style="font-size:12px;color:'+(x.harm?'#ff8694':'var(--gold2)')+'">'+(x.harm?'Grave daño':'No grave')+'</td><td>'+(x.dailyG<0.5?fmtNum(x.dailyG*1000,2)+' mg':fmtNum(x.dailyG,2)+' g')+'</td><td><b>'+fmtLim(x)+'</b></td></tr>';
+  });
+  $('dr-tbl-wrap').innerHTML=th+'</table>';
+}
+
+function calcDrug(){
+  var d=getDrug(curDrug);
+  var raw=parseFloat(String($('dr-qty').value||'').replace(',','.'));
+  if(!raw||raw<=0){
+    $('dr-res').innerHTML='<div class="dr-res warn"><div class="dr-verdict"><div class="dr-vico">'+svg('alert',20)+'</div><div><div class="dr-vtit">Introduce una cantidad</div><div class="dr-vsub">Escribe el peso incautado en gramos (g) o miligramos (mg) y pulsa Calcular.</div></div></div></div>';
+    return;
+  }
+  var qtyG=curUnit==='mg'?(raw/1000):raw;
+  var qtyMg=qtyG*1000;
+  var isDelito=qtyG>d.limG;
+  var nInd=Object.keys(indSel).length;
+  var daysEst=d.dailyG?(qtyG/d.dailyG):0;
+  var pctLim=(qtyG/d.limG)*100;
+
+  var cls=isDelito?'delito':(nInd>0?'warn':'admin');
+  var ico=isDelito?'siren':(nInd>0?'alert':'shield');
+  var vtit,vsub;
+
+  if(isDelito){
+    vtit='POSIBLE DELITO CONTRA LA SALUD PÚBLICA (Art. 368 CP)';
+    vsub='La cantidad ('+fmtNum(qtyG,qtyG<0.1?4:2)+' g) <b>supera el umbral de acopio de 5 días</b> ('+fmtLim(d)+'). Tenencia preordenada al tráfico · Valorar detención.<br>Pena tipo básico: '+(d.harm?'<b>prisión de 3 a 6 años</b> y multa del tanto al triplo (grave daño).':'<b>prisión de 1 a 3 años</b> y multa del tanto al duplo (no grave daño).');
+  }else if(nInd>0){
+    vtit='ATENCIÓN · POSIBLE DELITO POR INDICIOS (Art. 368 CP)';
+    vsub='La cantidad ('+fmtNum(qtyG,qtyG<0.1?4:2)+' g) no supera el umbral de 5 días ('+fmtLim(d)+'), pero concurren <b>'+nInd+' indicio(s) jurisprudenciales de tráfico</b>. Valorar detención y reflejar todos los indicios en comparecencia.';
+  }else{
+    vtit='INFRACCIÓN ADMINISTRATIVA (LO 4/2015 · Art. 36.16)';
+    vsub='Cantidad dentro del umbral de autoconsumo (<b>≤ '+fmtLim(d)+'</b>) sin indicios de tráfico marcados. Acta de aprehensión / denuncia administrativa en vía pública (infracción grave).';
+  }
+
+  var insig='';
+  if(d.minMg && qtyMg<d.minMg){
+    insig='<div class="dr-note"><b>Principio de insignificancia:</b> la cantidad introducida ('+fmtNum(qtyMg,2)+' mg) es inferior a la dosis mínima psicoactiva del INTCF ('+esc(d.minP)+').</div>';
+  }
+
+  var h='<div class="dr-res '+cls+'">';
+  h+='<div class="dr-verdict"><div class="dr-vico">'+svg(ico,20)+'</div><div><div class="dr-vtit">'+vtit+'</div><div class="dr-vsub">'+vsub+'</div></div></div>';
+  h+='<div class="dr-stats">';
+  h+='<div class="dr-stat"><small>Cantidad introducida</small><b>'+fmtNum(qtyG,qtyG<0.1?4:2)+' g ('+fmtNum(qtyMg,qtyMg<1?3:1)+' mg)</b></div>';
+  h+='<div class="dr-stat"><small>Límite acopio (5 días)</small><b>'+fmtLim(d)+' ('+fmtNum(pctLim,0)+'%)</b></div>';
+  h+='<div class="dr-stat"><small>Acopio estimado</small><b>'+fmtNum(daysEst,1)+' días de consumo</b></div>';
+  h+='<div class="dr-stat"><small>Dosis mín. psicoactiva</small><b>'+esc(d.minP)+'</b></div>';
+  h+='</div>';
+  h+=insig;
+  if(d.note)h+='<div class="dr-note"><b>Referencia INTCF / TS:</b> '+esc(d.note)+'</div>';
+  h+='</div>';
+  $('dr-res').innerHTML=h;
+}
+
 initStaticIcons();
+renderDrugs();
 renderDash();
 $('u').value=S.name||'';
 setEsc();
