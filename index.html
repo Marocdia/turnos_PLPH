@@ -313,6 +313,68 @@ button,input,select,textarea{font:inherit;color:inherit}
   text-overflow:ellipsis;
   margin-top:3px;
 }
+.dtile{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.dash-edit-bar{
+  position:sticky;
+  top:58px;
+  z-index:25;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+  background:rgba(15,26,45,.96);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--gold);
+  border-radius:12px;
+  padding:9px 12px;
+  margin:0 0 12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.55);
+}
+.dash-edit-bar .deb-msg{font-size:12.5px;font-weight:700;color:var(--gold2);display:flex;align-items:center;gap:7px}
+.dash-edit-bar .deb-btns{display:flex;gap:6px}
+.dash-edit-bar .btn{padding:6px 11px;font-size:12px}
+#menu.reordering .dtile{
+  cursor:grab;
+  touch-action:none;
+  animation:dtWiggle .28s ease-in-out infinite alternate;
+}
+#menu.reordering .dtile:nth-child(2n){animation-delay:-.12s}
+#menu.reordering .dtile:nth-child(3n){animation-delay:-.2s}
+#menu.reordering .dtile:hover{transform:none}
+@keyframes dtWiggle{
+  0%{transform:rotate(-1.1deg)}
+  100%{transform:rotate(1.1deg)}
+}
+.dtile.dtile-ph{
+  opacity:.28!important;
+  border:1.5px dashed var(--gold2)!important;
+  background:rgba(200,157,60,.08)!important;
+  box-shadow:none!important;
+  animation:none!important;
+}
+.dtile.dtile-ph *{visibility:hidden}
+.dtile-ghost{
+  position:fixed;
+  z-index:900;
+  pointer-events:none;
+  margin:0;
+  opacity:.96;
+  border-color:var(--gold2)!important;
+  box-shadow:0 16px 36px rgba(0,0,0,.68),0 0 0 2px rgba(226,189,104,.55)!important;
+  transform:scale(1.05);
+  transition:none!important;
+  animation:none!important;
+  will-change:left,top;
+}
+.dgrid{min-height:66px}
+#menu.reordering .dgrid{
+  border-radius:12px;
+  padding:4px;
+  background:rgba(255,255,255,.018);
+  border:1px dashed rgba(200,157,60,.22);
+}
 @media(max-width:520px){
   .dtile{padding:10px 8px;gap:8px}
   .dtile .ib{width:34px;height:34px;border-radius:8px}
@@ -1296,6 +1358,14 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
       <span class="sep"></span>
       <span class="st" id="hero-st"><span class="dot"></span><span id="hero-st-tx">EN SERVICIO</span></span>
      </div>
+    </div>
+   </div>
+
+   <div id="dash-edit-bar" class="dash-edit-bar hide">
+    <div class="deb-msg"><span>⇄</span><span>Modo organizar · Arrastra los botones</span></div>
+    <div class="deb-btns">
+     <button type="button" class="btn sec" onclick="dashResetOrder()">Restaurar</button>
+     <button type="button" class="btn" onclick="dashExitEdit()">Listo</button>
     </div>
    </div>
 
@@ -2331,14 +2401,243 @@ function cyc(k){
 function base(k){return S.cfg.auto?cyc(k):'L'}
 function shiftOf(k){var o=S.days[k];return(o&&o.s)?o.s:base(k)}
 
+var dashEdit=false, dashDrag=null, dashHoldT=null, dashSuppressClick=0;
+
+function dashGetLists(){
+  var map={};
+  DASH_MAIN.concat(DASH_TOOLS).forEach(function(it){map[it.t]=it});
+  var ord=S.dashOrder;
+  if(!ord||!Array.isArray(ord.main)||!Array.isArray(ord.tools)){
+    return {main:DASH_MAIN.slice(),tools:DASH_TOOLS.slice()};
+  }
+  var used={}, main=[], tools=[];
+  ord.main.forEach(function(k){if(map[k]&&!used[k]){main.push(map[k]);used[k]=1}});
+  ord.tools.forEach(function(k){if(map[k]&&!used[k]){tools.push(map[k]);used[k]=1}});
+  DASH_MAIN.forEach(function(it){if(!used[it.t]){main.push(it);used[it.t]=1}});
+  DASH_TOOLS.forEach(function(it){if(!used[it.t]){tools.push(it);used[it.t]=1}});
+  return {main:main,tools:tools};
+}
+
+function dashSaveOrderFromDOM(){
+  var gm=$('grid-main'), gt=$('grid-tools');
+  if(!gm||!gt)return;
+  var main=[], tools=[];
+  gm.querySelectorAll('.dtile').forEach(function(el){if(el.dataset.k)main.push(el.dataset.k)});
+  gt.querySelectorAll('.dtile').forEach(function(el){if(el.dataset.k)tools.push(el.dataset.k)});
+  S.dashOrder={main:main,tools:tools};
+  save();
+}
+
+function dashEnterEdit(){
+  if(dashEdit)return;
+  dashEdit=true;
+  if($('menu'))$('menu').classList.add('reordering');
+  if($('dash-edit-bar'))$('dash-edit-bar').classList.remove('hide');
+  try{if(navigator.vibrate)navigator.vibrate(25)}catch(e){}
+}
+
+function dashExitEdit(){
+  if(!dashEdit)return;
+  dashEdit=false;
+  if($('menu'))$('menu').classList.remove('reordering');
+  if($('dash-edit-bar'))$('dash-edit-bar').classList.add('hide');
+  dashEndDrag();
+}
+
+function dashResetOrder(){
+  if(!confirm('¿Restaurar el orden original de los botones?'))return;
+  delete S.dashOrder;
+  save();
+  dashExitEdit();
+  renderDash();
+  banner('Orden original restaurado.','');
+}
+
+function dashTileClick(goTarget){
+  if(dashEdit||Date.now()<dashSuppressClick)return;
+  if(goTarget)go(goTarget);
+}
+
+function dashFlipMove(moveFn){
+  var tiles=Array.prototype.slice.call(document.querySelectorAll('#grid-main .dtile, #grid-tools .dtile'));
+  var first=tiles.map(function(el){var r=el.getBoundingClientRect();return {el:el,l:r.left,t:r.top}});
+  moveFn();
+  first.forEach(function(f){
+    if(f.el.classList.contains('dtile-ph'))return;
+    var r=f.el.getBoundingClientRect();
+    var dx=f.l-r.left, dy=f.t-r.top;
+    if(Math.abs(dx)<1&&Math.abs(dy)<1)return;
+    f.el.style.transition='none';
+    f.el.style.transform='translate3d('+dx+'px,'+dy+'px,0)';
+    f.el.offsetHeight;
+    f.el.style.transition='transform .18s cubic-bezier(.2,.8,.2,1)';
+    f.el.style.transform='';
+    setTimeout(function(){f.el.style.transition=''},200);
+  });
+}
+
+function dashStartDrag(tile,cx,cy){
+  var r=tile.getBoundingClientRect();
+  var ghost=tile.cloneNode(true);
+  ghost.className=tile.className+' dtile-ghost';
+  ghost.removeAttribute('onclick');
+  ghost.style.width=r.width+'px';
+  ghost.style.height=r.height+'px';
+  ghost.style.left=r.left+'px';
+  ghost.style.top=r.top+'px';
+  document.body.appendChild(ghost);
+  tile.classList.add('dtile-ph');
+  dashDrag={
+    tile:tile,
+    ghost:ghost,
+    ox:cx-r.left,
+    oy:cy-r.top,
+    lastSwap:0
+  };
+}
+
+function dashMoveDrag(cx,cy){
+  if(!dashDrag)return;
+  dashDrag.ghost.style.left=(cx-dashDrag.ox)+'px';
+  dashDrag.ghost.style.top=(cy-dashDrag.oy)+'px';
+  /* Auto-scroll near viewport edges */
+  var vh=window.innerHeight||640;
+  if(cy<90)window.scrollBy(0,-8);
+  else if(cy>vh-70)window.scrollBy(0,8);
+
+  var now=Date.now();
+  if(now-dashDrag.lastSwap<55)return;
+  var under=document.elementFromPoint(cx,cy);
+  if(!under)return;
+  var targetTile=under.closest?under.closest('.dtile'):null;
+  var ph=dashDrag.tile;
+
+  if(targetTile&&targetTile!==ph&&!targetTile.classList.contains('dtile-ghost')){
+    var parent=targetTile.parentNode;
+    if(parent&& (parent.id==='grid-main'||parent.id==='grid-tools')){
+      var r=targetTile.getBoundingClientRect();
+      var sameParent=(ph.parentNode===parent);
+      var insertAfter=false;
+      if(sameParent){
+        var kids=Array.prototype.slice.call(parent.children);
+        var phIdx=kids.indexOf(ph), tgIdx=kids.indexOf(targetTile);
+        insertAfter=(phIdx<tgIdx);
+      }else{
+        insertAfter=(cx>r.left+r.width/2);
+      }
+      dashFlipMove(function(){
+        if(insertAfter)parent.insertBefore(ph,targetTile.nextSibling);
+        else parent.insertBefore(ph,targetTile);
+      });
+      dashDrag.lastSwap=now;
+      try{if(navigator.vibrate)navigator.vibrate(8)}catch(e){}
+      return;
+    }
+  }
+
+  var targetGrid=under.closest?under.closest('.dgrid'):null;
+  if(targetGrid&&(targetGrid.id==='grid-main'||targetGrid.id==='grid-tools')&&ph.parentNode!==targetGrid){
+    dashFlipMove(function(){targetGrid.appendChild(ph)});
+    dashDrag.lastSwap=now;
+  }
+}
+
+function dashEndDrag(){
+  if(dashHoldT){clearTimeout(dashHoldT);dashHoldT=null}
+  if(!dashDrag)return;
+  var d=dashDrag;
+  dashDrag=null;
+  if(d.ghost&&d.ghost.parentNode)d.ghost.parentNode.removeChild(d.ghost);
+  if(d.tile)d.tile.classList.remove('dtile-ph');
+  dashSaveOrderFromDOM();
+  dashSuppressClick=Date.now()+280;
+}
+
+function dashBindEvents(){
+  var menu=$('menu');
+  if(!menu||menu.dataset.dndBound)return;
+  menu.dataset.dndBound='1';
+  var sx=0, sy=0, pendingTile=null;
+
+  function onStart(tile,cx,cy,e){
+    pendingTile=tile;sx=cx;sy=cy;
+    if(dashHoldT){clearTimeout(dashHoldT);dashHoldT=null}
+    if(dashEdit){
+      if(e&&e.cancelable)e.preventDefault();
+      dashStartDrag(tile,cx,cy);
+      return;
+    }
+    dashHoldT=setTimeout(function(){
+      dashHoldT=null;
+      if(!pendingTile)return;
+      dashEnterEdit();
+      dashStartDrag(pendingTile,sx,sy);
+    },420);
+  }
+
+  function onMove(cx,cy,e){
+    if(dashDrag){
+      if(e&&e.cancelable)e.preventDefault();
+      dashMoveDrag(cx,cy);
+    }else if(dashHoldT){
+      if(Math.abs(cx-sx)>10||Math.abs(cy-sy)>10){
+        clearTimeout(dashHoldT);dashHoldT=null;pendingTile=null;
+      }
+    }
+  }
+
+  function onEnd(){
+    pendingTile=null;
+    dashEndDrag();
+  }
+
+  menu.addEventListener('touchstart',function(e){
+    if(e.touches.length!==1)return;
+    var tile=e.target.closest?e.target.closest('.dtile'):null;
+    if(!tile)return;
+    var t=e.touches[0];
+    onStart(tile,t.clientX,t.clientY,e);
+  },{passive:false});
+
+  window.addEventListener('touchmove',function(e){
+    if(!dashDrag&&!dashHoldT)return;
+    if(!e.touches.length)return;
+    var t=e.touches[0];
+    onMove(t.clientX,t.clientY,e);
+  },{passive:false});
+
+  window.addEventListener('touchend',onEnd);
+  window.addEventListener('touchcancel',onEnd);
+
+  menu.addEventListener('mousedown',function(e){
+    if(e.button!==0)return;
+    var tile=e.target.closest?e.target.closest('.dtile'):null;
+    if(!tile)return;
+    onStart(tile,e.clientX,e.clientY,e);
+  });
+
+  window.addEventListener('mousemove',function(e){
+    if(!dashDrag&&!dashHoldT)return;
+    onMove(e.clientX,e.clientY,e);
+  });
+
+  window.addEventListener('mouseup',onEnd);
+
+  menu.addEventListener('contextmenu',function(e){
+    if(e.target.closest&&e.target.closest('.dtile'))e.preventDefault();
+  });
+}
+
 function renderDash(){
+  var lists=dashGetLists();
   function tileHtml(item){
     var cls='dtile'+(item.act?' act':'');
-    var click=item.go?' onclick="go(\''+item.go+'\')"':'';
-    return '<div class="'+cls+'"'+click+'><div class="ib '+item.c+'">'+svg(item.i,20)+'</div><div class="txt"><div class="tt">'+esc(item.t)+'</div><div class="ts">'+esc(item.s)+'</div></div></div>';
+    var click=item.go?' onclick="dashTileClick(\''+item.go+'\')"':'';
+    return '<div class="'+cls+'" data-k="'+esc(item.t)+'"'+click+'><div class="ib '+item.c+'">'+svg(item.i,20)+'</div><div class="txt"><div class="tt">'+esc(item.t)+'</div><div class="ts">'+esc(item.s)+'</div></div></div>';
   }
-  $('grid-main').innerHTML=DASH_MAIN.map(tileHtml).join('');
-  $('grid-tools').innerHTML=DASH_TOOLS.map(tileHtml).join('');
+  $('grid-main').innerHTML=lists.main.map(tileHtml).join('');
+  $('grid-tools').innerHTML=lists.tools.map(tileHtml).join('');
+  dashBindEvents();
 }
 
 function updateStatusBar(){
@@ -2416,6 +2715,7 @@ function go(v,fromBack){
     if(navHist.length>20)navHist.shift();
   }
   if(v==='menu')navHist=[];
+  if(v!=='menu'&&typeof dashExitEdit==='function')dashExitEdit();
   curView=v;
   if($('fab-nav'))$('fab-nav').classList.toggle('hide',v==='menu');
   if(v!=='drogas')resetDrugs(true);
