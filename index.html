@@ -1488,6 +1488,46 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
     </div>
    </div>
   </div>
+
+  <!-- MÓDULO GUÍA INTERACTIVA: VIGENCIA DE PERMISOS -->
+  <div id="permisos" class="hide wrap-sm">
+   <div class="view-hd">
+    <div>
+     <h2 id="pm-title"></h2>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px">Árbol de decisión interactivo · Art. 384 CP · Arts. 71–73 LTSV · RGCond · Permisos Extranjeros</div>
+    </div>
+    <button class="btn sec" onclick="go('menu')" id="btn-back-pm"></button>
+   </div>
+
+   <div class="pc-panel">
+    <div id="pm-trail" class="chips" style="margin-top:0"></div>
+    <div id="pm-stage"></div>
+
+    <div class="card">
+     <div class="bar" style="margin-bottom:4px">
+      <div class="card-hd" style="margin:0" id="pm-inm-hd"></div>
+      <button class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('pm-inm-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
+     </div>
+     <div id="pm-inm-wrap" class="hide" style="margin-top:8px;font-size:13px;color:#cfd9ea;line-height:1.5">
+      <p style="margin:0 0 8px">En todos los supuestos de carencia o pérdida de vigencia, procederá la <b>inmovilización o retirada del vehículo</b> en el momento de la infracción (<b>Arts. 104 y 105 LTSV</b>).</p>
+      <p style="margin:0"><b>Excepción:</b> No se procederá a la inmovilización cuando un <b>conductor habilitado y con permiso en vigor</b> se haga cargo del vehículo, al cual se le informará de las consecuencias legales, se le identificará plenamente y se adjuntará a las diligencias penales o expediente administrativo.</p>
+     </div>
+    </div>
+
+    <div class="card">
+     <div class="bar" style="margin-bottom:4px">
+      <div class="card-hd" style="margin:0" id="pm-ext-hd"></div>
+      <button class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('pm-ext-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
+     </div>
+     <div id="pm-ext-wrap" class="hide" style="margin-top:8px;font-size:12.5px;color:#cfd9ea;line-height:1.5">
+      <div style="margin-bottom:8px"><b style="color:var(--gold2)">Países UE (27):</b> Alemania, Austria, Bélgica, Bulgaria, Chipre, Rep. Checa, Croacia, Dinamarca, Eslovaquia, Eslovenia, España, Estonia, Finlandia, Francia, Grecia, Hungría, Irlanda, Italia, Letonia, Lituania, Luxemburgo, Malta, Países Bajos, Polonia, Portugal, Rumanía, Suecia.</div>
+      <div style="margin-bottom:8px"><b style="color:var(--gold2)">Países EEE (3):</b> Islandia, Noruega, Liechtenstein.</div>
+      <div style="margin-bottom:8px"><b style="color:var(--gold2)">Países con Convenio de Canje:</b> Andorra, Argelia, Argentina, Bolivia, Brasil, Chile, Colombia, Corea del Sur, Costa Rica, Ecuador, El Salvador, Filipinas, Georgia, Guatemala, Honduras, Japón, Macedonia del Norte, Marruecos, Moldavia, Mónaco, Nicaragua, Nueva Zelanda, Panamá, Paraguay, Perú, Reino Unido, Rep. Dominicana, Serbia, Suiza, Túnez, Turquía, Ucrania, Uruguay.</div>
+      <div><b style="color:var(--gold2)">Permisos Internacionales:</b> Constan de 3 cuerpos (validez 1 o 3 años). Válidos Convenios de Ginebra (1949), Viena (1968) y París (1926). Siempre acompañado de PNC en vigor o traducción oficial. <b>No válido</b> Permiso Internacional Iberoamericano ni tarjetas de fantasía.</div>
+     </div>
+    </div>
+   </div>
+  </div>
  </div>
 </div>
 
@@ -1580,7 +1620,7 @@ var DASH_MAIN=[
   {t:'CODIFICADO',s:'Infracciones DGT · Oct 2026',i:'dgt',c:'c-blue',act:1,go:'codificado'},
   {t:'DROGAS',s:'Calculadora de estupefacientes',i:'pill',c:'c-green',act:1,go:'drogas'},
   {t:'CUADRANTE',s:'Calendario de turnos y gratificaciones',i:'cal',c:'c-gold',act:1,go:'turnos'},
-  {t:'PERMISOS',s:'Canjes y vigencias',i:'idcard',c:'c-blue'}
+  {t:'VIGENCIA DE PERMISOS',s:'Guía interactiva DGT, penal y extranjeros',i:'idcard',c:'c-blue',act:1,go:'permisos'}
 ];
 
 var DASH_TOOLS=[
@@ -1727,6 +1767,7 @@ function go(v){
   $('bloc').classList.toggle('hide',v!=='bloc');
   $('codificado').classList.toggle('hide',v!=='codificado');
   $('accidentes').classList.toggle('hide',v!=='accidentes');
+  $('permisos').classList.toggle('hide',v!=='permisos');
   $('nv-menu').classList.toggle('on',v==='menu');
   $('nv-turnos').classList.toggle('on',v==='turnos');
   $('nv-drogas').classList.toggle('on',v==='drogas');
@@ -1738,11 +1779,13 @@ function go(v){
   updateStatusBar();
   if(v==='turnos')draw();
   if(v==='drogas')renderDrugs();
-  if(v==='contraste')renderAcc();
+  if(v==='contraste')renderPerm();
+renderAcc();
 renderContraste();
   if(v==='bloc')renderBloc();
   if(v==='codificado')renderCod();
   if(v==='accidentes')renderAcc();
+  if(v==='permisos')renderPerm();
 }
 
 function initStaticIcons(){
@@ -1775,6 +1818,10 @@ function initStaticIcons(){
   $('btn-back-ac').innerHTML=svg('back',15)+' Inicio';
   $('ac-law-hd').innerHTML=svg('scale',15)+' Marco normativo y fundamento legal';
   $('ac-chk-hd').innerHTML=svg('clip',15)+' Estructura y checklist del atestado (Área de Atestados)';
+  $('pm-title').innerHTML=svg('idcard',18)+' Vigencia de Permisos';
+  $('btn-back-pm').innerHTML=svg('back',15)+' Inicio';
+  $('pm-inm-hd').innerHTML=svg('car',15)+' Regla general de inmovilización del vehículo (Arts. 104–105 LTSV)';
+  $('pm-ext-hd').innerHTML=svg('book',15)+' Listado de países UE / EEE, Convenios de Canje y Permiso Internacional';
   $('tab-cal').innerHTML=svg('cal',15)+' Calendario';
   $('tab-cat').innerHTML=svg('eur',15)+' Gratificaciones';
   $('tab-cfg').innerHTML=svg('cfg',15)+' Ajustes';
@@ -3171,6 +3218,365 @@ function renderAcc(){
   }
   h+='</div></div>';
   $('ac-step-body').innerHTML=h;
+}
+
+
+/* ==================== GUÍA INTERACTIVA: VIGENCIA DE PERMISOS ==================== */
+var PM_TREE={
+  start:{
+    q:'¿Qué situación presenta el conductor en la actuación?',
+    sub:'Selecciona el origen del permiso o la comprobación realizada en DGT (RCI)',
+    opts:[
+      {t:'Nunca ha obtenido permiso / licencia',s:'Carece de cualquier autorización para conducir',i:'siren',c:'c-crim',next:'res_nunca'},
+      {t:'Anotación DGT · J.P.T. (Puntos / Cautelar)',s:'Pérdida de vigencia por puntos o suspensión cautelar',i:'idcard',c:'c-gold',next:'jpt_inc'},
+      {t:'Anotación DGT · Juzgado de lo Penal',s:'Condena judicial de privación del derecho a conducir',i:'scale',c:'c-purp',next:'juz_dur'},
+      {t:'Permiso de Conducir Extranjero',s:'UE / EEE, país con convenio de canje o sin convenio',i:'book',c:'c-blue',next:'ext_tipo'}
+    ]
+  },
+  jpt_inc:{
+    q:'En DGT figura Pérdida de Vigencia / Medida de la J.P.T. ¿Qué aparece en "Historial de Incidencias"?',
+    sub:'Comprobar siempre la pestaña de Incidencias / Avisos del Registro de Conductores',
+    opts:[
+      {t:'"Este usuario no tiene incidencias"',s:'Notificación personal firme (dentro o fuera de fecha sin recuperar)',i:'siren',c:'c-crim',next:'res_jpt_penal'},
+      {t:'"PÉRDIDA DE VIGENCIA EDICTAL"',s:'Notificada por edictos (BOE/TESTRA) — Falta notificación personal',i:'alert',c:'c-amber',next:'res_jpt_edictal'},
+      {t:'"EN PERIODO DE PRESENTACIÓN DE RECURSO"',s:'Plazo de 1 mes de alzada — No imputación penal',i:'clip',c:'c-blue',next:'res_jpt_recurso'},
+      {t:'"PENDIENTE DE RESOLVER RECURSO"',s:'Recurso de alzada interpuesto — No imputación penal',i:'clip',c:'c-teal',next:'res_jpt_recurso'},
+      {t:'Suspensión cautelar (Psicofísicas)',s:'Medida cautelar Art. 72 LTSV / Art. 39 RGCond',i:'shield',c:'c-purp',next:'res_cautelar'}
+    ]
+  },
+  juz_dur:{
+    q:'Sentencia del Juzgado de lo Penal: ¿Cuál es la duración de la condena?',
+    sub:'Art. 47 CP y Art. 73 LTSV · Comprobar "Tipo de sanción" y duración individual',
+    opts:[
+      {t:'Igual o inferior a 2 años (Suspensión Temporal)',s:'Los permisos pueden figurar vigentes, pero prevalece la suspensión',i:'scale',c:'c-amber',next:'juz_le2'},
+      {t:'Superior a 2 años (Pérdida de Vigencia Judicial)',s:'Condena > 2 años por un solo delito (Art. 47 CP)',i:'siren',c:'c-crim',next:'juz_gt2'}
+    ]
+  },
+  juz_le2:{
+    q:'Suspensión temporal (≤ 2 años): ¿En qué momento es interceptado el conductor?',
+    sub:'Verificar "Fecha fin" de la sanción y si consta anotación de curso de sensibilización (B2)',
+    opts:[
+      {t:'DENTRO del periodo de suspensión / condena',s:'No ha finalizado la fecha de cumplimiento judicial',i:'siren',c:'c-crim',next:'res_juz_dentro'},
+      {t:'FUERA del periodo SIN realizar curso B2',s:'Condena cumplida, pero sin acreditar curso de reeducación vial',i:'alert',c:'c-gold',next:'res_juz_le2_fuera'}
+    ]
+  },
+  juz_gt2:{
+    q:'Pérdida de vigencia judicial (> 2 años): ¿En qué momento conduce?',
+    sub:'Requiere cumplir condena + curso B3 + examen teórico para recuperar permiso (8 ptos)',
+    opts:[
+      {t:'DENTRO del periodo de condena',s:'Privado del derecho a conducir por sentencia vigente',i:'siren',c:'c-crim',next:'res_juz_dentro'},
+      {t:'FUERA del periodo SIN obtener nuevo permiso',s:'Condena cumplida pero sin realizar curso B3 ni examen teórico',i:'alert',c:'c-amber',next:'res_juz_gt2_fuera'}
+    ]
+  },
+  ext_tipo:{
+    q:'Permiso extranjero: ¿A qué grupo pertenece el país expedidor?',
+    sub:'Puedes consultar el listado completo de países en el desplegable inferior',
+    opts:[
+      {t:'País Comunitario (UE o EEE)',s:'Unión Europea + Islandia, Noruega y Liechtenstein',i:'idcard',c:'c-blue',next:'ext_ue_res'},
+      {t:'País CON Convenio de Canje',s:'Andorra, Argentina, Colombia, Marruecos, UK, Suiza, Ucrania, etc.',i:'clip',c:'c-green',next:'ext_canje_res'},
+      {t:'País SIN Convenio de Canje',s:'Resto de terceros países (requiere Permiso Internacional)',i:'alert',c:'c-amber',next:'ext_nocanje_res'}
+    ]
+  },
+  ext_ue_res:{
+    q:'Permiso UE / EEE (con edad exigida en España): ¿Tiempo de residencia normal?',
+    sub:'Art. 15 RGCond',
+    opts:[
+      {t:'No residente o < 2 años de residencia',s:'Estancia temporal o menos de 2 años desde residencia normal',i:'car',c:'c-teal',next:'ext_ue_lt2'},
+      {t:'Más de 2 años de residencia en España',s:'Sometido a plazos de vigencia españoles (Art. 15.4 RGCond)',i:'idcard',c:'c-gold',next:'ext_ue_gt2'},
+      {t:'Sin permiso o con Pérdida de Vigencia',s:'Carece de permiso o consta pérdida de vigencia',i:'siren',c:'c-crim',next:'res_nunca'}
+    ]
+  },
+  ext_ue_lt2:{
+    q:'UE / EEE (< 2 años o no residente): ¿Está dentro del periodo de validez?',
+    sub:'Comprobar fecha de caducidad del documento',
+    opts:[
+      {t:'Sí, en vigor',s:'Dentro de validez y edad exigida en España',i:'check',c:'c-green',next:'res_valido'},
+      {t:'Caducado',s:'Fecha de vigencia vencida',i:'alert',c:'c-amber',next:'res_ext_124'}
+    ]
+  },
+  ext_ue_gt2:{
+    q:'UE / EEE (> 2 años de residencia): ¿Estado del permiso?',
+    sub:'Atención a permisos con vigencia > 15 años o vitalicios',
+    opts:[
+      {t:'En vigor (vigencia ≤ 15 años)',s:'Permiso comunitario en vigor sujeto a plazos ordinarios',i:'check',c:'c-green',next:'res_valido'},
+      {t:'Caducado (no inscrito)',s:'Vigencia vencida tras > 2 años de residencia',i:'alert',c:'c-amber',next:'res_ext_154'},
+      {t:'Inscrito en DGT y caducado',s:'Permiso inscrito en RCI cuya vigencia ha vencido',i:'alert',c:'c-amber',next:'res_ext_124'},
+      {t:'Vigencia > 15 años o vitalicio (sin renovar)',s:'Debía renovarlo a los 2 años de residencia (desde 19/01/2015)',i:'alert',c:'c-gold',next:'res_ext_154'}
+    ]
+  },
+  ext_canje_res:{
+    q:'País CON Convenio de Canje: ¿Tiempo de residencia legal en España?',
+    sub:'Art. 21 y 22 RGCond · Obligación de residencia legal y haberlo obtenido antes',
+    opts:[
+      {t:'Menos de 6 meses de residencia',s:'Dentro del plazo de 6 meses desde residencia legal o entrada',i:'car',c:'c-teal',next:'ext_canje_lt6'},
+      {t:'Más de 6 meses de residencia',s:'Plazo de 6 meses superado',i:'idcard',c:'c-gold',next:'ext_canje_gt6'}
+    ]
+  },
+  ext_canje_lt6:{
+    q:'Convenio de Canje (< 6 meses): ¿Estado del permiso?',
+    sub:'Comprobar vigencia en vigor',
+    opts:[
+      {t:'En vigor',s:'Válido durante los primeros 6 meses',i:'check',c:'c-green',next:'res_valido'},
+      {t:'Caducado',s:'Vigencia vencida',i:'alert',c:'c-amber',next:'res_ext_124'}
+    ]
+  },
+  ext_canje_gt6:{
+    q:'Convenio de Canje (> 6 meses): ¿Situación del canje?',
+    sub:'Verificar si fue obtenido antes o después de adquirir residencia',
+    opts:[
+      {t:'Canjeado por permiso español',s:'Ya dispone de PNC español en vigor',i:'check',c:'c-green',next:'res_valido'},
+      {t:'Sin PNC español (obtenido antes de residencia)',s:'No ha realizado el canje transcurridos 6 meses',i:'alert',c:'c-amber',next:'res_ext_115b'},
+      {t:'Sin PNC español o expedido tras residencia',s:'Obtenido siendo ya residente o sin canje válido',i:'siren',c:'c-crim',next:'res_ext_115e'},
+      {t:'Canje revocado o anulado',s:'Resolución de revocación/anulación del canje',i:'siren',c:'c-crim',next:'res_ext_115a'}
+    ]
+  },
+  ext_nocanje_res:{
+    q:'País SIN Convenio de Canje: ¿Tiempo de residencia en España?',
+    sub:'Art. 21 RGCond',
+    opts:[
+      {t:'Menos de 6 meses de residencia',s:'Requiere permiso en vigor + Permiso Internacional o traducción oficial',i:'car',c:'c-teal',next:'ext_nocanje_lt6'},
+      {t:'Más de 6 meses de residencia (sin PNC español)',s:'Carece de validez en España pasados 6 meses',i:'siren',c:'c-crim',next:'res_ext_115e'}
+    ]
+  },
+  ext_nocanje_lt6:{
+    q:'Sin Convenio (< 6 meses): ¿Vigencia y documentación?',
+    sub:'Verificar Permiso Internacional (Ginebra 1949 / Viena 1968 / París 1926)',
+    opts:[
+      {t:'En vigor + Permiso Internacional / Traducción',s:'Cumple requisitos del Art. 21 RGCond',i:'check',c:'c-green',next:'res_valido'},
+      {t:'Caducado',s:'Permiso nacional o internacional vencido',i:'alert',c:'c-amber',next:'res_ext_124'}
+    ]
+  },
+
+  /* ==================== RESOLUCIONES / RESULTADOS ==================== */
+  res_nunca:{
+    res:true,kind:'delito',
+    badge:'DELITO CONTRA LA SEGURIDAD VIAL · ART. 384 CP',
+    title:'Conducir sin haber obtenido nunca permiso o licencia',
+    precepto:'Art. 384 párrafo 2º inciso final del Código Penal',
+    sancion:'Prisión de 3 a 6 meses, o multa de 12 a 24 meses, o TBC de 31 a 90 días.',
+    steps:[
+      'Instruir <b>diligencias penales (atestado)</b> por presunto delito del Art. 384 CP.',
+      'Lectura de derechos como investigado/detenido (Arts. 118 / 520 LECrim).',
+      '<b>Inmovilización o retirada del vehículo</b> (Arts. 104 y 105 LTSV), salvo que se haga cargo un conductor habilitado con permiso en vigor (identificar e informar).',
+      'Si el titular permitió la conducción sabiéndolo, valorar responsabilidad (cooperador necesario / Art. 76.v LTSV).'
+    ]
+  },
+  res_jpt_penal:{
+    res:true,kind:'delito',
+    badge:'DELITO CONTRA LA SEGURIDAD VIAL · ART. 384 CP',
+    title:'Pérdida de vigencia por puntos (Notificación personal firme)',
+    precepto:'Art. 384 párrafo 1º CP · (Denuncia administrativa informativa Art. 1.1.5A RGCond solo si procede según criterio)',
+    sancion:'Prisión de 3 a 6 meses, o multa de 12 a 24 meses, o TBC de 31 a 90 días.',
+    steps:[
+      'Comprobar que NO existen incidencias de aviso (ni edictal ni plazo de recurso). Aplica tanto <b>dentro del periodo</b> como <b>finalizada la fecha fin</b> si no consta curso + examen.',
+      'Instruir <b>diligencias penales (atestado)</b> por presunto DCSV Art. 384 CP.',
+      '<b>Intervención del permiso de conducción</b> si lo porta físicamente.',
+      '<b>Inmovilización del vehículo</b> (Arts. 104 y 105 LTSV), salvo entrega a conductor habilitado con permiso en vigor.'
+    ]
+  },
+  res_jpt_edictal:{
+    res:true,kind:'admin',
+    badge:'NO PENAL · INFRACCIÓN MUY GRAVE (500 €)',
+    title:'Pérdida de vigencia por puntos — Notificación Edictal',
+    precepto:'Art. 1.1.5A RGCond (Art. 77.k LTSV) · Instrucción DGT 12/C-105',
+    sancion:'Multa de 500 € (250 € con reducción del 50%) · 0 puntos.',
+    steps:[
+      '<b>NO instruir diligencias penales</b> (criterio judicial: la notificación edictal no acredita dolo para el Art. 384 CP).',
+      'Formular denuncia <b>Art. 1.1.5A RGCond</b>: <i>"Conducir el vehículo reseñado careciendo de la autorización administrativa correspondiente"</i>.',
+      '<b>Levantar Acta de Información</b> sobre la pérdida de vigencia e intervención del permiso, entregando copia al interesado.',
+      'Anotar expresamente en el apartado OBSERVACIONES del boletín: <i>"SE LEVANTA ACTA INFORMANDO AL CONDUCTOR DE LA PÉRDIDA DE VIGENCIA"</i>.',
+      '<b>Intervención del permiso</b> (si lo porta) e <b>inmovilización del vehículo</b> (Arts. 104 y 105 LTSV).'
+    ]
+  },
+  res_jpt_recurso:{
+    res:true,kind:'admin',
+    badge:'NO PENAL · INFRACCIÓN MUY GRAVE (500 €)',
+    title:'Pérdida de vigencia en plazo de recurso o pendiente de resolver',
+    precepto:'Art. 1.1.5A RGCond (Art. 77.k LTSV) · Instrucción DGT 13/S-131',
+    sancion:'Multa de 500 € (250 € con reducción del 50%) · 0 puntos.',
+    steps:[
+      '<b>NO instruir diligencias penales</b> mientras conste la incidencia <i>"En periodo de presentación de recurso"</i> o <i>"Pendiente de resolver recurso"</i>.',
+      'Formular denuncia administrativa <b>Art. 1.1.5A RGCond</b> (especificar en observaciones que carece de vigencia por causa administrativa dentro de plazo/resolución de recurso).',
+      '<b>Intervención del permiso</b> (si lo porta).',
+      '<b>Inmovilización del vehículo</b> (Arts. 104 y 105 LTSV), salvo conductor habilitado que se haga cargo.'
+    ]
+  },
+  res_cautelar:{
+    res:true,kind:'admin',
+    badge:'NO PENAL · INFRACCIÓN GRAVE (200 € · 4 PUNTOS)',
+    title:'Suspensión del permiso como medida cautelar (Psicofísicas)',
+    precepto:'Art. 39.3.5A RGCond (Art. 76.s LTSV)',
+    sancion:'Multa de 200 € (100 € con reducción del 50%) · 4 PUNTOS.',
+    steps:[
+      '<b>NO instruir diligencias penales</b> (medida provisional mientras se determina pérdida de condiciones psicofísicas).',
+      'Formular denuncia <b>Art. 39.3.5A RGCond</b>: <i>"Conducir el vehículo reseñado teniendo el permiso de conducir suspendido como medida cautelar"</i> (detallar el supuesto).',
+      'Elaborar <b>informe de las condiciones psicofísicas</b> observadas si procede.',
+      '<b>Intervención del permiso</b> (si lo porta) e <b>inmovilización del vehículo</b> si procede.'
+    ]
+  },
+  res_juz_dentro:{
+    res:true,kind:'delito',
+    badge:'DELITO CONTRA LA SEGURIDAD VIAL · ART. 384 CP',
+    title:'Conducción DENTRO del periodo de privación judicial',
+    precepto:'Art. 384 párrafo 2º CP (privación cautelar o definitiva por decisión judicial)',
+    sancion:'Prisión de 3 a 6 meses, o multa de 12 a 24 meses, o TBC de 31 a 90 días.',
+    steps:[
+      'Instruir <b>diligencias penales (atestado)</b> por presunto DCSV Art. 384 CP.',
+      'Comprobar que la fecha actual está <b>dentro del periodo de condena</b> (en suspensión temporal ≤ 2 años el permiso puede aparecer como vigente en RCI, pero prevalece la suspensión).',
+      '<b>Intervención del permiso</b> si lo porta físicamente.',
+      '<b>Inmovilización del vehículo</b> (Arts. 104 y 105 LTSV), salvo entrega a conductor habilitado.'
+    ]
+  },
+  res_juz_le2_fuera:{
+    res:true,kind:'admin',
+    badge:'NO PENAL · INFRACCIÓN GRAVE (200 €)',
+    title:'Condena ≤ 2 años cumplida SIN realizar curso de sensibilización (B2)',
+    precepto:'Art. 73.2.5A LTSV / Art. 1.1.5D RGCond (Art. 76.ll LTSV)',
+    sancion:'Multa de 200 € (100 € con reducción del 50%) · 0 puntos.',
+    steps:[
+      '<b>NO instruir diligencias penales</b> (condena cumplida; falta únicamente requisito administrativo del curso).',
+      'Formular denuncia <b>Art. 73.2.5A LTSV</b> (o <b>Art. 1.1.5D RGCond</b>): <i>"No haber superado con aprovechamiento el curso de reeducación y sensibilización vial tras haber sido condenado a la privación del derecho a conducir por periodo igual o inferior a 2 años"</i>.',
+      '<b>Inmovilización del vehículo</b> si procede (Arts. 104 y 105 LTSV), salvo conductor habilitado.'
+    ]
+  },
+  res_juz_gt2_fuera:{
+    res:true,kind:'admin',
+    badge:'NO PENAL (500 €) · ATENCIÓN CRITERIO FISCALÍA',
+    title:'Condena > 2 años cumplida SIN obtener nuevo permiso (Curso B3 + Examen)',
+    precepto:'Art. 1.1.5A RGCond (Art. 77.k LTSV) · *Verificar Circular 10/2011 FGE',
+    sancion:'Multa de 500 € (250 € con reducción del 50%) · 0 puntos.',
+    steps:[
+      'Formular denuncia administrativa <b>Art. 1.1.5A RGCond</b>: <i>"Conducir el vehículo reseñado careciendo de la autorización administrativa correspondiente"</i> (detallar vehículo y condena > 2 años sin recuperación).',
+      '<b>Nota penal (Circular 10/2011 FGE):</b> en algunas provincias la Fiscalía instruye por <b>Art. 384 CP / quebrantamiento</b>. Comprobar el criterio vigente en el Partido Judicial.',
+      '<b>Intervención del permiso</b> (si lo porta) e <b>inmovilización del vehículo</b> (Arts. 104 y 105 LTSV).'
+    ]
+  },
+  res_valido:{
+    res:true,kind:'ok',
+    badge:'PERMISO VÁLIDO · SIN INFRACCIÓN',
+    title:'El conductor está habilitado para conducir en España',
+    precepto:'Sin infracción (Arts. 15, 21 y 22 RGCond)',
+    sancion:'Ninguna sanción. Continuar marcha con normalidad.',
+    steps:[
+      'Comprobar únicamente que la clase del permiso habilita para el vehículo conducido y cumple la edad exigida en España.',
+      'En permisos de terceros países sin convenio (< 6 meses), verificar que acompaña <b>Permiso Internacional válido</b> (Ginebra 1949 / Viena 1968 / París 1926) o traducción oficial.'
+    ]
+  },
+  res_ext_124:{
+    res:true,kind:'admin',
+    badge:'NO PENAL · INFRACCIÓN GRAVE (200 €)',
+    title:'Permiso extranjero caducado',
+    precepto:'Art. 12.4.5B RGCond',
+    sancion:'Multa de 200 € (100 € con reducción del 50%) · 0 puntos.',
+    steps:[
+      'Formular denuncia administrativa por <b>Art. 12.4.5B RGCond</b> (conducir con permiso cuya vigencia ha vencido).',
+      'Intervención del permiso si procede conforme al Art. 12.4 RGCond.'
+    ]
+  },
+  res_ext_154:{
+    res:true,kind:'admin',
+    badge:'NO PENAL · INFRACCIÓN GRAVE (200 €)',
+    title:'Permiso comunitario (UE/EEE) > 2 años de residencia caducado o sin renovar (> 15 años / vitalicio)',
+    precepto:'Art. 15.4.5B RGCond',
+    sancion:'Multa de 200 € (100 € con reducción del 50%) · 0 puntos.',
+    steps:[
+      'Formular denuncia administrativa por <b>Art. 15.4.5B RGCond</b>.',
+      'Informar al titular de la obligación de renovar su permiso comunitario en la J.P.T. para someterlo a los plazos de vigencia españoles (Art. 12 RGCond).'
+    ]
+  },
+  res_ext_115b:{
+    res:true,kind:'admin',
+    badge:'NO PENAL · INFRACCIÓN GRAVE (200 €)',
+    title:'Permiso con Convenio de Canje > 6 meses de residencia sin canjear',
+    precepto:'Art. 1.1.5B RGCond',
+    sancion:'Multa de 200 € (100 € con reducción del 50%) · 0 puntos.',
+    steps:[
+      'Aplica cuando el permiso extranjero fue obtenido <b>antes de adquirir la residencia</b> y han transcurrido > 6 meses sin canjearlo por PNC español.',
+      'Formular denuncia administrativa por <b>Art. 1.1.5B RGCond</b> (200 € / 100 €).',
+      'Valorar inmovilización del vehículo si procede.'
+    ]
+  },
+  res_ext_115e:{
+    res:true,kind:'admin',
+    badge:'NO PENAL · INFRACCIÓN MUY GRAVE (500 €)',
+    title:'Permiso extranjero no válido (> 6 meses sin PNC español o expedido tras residencia)',
+    precepto:'Art. 1.1.5E RGCond (Art. 77.k LTSV)',
+    sancion:'Multa de 500 € (250 € con reducción del 50%) · 0 puntos.',
+    steps:[
+      'Aplica en países sin convenio (> 6 meses de residencia) o países con convenio cuando el permiso se obtuvo <b>siendo ya residente en España</b>.',
+      'Formular denuncia administrativa por <b>Art. 1.1.5E RGCond</b> (500 € / 250 €).',
+      '<b>Inmovilización del vehículo</b> (Arts. 104 y 105 LTSV), salvo conductor habilitado.'
+    ]
+  },
+  res_ext_115a:{
+    res:true,kind:'admin',
+    badge:'NO PENAL · INFRACCIÓN MUY GRAVE (500 €)',
+    title:'Canje revocado o anulado',
+    precepto:'Art. 1.1.5A RGCond (Art. 77.k LTSV)',
+    sancion:'Multa de 500 € (250 € con reducción del 50%) · 0 puntos.',
+    steps:[
+      'Formular denuncia administrativa por <b>Art. 1.1.5A RGCond</b> (500 € / 250 €).',
+      '<b>Intervención del permiso</b> si lo porta e <b>inmovilización del vehículo</b> (Arts. 104 y 105 LTSV).'
+    ]
+  }
+};
+
+var pmPath=[{id:'start',lbl:'Inicio'}];
+
+function pmChoose(nextId,lbl){
+  pmPath.push({id:nextId,lbl:lbl});
+  renderPerm();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function pmJump(ix){
+  pmPath=pmPath.slice(0,ix+1);
+  renderPerm();
+}
+function pmReset(){
+  pmPath=[{id:'start',lbl:'Inicio'}];
+  renderPerm();
+}
+
+function renderPerm(){
+  var cur=pmPath[pmPath.length-1];
+  var node=PM_TREE[cur.id]||PM_TREE.start;
+
+  $('pm-trail').innerHTML=pmPath.map(function(p,ix){
+    var isLast=(ix===pmPath.length-1);
+    return '<button type="button" class="chip" style="'+(isLast?'border-color:var(--gold2);color:var(--gold2);font-weight:700':'')+'" onclick="pmJump('+ix+')">'+(ix+1)+'. '+esc(p.lbl)+'</button>';
+  }).join('');
+
+  var h='<div class="pc-card">';
+  if(node.res){
+    var cls=node.kind==='delito'?'delito':(node.kind==='ok'?'admin':'warn');
+    var ico=node.kind==='delito'?'siren':(node.kind==='ok'?'check':'alert');
+    h+='<div class="dr-res '+cls+'" style="margin-top:0">';
+    h+='<div class="dr-verdict"><div class="dr-vico">'+svg(ico,20)+'</div><div><div class="dr-vtit">'+esc(node.badge)+'</div><div class="dr-vsub" style="font-size:14px;font-weight:700;color:#fff;margin-top:4px">'+esc(node.title)+'</div></div></div>';
+    h+='<div class="pc-summary-grid" style="margin-top:10px">';
+    h+='<div class="pc-sbox"><small>Precepto aplicable</small><b>'+esc(node.precepto)+'</b></div>';
+    h+='<div class="pc-sbox"><small>Sanción / Pena</small><b>'+esc(node.sancion)+'</b></div>';
+    h+='</div></div>';
+
+    h+='<div class="dr-lbl" style="margin-top:14px">Actuación policial paso a paso</div>';
+    h+='<div class="pc-chks">'+node.steps.map(function(st,ix){
+      return '<label class="pc-chk"><input type="checkbox"><span class="pc-ct">'+(ix+1)+'. '+st+'</span></label>';
+    }).join('')+'</div>';
+
+    h+='<div class="pc-nav">';
+    h+='<button class="btn sec" onclick="pmJump('+(pmPath.length-2)+')">'+svg('prev',15)+' Paso anterior</button>';
+    h+='<button class="btn" onclick="pmReset()">'+svg('refresh',14)+' Nueva consulta</button>';
+    h+='</div>';
+  }else{
+    h+='<div class="pc-step-hd"><div class="pc-step-num">'+pmPath.length+'</div><div><h3>'+esc(node.q)+'</h3><small>'+esc(node.sub)+'</small></div></div>';
+    h+='<div class="pc-opts two" style="margin-top:12px">'+node.opts.map(function(o){
+      return '<div class="pc-opt" onclick="pmChoose(\''+o.next+'\',\''+esc(o.t).replace(/'/g,"\\'")+'\')"><div class="oi '+o.c+'">'+svg(o.i,18)+'</div><div><b>'+esc(o.t)+'</b><small>'+esc(o.s)+'</small></div></div>';
+    }).join('')+'</div>';
+    if(pmPath.length>1){
+      h+='<div class="pc-nav"><button class="btn sec" onclick="pmJump('+(pmPath.length-2)+')">'+svg('prev',15)+' Atrás</button><button class="btn sec" onclick="pmReset()">'+svg('refresh',14)+' Reiniciar</button></div>';
+    }
+  }
+  h+='</div>';
+  $('pm-stage').innerHTML=h;
 }
 
 initStaticIcons();
