@@ -2067,6 +2067,89 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
     <div id="es-act-view" class="hide"></div>
    </div>
   </div>
+
+  <!-- MÓDULO GUÍA INTERACTIVA: ÓXIDO NITROSO (GAS DE LA RISA) -->
+  <div id="oxido" class="hide wrap-sm">
+   <div class="view-hd">
+    <div>
+     <h2 id="nx-title"></h2>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px">Delito contra la salud pública · Art. 359 CP (y 363.4 CP) · STS 569/2026 · ATS 375/2020</div>
+    </div>
+    <button class="btn sec" onclick="go('menu')" id="btn-back-nx"></button>
+   </div>
+
+   <div class="pc-panel">
+    <div class="pc-cfg">
+     <div class="dr-lbl">1. Selecciona el escenario de la intervención</div>
+     <div class="pc-opts" id="nx-modes"></div>
+     <div id="nx-subcfg"></div>
+    </div>
+
+    <div class="pc-prog-wrap">
+     <div class="pc-prog-top">
+      <span id="nx-prog-txt">Paso 1 de 6</span>
+      <span>Verificados: <b id="nx-chk-cnt">0/0</b></span>
+     </div>
+     <div class="pc-bar"><div class="pc-bar-in" id="nx-bar-in" style="width:0%"></div></div>
+     <div class="pc-steps" id="nx-steps"></div>
+    </div>
+
+    <div id="nx-step-body"></div>
+
+    <div class="card">
+     <div class="bar" style="margin-bottom:4px">
+      <div class="card-hd" style="margin:0" id="nx-jur-hd"></div>
+      <button class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('nx-jur-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
+     </div>
+     <div id="nx-jur-wrap" class="hide" style="margin-top:8px;overflow-x:auto">
+      <table>
+       <tr><th>Resolución</th><th>Hechos e indicios</th><th>Calificación y condena</th></tr>
+       <tr>
+        <td><b>STS 569/2026</b><br><small>01/10/2026 · TS<br>ECLI:ES:TS:2026:4232</small></td>
+        <td>Magaluf (03:20 h). Interceptado en Peugeot 307 con <b>2 botellas de N₂O + 1 bolsa con 100 globos + 3 dispensadores</b>. <b>Sin venta presenciada</b> ni comprador identificado.</td>
+        <td><b>Art. 359 CP</b> (NO 368 CP). Delito de peligro abstracto y consumación anticipada. <b>2 años prisión</b> + multa 10 meses (4 €/día) + inhabilitación.</td>
+       </tr>
+       <tr>
+        <td><b>ATS 375/2020</b><br><small>27/02/2020 · TS<br>ATS 3842/2020</small></td>
+        <td>Sant Antoni (Ibiza). <b>116 ampollas metálicas</b> de N₂O + decenas de globos + 2 dispensadores + <b>117 € fraccionados</b> + cannabis, ketamina, MDMA y cocaína.</td>
+        <td>Confirma riesgo grave (asfixia, coma, muerte, déficit B12, médula ósea, neuropatía). Concurrencia con drogas: <b>4 años y 6 meses prisión</b>.</td>
+       </tr>
+       <tr>
+        <td><b>SAP Baleares 109/2022</b><br><small>24/02/2022 · Sec. 2ª<br>SAP IB 374/2022</small></td>
+        <td>Sant Antoni (Ibiza). En interior de vehículo: <b>174 cápsulas de N₂O + 4 difusores + 5 bolsas con gran cantidad de globos</b> + testigo discusión precio.</td>
+        <td><b>Prueba indiciaria</b> suficiente (indicios plurales y unívocos). <b>21 meses prisión</b> + multa 1 año (6 €/día) con reincidencia.</td>
+       </tr>
+       <tr>
+        <td><b>SAP Baleares 140/2018</b><br><small>20/03/2018 · Sec. 1ª</small></td>
+        <td>Inmediaciones discoteca DC-10 (Ibiza). <b>156 cápsulas + 157 globos preparados + 706 € fraccionados</b>. Surtiendo a clientes en zona de ocio.</td>
+        <td><b>Art. 359 CP</b>. Confirma N₂O recreativo como sustancia nociva. <b>6 meses prisión</b> + multa 6–12 meses + inhabilitación oficio.</td>
+       </tr>
+       <tr>
+        <td><b>SAP Melilla 70/2025</b><br><small>15/10/2025 · AP Málaga Sec. 7ª</small></td>
+        <td>Venta reiterada de cápsulas de N₂O para inhalación recreativa desde 2021 (adquisición de grandes cantidades, informes AEMPS).</td>
+        <td><b>Art. 359 CP</b> (sustancia activa con graves riesgos sanitarios). <b>2 años prisión</b> + multa + inhabilitación especial.</td>
+       </tr>
+      </table>
+     </div>
+    </div>
+
+    <div class="card">
+     <div class="bar" style="margin-bottom:4px">
+      <div class="card-hd" style="margin:0" id="nx-med-hd"></div>
+      <button class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('nx-med-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
+     </div>
+     <div id="nx-med-wrap" class="hide" style="margin-top:8px;font-size:13px;color:#cfd9ea;line-height:1.5">
+      <ul style="margin:0;padding-left:18px">
+       <li><b>Naturaleza:</b> Gas volátil (N₂O), conocido como <i>"gas de la risa"</i>. Sustancia farmacológicamente activa sujeta a prescripción médica (anestésico/analgésico) que solo puede administrarse por personal médico con acceso a equipo de reanimación (INTCF / AEMPS).</li>
+       <li><b>Formatos habituales:</b> (1) <b>Cartuchos / cápsulas metálicas</b> pequeñas de uso alimentario/sifón; (2) <b>Bombonas / botellas de gran capacidad</b> (ej. <i>C.R.E.A.M., Mister Cream, Cream Deluxe, Exotic Whip, FastGas</i>) con boquilla dispensadora; (3) <b>Globos de colores</b> para inhalación pulmonar.</li>
+       <li><b>Efectos inmediatos:</b> Aparecen en <b>&lt; 1 minuto</b> y duran 15–45 minutos: euforia, risa involuntaria, distorsión perceptiva, desinhibición, pérdida de equilibrio.</li>
+       <li><b>Riesgos graves para la salud:</b> <b>Hipoxia / asfixia</b> (desplaza el oxígeno al inhalarse puro), desmayos y parada cardiorrespiratoria; <b>daño neurológico y medular</b> por déficit funcional de vitamina B12; <b>toxicidad sobre médula ósea</b> y riesgo fetal en embarazadas; <b>quemaduras por frío</b> en boca y vías respiratorias; caídas y accidentes; <b>coma y muerte</b>.</li>
+       <li><b>Informes oficiales de referencia:</b> Instituto Nacional de Toxicología (INTCF), AEMPS, Dossier PNSD (mayo 2025), Alerta SEAR (enero 2026) y Estudio PNSD (2026).</li>
+      </ul>
+     </div>
+    </div>
+   </div>
+  </div>
  </div>
  <div id="fab-nav" class="fab-nav hide" aria-label="Navegación rápida">
   <button type="button" class="fab-btn" id="fab-back" onclick="navBack()"></button>
@@ -2129,7 +2212,8 @@ var SVGS={
   check:'<path d="M5 13l4 4L19 7"/>',
   copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
   mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/>',
-  edit:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>'
+  edit:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',
+  n2o:'<path d="M10.8 2.5h2.4l.7 3.3h-3.8l.7-3.3z"/><rect x="8.5" y="5.8" width="7" height="2" rx=".8"/><path d="M8.5 7.8h7a2 2 0 0 1 2 2v9.7a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9.8a2 2 0 0 1 2-2z"/><path d="M6.5 11.8h11M6.5 17.2h11"/><circle cx="12" cy="14.5" r="1.2"/>'
 };
 
 var LEGACY={
@@ -2168,6 +2252,7 @@ var DASH_MAIN=[
 
 var DASH_TOOLS=[
   {t:'ACCIDENTES CON HERIDOS',s:'Guía protocolo heridos graves y fallecidos',i:'siren',c:'c-crim',act:1,go:'accidentes'},
+  {t:'ÓXIDO NITROSO',s:'Protocolo, indicios y jurisprudencia N₂O',i:'n2o',c:'c-teal',act:1,go:'oxido'},
   {t:'PRUEBA DE CONTRASTE',s:'Guía protocolo alcohol/drogas sangre',i:'tube',c:'c-crim',act:1,go:'contraste'},
   {t:'ESTABLECIMIENTOS',s:'Horarios, locales Pilar y acta inspección',i:'store',c:'c-gold',act:1,go:'establecimientos'},
   {t:'4/2015',s:'Codificado LO 4/2015 y artículos policiales',i:'shield',c:'c-blue',act:1,go:'lo415'},
@@ -2344,6 +2429,7 @@ function go(v,fromBack){
   $('permisos').classList.toggle('hide',v!=='permisos');
   $('establecimientos').classList.toggle('hide',v!=='establecimientos');
   $('lo415').classList.toggle('hide',v!=='lo415');
+  $('oxido').classList.toggle('hide',v!=='oxido');
   $('nv-menu').classList.toggle('on',v==='menu');
   $('nv-turnos').classList.toggle('on',v==='turnos');
   $('nv-drogas').classList.toggle('on',v==='drogas');
@@ -2364,6 +2450,7 @@ renderContraste();
   if(v==='permisos')renderPerm();
   if(v==='establecimientos')esOpen('hub');
   if(v==='lo415')loOpen('hub');
+  if(v==='oxido')renderOxido();
 }
 
 function initStaticIcons(){
@@ -2407,6 +2494,10 @@ function initStaticIcons(){
   $('es-ic-act').innerHTML=svg('clip',22);
   $('lo-title').innerHTML=svg('shield',18)+' Ley Orgánica 4/2015';
   $('btn-back-lo').innerHTML=svg('back',15)+' Inicio';
+  $('nx-title').innerHTML=svg('n2o',18)+' Óxido Nitroso (Gas de la risa)';
+  $('btn-back-nx').innerHTML=svg('back',15)+' Inicio';
+  $('nx-jur-hd').innerHTML=svg('scale',15)+' Jurisprudencia consolidada (TS y Audiencias Provinciales)';
+  $('nx-med-hd').innerHTML=svg('alert',15)+' Ficha técnica, formatos y riesgos sanitarios (INTCF / AEMPS)';
   $('lo-ic-cod').innerHTML=svg('dgt',22);
   $('lo-ic-arts').innerHTML=svg('book',22);
   $('es-loc-btn-new').innerHTML=svg('plus',15)+' Nuevo establecimiento';
@@ -6139,6 +6230,265 @@ setTimeout(function(){
   }
 },3000);
 dueCheck();
+
+/* ==================== GUÍA INTERACTIVA: ÓXIDO NITROSO (N2O) ==================== */
+var nxState={
+  mode:'via', // 'via' | 'veh' | 'cons'
+  drogas:false,
+  menores:false,
+  intox:false,
+  step:0,
+  chk:{},
+  ind:{0:1,1:1,2:1}
+};
+
+var NX_INDICIOS=[
+  'Botellas/bombonas de gran capacidad o lote de cápsulas metálicas',
+  'Globos preparados o bolsas con decenas de globos',
+  'Dispensadores / difusores / boquillas para rellenado',
+  'Dinero fraccionado (billetes pequeños y monedas)',
+  'Zona de ocio nocturno, afluencia juvenil o horario nocturno',
+  'Venta/entrega observada o manifestación de testigos/compradores',
+  'Incompatibilidad con autoconsumo (no acredita condición de consumidor)',
+  'Antecedentes o reincidencia por delito contra la salud pública'
+];
+
+function nxSetMode(m){
+  nxState.mode=m;
+  nxState.step=0;
+  nxState.chk={};
+  if(m==='cons'){nxState.ind={};}
+  else if(Object.keys(nxState.ind).length===0){nxState.ind={0:1,1:1,2:1};}
+  renderOxido();
+}
+function nxTogFlag(k){
+  nxState[k]=!nxState[k];
+  renderOxido();
+}
+function nxTogInd(ix,val){
+  if(val)nxState.ind[ix]=1;else delete nxState.ind[ix];
+  renderOxido();
+}
+function nxGoStep(n){
+  var steps=nxBuildSteps();
+  if(n<0)n=0;
+  if(n>=steps.length)n=steps.length-1;
+  nxState.step=n;
+  renderOxido();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nxTogChk(id,val){
+  if(val)nxState.chk[id]=1;else delete nxState.chk[id];
+  renderOxido();
+}
+function nxReset(){
+  nxState.step=0;
+  nxState.chk={};
+  renderOxido();
+}
+
+function nxCopyPlantilla(){
+  var txt='FUNDAMENTACIÓN JURÍDICA · ÓXIDO NITROSO (N₂O) — ART. 359 CP\n\n'
+    +'1. NATURALEZA Y RIESGO SANITARIO: El óxido nitroso (N₂O), conocido como "gas de la risa", es una sustancia farmacológicamente activa sujeta a prescripción médica que únicamente puede ser administrada por personal sanitario con experiencia y acceso a equipo de reanimación (Instituto Nacional de Toxicología / AEMPS). Su inhalación con fines recreativos sin mezclar con oxígeno desplaza el aire pulmonar y puede provocar hipoxia, asfixia, pérdida de conciencia, quemaduras por frío en vías respiratorias, daño neurológico y medular por déficit de vitamina B12, toxicidad en médula ósea, parada cardiorrespiratoria y muerte.\n\n'
+    +'2. TIPIFICACIÓN PENAL (ART. 359 CP): Conforme a la STS 569/2026, de 1 de octubre (ECLI:ES:TS:2026:4232), la elaboración, despacho, suministro o comercio no autorizado de óxido nitroso con finalidad de inhalación recreativa integra el delito contra la salud pública del artículo 359 del Código Penal (no el art. 368 CP salvo concurrencia con sustancias estupefacientes). Se trata de un delito de peligro abstracto y consumación anticipada que NO exige presenciar una venta concreta ni identificar a un comprador determinado.\n\n'
+    +'3. PRUEBA INDICIARIA: En línea con la STS 569/2026, el ATS 375/2020 (27/02/2020), la SAP Baleares 109/2022 (24/02/2022), la SAP Baleares 140/2018 y la SAP Melilla 70/2025, la concurrencia de indicios plurales y unívocos (cantidad de botellas/cápsulas, globos, dispensadores/boquillas, dinero fraccionado, lugar y horario de ocio nocturno) acredita objetivamente la capacidad de difusión a terceros y descarta la mera tenencia para autoconsumo.';
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){banner('Plantilla jurídica copiada al portapapeles.','')}).catch(function(){prompt('Copia la plantilla:',txt)});
+  }else{
+    prompt('Copia la plantilla:',txt);
+  }
+}
+
+function nxBuildSteps(){
+  var m=nxState.mode;
+  var isCons=(m==='cons');
+  var isVeh=(m==='veh');
+  var nInd=Object.keys(nxState.ind).length;
+  var hayDelito=(!isCons && nInd>=2) || nxState.drogas;
+
+  var s1={
+    short:'Seguridad',
+    title:'Aseguramiento, identificación y valoración sanitaria',
+    sub:'Control de la escena, envases a presión y atención a posibles intoxicados',
+    alert: nxState.intox
+      ? {t:'red',tx:'<b>EMERGENCIA SANITARIA:</b> Prioridad absoluta a la asistencia médica (112). Riesgo de <b>hipoxia/asfixia, pérdida de conciencia, parada respiratoria o quemaduras por frío</b> en boca/vías respiratorias. Colocar en posición lateral de seguridad si está inconsciente y asegurar ventilación.'}
+      : {t:'gold',tx:'<b>SEGURIDAD EN INTERVENCIÓN:</b> Los cilindros/bombonas (<i>Cream Deluxe, Exotic Whip, FastGas, C.R.E.A.M., Mister Cream</i>) contienen gas licuado a alta presión. Evitar golpes, fuentes de calor o inhalación directa; en zonas de ocio asegurar el perímetro y recabar apoyo si hay resistencia (ver ATS 375/2020).'},
+    items:[
+      {id:'n1_1',tx:'Asegurar la zona e identificar plenamente a los implicados (Art. 16 LO 4/2015) y posibles compradores o testigos presenciales.'},
+      nxState.intox ? {id:'n1_2',tx:'<b>Activar servicios sanitarios (112)</b> de inmediato y recabar parte médico de lesiones/intoxicación para unir al atestado.'} : {id:'n1_2',tx:'Comprobar el estado físico de los presentes (desorientación, pérdida de equilibrio, mareo, quemaduras labiales por frío).'},
+      {id:'n1_3',tx: isVeh ? 'Asegurar el vehículo y practicar registro/inspección del habitáculo y maletero en presencia del conductor/titular.' : 'Localizar y asegurar inmediatamente todas las bombonas, cápsulas metálicas, dispensadores y bolsas de globos para evitar su ocultación o destrucción.'},
+      nxState.menores ? {id:'n1_4',tx:'<b>Presencia de menores:</b> identificar a los menores afectados/consumidores, avisar a sus padres/tutores y reflejar expresamente la vulnerabilidad en diligencias.'} : null
+    ].filter(Boolean)
+  };
+
+  var s2={
+    short:'Indicios',
+    title:'Evaluación de indicios y calificación jurídica',
+    sub:'Art. 359 CP (peligro abstracto) vs Art. 368 CP vs vía administrativa',
+    showInd:true,
+    alert: nxState.drogas
+      ? {t:'red',tx:'<b>CONCURRENCIA CON OTRAS DROGAS (ART. 368 CP + 359 CP):</b> Al intervenirse además estupefacientes/psicotrópicos (cocaína, MDMA, ketamina, cannabis...), instruir por <b>delito contra la salud pública del art. 368 CP</b> en concurso/concurrencia con la tenencia preordenada a venta de N₂O (ATS 375/2020).'}
+      : (hayDelito
+          ? {t:'red',tx:'<b>DELITO CONTRA LA SALUD PÚBLICA — ART. 359 CP (STS 569/2026):</b> Concurren <b>'+nInd+' indicios</b> de preordenación al comercio/suministro. <b>NO hace falta presenciar una venta concreta ni identificar comprador</b> (delito de peligro abstracto y consumación anticipada). No tipificar por art. 368 CP.'}
+          : {t:'green',tx:'<b>SIN INDICIOS SUFICIENTES DE VENTA (CONSUMO PROPIO):</b> La mera tenencia aislada para consumo individual sin indicios de difusión a terceros no integra el art. 359 CP. Valorar infracción administrativa (ordenanza municipal, normativa autonómica/consumo o LO 4/2015 si altera orden/seguridad) e intervención preventiva si procede.'}),
+    items:[
+      {id:'n2_1',tx:'Verificar que el implicado <b>carece de autorización sanitaria o comercial legítima</b> para el despacho/suministro de óxido nitroso.'},
+      {id:'n2_2',tx:'Comprobar la <b>combinación de elementos de distribución</b>: bombonas/cápsulas + globos + dispensadores/boquillas (STS 569/2026: 2 botellas + 100 globos + 3 dispensadores bastaron para condena de 2 años de prisión).'},
+      {id:'n2_3',tx:'Anotar el <b>contexto espacio-temporal</b>: zona de ocio nocturno, proximidad a discotecas/locales, horario nocturno o afluencia de turistas/jóvenes.'},
+      {id:'n2_4',tx:'Comprobar si porta <b>dinero fraccionado</b> (billetes de 5, 10, 20 € y monedas) y si constan <b>antecedentes o reincidencia</b> por hechos similares.'}
+    ]
+  };
+
+  var s3={
+    short:'Aprehensión',
+    title:'Intervención material, recuento y reportaje fotográfico',
+    sub:'Documentación exhaustiva de efectos y aseguramiento probatorio',
+    alert:{t:'gold',tx:'<b>PRUEBA MATERIAL CLAVE:</b> La condena en vía judicial (STS 569/2026 y SAP IB 374/2022) se sustenta en la precisión del recuento, el estado de los envases (llenos/vacíos/precintados) y las fotografías in situ de todo el material junto a los globos y dispensadores.'},
+    items:[
+      {id:'n3_1',tx:'<b>Contabilizar exactamente</b> las bombonas/botellas (indicando marca, capacidad en gramos/litros y si están llenas, usadas o precintadas) y/o el número exacto de cápsulas metálicas.'},
+      {id:'n3_2',tx:'<b>Contabilizar globos</b> (sueltos, en bolsas cerradas o ya hinchados/preparados) y <b>dispensadores/boquillas</b> para su rellenado.'},
+      {id:'n3_3',tx:'<b>Desglosar el dinero intervenido</b> billete a billete y moneda a moneda (indicando fraccionamiento compatible con venta al menudeo).'},
+      {id:'n3_4',tx:'Realizar <b>reportaje fotográfico completo</b>: lugar exacto, interior del vehículo/mochila donde se hallaba, detalle de etiquetas/marcas de las botellas, globos, dispensadores y dinero.'},
+      {id:'n3_5',tx:'Extender <b>Acta de Aprehensión / Intervención</b> detallando precintos y número de serie/lote si consta.'}
+    ]
+  };
+
+  var s4={
+    short:'Detención',
+    title: hayDelito ? 'Detención / Investigado y lectura de derechos' : 'Identificación, acta y finalización en vía administrativa',
+    sub: hayDelito ? 'Art. 492 y 520 LECrim · Delito contra la salud pública (Art. 359 CP)' : 'Sin detención penal · Control preventivo / administrativo',
+    alert: hayDelito
+      ? {t:'red',tx:'<b>DETENCIÓN PROCEDENTE (ART. 359 CP):</b> Pena de prisión de 6 meses a 3 años (y multa de 6 a 12 meses + inhabilitación). Proceder a la detención (o imputación como investigado no detenido según arraigo y criterio judicial), informando de los derechos del <b>art. 520 LECrim</b>.'}
+      : {t:'green',tx:'<b>SIN DETENCIÓN:</b> Si no existen indicios racionales de venta o suministro a terceros, no procede detención por art. 359 CP. Documentar filiación completa e incidencia en parte/acta.'},
+    items: hayDelito ? [
+      {id:'n4_1',tx:'Practicar la <b>lectura de derechos</b> (Art. 520 LECrim) en idioma comprensible (español/inglés u otro con intérprete si es extranjero).'},
+      {id:'n4_2',tx:'Practicar <b>cacheo superficial de seguridad</b> y verificar si porta otras sustancias estupefacientes (Art. 368 CP) o armas/objetos prohibidos.'},
+      {id:'n4_3',tx: isVeh ? 'Valorar <b>inmovilización o intervención del vehículo</b> si se utiliza como instrumento habitual de distribución o carece de conductor habilitado.' : 'Comprobar si existen vehículos próximos vinculados al detenido donde almacene más stock (como en SAP IB 374/2022).'},
+      {id:'n4_4',tx:'Recabar <b>manifestación voluntaria de testigos o compradores</b> (filiación completa y teléfono) si presenciaron ofrecimiento, entrega o discusión por precio.'}
+    ] : [
+      {id:'n4_1',tx:'Filiar completamente al portador y advertirle de los riesgos graves de inhalación (hipoxia, quemaduras, daño neurológico).'},
+      {id:'n4_2',tx:'Comprobar ordenanza municipal / normativa autonómica aplicable sobre consumo o abandono de envases/globos en vía pública.'},
+      {id:'n4_3',tx:'Si se interviene cautelarmente material, extender acta detallada con copia al interesado.'}
+    ]
+  };
+
+  var s5={
+    short:'Atestado',
+    title:'Redacción del atestado y fundamentación jurídica',
+    sub:'Los 8 elementos obligatorios que exige la jurisprudencia',
+    showCopy:true,
+    alert:{t:'gold',tx:'<b>CLAVE PARA EVITAR ARCHIVOS:</b> Citar expresamente el <b>Art. 359 CP</b> (y <b>STS 569/2026</b>, de 1 de octubre), explicando por qué el óxido nitroso es sustancia nociva para la salud y detallando uno a uno los indicios que descartan el autoconsumo.'},
+    items:[
+      {id:'n5_1',tx:'Reflejar <b>cantidad exacta</b> de cartuchos/cápsulas o bombonas (marca, capacidad, llenas/vacías) y <b>dispensadores</b>.'},
+      {id:'n5_2',tx:'Reflejar número y estado de <b>globos preparados</b> y desglose exacto del <b>dinero fraccionado</b>.'},
+      {id:'n5_3',tx:'Describir con precisión el <b>lugar de los hechos</b> (zona de ocio, horario, afluencia) y la actitud del implicado (intento de huida, ocultación, etc.).'},
+      {id:'n5_4',tx:'Incorporar <b>manifestaciones de compradores/testigos</b> y el <b>reportaje fotográfico</b> de toda la intervención.'},
+      {id:'n5_5',tx:'Incluir la <b>fundamentación jurídica</b> (Art. 359 CP, STS 569/2026, ATS 375/2020 y riesgo sanitario INTCF/AEMPS) usando el botón de copia rápida inferior.'}
+    ]
+  };
+
+  var s6={
+    short:'Custodia',
+    title:'Cadena de custodia, depósito seguro y remisión judicial',
+    sub:'Conservación de envases a presión y puesta a disposición del Juzgado',
+    alert:{t:'green',tx:'<b>SEGURIDAD EN DEPÓSITO:</b> Almacenar las bombonas/cápsulas precintadas en lugar ventilado, alejado de fuentes de calor y debidamente etiquetadas con nº de atestado. Solicitar en el atestado el <b>comiso y destrucción</b> del material y el comiso del dinero intervenido.'},
+    summary:[
+      {k:'Tipo penal principal',v: nxState.drogas ? 'Art. 368 CP + Art. 359 CP (concurrencia)' : (hayDelito ? 'Art. 359 CP (Delito contra la salud pública)' : 'Vía administrativa / preventiva')},
+      {k:'Doctrina TS aplicable',v:'STS 569/2026 (01/10/2026) y ATS 375/2020'},
+      {k:'Prueba pericial / análisis',v:'Remisión a Juzgado · Análisis INTCF/AEMPS si se acuerda'},
+      {k:'Destino de efectos',v:'Depósito seguro ventilado · Solicitar comiso y destrucción'}
+    ],
+    items:[
+      {id:'n6_1',tx:'Precintar y etiquetar cada lote (bombonas, cápsulas, dispensadores, globos y dinero) garantizando la <b>cadena de custodia</b> ininterrumpida.'},
+      {id:'n6_2',tx:'Almacenar los envases presurizados en <b>lugar seguro y ventilado</b> hasta su remisión o orden judicial de destrucción.'},
+      {id:'n6_3',tx:'Remitir el atestado completo con detenido/investigado y efectos al <b>Juzgado de Instrucción de Guardia</b> (plazo máx. 24 h, art. 295 LECrim).'}
+    ]
+  };
+
+  return [s1,s2,s3,s4,s5,s6];
+}
+
+function renderOxido(){
+  var m=nxState.mode;
+  var modes=[
+    {id:'via',t:'Vía Pública / Ocio',s:'Venta o posesión en calle/local',i:'siren',cl:'c-crim'},
+    {id:'veh',t:'En Vehículo',s:'Stock en coche (STS 569/2026)',i:'car',cl:'c-gold'},
+    {id:'cons',t:'Consumo Propio',s:'Sin indicios de venta a terceros',i:'n2o',cl:'c-teal'}
+  ];
+  $('nx-modes').innerHTML=modes.map(function(x){
+    return '<div class="pc-opt'+(m===x.id?' on':'')+'" onclick="nxSetMode(\''+x.id+'\')"><div class="oi '+x.cl+'">'+svg(x.i,18)+'</div><div><b>'+x.t+'</b><small>'+x.s+'</small></div></div>';
+  }).join('');
+
+  var sub='<div class="dr-lbl" style="margin-top:6px">2. Circunstancias concurrentes (marca si proceden)</div><div class="pc-opts">';
+  [
+    ['drogas','Otras drogas','Cocaína, MDMA, etc. (368 CP)','pill','c-green'],
+    ['menores','Menores','Afectados o compradores','alert','c-gold'],
+    ['intox','Intoxicación','Mareo, hipoxia o quemadura','hosp','c-crim']
+  ].forEach(function(o){
+    sub+='<div class="pc-opt'+(nxState[o[0]]?' on':'')+'" onclick="nxTogFlag(\''+o[0]+'\')"><div class="oi '+o[4]+'">'+svg(o[3],16)+'</div><div><b>'+o[1]+'</b><small>'+o[2]+'</small></div></div>';
+  });
+  sub+='</div>';
+  $('nx-subcfg').innerHTML=sub;
+
+  var steps=nxBuildSteps();
+  var totChk=0, doneChk=0;
+  steps.forEach(function(st){
+    st.items.forEach(function(it){totChk++;if(nxState.chk[it.id])doneChk++});
+  });
+  var pct=totChk?Math.round((doneChk/totChk)*100):0;
+  $('nx-prog-txt').textContent='Paso '+(nxState.step+1)+' de '+steps.length+' · '+steps[nxState.step].short;
+  $('nx-chk-cnt').textContent=doneChk+'/'+totChk+' ('+pct+'%)';
+  $('nx-bar-in').style.width=pct+'%';
+
+  $('nx-steps').innerHTML=steps.map(function(st,ix){
+    var allDone=st.items.every(function(it){return !!nxState.chk[it.id]});
+    var cls='pc-st'+(ix===nxState.step?' cur':(allDone?' done':''));
+    return '<div class="'+cls+'" onclick="nxGoStep('+ix+')">'+(allDone?'✓ ':'')+(ix+1)+'<span>'+esc(st.short)+'</span></div>';
+  }).join('');
+
+  var curS=steps[nxState.step];
+  var h='<div class="pc-card">';
+  h+='<div class="pc-step-hd"><div class="pc-step-num">'+(nxState.step+1)+'</div><div><h3>'+esc(curS.title)+'</h3><small>'+esc(curS.sub)+'</small></div></div>';
+
+  if(curS.alert){
+    var aico=curS.alert.t==='red'?'siren':(curS.alert.t==='green'?'shield':'alert');
+    h+='<div class="pc-alert '+curS.alert.t+'">'+svg(aico,18)+'<div>'+curS.alert.tx+'</div></div>';
+  }
+
+  if(curS.showInd){
+    h+='<div class="dr-lbl" style="margin-top:10px">Marca los indicios concurrentes en la intervención</div>';
+    h+='<div class="dr-ind-list" style="margin-bottom:10px">'+NX_INDICIOS.map(function(txt,ix){
+      return '<label class="dr-chk"><input type="checkbox" '+(nxState.ind[ix]?'checked':'')+' onchange="nxTogInd('+ix+',this.checked)"><span>'+esc(txt)+'</span></label>';
+    }).join('')+'</div>';
+  }
+
+  if(curS.summary){
+    h+='<div class="pc-summary-grid">'+curS.summary.map(function(b){
+      return '<div class="pc-sbox"><small>'+esc(b.k)+'</small><b>'+esc(b.v)+'</b></div>';
+    }).join('')+'</div>';
+  }
+
+  h+='<div class="pc-chks">'+curS.items.map(function(it){
+    var ck=nxState.chk[it.id]?'checked':'';
+    return '<label class="pc-chk"><input type="checkbox" '+ck+' onchange="nxTogChk(\''+it.id+'\',this.checked)"><span class="pc-ct">'+it.tx+'</span></label>';
+  }).join('')+'</div>';
+
+  if(curS.showCopy){
+    h+='<div style="margin-top:12px"><button type="button" class="btn" style="width:100%" onclick="nxCopyPlantilla()">'+svg('copy',15)+' Copiar plantilla de fundamentación jurídica (Art. 359 CP · STS 569/2026)</button></div>';
+  }
+
+  h+='<div class="pc-nav">';
+  h+='<button class="btn sec" '+(nxState.step===0?'disabled style="opacity:.4;cursor:default"':'onclick="nxGoStep('+(nxState.step-1)+')"')+'>'+svg('prev',15)+' Anterior</button>';
+  h+='<button class="btn sec" style="font-size:12.5px" onclick="nxReset()">'+svg('refresh',14)+' Reiniciar</button>';
+  if(nxState.step<steps.length-1){
+    h+='<button class="btn" onclick="nxGoStep('+(nxState.step+1)+')">Siguiente '+svg('next',15)+'</button>';
+  }else{
+    h+='<button class="btn" onclick="go(\'menu\')">'+svg('check',15)+' Finalizar</button>';
+  }
+  h+='</div></div>';
+  $('nx-step-body').innerHTML=h;
+}
+
 </script>
 </body>
 </html>
