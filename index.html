@@ -1532,6 +1532,98 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
     </div>
    </div>
   </div>
+
+  <!-- MÓDULO ESTABLECIMIENTOS PÚBLICOS -->
+  <div id="establecimientos" class="hide wrap-sm">
+   <div class="view-hd">
+    <div>
+     <h2 id="es-title"></h2>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px" id="es-sub">Orden 3/2025 (Horarios 2026 CV) · Ley 14/2010 · Decreto 143/2015</div>
+    </div>
+    <button class="btn sec" onclick="esBack()" id="btn-back-es"></button>
+   </div>
+
+   <!-- SUBMENÚ PRINCIPAL: 3 BOTONES -->
+   <div id="es-hub" class="pc-panel">
+    <div class="pc-opts" style="grid-template-columns:1fr;gap:10px">
+     <div class="dtile act" style="padding:16px 14px" onclick="esOpen('horarios')">
+      <div class="ib c-gold" style="width:46px;height:46px" id="es-ic-hor"></div>
+      <div class="txt">
+       <div class="tt"><span>HORARIOS</span><span class="tag-act">ACTIVO</span></div>
+       <div class="ts" style="white-space:normal">Guía interactiva paso a paso de cierre, desalojo (30 min), ampliaciones y tabla resumen 2026</div>
+      </div>
+     </div>
+     <div class="dtile act" style="padding:16px 14px;border-color:var(--line);background:linear-gradient(180deg,rgba(19,33,56,.88),rgba(13,23,40,.95))" onclick="esOpen('locales')">
+      <div class="ib c-blue" style="width:46px;height:46px" id="es-ic-loc"></div>
+      <div class="txt">
+       <div class="tt"><span>ESTABLECIMIENTOS PILAR DE LA HORADADA</span></div>
+       <div class="ts" style="white-space:normal">Directorio municipal de locales, licencias, aforos y observaciones (en desarrollo)</div>
+      </div>
+     </div>
+     <div class="dtile act" style="padding:16px 14px;border-color:var(--line);background:linear-gradient(180deg,rgba(19,33,56,.88),rgba(13,23,40,.95))" onclick="esOpen('acta')">
+      <div class="ib c-crim" style="width:46px;height:46px" id="es-ic-act"></div>
+      <div class="txt">
+       <div class="tt"><span>ACTA DE INSPECCIÓN</span></div>
+       <div class="ts" style="white-space:normal">Generador de acta de inspección de establecimientos públicos (en desarrollo)</div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <!-- SUBMÓDULO 1: HORARIOS (GUÍA INTERACTIVA + TABLA RESUMEN) -->
+   <div id="es-horarios" class="hide pc-panel">
+    <div id="es-trail" class="chips" style="margin-top:0"></div>
+    <div id="es-stage"></div>
+
+    <div class="card">
+     <div class="bar" style="margin-bottom:4px">
+      <div class="card-hd" style="margin:0" id="es-des-hd"></div>
+      <button class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('es-des-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
+     </div>
+     <div id="es-des-wrap" class="hide" style="margin-top:8px;font-size:13px;color:#cfd9ea;line-height:1.5">
+      <ul style="margin:0;padding-left:18px">
+       <li><b>Hora de cierre = Inicio del desalojo (Art. 156 Decreto 143/2015):</b> Fin o cese total de la actividad: prohibido el acceso de nuevos clientes, no se expenderá consumición alguna, fuera de funcionamiento <b>música ambiental, máquinas recreativas, vídeos o similares</b>, <b>apagadas las señales luminosas exteriores</b>, luces generales encendidas y puertas de entrada y emergencia expeditas y abiertas.</li>
+       <li><b>Tiempo máximo de desalojo (30 minutos · Art. 156.1):</b> Plazo máximo de <b>30 minutos</b> desde la hora de cierre para el total desalojo del público.</li>
+       <li><b>Hora de cierre total:</b> Corresponde a la <b>Hora de cierre + 30 minutos</b>. Superado con clientes, infracción <b>GRAVE (Art. 51.18 Ley 14/2010: 601–30.000 €)</b>.</li>
+       <li><b>Banda horaria mínima (Art. 157 Decreto 143/2015):</b> Al menos <b>4 horas</b> entre el cierre y la siguiente apertura.</li>
+       <li><b>Música (Art. 167 D. 143/2015 · Art. 12 Orden 3/2025):</b> La <b>ambientación musical</b> nunca antes de las <b>10:00 h</b>; la <b>amenización musical</b> (≤70 dB mecánicos) puede coincidir con apertura y cierre; <b>actuaciones en directo diurnas</b> de <b>10:00 a 22:00 h</b>.</li>
+       <li><b>Sesiones de menores (Art. 4 Orden 3/2025 · Art. 151 D. 143/2015):</b> 17:00 a 22:00 h (14–18 años), cerrando al menos <b>1 hora</b> antes de la sesión ordinaria.</li>
+       <li><b>Cartel obligatorio (Art. 20 Orden 3/2025 · Art. 240 D. 143/2015):</b> Visible y legible desde el exterior, en <b>castellano y valenciano</b>, con apertura, cierre, días de cierre y modificaciones. Su falta es infracción <b>LEVE (Art. 50.10 Ley 14/2010: hasta 600 €)</b>.</li>
+       <li><b>Terrazas (Art. 18 Orden 3/2025 · Art. 64 D. 143/2015):</b> Las terrazas en vía pública nunca superan el horario oficial del local; su horario concreto lo fija el Ayuntamiento.</li>
+      </ul>
+     </div>
+    </div>
+
+    <div class="card">
+     <div class="bar" style="margin-bottom:6px">
+      <div class="card-hd" style="margin:0" id="es-tbl-hd"></div>
+      <button class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('es-tbl-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
+     </div>
+     <div style="font-size:12px;color:var(--mut);margin-bottom:6px">Orden 3/2025 (DOGV 22/12/2025) · Municipios &lt; 50.000 hab. (Pilar de la Horadada) · Cierre total = Cierre + 30 min desalojo máx.</div>
+     <div id="es-tbl-wrap" style="margin-top:6px;overflow-x:auto"></div>
+    </div>
+   </div>
+
+   <!-- SUBMÓDULO 2: ESTABLECIMIENTOS PILAR DE LA HORADADA -->
+   <div id="es-locales" class="hide pc-panel">
+    <div class="card" style="text-align:center;padding:24px 16px">
+     <div style="color:var(--gold2);margin-bottom:8px" id="es-loc-ico"></div>
+     <h3 style="margin:0 0 6px;font-size:16px">Establecimientos Pilar de la Horadada</h3>
+     <p style="color:var(--mut);font-size:13.5px;margin:0 0 14px">Espacio preparado para cargar el listado de establecimientos, licencias, grupos horarios, terrazas y observaciones del municipio.</p>
+     <button class="btn sec" onclick="esOpen('hub')">Volver a Establecimientos</button>
+    </div>
+   </div>
+
+   <!-- SUBMÓDULO 3: ACTA DE INSPECCIÓN -->
+   <div id="es-acta" class="hide pc-panel">
+    <div class="card" style="text-align:center;padding:24px 16px">
+     <div style="color:var(--gold2);margin-bottom:8px" id="es-act-ico"></div>
+     <h3 style="margin:0 0 6px;font-size:16px">Acta de Inspección de Establecimientos</h3>
+     <p style="color:var(--mut);font-size:13.5px;margin:0 0 14px">Espacio preparado para desarrollar el formulario interactivo de Acta de Inspección de la Policía Local.</p>
+     <button class="btn sec" onclick="esOpen('hub')">Volver a Establecimientos</button>
+    </div>
+   </div>
+  </div>
  </div>
 </div>
 
@@ -1641,7 +1733,7 @@ var DASH_TOOLS=[
   {t:'VIOGEN',s:'Resumen VioGén y Violencia Dom.',i:'viogen',c:'c-purp'},
   {t:'VMP',s:'Patinetes eléctricos',i:'vmp',c:'c-amber'},
   {t:'PARTE AMISTOSO',s:'Declaración amistosa europea',i:'clip',c:'c-blue'},
-  {t:'ESTABLECIMIENTOS',s:'Acta inspección establecimientos',i:'store',c:'c-slate'},
+  {t:'ESTABLECIMIENTOS',s:'Horarios, locales Pilar y acta inspección',i:'store',c:'c-gold',act:1,go:'establecimientos'},
   {t:'SPRAYS',s:'Listado sprays homologados',i:'spray',c:'c-crim'},
   {t:'CHIP',s:'Buscar microchip de mascotas',i:'paw',c:'c-amber'},
   {t:'CALLEJERO',s:'Mapa interactivo de la zona',i:'pin',c:'c-blue'},
@@ -1772,6 +1864,7 @@ function go(v){
   $('codificado').classList.toggle('hide',v!=='codificado');
   $('accidentes').classList.toggle('hide',v!=='accidentes');
   $('permisos').classList.toggle('hide',v!=='permisos');
+  $('establecimientos').classList.toggle('hide',v!=='establecimientos');
   $('nv-menu').classList.toggle('on',v==='menu');
   $('nv-turnos').classList.toggle('on',v==='turnos');
   $('nv-drogas').classList.toggle('on',v==='drogas');
@@ -1790,6 +1883,7 @@ renderContraste();
   if(v==='codificado')renderCod();
   if(v==='accidentes')renderAcc();
   if(v==='permisos')renderPerm();
+  if(v==='establecimientos')esOpen('hub');
 }
 
 function initStaticIcons(){
@@ -1826,6 +1920,15 @@ function initStaticIcons(){
   $('btn-back-pm').innerHTML=svg('back',15)+' Inicio';
   $('pm-inm-hd').innerHTML=svg('car',15)+' Regla general de inmovilización del vehículo (Arts. 104–105 LTSV)';
   $('pm-ext-hd').innerHTML=svg('book',15)+' Listado de países UE / EEE, Convenios de Canje y Permiso Internacional';
+  $('es-title').innerHTML=svg('store',18)+' Establecimientos Públicos';
+  $('btn-back-es').innerHTML=svg('back',15)+' Inicio';
+  $('es-ic-hor').innerHTML=svg('cal',22);
+  $('es-ic-loc').innerHTML=svg('pin',22);
+  $('es-ic-act').innerHTML=svg('clip',22);
+  $('es-loc-ico').innerHTML=svg('pin',34);
+  $('es-act-ico').innerHTML=svg('clip',34);
+  $('es-des-hd').innerHTML=svg('alert',15)+' Reglas clave de cierre, desalojo (30 min), música y terrazas';
+  $('es-tbl-hd').innerHTML=svg('clip',15)+' Tabla resumen de horarios 2026 (Comunitat Valenciana)';
   $('tab-cal').innerHTML=svg('cal',15)+' Calendario';
   $('tab-cat').innerHTML=svg('eur',15)+' Gratificaciones';
   $('tab-cfg').innerHTML=svg('cfg',15)+' Ajustes';
@@ -3581,6 +3684,262 @@ function renderPerm(){
   }
   h+='</div>';
   $('pm-stage').innerHTML=h;
+}
+
+
+/* ==================== ESTABLECIMIENTOS PÚBLICOS · HORARIOS 2026 (CV) ==================== */
+var ES_GROUPS=[
+  {id:'J',g:'Grupo J',cat:'host',n:'Restaurantes, cafés, bares, cafeterías y ciber-cafés',ap:'06:00',ci:'01:30',ct:'02:00',obs:'Hostelería ordinaria + ciber-café (Art. 2.1). Ambientación musical nunca antes de las 10:00 h (Art. 167.1 D. 143/2015); amenización musical (≤70 dB) puede coincidir con apertura/cierre.'},
+  {id:'K',g:'Grupo K',cat:'host',n:'Restaurantes, cafés, bar y cafeterías en tiendas de conveniencia',ap:'08:00',ci:'03:00',ct:'03:30',obs:'Ubicados en establecimientos considerados tiendas de conveniencia (Art. 2.1).'},
+  {id:'O',g:'Grupo O',cat:'host',n:'Salón-lounge',ap:'12:00',ci:'02:30',ct:'03:00',obs:'Establecimiento de hostelería con configuración salón-lounge (epígrafe 2.8.6 Ley 14/2010).'},
+  {id:'L',g:'Grupo L',cat:'host',n:'Salones de banquetes',ap:'10:00',ci:'03:30',ct:'04:00',obs:'Pueden realizar baile posterior a la comida en horario nocturno si reúnen condiciones de seguridad e insonorización (Art. 12.2 Orden 3/2025).'},
+  {id:'MAR',g:'Art. 2.3 (Costa/Puerto)',cat:'host',n:'Hostelería y restauración en dominio público marítimo-terrestre / zona portuaria',ap:'10:00',ci:'04:00',ct:'04:30',obs:'Solo si el Ayuntamiento lo declara expresamente y lo comunica a Conselleria (Art. 2.3); si no, aplica horario general del Grupo J (06:00–01:30). Incompatible con ampliación municipal del Art. 10.'},
+  {id:'B_MEN',g:'Grupo B (<50.000 hab.)',cat:'ocio',n:'Pubs, karaokes, cafés-teatro, cafés-concierto y cafés-cantante',ap:'12:00',ci:'04:00',ct:'04:30',obs:'Pilar de la Horadada (<50.000 hab.): cierre 04:00 h (Art. 35.4 Ley 14/2010 y Art. 2.1 Orden 3/2025). En municipios >50.000 hab.: cierre 03:30 h ampliable a 04:00 h.'},
+  {id:'B_ERO',g:'Grupo B (Erótico)',cat:'ocio',n:'Establecimientos de exhibiciones de contenido erótico',ap:'12:00',ci:'03:30',ct:'04:00',obs:'Horario 12:00 a 03:30 h en todo caso; excluido de la ampliación a las 04:00 h del Grupo B.'},
+  {id:'I',g:'Grupo I',cat:'ocio',n:'Discotecas, salas de fiesta y salas de baile',ap:'17:00',ci:'07:30',ct:'08:00',obs:'Ocio nocturno mayor. Banda mínima de 4 h entre cierre y siguiente apertura (Art. 157 D. 143/2015). Sesiones menores autorizadas: 17:00–22:00 h (Art. 4).'},
+  {id:'SJ',g:'Art. 7.2 (Juego)',cat:'juego',n:'Salones de juego (máquinas tipo B)',ap:'10:00',ci:'03:00',ct:'03:30',ciAlt:'04:00',ctAlt:'04:30',obs:'General: 10:00–03:00 h. Viernes, sábados, domingos, festivos, vísperas y julio–septiembre: hasta 04:00 h (cierre total 04:30 h). Casinos, bingos y apuestas: normativa sectorial de juego (Art. 7.1).'},
+  {id:'C',g:'Grupo C',cat:'juego',n:'Salones recreativos (sin premio en metálico)',ap:'08:00',ci:'01:00',ct:'01:30',obs:'Salones recreativos regulados en Art. 2.1 Orden 3/2025.'},
+  {id:'G',g:'Grupo G',cat:'juego',n:'Actividades recreativas (boleras y billares)',ap:'10:00',ci:'01:00',ct:'01:30',obs:'Boleras y billares (Art. 2.1 Orden 3/2025).'},
+  {id:'F',g:'Grupo F',cat:'juego',n:'Salones cíber y similares, y escuelas taurinas',ap:'10:00',ci:'24:00',ct:'00:30',obs:'Atención: los Ciber-cafés pertenecen al Grupo J (06:00–01:30 h), no al Grupo F.'},
+  {id:'A',g:'Grupo A',cat:'cult',n:'Cines, teatros, anfiteatros, auditorios, salas multifuncionales, circos, artes escénicas y salas de conciertos',ap:'10:00',ci:'Últ. sesión ≤01:05',ct:'+30 min fin',obs:'Cierre al finalizar la última sesión (inicio máx. 01:05 h). Apertura al público 15–30 min antes (Art. 3.1). Con menores de 16 años: fin máx. 02:30 h (Art. 11).'},
+  {id:'N',g:'Grupo N',cat:'cult',n:'Salas polivalentes',ap:'09:00',ci:'02:30',ct:'03:00',obs:'Salas sin asientos fijos para reuniones sociales, culturales o festivas.'},
+  {id:'D',g:'Grupo D',cat:'cult',n:'Salas socioculturales, escape rooms, parques atracciones/temáticos, museos, conferencias, patinaje, taurinos',ap:'09:00',ci:'01:00',ct:'01:30',obs:'Salas socioculturales pueden ofrecer actuaciones musicales en directo en horario diurno (apertura a 22:00 h).'},
+  {id:'E',g:'Grupo E',cat:'dep',n:'Parques acuáticos y ludotecas',ap:'09:00',ci:'24:00',ct:'00:30',obs:'Ludotecas con limitaciones de la LO 3/2020 (Educación).'},
+  {id:'H',g:'Grupo H',cat:'dep',n:'Pabellones, campos/estadios, piscinas deportivas/recreo, instalaciones deportivas y gimnasios',ap:'06:30',ci:'01:00',ct:'01:30',obs:'Gimnasios con insonorización acreditada pueden abrir a las 06:00 h (salvo reducción por incumplimiento acústico).'},
+  {id:'M',g:'Grupo M',cat:'dep',n:'Zoológicos, acuarios y safari-park',ap:'09:00',ci:'22:00',ct:'22:30',obs:'Establecimientos de exhibición de animales (Art. 2.1 Orden 3/2025).'},
+  {id:'TER',g:'Arts. 8 y 18',cat:'esp',n:'Terrazas en vía pública y establecimientos anexos',ap:'Según local',ci:'Máx. cierre local',ct:'Según Ordenanza',obs:'Terrazas (Art. 18): nunca superan el horario oficial del local; el Ayuntamiento fija su horario. Anexos Grupo J (salvo ciber-café) en carreteras, puertos, aeropuertos, estaciones de bus/servicio: horario instalación principal. EXCLUIDOS centros comerciales (se rigen por horario general Orden 3/2025 dentro del horario del centro).'}
+];
+
+var ES_CATS=[
+  {id:'host',t:'Hostelería y Restauración',s:'Bares, cafeterías, restaurantes, lounge, banquetes',i:'store',c:'c-gold'},
+  {id:'ocio',t:'Ocio Nocturno y Música',s:'Pubs, karaokes, cafés-concierto, discotecas',i:'siren',c:'c-crim'},
+  {id:'juego',t:'Juego y Recreativos',s:'Salones de juego, recreativos, boleras, billares, cíber',i:'star',c:'c-purp'},
+  {id:'cult',t:'Espectáculos y Cultura',s:'Salas de conciertos, cines, teatros, polivalentes, socioculturales',i:'book',c:'c-blue'},
+  {id:'dep',t:'Deportes, Piscinas y Otros',s:'Gimnasios, pabellones, parques acuáticos, ludotecas',i:'shield',c:'c-green'},
+  {id:'esp',t:'Terrazas y Anexos',s:'Terrazas en vía pública, centros comerciales, estaciones',i:'pin',c:'c-teal'}
+];
+
+var ES_FECHAS=[
+  {id:'ord',t:'Día ordinario',s:'Sin ampliación especial vigente',add:0,note:'Se aplica el horario general de la Orden 3/2025 para 2026.'},
+  {id:'esp60',t:'Fecha señalada (+60 min)',s:'5 ene (Reyes), 8 oct, 24 dic (Nochebuena) o 31 oct (Halloween)',add:60,note:'Ampliación automática de 60 minutos sobre el horario general (Orden 3/2025).'},
+  {id:'esp90',t:'Nochevieja / Año Nuevo (+90 min)',s:'Noche del 31 de diciembre al 1 de enero',add:90,note:'Ampliación automática de 90 minutos sobre el horario general (Orden 3/2025).'},
+  {id:'mun60',t:'Ampliación municipal (+60 min)',s:'Resolución motivada del Ayuntamiento (fiestas locales / turismo)',add:60,note:'Art. 10 Orden 3/2025: el Ayuntamiento puede ampliar 1 hora (no acumulable a fechas señaladas ni aplicable a eróticos).'}
+];
+
+var ES_SITS=[
+  {id:'ok',t:'Dentro del horario general de apertura',s:'Aún no se ha alcanzado la hora oficial de cierre',i:'check',c:'c-green'},
+  {id:'des_ok',t:'En margen de desalojo (0–30 min tras cierre) SIN actividad',s:'Música apagada, barra cerrada, luces encendidas, público saliendo',i:'shield',c:'c-teal'},
+  {id:'des_mal',t:'En margen de desalojo (0–30 min tras cierre) CON actividad',s:'Sigue sirviendo barra, música activa o entrando clientes',i:'alert',c:'c-amber'},
+  {id:'exceso',t:'Superado el CIERRE TOTAL (> 30 min tras cierre) con público',s:'Clientes en interior o terraza tras agotar el plazo de desalojo',i:'siren',c:'c-crim'},
+  {id:'otros',t:'Falta cartel horario / Banda < 4 h / Música antes 10:00 h',s:'Incumplimiento de obligaciones formales o de reapertura',i:'clip',c:'c-purp'}
+];
+
+var esView='hub', esSt={step:0,cat:null,grp:null,fecha:null,sit:null,sjExtra:false};
+
+function esAddMin(hhmm,mins){
+  if(!hhmm||hhmm.indexOf(':')<0)return hhmm;
+  var p=hhmm.split(':');
+  var tot=(parseInt(p[0],10)*60+parseInt(p[1],10)+mins)%1440;
+  var h=Math.floor(tot/60),m=tot%60;
+  return (h<10?'0'+h:h)+':'+(m<10?'0'+m:m);
+}
+
+function esOpen(sub){
+  esView=sub;
+  $('es-hub').classList.toggle('hide',sub!=='hub');
+  $('es-horarios').classList.toggle('hide',sub!=='horarios');
+  $('es-locales').classList.toggle('hide',sub!=='locales');
+  $('es-acta').classList.toggle('hide',sub!=='acta');
+  $('btn-back-es').innerHTML=svg('back',15)+(sub==='hub'?' Inicio':' Establecimientos');
+  if(sub==='horarios'){
+    renderEsHorarios();
+    renderEsTable();
+  }
+  window.scrollTo(0,0);
+}
+function esBack(){
+  if(esView==='hub')go('menu');
+  else esOpen('hub');
+}
+function esReset(){
+  esSt={step:0,cat:null,grp:null,fecha:null,sit:null,sjExtra:false};
+  renderEsHorarios();
+}
+function esJump(st){
+  esSt.step=st;
+  if(st<1)esSt.cat=null;
+  if(st<2){esSt.grp=null;esSt.sjExtra=false;}
+  if(st<3)esSt.fecha=null;
+  if(st<4)esSt.sit=null;
+  renderEsHorarios();
+}
+function esPickCat(id){esSt.cat=id;esSt.step=1;renderEsHorarios();window.scrollTo({top:0,behavior:'smooth'});}
+function esPickGrp(id){esSt.grp=id;esSt.step=2;renderEsHorarios();window.scrollTo({top:0,behavior:'smooth'});}
+function esPickFecha(id,sjEx){esSt.fecha=id;esSt.sjExtra=!!sjEx;esSt.step=3;renderEsHorarios();window.scrollTo({top:0,behavior:'smooth'});}
+function esPickSit(id){esSt.sit=id;esSt.step=4;renderEsHorarios();window.scrollTo({top:0,behavior:'smooth'});}
+
+function renderEsHorarios(){
+  var gObj=ES_GROUPS.filter(function(x){return x.id===esSt.grp})[0];
+  var cObj=ES_CATS.filter(function(x){return x.id===esSt.cat})[0];
+  var fObj=ES_FECHAS.filter(function(x){return x.id===esSt.fecha})[0];
+  var sObj=ES_SITS.filter(function(x){return x.id===esSt.sit})[0];
+
+  var trail=[{st:0,lbl:'Categoría'}];
+  if(cObj)trail.push({st:1,lbl:cObj.t});
+  if(gObj)trail.push({st:2,lbl:gObj.g});
+  if(fObj)trail.push({st:3,lbl:fObj.t});
+  if(sObj)trail.push({st:4,lbl:'Resolución'});
+
+  $('es-trail').innerHTML=trail.map(function(p,ix){
+    var isLast=(ix===trail.length-1);
+    return '<button type="button" class="chip" style="'+(isLast?'border-color:var(--gold2);color:var(--gold2);font-weight:700':'')+'" onclick="esJump('+p.st+')">'+(ix+1)+'. '+esc(p.lbl)+'</button>';
+  }).join('');
+
+  var h='<div class="pc-card">';
+  if(esSt.step===0){
+    h+='<div class="pc-step-hd"><div class="pc-step-num">1</div><div><h3>¿Qué categoría de establecimiento estás inspeccionando?</h3><small>Selecciona el bloque principal según su licencia de apertura o declaración responsable</small></div></div>';
+    h+='<div class="pc-opts two" style="margin-top:12px">'+ES_CATS.map(function(c){
+      return '<div class="pc-opt" onclick="esPickCat(\''+c.id+'\')"><div class="oi '+c.c+'">'+svg(c.i,18)+'</div><div><b>'+esc(c.t)+'</b><small>'+esc(c.s)+'</small></div></div>';
+    }).join('')+'</div>';
+  }else if(esSt.step===1){
+    var list=ES_GROUPS.filter(function(x){return x.cat===esSt.cat});
+    h+='<div class="pc-step-hd"><div class="pc-step-num">2</div><div><h3>Determina el tipo exacto de establecimiento</h3><small>Orden 3/2025 (Horarios 2026 Comunitat Valenciana)</small></div></div>';
+    h+='<div class="pc-opts" style="grid-template-columns:1fr;margin-top:12px">'+list.map(function(g){
+      return '<div class="pc-opt" onclick="esPickGrp(\''+g.id+'\')"><div class="oi c-gold">'+svg('store',18)+'</div><div><b>'+esc(g.g)+' · '+esc(g.n)+'</b><small>Apertura: '+esc(g.ap)+' · Cierre (inicio desalojo): '+esc(g.ci)+' · Cierre total: '+esc(g.ct)+'</small></div></div>';
+    }).join('')+'</div>';
+    h+='<div class="pc-nav"><button class="btn sec" onclick="esJump(0)">'+svg('prev',15)+' Atrás</button><button class="btn sec" onclick="esReset()">'+svg('refresh',14)+' Reiniciar</button></div>';
+  }else if(esSt.step===2){
+    h+='<div class="pc-step-hd"><div class="pc-step-num">3</div><div><h3>¿Qué fecha o régimen horario aplica hoy?</h3><small>'+esc(gObj.g)+' — '+esc(gObj.n)+'</small></div></div>';
+    var fList=ES_FECHAS.slice();
+    if(gObj.id==='SJ'){
+      fList=[
+        {id:'ord',t:'Lunes a jueves (no festivo / no verano)',s:'Horario general Salones de Juego: cierre 03:00 h',add:0,sjEx:false},
+        {id:'ord',t:'V, S, D, festivo, víspera o julio–septiembre',s:'Régimen ampliado Art. 7: cierre 04:00 h',add:0,sjEx:true},
+        ES_FECHAS[1],ES_FECHAS[2],ES_FECHAS[3]
+      ];
+    }
+    h+='<div class="pc-opts two" style="margin-top:12px">'+fList.map(function(f){
+      return '<div class="pc-opt" onclick="esPickFecha(\''+f.id+'\','+(f.sjEx?'true':'false')+')"><div class="oi c-blue">'+svg('cal',18)+'</div><div><b>'+esc(f.t)+'</b><small>'+esc(f.s)+'</small></div></div>';
+    }).join('')+'</div>';
+    h+='<div class="pc-nav"><button class="btn sec" onclick="esJump(1)">'+svg('prev',15)+' Atrás</button><button class="btn sec" onclick="esReset()">'+svg('refresh',14)+' Reiniciar</button></div>';
+  }else if(esSt.step===3){
+    var baseCi=(gObj.id==='SJ'&&esSt.sjExtra)?gObj.ciAlt:gObj.ci;
+    var addM=((gObj.id==='B_ERO'||gObj.id==='MAR')&&esSt.fecha==='mun60')?0:(fObj?fObj.add:0);
+    var finCi=(baseCi.indexOf(':')>=0)?esAddMin(baseCi,addM):baseCi+(addM?' (+'+addM+' min)':'');
+    var finCt=(baseCi.indexOf(':')>=0)?esAddMin(baseCi,addM+30):gObj.ct;
+
+    h+='<div class="pc-step-hd"><div class="pc-step-num">4</div><div><h3>¿Qué situación observas en la actuación?</h3><small>Cierre (inicio desalojo): <b style="color:var(--gold2)">'+esc(finCi)+'</b> · Cierre total (+30 min): <b style="color:#ff8694">'+esc(finCt)+'</b></small></div></div>';
+    h+='<div class="pc-opts" style="grid-template-columns:1fr;margin-top:12px">'+ES_SITS.map(function(s){
+      return '<div class="pc-opt" onclick="esPickSit(\''+s.id+'\')"><div class="oi '+s.c+'">'+svg(s.i,18)+'</div><div><b>'+esc(s.t)+'</b><small>'+esc(s.s)+'</small></div></div>';
+    }).join('')+'</div>';
+    h+='<div class="pc-nav"><button class="btn sec" onclick="esJump(2)">'+svg('prev',15)+' Atrás</button><button class="btn sec" onclick="esReset()">'+svg('refresh',14)+' Reiniciar</button></div>';
+  }else{
+    var baseCi2=(gObj.id==='SJ'&&esSt.sjExtra)?gObj.ciAlt:gObj.ci;
+    var addM2=((gObj.id==='B_ERO'||gObj.id==='MAR')&&esSt.fecha==='mun60')?0:(fObj?fObj.add:0);
+    var finCi2=(baseCi2.indexOf(':')>=0)?esAddMin(baseCi2,addM2):baseCi2+(addM2?' (+'+addM2+' min)':'');
+    var finCt2=(baseCi2.indexOf(':')>=0)?esAddMin(baseCi2,addM2+30):gObj.ct;
+
+    var resCls='admin',resIco='check',badge='',title='',precepto='',sancion='',steps=[];
+    if(esSt.sit==='ok'){
+      resCls='admin';resIco='check';
+      badge='DENTRO DE HORARIO LEGAL · SIN INFRACCIÓN HORARIA';
+      title='Actividad dentro del margen horario autorizado';
+      precepto='Orden 3/2025 (DOGV 22/12/2025) · Art. 35 Ley 14/2010';
+      sancion='Sin infracción por horario.';
+      steps=[
+        'Comprobar <b>cartel de horario</b> visible y legible desde el exterior en <b>castellano y valenciano</b>.',
+        'Verificar que la <b>licencia / declaración responsable</b> coincide con el epígrafe ('+esc(gObj.g)+').',
+        'Si hay música ambiental, recordar que <b>nunca puede iniciarse antes de las 10:00 h</b> (Art. 167 Decreto 143/2015).',
+        'Recordar al titular que a las <b>'+esc(finCi2)+'</b> debe cesar la actividad e iniciar el desalojo, quedando vacío a las <b>'+esc(finCt2)+'</b>.'
+      ];
+    }else if(esSt.sit==='des_ok'){
+      resCls='warn';resIco='shield';
+      badge='EN PLAZO DE DESALOJO (ART. 156 DECRETO 143/2015)';
+      title='Desalojo correcto dentro de los 30 minutos posteriores al cierre';
+      precepto='Art. 156 Decreto 143/2015 (plazo máximo 30 min desde hora de cierre)';
+      sancion='Sin infracción si finaliza el desalojo completo antes de las '+finCt2+'.';
+      steps=[
+        'Verificar que la <b>música/espectáculo está apagada</b> y <b>no se sirven más consumiciones</b>.',
+        'Comprobar que <b>no se permite el acceso de nuevo público</b> y las puertas facilitan la salida.',
+        'Controlar la hora límite de <b>CIERRE TOTAL ('+esc(finCt2)+')</b>: a esa hora no debe quedar ningún cliente en el interior ni en la terraza.'
+      ];
+    }else if(esSt.sit==='des_mal'){
+      resCls='delito';resIco='alert';
+      badge='INFRACCIÓN GRAVE · ART. 51.18 LEY 14/2010';
+      title='Mantiene actividad tras la hora de cierre ('+finCi2+') sin iniciar desalojo';
+      precepto='Art. 51.18 Ley 14/2010 · Art. 156 Decreto 143/2015 · Orden 3/2025';
+      sancion='GRAVE (Art. 54.2): multa de 601 a 30.000 € (acumulable hasta 300.000 €) y posible suspensión/clausura hasta 6 meses. Competencia: Generalitat (Art. 56.2).';
+      steps=[
+        'La hora de cierre (<b>'+esc(finCi2)+'</b>) marca el <b>cese total de la actividad</b> (Art. 156 D. 143/2015): prohibido acceder clientes, servir consumiciones, mantener música, máquinas recreativas/vídeos o rótulos luminosos exteriores encendidos.',
+        'Requerir al responsable el <b>cese inmediato de actividad</b>, encendido de luces generales y apertura expedita de puertas para iniciar el desalojo.',
+        'Levantar <b>Acta de Denuncia (Art. 299 D. 143/2015)</b> detallando obligatoriamente: <b>nº de personas y modo de recuento</b>, si consumen/se sirven bebidas, <b>iluminación interior y exterior</b>, estado de puertas y firma o negativa + entrega de copia.',
+        'Comprobar que a las <b>'+esc(finCt2)+'</b> el local queda completamente desalojado.'
+      ];
+    }else if(esSt.sit==='exceso'){
+      resCls='delito';resIco='siren';
+      badge='INFRACCIÓN GRAVE CONSUMADA · ART. 51.18 LEY 14/2010';
+      title='Superado el cierre total ('+finCt2+') con público o actividad';
+      precepto='Art. 51.18 Ley 14/2010 · Art. 156 Decreto 143/2015 · Orden 3/2025';
+      sancion='GRAVE (Art. 54.2): multa de 601 a 30.000 € (acumulable hasta 300.000 €) y posible suspensión/clausura hasta 6 meses. Competencia: Generalitat (Art. 56.2). Si niega acceso/colaboración: MUY GRAVE Art. 52.9.';
+      steps=[
+        'Constatar y anotar la <b>hora exacta de comprobación</b> (supera las <b>'+esc(finCt2)+'</b> de cierre total) y el tiempo de exceso.',
+        'Identificar al <b>titular o encargado</b> responsable y verificar licencia/declaración responsable.',
+        'Ordenar el <b>cese inmediato y desalojo completo</b>. Si niega el acceso o la colaboración a los agentes, incurre en infracción <b>MUY GRAVE (Art. 52.9 Ley 14/2010: 30.001–60.000 €)</b>.',
+        'Levantar <b>Acta de Denuncia (Art. 299 D. 143/2015)</b> haciendo constar: <b>nº de personas y modo de recuento</b>, consumiciones/uso de servicios, <b>luces interiores y exteriores</b>, estado y disposición de puertas para desalojo, y <b>firma del compareciente</b> (o negativa + entrega de copia).'
+      ];
+    }else{
+      resCls='warn';resIco='clip';
+      badge='INFRACCIÓN LEVE / GRAVE · CARTEL, BANDA 4 H O MÚSICA';
+      title='Falta de cartel horario, banda mínima < 4 h o música antes de 10:00 h';
+      precepto='Art. 50.10 Ley 14/2010 (falta cartel: LEVE) · Art. 51.18 Ley 14/2010 (horario: GRAVE) · Arts. 157 y 167 D. 143/2015';
+      sancion='Falta de cartel (Art. 50.10): LEVE hasta 600 € (competencia Ayuntamiento, Art. 56.1). Incumplimiento horario / banda 4 h (Art. 51.18): GRAVE 601–30.000 € (Generalitat).';
+      steps=[
+        '<b>Falta de cartel de horario:</b> debe estar visible y legible desde el exterior en <b>castellano y valenciano</b> con apertura, cierre y ampliaciones.',
+        '<b>Banda horaria mínima (Art. 157 D. 143/2015):</b> comprobar si han transcurrido al menos <b>4 horas</b> entre el cierre anterior y la apertura.',
+        '<b>Ambientación musical (Art. 167 D. 143/2015):</b> prohibida antes de las <b>10:00 horas</b> aunque el local abra a las 06:00 h.',
+        'Levantar <b>Acta de Inspección / Denuncia</b> adjuntando fotografías si procede (ausencia de cartel o horario ilegible).'
+      ];
+    }
+
+    h+='<div class="dr-res '+resCls+'" style="margin-top:0">';
+    h+='<div class="dr-verdict"><div class="dr-vico">'+svg(resIco,20)+'</div><div><div class="dr-vtit">'+esc(badge)+'</div><div class="dr-vsub" style="font-size:14px;font-weight:700;color:#fff;margin-top:4px">'+esc(title)+'</div></div></div>';
+    h+='<div class="pc-summary-grid" style="margin-top:10px">';
+    h+='<div class="pc-sbox"><small>Establecimiento / Grupo</small><b>'+esc(gObj.g)+' · '+esc(gObj.n)+'</b></div>';
+    h+='<div class="pc-sbox"><small>Horario de Apertura</small><b>'+esc(gObj.ap)+' h</b></div>';
+    h+='<div class="pc-sbox" style="border-color:rgba(200,157,60,.55)"><small>Hora de Cierre (Inicio desalojo)</small><b style="color:var(--gold2);font-size:15px">'+esc(finCi2)+' h</b></div>';
+    h+='<div class="pc-sbox" style="border-color:rgba(230,69,88,.55)"><small>Cierre Total (Cierre + 30 min máx.)</small><b style="color:#ff8694;font-size:15px">'+esc(finCt2)+' h</b></div>';
+    h+='<div class="pc-sbox"><small>Precepto aplicable</small><b>'+esc(precepto)+'</b></div>';
+    h+='<div class="pc-sbox"><small>Régimen sancionador</small><b>'+esc(sancion)+'</b></div>';
+    h+='</div></div>';
+
+    if(gObj.obs){
+      h+='<div class="pc-alert gold" style="margin-top:10px">'+svg('alert',17)+'<div><b>Nota del grupo:</b> '+esc(gObj.obs)+(fObj&&fObj.note?'<br><b>Ampliación:</b> '+esc(fObj.note):'')+'</div></div>';
+    }
+
+    h+='<div class="dr-lbl" style="margin-top:12px">Actuación policial paso a paso</div>';
+    h+='<div class="pc-chks">'+steps.map(function(st,ix){
+      return '<label class="pc-chk"><input type="checkbox"><span class="pc-ct">'+(ix+1)+'. '+st+'</span></label>';
+    }).join('')+'</div>';
+
+    h+='<div class="pc-nav">';
+    h+='<button class="btn sec" onclick="esJump(3)">'+svg('prev',15)+' Cambiar situación</button>';
+    h+='<button class="btn" onclick="esReset()">'+svg('refresh',14)+' Nueva consulta</button>';
+    h+='</div>';
+  }
+  h+='</div>';
+  $('es-stage').innerHTML=h;
+}
+
+function renderEsTable(){
+  var th='<table><tr><th>Grupo</th><th>Establecimientos</th><th>Apertura</th><th>Cierre (Inicio desalojo)</th><th>Cierre total (+30m)</th></tr>';
+  ES_GROUPS.forEach(function(g){
+    var ciTxt=g.ciAlt?(g.ci+' / '+g.ciAlt+'*'):g.ci;
+    var ctTxt=g.ctAlt?(g.ct+' / '+g.ctAlt+'*'):g.ct;
+    th+='<tr><td><b>'+esc(g.g)+'</b></td><td style="font-size:12.5px">'+esc(g.n)+'</td><td>'+esc(g.ap)+'</td><td style="color:var(--gold2);font-weight:700">'+esc(ciTxt)+'</td><td style="color:#ff8694;font-weight:700">'+esc(ctTxt)+'</td></tr>';
+  });
+  th+='</table>';
+  th+='<div style="font-size:11.5px;color:var(--mut);margin-top:8px;line-height:1.45"><b>*Salones de juego (Art. 7):</b> 03:00 h (total 03:30 h) de lunes a jueves; 04:00 h (total 04:30 h) viernes, sábados, domingos, festivos, vísperas y meses de julio, agosto y septiembre.<br><b>Ampliaciones automáticas (Orden 3/2025):</b> <b>+60 min</b> en Noche de Reyes (5 ene), víspera 9 d\'Octubre (8 oct), Nochebuena (24 dic) y víspera Todos los Santos (31 oct); <b>+90 min</b> en Nochevieja/Año Nuevo (31 dic).</div>';
+  $('es-tbl-wrap').innerHTML=th;
 }
 
 initStaticIcons();
