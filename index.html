@@ -2279,21 +2279,21 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
       <div class="ib c-gold" style="width:46px;height:46px" id="ord-ic-res"></div>
       <div class="txt">
        <div class="tt"><span>RESUMEN OPERATIVO</span></div>
-       <div class="ts" style="white-space:normal">Aspectos clave de intervención policial: playas oficiales, banderas, horarios, prohibiciones, medidas cautelares y cuantías</div>
+       <div class="ts" style="white-space:normal" id="ord-desc-res"></div>
       </div>
      </div>
      <div class="dtile act" style="padding:16px 14px" onclick="ordOpenSub('buscador')">
       <div class="ib c-teal" style="width:46px;height:46px" id="ord-ic-bus"></div>
       <div class="txt">
        <div class="tt"><span>BUSCADOR DE LA ORDENANZA</span></div>
-       <div class="ts" style="white-space:normal">Búsqueda instantánea de palabras y artículos en todo el articulado (Arts. 1 a 68 + Disposiciones)</div>
+       <div class="ts" style="white-space:normal" id="ord-desc-bus"></div>
       </div>
      </div>
      <div class="dtile act" style="padding:16px 14px" onclick="ordOpenSub('codificado')">
       <div class="ib c-blue" style="width:46px;height:46px" id="ord-ic-cod"></div>
       <div class="txt">
        <div class="tt"><span>CODIFICADO DE INFRACCIONES</span></div>
-       <div class="ts" style="white-space:normal">Las 40 infracciones (Arts. 62, 63 y 64), filtros por gravedad/tema, cuantías, favoritos y copia rápida para boletín</div>
+       <div class="ts" style="white-space:normal" id="ord-desc-cod"></div>
       </div>
      </div>
     </div>
@@ -7316,10 +7316,57 @@ var ORD_CATALOG=[
     corto:'Seguridad y Uso del Litoral Municipal',
     meta:'Ayuntamiento de Pilar de la Horadada · Aprobación definitiva Pleno 18/07/2008 · BOP Alicante nº 145 (30/07/2008) · 68 artículos',
     icono:'shield',
-    color:'c-teal'
+    color:'c-teal',
+    descRes:'Aspectos clave de intervención policial: playas oficiales, banderas, horarios, prohibiciones, medidas cautelares y cuantías',
+    descBus:'Búsqueda instantánea de palabras y artículos en todo el articulado (Arts. 1 a 68 + Disposiciones)',
+    descCod:'Las 40 infracciones (Arts. 62, 63 y 64), filtros por gravedad/tema, cuantías, favoritos y copia rápida para boletín',
+    busPh:'Buscar palabra o artículo (ej: perro, bandera, 200 metros, duna, sombrilla, pesca, alcohol, vidrio)...',
+    codPh:'Buscar infracción (ej: 63.b, bandera roja, fuego, alcohol, perro, duna, venta ambulante, moto agua)...',
+    copyPrefix:'Ordenanza Litoral Pilar de la Horadada (BOP 30/07/2008)',
+    artPrefix:'Ord. Litoral · Art. ',
+    organo:'Alcaldía-Presidencia (Art. 59)',
+    cuantiaRef:'Art. 65',
+    respLbl:'Autor / Padres / Titular (Art. 67)'
+  },
+  {
+    id:'acustica',
+    titulo:'Ordenanza Municipal de Protección contra la Contaminación Acústica',
+    corto:'Protección contra la Contaminación Acústica',
+    meta:'Ayuntamiento de Pilar de la Horadada · Aprobación definitiva Pleno 31/05/2022 · BOP Alicante nº 109 (09/06/2022) · 79 artículos + 9 Anexos',
+    icono:'siren',
+    color:'c-amber',
+    descRes:'Periodos horarios, límites dB (exterior/interior/vibraciones), música terrazas, obras, alarmas, vehículos (>6 dBA), vecindad, precintos y tramos de multa',
+    descBus:'Búsqueda instantánea de palabras y artículos en los Títulos I–IX (Arts. 1 a 79), Disposiciones y Anexos I–IX',
+    descCod:'Las 31 infracciones del Art. 74 (18 Leves 60–600 €, 12 Graves 601–6.000 € y Muy Graves), tramos, prescripción, favoritos y copia rápida',
+    busPh:'Buscar palabra o artículo (ej: limitador, 22:00, terraza, escape libre, alarma, 5 minutos, aire acondicionado, 6 dBA, verbena, precinto)...',
+    codPh:'Buscar infracción (ej: escape libre, 6 dB, limitador, perro, pirotecnia, alarma, obra, verbena, música vehículo, obstrucción)...',
+    copyPrefix:'Ordenanza Contaminación Acústica Pilar de la Horadada (BOP 09/06/2022)',
+    artPrefix:'Ord. Ruido · Art. ',
+    organo:'Alcaldía-Presidencia / Autonómico MG (Art. 75)',
+    cuantiaRef:'Arts. 75–76',
+    respLbl:'Causante / Titular / Grupo solidario (Art. 72)'
+  },
+  {
+    id:'venta',
+    titulo:'Ordenanza Reguladora de la Venta No Sedentaria',
+    corto:'Venta No Sedentaria y Mercadillos',
+    meta:'Ayuntamiento de Pilar de la Horadada · Aprobación definitiva Pleno 30/05/2016 · BOP Alicante nº 147 (02/08/2016) · 40 artículos',
+    icono:'store',
+    color:'c-green',
+    descRes:'Mercadillos oficiales (días, calles, horarios y cupos), requisitos, funcionamiento, alimentación, decomiso/levantamiento policial y cuantías',
+    descBus:'Búsqueda instantánea de palabras y artículos en todo el articulado (Título Preliminar, Títulos I–IX, Arts. 1 a 40 y Disposiciones)',
+    descCod:'Las 25 infracciones del Art. 36 (5 Leves hasta 750 €, 13 Graves 750–1.500 € y 7 Muy Graves 1.500–3.000 €), filtros, favoritos y copia rápida',
+    busPh:'Buscar palabra o artículo (ej: mercadillo, viernes, Mil Palmeras, carga, vehículo, churros, al fallo, facturas, seguro, decomiso)...',
+    codPh:'Buscar infracción (ej: 36.3.b, sin autorización, horario, vehículo, titular, facturas, reclamaciones, seguro, agresión, faltas)...',
+    copyPrefix:'Ordenanza Venta No Sedentaria Pilar de la Horadada (BOP 02/08/2016)',
+    artPrefix:'Ord. Venta · Art. ',
+    organo:'Alcaldía-Presidencia (Art. 39)',
+    cuantiaRef:'Art. 37',
+    respLbl:'Titular (responde de familiares/asalariados · Art. 40)'
   }
 ];
 
+/* ----- 1. DATOS: ORDENANZA LITORAL MUNICIPAL ----- */
 var ORD_LIT_RESUMEN=[
   {tit:'1. Playas Oficiales de Pilar de la Horadada (Art. 2)',col:'c-blue',pts:[
     'Denominaciones oficiales (10): Playa del Mojón, Playa de las Higuericas, Playa las Villas, Playa del Puerto, Playa del Conde, Playa los Jesuitas, Calas de Rocamar, Playa del Río, Playa Mil Palmeras y Playa Vistamar.',
@@ -7366,6 +7413,12 @@ var ORD_LIT_RESUMEN=[
   ]}
 ];
 
+var ORD_LIT_TITS=[
+  ['ALL','Todos'],['T-I','T.I General'],['T-II','T.II Uso'],['T-III','T.III Limpieza'],['T-IV','T.IV Conces.'],
+  ['T-V','T.V Salvam.'],['T-VI','T.VI Animales'],['T-VII','T.VII Pesca'],['T-VIII','T.VIII Vehíc.'],
+  ['T-IX','T.IX Acamp.'],['T-X','T.X Náutica'],['T-XI','T.XI Juegos'],['T-XII','T.XII Venta'],['T-XIII','T.XIII Sanc.']
+];
+
 var ORD_LIT_ARTS=[
   {n:'Art. 1',tit:'T-I',t:'Objeto',txt:'Compatibilizar la normativa vigente, regular las condiciones generales de utilización y disfrute de las playas (seguridad, salud pública y medio ambiente) y regular las actividades practicadas en las playas.'},
   {n:'Art. 2',tit:'T-I',t:'Ámbito de aplicación y Playas Oficiales',txt:'Aplicable al dominio público marítimo-terrestre y playas de Pilar de la Horadada. Denominaciones oficiales: Playa del Mojón, Playa de las Higuericas, Playa las Villas, Playa del Puerto, Playa del Conde, Playa los Jesuitas, Calas de Rocamar, Playa del Río, Playa Mil Palmeras y Playa Vistamar.'},
@@ -7406,57 +7459,320 @@ var ORD_LIT_ARTS=[
   {n:'Art. 65–68',tit:'T-XIII',t:'Sanciones, graduación, responsabilidad y procedimiento',txt:'Multas: Leves hasta 750 €; Graves 751 a 1.500 €; Muy Graves 1.501 a 3.000 €. Responsabilidad: autores físicos/jurídicos; menores → padres/tutores; vehículos/embarcaciones → titular subsidiario; animales → acompañante subsidiario; concesiones → titular licencia.'}
 ];
 
-var ORD_LIT_INFS=[
-  /* LEVES (Art. 62: hasta 750 €) */
-  {id:'62.a',art:'62.a',g:'L',cat:'PLAYA',eur:'Hasta 750 €',t:'Realización de actividades como juegos de pelota, paletas u otros ejercicios, en las zonas y aguas de baño, que puedan molestar al resto de usuarios.',n:'Relacionado con Art. 56. El paseo, estancia y baño pacífico tienen preferencia. Exceptuadas zonas deportivas balizadas del Plan de Playas.'},
-  {id:'62.b',art:'62.b',g:'L',cat:'LIMPIEZA',eur:'Hasta 750 €',t:'Incumplimiento de las normas de limpieza por parte del usuario de la playa que no se considere grave en el artículo 63.',n:'Incluye arrojar papeles, colillas, restos de comida, latas o acceder con envases de vidrio (Arts. 13, 15 y 21). El infractor queda obligado a la recogida inmediata.'},
-  {id:'62.c',art:'62.c',g:'L',cat:'PLAYA',eur:'Hasta 750 €',t:'Uso de aparato sonoro o instrumento musical cuando por su volumen de sonoridad causen molestias a los demás usuarios de las playas.',n:'Apercibir verbalmente primero para bajar el volumen o cesar la molestia (Art. 7) y detallar la afección a usuarios cercanos.'},
-  {id:'62.d',art:'62.d',g:'L',cat:'LIMPIEZA',eur:'Hasta 750 €',t:'Uso indebido del agua de las duchas y lavapiés, así como lavarse en el mar o en la playa utilizando jabón o cualquier otro producto de aseo corporal.',n:'Relacionado con Arts. 9.3 y 18.b. Incluye limpiar utensilios de cocina o usar gel, champú o detergentes.'},
-  {id:'62.e',art:'62.e',g:'L',cat:'ANIMALES',eur:'Hasta 750 €',t:'Presencia de animales domésticos en la playa, fuera de la temporada de baño, sin los requisitos legalmente establecidos para su tenencia y circulación.',n:'Durante la temporada de baño la presencia de animales es infracción GRAVE (Art. 63.h). Exentos perros de salvamento y asistencia acreditados (Art. 43).'},
-  {id:'62.f',art:'62.f',g:'L',cat:'PLAYA',eur:'Hasta 750 €',t:'Pasear, caminar o simplemente atravesar la duna litoral de la playa de las Higuericas fuera de las pasarelas colocadas al efecto.',n:'Protección medioambiental específica del Art. 9.2. Si produce impacto negativo sobre flora/fauna, valorar Muy Grave (Art. 64.f).'},
-  {id:'62.g',art:'62.g',g:'L',cat:'OCUP',eur:'Hasta 750 €',t:'Dejar instalados parasoles totalmente diáfanos en sus laterales, así como sillas, mesas u otros complementos, sin estar presentes sus propietarios, para reservar un lugar en la playa.',n:'Art. 51: la Policía Local puede retirar y depositar los elementos en dependencias municipales. Devolución solo con justificante de propiedad y previo pago de la sanción.'},
-  {id:'62.h',art:'62.h',g:'L',cat:'LIMPIEZA',eur:'Hasta 750 €',t:'La evacuación fisiológica (deposición, micción, etc.) en el mar o en la playa.',n:'Relacionado con Art. 18.a.'},
-  {id:'62.i',art:'62.i',g:'L',cat:'OCUP',eur:'Hasta 750 €',t:'La venta ambulante (no sedentaria) sin autorización expresa en las playas y sus accesos.',n:'Art. 58: incluye masajes y tatuajes sin licencia. Potestad policial de REQUISAR la mercancía; devolución solo acreditando propiedad y previo pago de la sanción.'},
-  {id:'62.j',art:'62.j',g:'L',cat:'OTRAS',eur:'Hasta 750 €',t:'Simples irregularidades en la observación de las normas de esta Ordenanza y legislación sectorial sin trascendencia directa para el medio natural ni la salud pública.',n:'Tipo residual leve. Concretar el artículo sustantivo vulnerado (ej. vuelos rasantes Art. 56.d).'},
-  {id:'62.k',art:'62.k',g:'L',cat:'OTRAS',eur:'Hasta 750 €',t:'Infracciones cometidas por simple negligencia, siempre que la alteración o riesgo para el medio natural o la salud pública sean de escasa entidad.',n:'Describir la conducta negligente y el riesgo de escasa entidad.'},
-  {id:'62.l',art:'62.l',g:'L',cat:'OTRAS',eur:'Hasta 750 €',t:'Aquellas otras conductas que merezcan la calificación de leves o no proceda calificarlas como graves o muy graves.',n:'Citar el artículo de la Ordenanza infringido.'},
-
-  /* GRAVES (Art. 63: 751 a 1.500 €) */
-  {id:'63.a',art:'63.a',g:'G',cat:'OTRAS',eur:'751 – 1.500 €',t:'Las que reciban expresamente la calificación de graves en esta Ordenanza o en la legislación sectorial aplicable.',n:'Especificar la norma o precepto concreto.'},
-  {id:'63.b',art:'63.b',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Bañarse cuando esté izada la bandera roja.',n:'Art. 38.b: requerir verbalmente la salida inmediata del agua. Si desobedece persistentemente a los agentes, valorar además LO 4/2015 Art. 36.6.'},
-  {id:'63.c',art:'63.c',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Hacer fuego en la playa, así como usar barbacoas, anafes, bombonas de gas u otros utensilios para hacer fuego, sin la autorización correspondiente.',n:'Relacionado con Art. 22 (incluye líquidos inflamables y cocinar en la playa). Excepción: hogueras con autorización escrita en fiestas locales.'},
-  {id:'63.d',art:'63.d',g:'G',cat:'PESCA',eur:'751 – 1.500 €',t:'Practicar la pesca en lugar o época no autorizada, o uso de escopeta submarina, arpón o instrumento de pesca que por su proximidad suponga riesgo para la salud y seguridad de las personas.',n:'Arts. 44 y 46: prohibida pesca en temporada de baño de 09:00 a 21:00 h (salvo acantilado Torre–Playa del Río) y prohibido entrar/salir con fusil cargado o manipularlo en tierra.'},
-  {id:'63.e',art:'63.e',g:'G',cat:'PLAYA',eur:'751 – 1.500 €',t:'Consumir bebidas alcohólicas en la playa según lo establecido en el artículo 23 de la presente Ordenanza.',n:'Art. 23 extiende la prohibición a playas, paseos, zonas peatonales adyacentes y demás vías públicas (salvo parcela de chiringuitos autorizados en su horario o fiestas locales acordadas).'},
-  {id:'63.f',art:'63.f',g:'G',cat:'LIMPIEZA',eur:'751 – 1.500 €',t:'Incumplimiento de las normas de limpieza por parte de los titulares de los servicios de temporada de la playa, o de cualquier otra actividad autorizada.',n:'Arts. 16, 19, 20 y 24. Responsable: el titular de la licencia o concesión (Art. 67.d).'},
-  {id:'63.g',art:'63.g',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Depósito en papeleras y similares de materiales en combustión por parte de los usuarios de las playas.',n:'Incluye colillas encendidas, brasas o carbón de barbacoas/cachimbas en papeleras.'},
-  {id:'63.h',art:'63.h',g:'G',cat:'ANIMALES',eur:'751 – 1.500 €',t:'Presencia de animales en la playa durante la época de baño.',n:'Art. 43: exentos perros de salvamento/auxilio y perros de asistencia acreditados (Ley 12/2003 GVA). Responsable subsidiario quien lleve al animal (Art. 67.c).'},
-  {id:'63.i',art:'63.i',g:'G',cat:'NAUTICA',eur:'751 – 1.500 €',t:'Práctica de surf, windsurf, kitesurf y otros deportes similares incumpliendo las normas establecidas en esta Ordenanza.',n:'Art. 57: debe practicarse en zonas señalizadas y siempre supeditado a la ausencia de bañistas en el agua.'},
-  {id:'63.j',art:'63.j',g:'G',cat:'OCUP',eur:'751 – 1.500 €',t:'No respetar los horarios de apertura establecidos para las concesiones en la presente Ordenanza.',n:'Art. 28: horario general de 09:00 a 01:00 h salvo autorización escrita. Responsable: empresa concesionaria.'},
-  {id:'63.k',art:'63.k',g:'G',cat:'PESCA',eur:'751 – 1.500 €',t:'Pesca submarina junto a otros bañistas sin respetar el perímetro mínimo de seguridad de 20 metros.',n:'Art. 46.c y Art. 44 (obligatoria boya naranja a remolque).'},
-  {id:'63.l',art:'63.l',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Dificultar, de manera intencionada, las funciones del servicio público de salvamento recogidas en el Título V.',n:'Detallar la conducta obstaculizadora y recabar manifestación del socorrista/coordinador.'},
-  {id:'63.m',art:'63.m',g:'G',cat:'PLAYA',eur:'751 – 1.500 €',t:'Manipular, deteriorar o hacer un uso indebido del material o mobiliario público de las playas (cartelería, salvavidas, mástiles, puestos de socorro, banderas, lavapiés, pasarelas, aseos, papeleras, etc.).',n:'Art. 60: conlleva además obligación de restauración o indemnización del daño causado.'},
-  {id:'63.n',art:'63.n',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Incumplimiento de los requerimientos específicos que formule la Administración municipal, siempre que se produzca por primera vez.',n:'Si el incumplimiento es reiterado pasa a Muy Grave (Art. 64.i).'},
-  {id:'63.o',art:'63.o',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Resistencia a facilitar información, suministrar información o documentación falsa/inexacta/incompleta, o no prestar colaboración a la Administración municipal o a sus agentes.',n:'Valorar concurrencia con LO 4/2015 Art. 36.6 si hay negativa a identificarse o desobediencia.'},
-  {id:'63.p',art:'63.p',g:'G',cat:'OTRAS',eur:'751 – 1.500 €',t:'La reincidencia en la comisión de infracciones leves.',n:'Hacer constar antecedentes sancionadores si constan en expediente.'},
-  {id:'63.q',art:'63.q',g:'G',cat:'OTRAS',eur:'751 – 1.500 €',t:'Aquellas otras conductas que merezcan la calificación de graves o no proceda calificarlas como leves o muy graves.',n:'Citar el precepto sustantivo infringido (ej. circulación/estacionamiento de vehículos en playa, Art. 48; acampada, Art. 50).'},
-
-  /* MUY GRAVES (Art. 64: 1.501 a 3.000 €) */
-  {id:'64.a',art:'64.a',g:'MG',cat:'OTRAS',eur:'1.501 – 3.000 €',t:'Las que reciban expresamente la calificación de muy graves en esta Ordenanza o en la legislación sectorial aplicable.',n:'Especificar norma sectorial o artículo concreto.'},
-  {id:'64.b',art:'64.b',g:'MG',cat:'LIMPIEZA',eur:'1.501 – 3.000 €',t:'El vertido y depósito de materias que puedan producir contaminación y riesgo de accidentes.',n:'Adoptar medidas urgentes de señalización/retirada y valorar delito contra el medio ambiente si es grave.'},
-  {id:'64.c',art:'64.c',g:'MG',cat:'OCUP',eur:'1.501 – 3.000 €',t:'Realizar cualquier ocupación con instalación fija o desmontable sin contar con preceptiva autorización.',n:'Relacionado con Arts. 10, 27, 30 y 52. Incluye carpas, quioscos, estructuras o cerramientos sin permiso.'},
-  {id:'64.d',art:'64.d',g:'MG',cat:'NAUTICA',eur:'1.501 – 3.000 €',t:'La varada, lanzado o permanencia de embarcaciones, tablas de windsurf, hidropedales, motos acuáticas, etc., fuera de las zonas señaladas y destinadas a tal fin.',n:'Art. 53 y 54: lanzamiento solo por Puerto Deportivo o canales balizados. Si hay abandono: acta y requerimiento 24 h o retirada cautelar.'},
-  {id:'64.e',art:'64.e',g:'MG',cat:'NAUTICA',eur:'1.501 – 3.000 €',t:'La circulación de embarcaciones no autorizadas dentro del balizamiento o a distancia inferior a 200 metros de la costa.',n:'Art. 53: 200 m en playas y 50 m en resto de costa sin balizar. Comunicar también a Capitanía Marítima / Servicio Marítimo GC si procede (Art. 55).'},
-  {id:'64.f',art:'64.f',g:'MG',cat:'LIMPIEZA',eur:'1.501 – 3.000 €',t:'Causar cualquier tipo de impacto negativo sobre la fauna y flora tanto litoral como marina.',n:'Relacionado con Art. 9.2 (duna) y Art. 9.7 (arrancar plantas).'},
-  {id:'64.g',art:'64.g',g:'MG',cat:'LIMPIEZA',eur:'1.501 – 3.000 €',t:'Extraer arena o piedras que de forma natural se encuentren en las playas sin la correspondiente autorización.',n:'Relacionado con Art. 9.7. Obligación de restauración (Art. 60).'},
-  {id:'64.h',art:'64.h',g:'MG',cat:'SEGURIDAD',eur:'1.501 – 3.000 €',t:'Las infracciones que se realicen de forma consciente y deliberada, siempre que se produzca un daño grave.',n:'Detallar la intencionalidad y cuantificar o describir el daño grave ocasionado.'},
-  {id:'64.i',art:'64.i',g:'MG',cat:'SEGURIDAD',eur:'1.501 – 3.000 €',t:'El incumplimiento reiterado de los requerimientos específicos formulados por la Administración municipal.',n:'El primer incumplimiento es infracción grave (Art. 63.n).'},
-  {id:'64.j',art:'64.j',g:'MG',cat:'OTRAS',eur:'1.501 – 3.000 €',t:'La reincidencia en la comisión de faltas graves en los últimos cinco años.',n:'Acreditar resolución firme previa en los últimos 5 años.'},
-  {id:'64.k',art:'64.k',g:'MG',cat:'OTRAS',eur:'1.501 – 3.000 €',t:'Aquellas otras conductas que merezcan la calificación de muy graves o no proceda calificarlas como leves o graves.',n:'Motivar el riesgo grave para la salud, seguridad o medio ambiente (Art. 66.a).'}
+var ORD_LIT_CATS=[
+  ['ALL','Todas'],['SEGURIDAD','Seguridad'],['PLAYA','Playa/Uso'],['LIMPIEZA','Limpieza'],
+  ['ANIMALES','Animales'],['PESCA','Pesca'],['NAUTICA','Náutica'],['OCUP','Venta/Ocup.'],['OTRAS','Otras']
 ];
+
+var ORD_LIT_INFS=[
+  {id:'lit_62.a',art:'62.a',g:'L',cat:'PLAYA',eur:'Hasta 750 €',t:'Realización de actividades como juegos de pelota, paletas u otros ejercicios, en las zonas y aguas de baño, que puedan molestar al resto de usuarios.',n:'Relacionado con Art. 56. El paseo, estancia y baño pacífico tienen preferencia. Exceptuadas zonas deportivas balizadas del Plan de Playas.'},
+  {id:'lit_62.b',art:'62.b',g:'L',cat:'LIMPIEZA',eur:'Hasta 750 €',t:'Incumplimiento de las normas de limpieza por parte del usuario de la playa que no se considere grave en el artículo 63.',n:'Incluye arrojar papeles, colillas, restos de comida, latas o acceder con envases de vidrio (Arts. 13, 15 y 21). El infractor queda obligado a la recogida inmediata.'},
+  {id:'lit_62.c',art:'62.c',g:'L',cat:'PLAYA',eur:'Hasta 750 €',t:'Uso de aparato sonoro o instrumento musical cuando por su volumen de sonoridad causen molestias a los demás usuarios de las playas.',n:'Apercibir verbalmente primero para bajar el volumen o cesar la molestia (Art. 7) y detallar la afección a usuarios cercanos.'},
+  {id:'lit_62.d',art:'62.d',g:'L',cat:'LIMPIEZA',eur:'Hasta 750 €',t:'Uso indebido del agua de las duchas y lavapiés, así como lavarse en el mar o en la playa utilizando jabón o cualquier otro producto de aseo corporal.',n:'Relacionado con Arts. 9.3 y 18.b. Incluye limpiar utensilios de cocina o usar gel, champú o detergentes.'},
+  {id:'lit_62.e',art:'62.e',g:'L',cat:'ANIMALES',eur:'Hasta 750 €',t:'Presencia de animales domésticos en la playa, fuera de la temporada de baño, sin los requisitos legalmente establecidos para su tenencia y circulación.',n:'Durante la temporada de baño la presencia de animales es infracción GRAVE (Art. 63.h). Exentos perros de salvamento y asistencia acreditados (Art. 43).'},
+  {id:'lit_62.f',art:'62.f',g:'L',cat:'PLAYA',eur:'Hasta 750 €',t:'Pasear, caminar o simplemente atravesar la duna litoral de la playa de las Higuericas fuera de las pasarelas colocadas al efecto.',n:'Protección medioambiental específica del Art. 9.2. Si produce impacto negativo sobre flora/fauna, valorar Muy Grave (Art. 64.f).'},
+  {id:'lit_62.g',art:'62.g',g:'L',cat:'OCUP',eur:'Hasta 750 €',t:'Dejar instalados parasoles totalmente diáfanos en sus laterales, así como sillas, mesas u otros complementos, sin estar presentes sus propietarios, para reservar un lugar en la playa.',n:'Art. 51: la Policía Local puede retirar y depositar los elementos en dependencias municipales. Devolución solo con justificante de propiedad y previo pago de la sanción.'},
+  {id:'lit_62.h',art:'62.h',g:'L',cat:'LIMPIEZA',eur:'Hasta 750 €',t:'La evacuación fisiológica (deposición, micción, etc.) en el mar o en la playa.',n:'Relacionado con Art. 18.a.'},
+  {id:'lit_62.i',art:'62.i',g:'L',cat:'OCUP',eur:'Hasta 750 €',t:'La venta ambulante (no sedentaria) sin autorización expresa en las playas y sus accesos.',n:'Art. 58: incluye masajes y tatuajes sin licencia. Potestad policial de REQUISAR la mercancía; devolución solo acreditando propiedad y previo pago de la sanción.'},
+  {id:'lit_62.j',art:'62.j',g:'L',cat:'OTRAS',eur:'Hasta 750 €',t:'Simples irregularidades en la observación de las normas de esta Ordenanza y legislación sectorial sin trascendencia directa para el medio natural ni la salud pública.',n:'Tipo residual leve. Concretar el artículo sustantivo vulnerado (ej. vuelos rasantes Art. 56.d).'},
+  {id:'lit_62.k',art:'62.k',g:'L',cat:'OTRAS',eur:'Hasta 750 €',t:'Infracciones cometidas por simple negligencia, siempre que la alteración o riesgo para el medio natural o la salud pública sean de escasa entidad.',n:'Describir la conducta negligente y el riesgo de escasa entidad.'},
+  {id:'lit_62.l',art:'62.l',g:'L',cat:'OTRAS',eur:'Hasta 750 €',t:'Aquellas otras conductas que merezcan la calificación de leves o no proceda calificarlas como graves o muy graves.',n:'Citar el artículo de la Ordenanza infringido.'},
+  {id:'lit_63.a',art:'63.a',g:'G',cat:'OTRAS',eur:'751 – 1.500 €',t:'Las que reciban expresamente la calificación de graves en esta Ordenanza o en la legislación sectorial aplicable.',n:'Especificar la norma o precepto concreto.'},
+  {id:'lit_63.b',art:'63.b',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Bañarse cuando esté izada la bandera roja.',n:'Art. 38.b: requerir verbalmente la salida inmediata del agua. Si desobedece persistentemente a los agentes, valorar además LO 4/2015 Art. 36.6.'},
+  {id:'lit_63.c',art:'63.c',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Hacer fuego en la playa, así como usar barbacoas, anafes, bombonas de gas u otros utensilios para hacer fuego, sin la autorización correspondiente.',n:'Relacionado con Art. 22 (incluye líquidos inflamables y cocinar en la playa). Excepción: hogueras con autorización escrita en fiestas locales.'},
+  {id:'lit_63.d',art:'63.d',g:'G',cat:'PESCA',eur:'751 – 1.500 €',t:'Practicar la pesca en lugar o época no autorizada, o uso de escopeta submarina, arpón o instrumento de pesca que por su proximidad suponga riesgo para la salud y seguridad de las personas.',n:'Arts. 44 y 46: prohibida pesca en temporada de baño de 09:00 a 21:00 h (salvo acantilado Torre–Playa del Río) y prohibido entrar/salir con fusil cargado o manipularlo en tierra.'},
+  {id:'lit_63.e',art:'63.e',g:'G',cat:'PLAYA',eur:'751 – 1.500 €',t:'Consumir bebidas alcohólicas en la playa según lo establecido en el artículo 23 de la presente Ordenanza.',n:'Art. 23 extiende la prohibición a playas, paseos, zonas peatonales adyacentes y demás vías públicas (salvo parcela de chiringuitos autorizados en su horario o fiestas locales acordadas).'},
+  {id:'lit_63.f',art:'63.f',g:'G',cat:'LIMPIEZA',eur:'751 – 1.500 €',t:'Incumplimiento de las normas de limpieza por parte de los titulares de los servicios de temporada de la playa, o de cualquier otra actividad autorizada.',n:'Arts. 16, 19, 20 y 24. Responsable: el titular de la licencia o concesión (Art. 67.d).'},
+  {id:'lit_63.g',art:'63.g',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Depósito en papeleras y similares de materiales en combustión por parte de los usuarios de las playas.',n:'Incluye colillas encendidas, brasas o carbón de barbacoas/cachimbas en papeleras.'},
+  {id:'lit_63.h',art:'63.h',g:'G',cat:'ANIMALES',eur:'751 – 1.500 €',t:'Presencia de animales en la playa durante la época de baño.',n:'Art. 43: exentos perros de salvamento/auxilio y perros de asistencia acreditados (Ley 12/2003 GVA). Responsable subsidiario quien lleve al animal (Art. 67.c).'},
+  {id:'lit_63.i',art:'63.i',g:'G',cat:'NAUTICA',eur:'751 – 1.500 €',t:'Práctica de surf, windsurf, kitesurf y otros deportes similares incumpliendo las normas establecidas en esta Ordenanza.',n:'Art. 57: debe practicarse en zonas señalizadas y siempre supeditado a la ausencia de bañistas en el agua.'},
+  {id:'lit_63.j',art:'63.j',g:'G',cat:'OCUP',eur:'751 – 1.500 €',t:'No respetar los horarios de apertura establecidos para las concesiones en la presente Ordenanza.',n:'Art. 28: horario general de 09:00 a 01:00 h salvo autorización escrita. Responsable: empresa concesionaria.'},
+  {id:'lit_63.k',art:'63.k',g:'G',cat:'PESCA',eur:'751 – 1.500 €',t:'Pesca submarina junto a otros bañistas sin respetar el perímetro mínimo de seguridad de 20 metros.',n:'Art. 46.c y Art. 44 (obligatoria boya naranja a remolque).'},
+  {id:'lit_63.l',art:'63.l',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Dificultar, de manera intencionada, las funciones del servicio público de salvamento recogidas en el Título V.',n:'Detallar la conducta obstaculizadora y recabar manifestación del socorrista/coordinador.'},
+  {id:'lit_63.m',art:'63.m',g:'G',cat:'PLAYA',eur:'751 – 1.500 €',t:'Manipular, deteriorar o hacer un uso indebido del material o mobiliario público de las playas (cartelería, salvavidas, mástiles, puestos de socorro, banderas, lavapiés, pasarelas, aseos, papeleras, etc.).',n:'Art. 60: conlleva además obligación de restauración o indemnización del daño causado.'},
+  {id:'lit_63.n',art:'63.n',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Incumplimiento de los requerimientos específicos que formule la Administración municipal, siempre que se produzca por primera vez.',n:'Si el incumplimiento es reiterado pasa a Muy Grave (Art. 64.i).'},
+  {id:'lit_63.o',art:'63.o',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Resistencia a facilitar información, suministrar información o documentación falsa/inexacta/incompleta, o no prestar colaboración a la Administración municipal o a sus agentes.',n:'Valorar concurrencia con LO 4/2015 Art. 36.6 si hay negativa a identificarse o desobediencia.'},
+  {id:'lit_63.p',art:'63.p',g:'G',cat:'OTRAS',eur:'751 – 1.500 €',t:'La reincidencia en la comisión de infracciones leves.',n:'Hacer constar antecedentes sancionadores si constan en expediente.'},
+  {id:'lit_63.q',art:'63.q',g:'G',cat:'OTRAS',eur:'751 – 1.500 €',t:'Aquellas otras conductas que merezcan la calificación de graves o no proceda calificarlas como leves o muy graves.',n:'Citar el precepto sustantivo infringido (ej. circulación/estacionamiento de vehículos en playa, Art. 48; acampada, Art. 50).'},
+  {id:'lit_64.a',art:'64.a',g:'MG',cat:'OTRAS',eur:'1.501 – 3.000 €',t:'Las que reciban expresamente la calificación de muy graves en esta Ordenanza o en la legislación sectorial aplicable.',n:'Especificar norma sectorial o artículo concreto.'},
+  {id:'lit_64.b',art:'64.b',g:'MG',cat:'LIMPIEZA',eur:'1.501 – 3.000 €',t:'El vertido y depósito de materias que puedan producir contaminación y riesgo de accidentes.',n:'Adoptar medidas urgentes de señalización/retirada y valorar delito contra el medio ambiente si es grave.'},
+  {id:'lit_64.c',art:'64.c',g:'MG',cat:'OCUP',eur:'1.501 – 3.000 €',t:'Realizar cualquier ocupación con instalación fija o desmontable sin contar con preceptiva autorización.',n:'Relacionado con Arts. 10, 27, 30 y 52. Incluye carpas, quioscos, estructuras o cerramientos sin permiso.'},
+  {id:'lit_64.d',art:'64.d',g:'MG',cat:'NAUTICA',eur:'1.501 – 3.000 €',t:'La varada, lanzado o permanencia de embarcaciones, tablas de windsurf, hidropedales, motos acuáticas, etc., fuera de las zonas señaladas y destinadas a tal fin.',n:'Art. 53 y 54: lanzamiento solo por Puerto Deportivo o canales balizados. Si hay abandono: acta y requerimiento 24 h o retirada cautelar.'},
+  {id:'lit_64.e',art:'64.e',g:'MG',cat:'NAUTICA',eur:'1.501 – 3.000 €',t:'La circulación de embarcaciones no autorizadas dentro del balizamiento o a distancia inferior a 200 metros de la costa.',n:'Art. 53: 200 m en playas y 50 m en resto de costa sin balizar. Comunicar también a Capitanía Marítima / Servicio Marítimo GC si procede (Art. 55).'},
+  {id:'lit_64.f',art:'64.f',g:'MG',cat:'LIMPIEZA',eur:'1.501 – 3.000 €',t:'Causar cualquier tipo de impacto negativo sobre la fauna y flora tanto litoral como marina.',n:'Relacionado con Art. 9.2 (duna) y Art. 9.7 (arrancar plantas).'},
+  {id:'lit_64.g',art:'64.g',g:'MG',cat:'LIMPIEZA',eur:'1.501 – 3.000 €',t:'Extraer arena o piedras que de forma natural se encuentren en las playas sin la correspondiente autorización.',n:'Relacionado con Art. 9.7. Obligación de restauración (Art. 60).'},
+  {id:'lit_64.h',art:'64.h',g:'MG',cat:'SEGURIDAD',eur:'1.501 – 3.000 €',t:'Las infracciones que se realicen de forma consciente y deliberada, siempre que se produzca un daño grave.',n:'Detallar la intencionalidad y cuantificar o describir el daño grave ocasionado.'},
+  {id:'lit_64.i',art:'64.i',g:'MG',cat:'SEGURIDAD',eur:'1.501 – 3.000 €',t:'El incumplimiento reiterado de los requerimientos específicos formulados por la Administración municipal.',n:'El primer incumplimiento es infracción grave (Art. 63.n).'},
+  {id:'lit_64.j',art:'64.j',g:'MG',cat:'OTRAS',eur:'1.501 – 3.000 €',t:'La reincidencia en la comisión de faltas graves en los últimos cinco años.',n:'Acreditar resolución firme previa en los últimos 5 años.'},
+  {id:'lit_64.k',art:'64.k',g:'MG',cat:'OTRAS',eur:'1.501 – 3.000 €',t:'Aquellas otras conductas que merezcan la calificación de muy graves o no proceda calificarlas como leves o graves.',n:'Motivar el riesgo grave para la salud, seguridad o medio ambiente (Art. 66.a).'}
+];
+
+/* ----- 2. DATOS: ORDENANZA CONTAMINACIÓN ACÚSTICA (BOP 09/06/2022) ----- */
+var ORD_ACU_RESUMEN=[
+  {tit:'1. Periodos Horarios y Competencia de Policía Local (Arts. 5 y 24)',col:'c-blue',pts:[
+    'Periodos generales (Art. 5): Diurno (Ld) 08:00–19:00 h · Vespertino/Tarde (Le) 19:00–22:00 h · Nocturno (Ln) 22:00–08:00 h. (Infraestructuras de transporte: Día 07–19, Tarde 19–23, Noche 23–07).',
+    'Competencias Policía Local (Art. 24): inspección de tráfico y vehículos a motor; vigilancia y control de ruidos vecinales; control de ambiente musical y ocio en establecimientos/espectáculos; colaboración con Técnicos Municipales.',
+    'Equipos de medición (Art. 7): sonómetros integradores Tipo I y calibradores Tipo I verificados (Orden ICT/155/2020); verificación antes y después con desviación ≤ 0,3 dB; no medir en exterior con lluvia o viento > 5 m/s (Anexo IV).'
+  ]},
+  {tit:'2. Valores Límite de Inmisión Sonora y Vibraciones (Anexos II y III)',col:'c-crim',pts:[
+    'Recepción Exterior (NRE, Tabla 3 — Ld / Le / Ln): Sanitario/Docente/Cultural 40/40/30 dBA · Residencial 50/50/40 dBA · Patios interiores residenciales 45/45/35 dBA · Terciario/Recreativo 60/60/50 dBA · Industrial 65/65/55 dBA.',
+    'Recepción Interior vía estructural (NRI, Tabla 4 — Ld / Le / Ln): Vivienda piezas habitables 35/35/25 dBA (pasillos/aseos/cocina 40/40/30 dBA; zonas comunes 45/45/35 dBA) · Sanitario dormitorios 25/25/20 dBA · Hostelería/Comercial 40/40/40 dBA.',
+    'Transmisión por vía aérea (foco exterior, Tabla 5): medición en hueco de ventana abierta enrasada con fachada; aplican límites de NRE.',
+    'Vibraciones (Art. 11 y Anexo III): Vivienda Law ≤ 75 dB; Hospital/Docente/Cultural ≤ 72 dB. En periodo nocturno no se permite ningún exceso transitorio. Prohibidas vibraciones perceptibles directamente sin instrumentos en residencial/sanitario/docente.'
+  ]},
+  {tit:'3. Locales, Limitadores y Música al Aire Libre (Arts. 36–42)',col:'c-gold',pts:[
+    'Emisión mínima y aislamiento (Art. 36): G1 (Discotecas/directo) 104 dBA · G2 (Pubs/ambientación) 90 dBA · G3 (Juego/gimnasios/talleres) 85 dBA · G4 (Bares/restaurantes sin música) 80 dBA. Amenización musical: solo medios mecánicos y máximo 70 dBA con limitador.',
+    'Obligaciones de local (Arts. 36, 37 y 39): locales ≥80 dBA funcionan con puertas y ventanas cerradas + ventilación forzada; G1/G2 requieren vestíbulo con doble puerta de retorno; >90 dBA cartel de riesgo auditivo; tacos de goma en mesas/sillas (interior y terraza); prohibido rodar barriles o arrastrar mobiliario.',
+    'MÚSICA AL AIRE LIBRE / TERRAZAS (Art. 38): Temporada VERANO (15 jun–15 sep): cese a la 01:00 h. Temporada INVIERNO (16 sep–14 jun): cese a las 23:30 h. Siempre con limitador-controlador.',
+    'Limitador-controlador (Arts. 39–41): corta automáticamente fuera de horario, almacena registros ≥1 mes, envío remoto diario, micrófono visible a ≥1,5 m de altavoces, revisión anual. Avería (Art. 41): comunicar por escrito al Ayuntamiento; tras 24 h la música cesa a las 00:00 h hasta reparación. Manipularlo = falta GRAVE.'
+  ]},
+  {tit:'4. Obras, Carga/Descarga y Aire Acondicionado (Arts. 28 y 44–47)',col:'c-amber',pts:[
+    'Obras en vía pública y edificación (Arts. 44–45): PROHIBIDAS en festivos y de 22:00 a 08:00 h (salvo urgencia o autorización). Maquinaria ≤ 90 dBA a 5 m del perímetro; si requiere >90 dBA con autorización previa: franja máx. 10:00–18:00 h.',
+    'Carga y descarga (Art. 46): permitida de 06:00 a 24:00 h cumpliendo límites. Camiones frigoríficos estacionados de noche con refrigeración en marcha: mínimo a 150 metros de zonas residenciales (Arts. 46 y 57).',
+    'Aire acondicionado (Art. 28): prohibidas condensadoras o rejillas a menos de 2 metros de ventanas de terceros (salvo imposibilidad técnica + autorización notarial vecinal) y en patios interiores sin informe favorable. Prohibido vertido de aire molesto.'
+  ]},
+  {tit:'5. Alarmas de Inmuebles y Vehículos (Arts. 48–53)',col:'c-purp',pts:[
+    'Duración máxima (Art. 49): 5 minutos (continua o discontinua); después no puede reactivarse (solo destellos luminosos). Límites a 3 m (Art. 50): Grupo 1 exterior 85 dBA; Grupo 2 interior común 70 dBA.',
+    'Comunicación obligatoria a Policía Local (Art. 51): dirección, titular, teléfono, instaladora, responsable de desconexión y central. Pruebas autorizadas solo laborables de 10:00 a 18:00 h (rutinarias 1/mes máx. 5 min, Art. 52).',
+    'ALARMAS EN VEHÍCULOS > 5 MINUTOS (Art. 53): los agentes, valorando perturbación e imposibilidad de desconexión, pueden ordenar la RETIRADA CON GRÚA al depósito municipal a costa del titular.'
+  ]},
+  {tit:'6. Vehículos a Motor, Escape Libre e Inmovilización (Arts. 54–58 y Anexo IX)',col:'c-teal',pts:[
+    'Límite de emisión (Anexo IX): valor de ficha de homologación + 4 dBA (ciclomotores sin dato en ficha: 91 dBA). Ensayo en parado: micrófono a 0,5 m, ángulo 45°±10°, altura escape ≥0,2 m, libre de obstáculos en 3 m, motor a 3/4 rpm, 3 mediciones (LAmax Fast).',
+    'INMOVILIZACIÓN Y DEPÓSITO INMEDIATO (Art. 58): (1) Escape libre o silenciador incompleto, deteriorado, modificado o distinto de ficha técnica; (2) Negativa del conductor a las pruebas sonoras; (3) Superar el límite en MÁS DE 6 dBA (retirada solo en grúa/remolque a taller y recuperación de documentación tras nueva medición/ITV).',
+    'Conductas prohibidas (Art. 57): acelerones injustificados, bocinas sin motivo en casco urbano, música elevada con ventanillas/puertas/maletero abiertos, estacionar de noche con motor encendido salvo salida inmediata.',
+    'Vehículos de urgencia (Art. 54): sirenas ≤ 90 dBA a 5 m; usar solo señal luminosa si no entraña peligro, especialmente de 22:00 a 08:00 h.'
+  ]},
+  {tit:'7. Comportamiento Vecinal, Pirotecnia y Verbenas (Arts. 59–65 y D.A. 1ª)',col:'c-blue',pts:[
+    'Inmuebles y vía pública (Arts. 59 y 61): intolerables gritos, vociferar, música/TV/instrumentos molestos y ladridos/ruidos de animales, especialmente de 22:00 a 08:00 h. Prohibidos reproductores/amplificadores en vía pública sin permiso y pirotecnia fuera de actos autorizados.',
+    'Trabajos/reparaciones domésticas (Art. 60 y Art. 74): prohibidos en festivos y en horario nocturno (22:00–08:00 h laborables; 22:00–09:30 h sábados/vísperas de festivos).',
+    'Verbenas y música en vía pública (Arts. 63–65): autorización expuesta en lugar visible, límite 90 dBA a 5 m. Horario máximo: 02:00 h (general) y 04:00 h (fiestas patronales). Actos tradicionales exentos en D.A. 1ª (Reyes, patronales, Semana Santa, Corpus, 30 julio, Virgen de Agosto).'
+  ]},
+  {tit:'8. Inspección, Medidas Provisionales y Precintado (Arts. 66–73)',col:'c-crim',pts:[
+    'Agentes de la Autoridad (Art. 71): libre entrada sin aviso previo en locales de pública concurrencia; en DOMICILIOS requiere consentimiento del titular o autorización judicial.',
+    'SUSPENSIÓN INMEDIATA POR POLICÍA LOCAL (Art. 67.4): cuando en interior/exterior de un local se produzcan cánticos, voces o altercados sin que el titular los evite y alteren la tranquilidad ciudadana.',
+    'Medidas provisionales (Art. 67): precintado de equipos musicales, suspensión temporal, restricción horaria, inmovilización de vehículo o sonómetro-registrador (clase 2). Proceden ante >6 dBA, manipulación de limitador/precintos o equipos sin limitador.',
+    'Inicio del expediente (Art. 73): en Títulos VII (vehículos) y VIII (vecindad), el acta/denuncia del agente inicia el procedimiento sancionador y se notifica en el acto.'
+  ]},
+  {tit:'9. Cuantías, Grados, Responsabilidad y Prescripción (Arts. 72, 75–79)',col:'c-gold',pts:[
+    'LEVES (Art. 75–76): 60 a 600 € · Mínimo 60–198 € | Medio 199–396 € (tipo 297 €) | Máximo 397–600 €. Prescripción: 6 meses.',
+    'GRAVES (Art. 75–76): 601 a 6.000 € + retirada temporal de licencia · Mínimo 601–1.980 € | Medio 1.981–3.960 € (tipo 2.970 €) | Máximo 3.961–6.000 €. Prescripción: 2 años.',
+    'MUY GRAVES (Art. 74–75): competencia del órgano autonómico (Art. 55 Ley 7/2002 GVA / Art. 28 Ley 37/2003). Prescripción: 4 años.',
+    'Agravante expresa: NOCTURNIDAD (Art. 76.1). Retirada definitiva licencia (Art. 77): 2 graves consecutivas, 1 muy grave o quebrantamiento de precinto. Multas coercitivas: hasta 3.000 € (Art. 78).',
+    'Responsabilidad en grupo (Art. 72): si no se puede determinar autoría individual en inmueble o vía pública, responsabilidad SOLIDARIA de todos los identificados presentes. Menores: padres o tutores.'
+  ]}
+];
+
+var ORD_ACU_TITS=[
+  ['ALL','Todos'],['T-I','T.I General'],['T-II','T.II Eval/ZAS'],['T-III','T.III Edif.'],['T-IV','T.IV Locales'],
+  ['T-V','T.V Obras'],['T-VI','T.VI Alarmas'],['T-VII','T.VII Vehíc.'],['T-VIII','T.VIII Vecindad'],
+  ['T-IX','T.IX Sanc.'],['DISP','Dispos.'],['ANEX','Anexos']
+];
+
+var ORD_ACU_ARTS=[
+  {n:'Art. 1–2',tit:'T-I',t:'Objeto y Ámbito de aplicación',txt:'Prevenir, vigilar y corregir la contaminación acústica por ruidos y vibraciones en Pilar de la Horadada. Aplica a edificaciones, actividades públicas o privadas, relaciones de vecindad (gritos, electrodomésticos, música, animales), aire acondicionado, ascensores, garajes, alarmas, obras, carga y descarga, limpieza nocturna, vehículos a motor, ciclomotores y establecimientos públicos.'},
+  {n:'Art. 3–4',tit:'T-II',t:'Áreas Acústicas y Objetivos de Calidad',txt:'Clasificación del territorio por uso predominante (residencial, industrial, recreativo/espectáculos, terciario, sanitario/docente/cultural, infraestructuras de transporte y espacios naturales) conforme a Ley 37/2003, RD 1367/2007 y Decreto 104/2006.'},
+  {n:'Art. 5',tit:'T-II',t:'Definiciones y Periodos Horarios (Día / Tarde / Noche)',txt:'Remite al Anexo I. Divide el día en: Diurno (Ld) de 08:00 a 19:00 h; Vespertino/Tarde (Le) de 19:00 a 22:00 h; Nocturno (Ln) de 22:00 a 08:00 h. Excepción infraestructuras de transporte: día 07:00–19:00, tarde 19:00–23:00 y noche 23:00–07:00 h.'},
+  {n:'Art. 6–7',tit:'T-II',t:'Medición, Evaluación y Aparatos de Medida',txt:'Índices Ld, Le, Ln en dB(A) y Law para vibraciones. Exige sonómetros integradores Tipo I (UNE-EN 61672), calibradores Tipo I (UNE-EN 60942) y control metrológico conforme a Orden ICT/155/2020.'},
+  {n:'Art. 8–13',tit:'T-II',t:'Valores Límites de Inmisión, Emisión y Vibraciones',txt:'Ninguna fuente podrá superar los límites de recepción exterior (Art. 9), interior (Art. 10) ni vibraciones (Art. 11) de los Anexos II y III. Prohibidas vibraciones detectables directamente sin instrumentos en edificios sanitarios, docentes o residenciales. Art. 12: cumplimiento en inspección (ningún valor diario supera +3 dB ni LKeq,Ti supera +5 dB).'},
+  {n:'Art. 14–17',tit:'T-II',t:'Plan Acústico Municipal, Mapas y Planes Zonales',txt:'Plan Acústico Municipal (revisión cada 5 años), Mapa Acústico y Programa de Actuación. Planes de Acción Zonales en zonas con numerosos establecimientos públicos o junto a vías que superen en >10 dBA los límites.'},
+  {n:'Art. 18–22',tit:'T-II',t:'Zonas Acústicamente Saturadas (ZAS)',txt:'Se declaran cuando se superen los niveles exteriores en más de 20 dB(A) dos veces/semana durante 3 semanas consecutivas o 3 alternas en 35 días naturales. Permite cortar tráfico, reducir horarios, suspender licencias y terrazas, y exigir limitadores. Vigencia mínima hasta acreditar descenso en estudio de 1 año.'},
+  {n:'Art. 23–24',tit:'T-II',t:'Comisión de Seguimiento y Áreas de Actuación (Policía Local)',txt:'Crea Comisión de Seguimiento. Art. 24 atribuye a la Policía Local: inspección de tráfico y vehículos a motor; vigilancia y control de ruidos vecinales; control del ambiente musical y ocio de establecimientos/espectáculos; y colaboración con Técnicos Municipales.'},
+  {n:'Art. 25–27',tit:'T-III',t:'Condiciones de la Edificación e Instalaciones',txt:'Exige cumplimiento del CTE DB-HR. Instalaciones con elementos antivibratorios: prohibido anclaje directo en medianeras/techos; maquinaria a ≥0,70 m de muros (≥1 m en medianeras); prohibido golpe de ariete y vibraciones perceptibles sin instrumentos.'},
+  {n:'Art. 28',tit:'T-III',t:'Instalaciones de Aire Acondicionado, Ventilación y Refrigeración',txt:'Deben cumplir Anexos II y III y no transmitir vibraciones detectables. Prohibido instalar condensadoras o rejillas a menos de 2 metros de ventanas de dormitorios/estancias de terceros (salvo imposibilidad técnica acreditada + autorización escrita ante notario). Prohibidas unidades externas en patios interiores/luces salvo informe municipal favorable. Prohibido vertido molesto de aire caliente o frío.'},
+  {n:'Art. 29',tit:'T-III',t:'Certificados de Aislamiento Acústico en Edificación',txt:'Exigibles in situ por Laboratorio Acreditado para licencia de primera ocupación o reformas (mín. 10% de viviendas) e inmisión de instalaciones comunes (garaje, ascensor, ventilación, calderas). Hoja resumen Anexo VII.'},
+  {n:'Art. 30–35',tit:'T-IV',t:'Actividades, Estudios Acústicos y Auditorías (ECMCA)',txt:'Estudios acústicos obligatorios en actividades sometidas a instrumento ambiental (Arts. 31–32). Auditorías acústicas por ECMCA al inicio, tras reformas y al menos cada 5 años (notificación previa 24 h a Aperturas; libro de control obligatorio, Art. 33). Escasa incidencia <70 dBA (Art. 34). Cambios de titularidad requieren auditoría en vigor (Art. 35).'},
+  {n:'Art. 36',tit:'T-IV',t:'Aislamiento Mínimo en Locales Cerrados y Amenización Musical',txt:'Grupos de emisión mínima: G1 (discotecas/directo) 104 dBA (DnT,A 75 / ext 59); G2 (pubs/ambientación) 90 dBA (70 / 45); G3 (juegos/gimnasios/talleres) 85 dBA (65 / 40); G4 (bares/restaurantes sin música) 80 dBA (60 / 35). >90 dBA: aviso visible de riesgo de lesiones en el oído. ≥80 dBA: puertas y ventanas cerradas + ventilación forzada. Amenización musical: solo medios mecánicos, límite 70 dBA y con limitador.'},
+  {n:'Art. 37',tit:'T-IV',t:'Protección frente a Ruido de Impacto y Mobiliario',txt:'Límites L\'nT,w: Grado Alto 35 dB, Medio 40 dB, Bajo 45 dB (+10 dB si solo diurno/vespertino). Mesas, sillas y taburetes (interior y terraza) deben llevar tacos de goma. Carros con ruedas absorbentes. Prohibido rodar barriles de cerveza o arrastrar mobiliario.'},
+  {n:'Art. 38',tit:'T-IV',t:'Locales al Aire Libre y Horario de Música en Terrazas',txt:'Requiere limitador-controlador; altavoces unidireccionales anclados sin orientar a viviendas. Horario límite de música exterior: Verano (15 junio a 15 septiembre) cese a la 01:00 h; Invierno (16 septiembre a 14 junio) cese a las 23:30 h. Posible suspensión temporal por incumplimiento.'},
+  {n:'Art. 39',tit:'T-IV',t:'Medidas Preventivas y Requisitos del Limitador-Controlador',txt:'Grupos 1 y 2: vestíbulo con doble puerta de retorno, puertas/ventanas cerradas y responsable de control de molestias en acceso. Limitador espectral obligatorio en locales con equipos manipulables: corta fuera de horario, almacena registros ≥1 mes, precinto, batería, pantalla, transmisión remota y micrófono visible a ≥1,5 m de altavoces.'},
+  {n:'Art. 40',tit:'T-IV',t:'Instalación, Precintado y Mantenimiento de Limitadores',txt:'Certificado de instalación con prueba de ruido rosa y 20 min de saturación, croquis y foto. Precintado municipal tras pago de tasa. Mantenimiento y calibración anual obligatoria (presentar contrato a inspección). Envío diario de datos (falta de recepción = posible suspensión preventiva). Manipulación o falta de mantenimiento = falta GRAVE. Instaladores registrados en Ayuntamiento.'},
+  {n:'Art. 41',tit:'T-IV',t:'Averías del Limitador de Sonido',txt:'Notificación escrita inmediata al Ayuntamiento (con hora de registro). Transcurridas 24 horas desde la avería, la actividad musical debe cesar a las 00:00 horas hasta ser reparado y reinstalado por técnico registrado con parte de reparación.'},
+  {n:'Art. 42–43',tit:'T-IV',t:'Terrazas (Limitaciones de Uso) y Efectos Acumulativos',txt:'Si una terraza produce molestias constatadas por sonometría: reducción horaria, reducción de mesas, reubicación, pantallas/toldos fonoabsorbentes o suspensión temporal/definitiva. Art. 43: distancias mínimas entre locales musicales y denegación de licencias por efectos acumulativos.'},
+  {n:'Art. 44–45',tit:'T-V',t:'Obras y Trabajos en Vía Pública y Edificación',txt:'Prohibidos en festivos y de 22:00 a 08:00 h (salvo urgencia o autorización previa). Maquinaria limitada a LAmax ≤ 90 dBA a 5 m del perímetro. Uso excepcional >90 dBA requiere autorización previa y se restringe a la franja 10:00–18:00 h.'},
+  {n:'Art. 46–47',tit:'T-V',t:'Carga y Descarga (06:00–24:00) y Limpieza Nocturna',txt:'Carga y descarga permitida de 06:00 a 24:00 h (en zonas interiores si exige el PGOU). Vehículos con refrigeración en marcha estacionados de noche: mínimo a 150 m de zonas residenciales. Carros con ruedas absorbentes. Limpieza viaria/recogida nocturna: equipos <90 dBA a 5 m.'},
+  {n:'Art. 48–52',tit:'T-VI',t:'Sistemas de Alarma en Inmuebles (G1, G2 y G3)',txt:'Obligación de mantenimiento. G1 (exterior): máx. 85 dBA a 3 m. G2 (interior común): máx. 70 dBA a 3 m. Duración máxima 5 minutos sin reactivación (solo destellos). Obligatorio comunicar datos a Policía Local (dirección, titular, teléfono, instaladora, central). Pruebas solo laborables 10:00–18:00 h (rutinarias 1 vez/mes, máx. 5 min).'},
+  {n:'Art. 53',tit:'T-VI',t:'Alarmas en Vehículos (>5 minutos → Grúa)',txt:'Si la alarma de un vehículo suena más de 5 minutos, los Agentes de la Autoridad, valorando gravedad, imposibilidad de desconexión y perjuicio a la tranquilidad pública, pueden retirar el vehículo al depósito municipal a costa del titular.'},
+  {n:'Art. 54–56',tit:'T-VII',t:'Vehículos de Urgencia y Vehículos Sujetos (L, M, N)',txt:'Sirenas de urgencia ≤ 90 dBA a 5 m; usar solo luminosas si no hay peligro, especialmente de 22:00 a 08:00 h. Aplica a categorías L, M y N (incluye ciclomotores) en vías públicas o privadas de uso común. Exentos vehículos históricos en perfecto mantenimiento.'},
+  {n:'Art. 57',tit:'T-VII',t:'Condiciones de Circulación de Vehículos y Ciclomotores',txt:'Silenciador homologado en buen estado. Prohibido: escape libre o silenciador incompleto/deteriorado; aceleraciones injustificadas; bocinas sin motivo en casco urbano; equipo de música elevado con ventanillas/puertas/maletero abiertos; estacionar con motor en marcha de noche salvo salida inmediata; camiones frigoríficos de noche a <150 m de viviendas.'},
+  {n:'Art. 58',tit:'T-VII',t:'Función Inspectora en Vehículos, Inmovilización y Depósito',txt:'Obligatorio someterse a ensayos sonoros (negativa → denuncia + inmovilización y retirada). Escape libre o silenciador modificado/no homologado → denuncia + inmovilización y depósito inmediato. Exceso >6 dBA → inmovilización y traslado a depósito (retirada en grúa a taller; devolución de documentación tras nueva medición/ITV). A los 2 meses sin retirar: expediente de residuo sólido urbano.'},
+  {n:'Art. 59–60',tit:'T-VIII',t:'Comportamiento Vecinal en Inmuebles y Trabajos Domésticos',txt:'Prohibidos gritos, voces altas, música/TV/electrodomésticos molestos y ruidos de animales domésticos/de granja, especialmente de 22:00 a 08:00 h. Art. 60: prohibidos trabajos/reparaciones domésticas ruidosas en festivos, de 22:00 a 08:00 h (L–V) y de 22:00 a 09:30 h (sábados y vísperas de festivo).'},
+  {n:'Art. 61–62',tit:'T-VIII',t:'Vía Pública, Pirotecnia y Avisos Sonoros/Megafonía',txt:'Prohibido gritar/vociferar en vía pública (especialmente de noche o en zona residencial/sanitaria/docente), usar reproductores/amplificadores sin autorización y disparar pirotecnia fuera de actos autorizados. Art. 62: prohibida megafonía/propaganda salvo emergencia o dispensa; equipos domésticos de actividades no pueden instalarse en exterior.'},
+  {n:'Art. 63–65',tit:'T-VIII',t:'Celebraciones Populares, Conciertos y Verbenas',txt:'Peñas, cofradías, conciertos y verbenas requieren autorización municipal expuesta en lugar visible en la entrada. Límite verbenas y música en vía pública: 90 dBA a 5 m. Horario máximo: 02:00 h (general) y 04:00 h (fiestas patronales). Incumplimiento puede conllevar denegación para el año siguiente.'},
+  {n:'Art. 66–68',tit:'T-IX',t:'Medidas Provisionales y Precintado de Aparatos',txt:'Medidas: sonómetro-registrador clase 2, paralización/precintado de equipos musicales, suspensión temporal, restricción horaria e inmovilización de vehículos. Proceden ante >6 dBA, altercados/cánticos sin control del titular, manipulación de precintos/limitador o equipos sin limitador. Policía Local puede suspender de inmediato por altercados que alteren la tranquilidad (Art. 67.4). Desprecintado requiere presencia/conocimiento policial (Art. 68).'},
+  {n:'Art. 69–71',tit:'T-IX',t:'Inspección Municipal, Colaboración y Acto de Inspección',txt:'Inspectores y Policía Local son Agentes de la Autoridad. Titulares obligados a facilitar acceso y poner equipos al régimen indicado. Denunciante debe permitir acceso o se archiva expediente. Libre entrada en locales de pública concurrencia; en domicilios requiere consentimiento o autorización judicial. Contenido mínimo del acta.'},
+  {n:'Art. 72–73',tit:'T-IX',t:'Responsabilidad (Solidaria en Grupo) y Procedimiento',txt:'Responsables: propietarios/comunidades (T.III), titular licencia (T.IV), causante/promotor solidarios (T.V), titular alarma (T.VI), propietario/conductor vehículo (T.VII), causante/propietario aparato/animal o grupo solidario de identificados (T.VIII), padres/tutores de menores. En T.VII y T.VIII el acta/denuncia inicia el procedimiento y se notifica en el acto.'},
+  {n:'Art. 74–79',tit:'T-IX',t:'Infracciones, Cuantías, Grados, Retirada Licencia y Prescripción',txt:'Art. 74: 18 Leves, 12 Graves y Muy Graves (remisión Ley 7/2002 y Ley 37/2003). Art. 75–76: Leves 60–600 € (tipo 297 €); Graves 601–6.000 € (tipo 2.970 €) + retirada temporal; Muy Graves competencia autonómica. Nocturnidad es agravante. Art. 77: retirada definitiva licencia (2 graves consecutivas, 1 muy grave o quebrantar precinto). Art. 78: multas coercitivas hasta 3.000 €. Art. 79: prescripción 6 meses (L), 2 años (G), 4 años (MG).'},
+  {n:'Disp. Adic. 1ª–3ª',tit:'DISP',t:'Actos Tradicionales Exentos, Control y Autorizaciones',txt:'Exentos de niveles máximos: pirotecnia autorizada, Cabalgata de Reyes, Fiestas Patronales, Semana Santa, Corpus, 30 de julio, Virgen de Agosto y fiestas de barrios autorizadas (manteniendo límite verbenas y aviso umbral doloroso 130 dBA). Traslado de autorizaciones a Policía Local.'},
+  {n:'Disp. Trans. / Derog. / Fin.',tit:'DISP',t:'Adaptación de Locales, Derogación y Entrada en Vigor',txt:'Plazo 1 año para instalar limitador con transmisión remota en licencias previas con equipos manipulables; 6 meses para adaptación general. Deroga Ordenanza de 27/04/2012. Entrada en vigor a los 15 días hábiles de su publicación en BOP (09/06/2022).'},
+  {n:'Anexos I–III',tit:'ANEX',t:'Definiciones, Tablas de Límites dB(A) y Vibraciones',txt:'Anexo I: glosario técnico (LAeq, LKeq, dBA, amenización vs ambientación, ruido de fondo, etc.). Anexo II: Tablas 3 (NRE), 4 (NRI estructural), 5 (NRI aérea) y 6 (infraestructuras). Anexo III: Tabla 7 de vibraciones (75 dB vivienda, 72 dB hospital/docente/cultural).'},
+  {n:'Anexos IV–VIII',tit:'ANEX',t:'Métodos de Medición, Correcciones y Hojas Resumen',txt:'Anexo IV: protocolo de 3 mediciones ≥5 s con intervalos ≥3 min (diferencia ≤6 dBA), corrección ruido de fondo (>10 dB sin corrección, 3–10 dB logarítmica, <3 dB desestimar), correcciones Kt/Kf/Ki (máx. suma 9 dB), viento ≤5 m/s, sin lluvia. Anexos V–VIII: vibraciones, aislamiento UNE-EN ISO 16283 y modelos de certificados/auditorías.'},
+  {n:'Anexo IX',tit:'ANEX',t:'Límites y Ensayo de Ruido en Vehículos Parados',txt:'Límite: valor ficha homologación + 4 dBA (ciclomotores sin dato: 91 dBA). Prueba en parado: sin superficies reflectantes a <3 m, micrófono a 0,5 m del escape y altura ≥0,2 m en ángulo 45°±10°, sonómetro Tipo 1 en Fast (LAmax) con antiviento, motor a 3/4 rpm con tacómetro externo, 3 mediciones (si supera, 2ª serie de 3: apto si 4 de 6 cumplen).'}
+];
+
+var ORD_ACU_CATS=[
+  ['ALL','Todas'],['VECINAL','Vecindad/Vía'],['VEHICULOS','Vehículos'],['LOCALES','Locales/Ocio'],
+  ['OBRAS','Obras/Aire'],['ALARMAS','Alarmas'],['INSPECCION','Inspec./Admin.']
+];
+
+var ORD_ACU_INFS=[
+  /* LEVES (Art. 74: 60–600 €, tipo 297 €, prescr. 6 meses) */
+  {id:'acu_74.L.1',art:'74 (Leve 1ª)',g:'L',cat:'INSPECCION',eur:'60 – 600 €',t:'Superar los límites sonoros y de vibraciones establecidos en la presente ordenanza hasta en 6 dB.',n:'Tramos Art. 76: Mín 60–198 € · Medio 199–396 € (tipo 297 €) · Máx 397–600 €. Prescripción: 6 meses. Nocturnidad es agravante. Si supera >6 dB pasa a GRAVE.'},
+  {id:'acu_74.L.2',art:'74 (Leve 2ª)',g:'L',cat:'INSPECCION',eur:'60 – 600 €',t:'La no comunicación a la administración competente de los datos requeridos por ésta dentro de los plazos establecidos al efecto.',n:'Incluye comunicación de datos de sistemas de alarma a Policía Local (Art. 51) o documentación requerida. Prescripción: 6 meses.'},
+  {id:'acu_74.L.3',art:'74 (Leve 3ª)',g:'L',cat:'INSPECCION',eur:'60 – 600 €',t:'La instalación o comercialización de emisores acústicos sin acompañar la información sobre sus índices de emisión, cuando tal información sea exigible.',n:'Aplicable a maquinaria, equipos de sonido o climatización sin ficha de potencia acústica.'},
+  {id:'acu_74.L.4',art:'74 (Leve 4ª)',g:'L',cat:'OBRAS',eur:'60 – 600 €',t:'La ubicación de máquinas condensadoras o refrigeradoras previstas en el art. 28 en edificaciones existentes, en el exterior en lugares no permitidos.',n:'Art. 28: prohibido a <2 m de ventanas de terceros (salvo autorización notarial) o en patios interiores/de luces sin informe favorable municipal.'},
+  {id:'acu_74.L.5',art:'74 (Leve 5ª)',g:'L',cat:'VECINAL',eur:'60 – 600 €',t:'Realizar comportamientos vecinales no tolerables (Arts. 59 y 61), o instalar/usar reproductores de voz, amplificadores, radio/TV, instrumentos musicales o actuaciones vocales en vía pública o espacios abiertos privados sin autorización.',n:'Incluye gritar, vociferar, fiestas en viviendas/patios y ruidos de animales que molesten a vecinos (agravante nocturnidad 22:00–08:00 h). En grupo sin autor individualizado: responsabilidad solidaria (Art. 72). El acta inicia expediente en el acto (Art. 73).'},
+  {id:'acu_74.L.6',art:'74 (Leve 6ª)',g:'L',cat:'VECINAL',eur:'60 – 600 €',t:'Disparo de productos pirotécnicos fuera de las horas, lugares y actos autorizados.',n:'Art. 61. Exentos los espectáculos pirotécnicos con autorización sectorial (D.A. 1ª). Valorar concurrencia con normativa de artificios pirotécnicos / LO 4/2015 si procede.'},
+  {id:'acu_74.L.7',art:'74 (Leve 7ª)',g:'L',cat:'OBRAS',eur:'60 – 600 €',t:'Realizar trabajos, reparaciones y otras actividades domésticas ruidosas o con vibraciones en horario nocturno (domingo a jueves 22:00–08:00 h; viernes, sábado y vísperas de festivos 22:00–09:30 h) salvo urgencia.',n:'Relacionado con Art. 60 (también prohíbe en días festivos). Si se trata de obra/actividad comercial fuera de horario causando molestias, valorar GRAVE (74.G.9).'},
+  {id:'acu_74.L.8',art:'74 (Leve 8ª)',g:'L',cat:'VECINAL',eur:'60 – 600 €',t:'Empleo en espacios públicos de dispositivos sonoros con fines de propaganda, reclamo, aviso, distracción y análogos, cuyas condiciones de funcionamiento produzcan niveles superiores a los establecidos.',n:'Art. 62: prohibida megafonía/altavoces en calle o vehículos con fines de propaganda sin dispensa expresa.'},
+  {id:'acu_74.L.9',art:'74 (Leve 9ª)',g:'L',cat:'ALARMAS',eur:'60 – 600 €',t:'La falta de mantenimiento de los sistemas de aviso acústico (alarmas).',n:'Arts. 48–52: autoactivaciones injustificadas, superar 5 minutos de emisión o realizar pruebas fuera de laborables 10:00–18:00 h. Responsable: titular del sistema.'},
+  {id:'acu_74.L.10',art:'74 (Leve 10ª)',g:'L',cat:'ALARMAS',eur:'60 – 600 €',t:'El mal funcionamiento de las alarmas de vehículos, según lo previsto en el artículo 53.',n:'Art. 53: si la alarma del vehículo suena >5 minutos y no puede desconectarse causando perturbación, los agentes pueden RETIRAR EL VEHÍCULO CON GRÚA al depósito municipal a costa del titular.'},
+  {id:'acu_74.L.11',art:'74 (Leve 11ª)',g:'L',cat:'VEHICULOS',eur:'60 – 600 €',t:'Circular con un silenciador inadecuado o deteriorado.',n:'Art. 57–58: si el silenciador está deliberadamente manipulado excediendo límites o circula con ESCAPE LIBRE es falta GRAVE (74.G.12) con inmovilización y depósito inmediato.'},
+  {id:'acu_74.L.12',art:'74 (Leve 12ª)',g:'L',cat:'VEHICULOS',eur:'60 – 600 €',t:'Incorrecta utilización o conducción de vehículos de tracción mecánica que dé lugar a ruidos innecesarios o molestos (aceleraciones injustificadas del motor, uso inmotivado de bocinas en casco urbano).',n:'Art. 57. Responsable: el conductor (Art. 72). El acta/denuncia inicia el procedimiento y se notifica en el acto (Art. 73).'},
+  {id:'acu_74.L.13',art:'74 (Leve 13ª)',g:'L',cat:'VEHICULOS',eur:'60 – 600 €',t:'Estacionar vehículos con el motor en marcha durante la noche, salvo salida inmediata.',n:'Art. 57. Para camiones frigoríficos con motor de frío en marcha de noche a <150 m de viviendas, citar también Arts. 46 y 57.'},
+  {id:'acu_74.L.14',art:'74 (Leve 14ª)',g:'L',cat:'LOCALES',eur:'60 – 600 €',t:'Incumplimiento de las medidas preventivas a), b) y c) establecidas en el artículo 39 de la presente Ordenanza.',n:'Art. 39 (Grupos 1 y 2): vestíbulo con doble puerta de retorno, ejercer actividad con puertas y ventanas cerradas, y disponer de responsable para evitar molestias de clientes en acceso.'},
+  {id:'acu_74.L.15',art:'74 (Leve 15ª)',g:'L',cat:'VEHICULOS',eur:'60 – 600 €',t:'Funcionamiento del equipo de música de los vehículos con volumen elevado y las ventanas, puertas o maleteros abiertos.',n:'Art. 57. Muy habitual en botellones y zonas residenciales nocturnas (agravante de nocturnidad, Art. 76.1).'},
+  {id:'acu_74.L.16',art:'74 (Leve 16ª)',g:'L',cat:'LOCALES',eur:'60 – 600 €',t:'La no realización del autocontrol previsto en esta ordenanza para eventos o actuaciones al aire libre con equipos amplificados previamente autorizados.',n:'Relacionado con Arts. 38 y 63–65.'},
+  {id:'acu_74.L.17',art:'74 (Leve 17ª)',g:'L',cat:'LOCALES',eur:'60 – 600 €',t:'No tener la auditoría acústica en vigor.',n:'Art. 33: obligatoria al inicio, tras reformas y al menos cada 5 años por ECMCA; el titular debe tener el libro de control a disposición de inspección.'},
+  {id:'acu_74.L.18',art:'74 (Leve 18ª)',g:'L',cat:'INSPECCION',eur:'60 – 600 €',t:'Cualquier otro incumplimiento derivado de las prescripciones establecidas en esta ordenanza que no esté tipificado como infracción grave o muy grave.',n:'Tipo residual leve (ej. falta de tacos de goma en mobiliario o rodar barriles Art. 37; no exponer autorización de verbena Art. 63–65; carga/descarga 00:00–06:00 Art. 46).'},
+
+  /* GRAVES (Art. 74: 601–6.000 € + retirada temporal licencia, tipo 2.970 €, prescr. 2 años) */
+  {id:'acu_74.G.1',art:'74 (Grave 1ª)',g:'G',cat:'INSPECCION',eur:'601 – 6.000 €',t:'La reincidencia en infracciones leves.',n:'Tramos Art. 76: Mín 601–1.980 € · Medio 1.981–3.960 € (tipo 2.970 €) · Máx 3.961–6.000 € + retirada temporal licencia. Prescripción: 2 años.'},
+  {id:'acu_74.G.2',art:'74 (Grave 2ª)',g:'G',cat:'LOCALES',eur:'601 – 6.000 €',t:'Incumplimiento de condiciones acústicas en autorización ambiental, licencia ambiental u otra figura de intervención, sin daño grave ambiental ni peligro grave para salud/seguridad.',n:'Incluye incumplimiento del programa de mantenimiento anual del limitador (Art. 40.10 y 40.13) o música exterior fuera de horario (Verano 01:00 / Invierno 23:30, Art. 38).'},
+  {id:'acu_74.G.3',art:'74 (Grave 3ª)',g:'G',cat:'INSPECCION',eur:'601 – 6.000 €',t:'Ocultación o alteración maliciosas de datos relativos a contaminación acústica aportados a expedientes de autorizaciones o licencias.',n:'Reflejar documentalmente la discrepancia detectada entre el proyecto/certificado y la realidad.'},
+  {id:'acu_74.G.4',art:'74 (Grave 4ª)',g:'G',cat:'INSPECCION',eur:'601 – 6.000 €',t:'El impedimento, retraso o la obstrucción a la actividad inspectora o de control de las administraciones públicas.',n:'Arts. 58, 70 y 71: incluye negar acceso a locales de pública concurrencia, no poner equipos al régimen indicado o negarse a prueba sonora de vehículo (en vehículos conlleva además inmovilización y retirada).'},
+  {id:'acu_74.G.5',art:'74 (Grave 5ª)',g:'G',cat:'INSPECCION',eur:'601 – 6.000 €',t:'La no adopción de las medidas correctoras requeridas por la administración competente en caso de incumplimiento de los objetivos de calidad acústica.',n:'Art. 78: además pueden imponerse multas coercitivas sucesivas de hasta 3.000 € y ejecución subsidiaria.'},
+  {id:'acu_74.G.6',art:'74 (Grave 6ª)',g:'G',cat:'VEHICULOS',eur:'601 – 6.000 €',t:'Superar los niveles sonoros permitidos en más de 6 dBA en el caso de ruidos producidos por vehículos a motor.',n:'Art. 58 y Anexo IX: CONLLEVA INMOVILIZACIÓN Y TRASLADO A DEPÓSITO MUNICIPAL. Retirada solo en grúa/remolque a taller; recuperación de documentación tras nueva medición o ITV extraordinaria.'},
+  {id:'acu_74.G.7',art:'74 (Grave 7ª)',g:'G',cat:'LOCALES',eur:'601 – 6.000 €',t:'Sobrepasar de 6 a 15 dB, en los restantes supuestos, los límites sonoros y de vibraciones establecidos en la presente Ordenanza.',n:'Art. 67.2: superar en >6 dBA habilita la adopción de medidas provisionales (precintado de equipos musicales, suspensión temporal o restricción horaria).'},
+  {id:'acu_74.G.8',art:'74 (Grave 8ª)',g:'G',cat:'INSPECCION',eur:'601 – 6.000 €',t:'Alteración de datos para la emisión de certificados de verificación normalizada de ensayos acústicos.',n:'Comunicar a Servicios Técnicos Municipales y órgano autonómico competente si afecta a ECMCA o laboratorio.'},
+  {id:'acu_74.G.9',art:'74 (Grave 9ª)',g:'G',cat:'OBRAS',eur:'601 – 6.000 €',t:'Realizar cualquier actividad u obra fuera del horario permitido, causando molestias.',n:'Art. 44–45 (obras prohibidas festivos y 22:00–08:00 h; maquinaria >90 dBA solo 10:00–18:00 h con permiso) y Art. 38 (música exterior tras 01:00 verano / 23:30 invierno).'},
+  {id:'acu_74.G.10',art:'74 (Grave 10ª)',g:'G',cat:'LOCALES',eur:'601 – 6.000 €',t:'Incumplimiento de condicionantes de emisión sonora de la licencia, y en particular, alteración o manipulación del equipo limitador instalado en la actividad.',n:'Arts. 40.13 y 67.2: habilita medida provisional de paralización y precintado inmediato del equipo musical. Nueva limitación requiere pago de tasa de precinto (Art. 40.8).'},
+  {id:'acu_74.G.11',art:'74 (Grave 11ª)',g:'G',cat:'VECINAL',eur:'601 – 6.000 €',t:'Realizar celebraciones populares, verbenas o conciertos (Arts. 63, 64 y 65) sin contar con la debida autorización.',n:'Art. 65: además puede ser causa de denegación de permiso para el año siguiente. Responsables: entidades, asociaciones o personas promotoras (Art. 72).'},
+  {id:'acu_74.G.12',art:'74 (Grave 12ª)',g:'G',cat:'VEHICULOS',eur:'601 – 6.000 €',t:'Circulación con silenciador deliberadamente manipulado, excediendo el nivel sonoro permitido, o bien con el llamado «escape libre».',n:'Art. 58: DENUNCIA + INMOVILIZACIÓN Y DEPÓSITO INMEDIATO del vehículo hasta traslado a taller y posterior revisión en ITV.'},
+
+  /* MUY GRAVES (Art. 74–75: competencia autonómica, prescr. 4 años) */
+  {id:'acu_74.MG.1',art:'74 (Muy Grave)',g:'MG',cat:'INSPECCION',eur:'Autonómico',t:'Infracciones muy graves tipificadas en el art. 55 de la Ley 7/2002 GVA y art. 28 de la Ley 37/2003 del Ruido (ej. superar >15 dB, quebrantamiento de precinto/clausura o daño grave a la salud/medio ambiente).',n:'Art. 75: competencia sancionadora del órgano autonómico (Generalitat Valenciana). Art. 77: habilita retirada definitiva de licencia. Prescripción: 4 años.'}
+];
+
+/* ----- 3. DATOS: ORDENANZA VENTA NO SEDENTARIA (BOP 02/08/2016) ----- */
+var ORD_VEN_RESUMEN=[
+  {tit:'1. Mercadillos Periódicos Oficiales (Art. 6)',col:'c-green',pts:[
+    'Pilar de la Horadada (máx. 132 puestos): viernes de 08:00 a 15:00 h · C/ Escultor Ribera Girona, Reyes Católicos, Isla y Melitonas.',
+    'Torre de la Horadada (máx. 309 puestos): último miércoles de junio al primer miércoles de septiembre, de 14:00 a 22:00 h · Av. Costa Blanca y C/ Carabela, Los Ángeles y Antonio Gálvez.',
+    'Mil Palmeras Nocturno Paseo Riviera (máx. 35 puestos): del 15 de junio al 15 de septiembre, de 18:00 a 01:00 h · Paseo Riviera.',
+    'Mil Palmeras Martes (14:00 a 22:00 h): verano (último martes jun – primer martes sep, máx. 211 puestos) en C/ Italia, Luxemburgo, Titánic y Alcarria; invierno (resto del año, máx. 47 puestos) en Plaza de Mil Palmeras.',
+    'Pinar de Campoverde (máx. 14 puestos): domingos de 08:00 a 14:00 h · Plaza Florida.'
+  ]},
+  {tit:'2. Modalidades, Sujetos y Prohibiciones Generales (Arts. 1–12)',col:'c-blue',pts:[
+    'Modalidades autorizadas (Art. 5): mercadillos periódicos, ocasionales/extraordinarios, puestos aislados (helados, churros, gofres en eventos), mercados temáticos, venta ambulante (ÚNICAMENTE en periodos festivos) y venta no profesional (benéfica o artículos usados del propio ajuar).',
+    'Prohibida expresamente la venta de animales (Art. 6) y cualquier venta no sedentaria sin autorización municipal previa (Art. 12.3).',
+    'Colaboradores permitidos (Arts. 2.2 y 12.5): cónyuge, pareja de hecho acreditada, hijos, hermanos, familiares hasta 2º grado de consanguinidad y empleados con contrato, SIEMPRE dados de alta y al corriente en Seguridad Social y figurando en la autorización.'
+  ]},
+  {tit:'3. Documentación e Identificación Obligatoria en el Puesto (Arts. 13, 15 y 32)',col:'c-gold',pts:[
+    'Autorización municipal / cartel visible al público (Art. 15): con nombre, NIF y fotos recientes del titular y colaboradores, mercado, puesto, productos autorizados, vigencia y dirección física para reclamaciones.',
+    'Documentación exigible en inspección (Art. 32): facturas/albaranes que acrediten lícita procedencia del género, carteles visibles con precios, hojas de reclamaciones oficiales anunciadas, tiques/facturas a clientes y seguro de responsabilidad civil en vigor.',
+    'Vigencia general (Art. 14): 15 años en mercadillos periódicos (renovable 1 vez por igual periodo solicitándolo con 2 meses de antelación, Art. 17). Revisión anual de requisitos (Art. 18.3).'
+  ]},
+  {tit:'4. Funcionamiento, Vehículos, Dimensiones y Limpieza (Arts. 28–33)',col:'c-amber',pts:[
+    'Dimensiones de puestos (Arts. 6 y 28): fachada de 2 a 12 metros, fondo máx. 3 m, altura entre 2 y 3 m (sin afectar a árboles ni cables). Prohibido depositar artículos en el suelo salvo cerámica, barro, madera o metal.',
+    'Carga y descarga (Art. 30.2 y 30.5): fuera del horario de venta, máx. 2 horas antes del inicio y 1 hora y 30 minutos después de finalizar.',
+    'Vehículos (Art. 30.3–4): PROHIBIDA la circulación y estacionamiento en el interior del mercado o junto al puesto durante el horario de venta (excepción: camiones-tienda).',
+    'Normas clave de orden (Art. 30): quien no comparezca a la hora de inicio pierde el derecho ese día; PROHIBIDO vocear con aparatos acústicos; PROHIBIDA la ocupación de puesto «al fallo»; prohibido obstaculizar pasillos, escaparates o accesos.',
+    'Alimentación y gas (Art. 29): sobre bancadas móviles sin contacto con suelo; camiones-tienda con aislamiento térmico, vitrinas/frío, agua potable y depósito residuales. Churros/gas: certificado de instalador autorizado + contrato de mantenimiento de extintores.',
+    'Limpieza (Art. 33): embolsar residuos orgánicos, plegar y atar cartones, y desmontar completamente a la hora de cierre para permitir la limpieza viaria.'
+  ]},
+  {tit:'5. Potestades Policiales Inmediatas y Medidas Cautelares (Arts. 36.6 y 37.3)',col:'c-crim',pts:[
+    'CESE INMEDIATO (Art. 37.3): obligatorio ordenar el cese inmediato en casos de venta sin autorización o con autorización caducada.',
+    'LEVANTAMIENTO DEL PUESTO EN EL ACTO (Art. 37.3): ante flagrante comisión de infracción GRAVE o MUY GRAVE, si la Policía Local lo estima conveniente para el buen funcionamiento del mercado, puede ordenar el levantamiento inmediato del puesto sin perjuicio del expediente.',
+    'INCAUTACIÓN CAUTELAR DE PRODUCTOS (Art. 36.6): los agentes pueden incautar productos cuando puedan ocasionar riesgo para la salud/seguridad de los consumidores o existan motivos fundados de origen ilícito (ej. falsificaciones / propiedad industrial, Art. 27.1).'
+  ]},
+  {tit:'6. Cuantías Sancionadoras y Responsabilidad (Arts. 36–40)',col:'c-purp',pts:[
+    'LEVES (Art. 36.1): apercibimiento, multa hasta 750 € y/o suspensión de la actividad hasta 1 mes.',
+    'GRAVES (Art. 36.2): multa de 750 a 1.500 € y/o suspensión hasta 3 meses.',
+    'MUY GRAVES (Art. 36.3): multa de 1.500 a 3.000 € y/o suspensión hasta 6 meses, revocación definitiva de la autorización, imposibilidad de obtenerla y cese de actividad.',
+    'Responsabilidad (Art. 40): el titular responde de las infracciones cometidas por sí mismo, sus familiares o asalariados. Órgano sancionador: Alcaldía-Presidencia (Art. 39).'
+  ]}
+];
+
+var ORD_VEN_TITS=[
+  ['ALL','Todos'],['PREL','T. Prelim.'],['T-I','T.I Modalid.'],['T-II','T.II Ejerc.'],['T-III','T.III Autoriz.'],
+  ['T-IV','T.IV Registro'],['T-V','T.V Puestos'],['T-VI','T.VI Funcion.'],['T-VII','T.VII Der/Obl.'],
+  ['T-VIII','T.VIII Privado'],['T-IX','T.IX Sanc.'],['DISP','Dispos.']
+];
+
+var ORD_VEN_ARTS=[
+  {n:'Art. 1',tit:'PREL',t:'Ámbito de aplicación y exclusiones',txt:'Regula la venta no sedentaria en Pilar de la Horadada (suelo público o privado) en instalaciones desmontables o transportables. Excluye: venta domiciliaria, máquinas automáticas, loterías autorizadas, venta de comerciante sedentario a la puerta de su local y venta por la Administración. Puestos en interior de inmuebles se rigen por normativa de establecimiento comercial.'},
+  {n:'Art. 2',tit:'PREL',t:'Sujetos y colaboradores autorizados',txt:'Personas físicas o jurídicas (incluidas cooperativas) dedicadas al comercio al por menor con autorización municipal. Colaboradores permitidos (siempre de alta y al corriente en Seguridad Social): cónyuge, pareja de hecho acreditada, hijos, hermanos, familiares hasta 2º grado de consanguinidad y empleados con contrato. Contempla reserva para agricultores/ganaderos locales y venta benéfica ocasional.'},
+  {n:'Art. 3–4',tit:'PREL',t:'Objeto de la venta y Régimen económico',txt:'Todos los productos salvo prohibición expresa, cumpliendo normativa técnico-sanitaria y de seguridad. Tasas fijadas en ordenanzas fiscales.'},
+  {n:'Art. 5',tit:'T-I',t:'Modalidades autorizadas',txt:'a) Mercadillos periódicos; b) Mercadillos ocasionales o extraordinarios; c) Puestos aislados; d) Mercados temáticos; e) Venta ambulante (únicamente en periodos festivos); f) Venta por vendedores no profesionales.'},
+  {n:'Art. 6',tit:'T-I',t:'Mercados periódicos oficiales (ubicaciones, horarios y cupos)',txt:'1) Pilar de la Horadada: viernes 08:00–15:00 h (C/ Escultor Ribera Girona, Reyes Católicos, Isla y Melitonas; máx. 132). 2) Torre de la Horadada: último mié jun – primer mié sep, 14:00–22:00 h (Av. Costa Blanca, Carabela, Los Ángeles, Antonio Gálvez; máx. 309). 3) Mil Palmeras nocturno: 15 jun – 15 sep, 18:00–01:00 h (Paseo Riviera; máx. 35). 4) Mil Palmeras martes: 14:00–22:00 h (verano C/ Italia, Luxemburgo, Titánic, Alcarria, máx. 211; invierno Plaza Mil Palmeras, máx. 47). 5) Pinar de Campoverde: domingos 08:00–14:00 h (Plaza Florida; máx. 14). Fachada 2–12 m, altura máx. 3 m. PROHIBIDA venta de animales.'},
+  {n:'Art. 7',tit:'T-I',t:'Implantación, modificación, traslado o suspensión',txt:'Competencia de Alcaldía (oídas asociaciones). Puede modificar, trasladar, suspender temporalmente o suprimir mercados sin derecho a indemnización por fiestas, tráfico, obras o interés público. Cambio de día por festivo mediante resolución de Alcaldía.'},
+  {n:'Art. 8–9',tit:'T-I',t:'Mercadillos extraordinarios, temáticos y puestos aislados',txt:'Autorizados con motivo de fiestas o eventos (Memoria previa si no es municipal). Art. 9 (puestos aislados): helados, churros, gofres, masas fritas en eventos; prohibido dificultar tráfico/peatones o instalarse en salidas de edificios públicos o locales de afluencia masiva.'},
+  {n:'Art. 10',tit:'T-I',t:'Venta ambulante (itinerante)',txt:'Practicada en ubicación móvil e itinerante (únicamente en periodos festivos, Art. 5.e) en los lugares/itinerarios y productos autorizados. No es venta ambulante el reparto a domicilio de encargos previos ni el suministro por contrato (prohibido simultanearlos con venta ambulante).'},
+  {n:'Art. 11',tit:'T-I',t:'Venta benéfica y de artículos usados por particulares',txt:'Solicitud con 1 mes de antelación (memoria, plano, declaración responsable de RC y retirada el mismo día). Artículos usados: solo del propio ajuar, no adquiridos para reventa. Resolución en 15 días (silencio negativo).'},
+  {n:'Art. 12–13',tit:'T-II',t:'Autorización previa obligatoria y requisitos generales',txt:'Prohibida cualquier venta no sedentaria sin autorización municipal (Art. 12.3). Requisitos (Art. 13): alta IAE/censo, alta y pago Seguridad Social, permiso residencia y trabajo (no UE), sin deudas municipales, seguro de RC, instalaciones seguras/higiénicas y productos conformes.'},
+  {n:'Art. 14–15',tit:'T-II',t:'Duración (15 años) e Identificación visible del comerciante',txt:'Duración de 15 años en mercadillos periódicos (Art. 14). Art. 15: obligatorio exponer en lugar visible autorización/cartel con nombre, NIF y fotos recientes de titular y colaboradores, mercado, productos, vigencia y dirección física de reclamaciones.'},
+  {n:'Art. 16–19',tit:'T-II',t:'Transmisión, Renovación, Comprobación y Extinción',txt:'Transmisión (Art. 16): tras 1 año desde concesión (y 24 meses entre transmisiones), mismos artículos, prohibida en colectivos especiales. Renovación (Art. 17): hasta 1 vez por igual plazo, pedir con 2 meses de antelación. Revisión anual previa a tarjeta (Art. 18.3). Extinción (Art. 19): término, renuncia, no acreditar datos en 15 días hábiles, revocación, fallecimiento, impago o sanción.'},
+  {n:'Art. 20–25',tit:'T-III',t:'Procedimiento de selección, baremo de méritos y vacantes',txt:'Concurrencia competitiva con baremo (Art. 23: nacionalidad UE, experiencia, asociaciones, formación, artesano, colectivos desfavorecidos y nuevos emprendedores). Prohibido exigir residencia en el municipio (Art. 21.3). Lista de suplentes ≥10%. Cambio y mejora de puesto (Art. 25).'},
+  {n:'Art. 26',tit:'T-IV',t:'Registro municipal de vendedores no sedentarios',txt:'Inscripción de oficio de titulares autorizados con NIF, domicilio, mercado, puesto asignado, productos y vigencia.'},
+  {n:'Art. 27–28',tit:'T-V',t:'Productos permitidos y condiciones físicas de los puestos',txt:'Art. 27: respetar propiedad industrial e intelectual; prohibidos productos no permitidos. Art. 28: módulos de 2 m lineales; dimensiones máx. 12 m ancho × 3 m fondo, altura mín. 2 m (máx. 3 m, Art. 6); prohibido depositar mercancía en el suelo salvo cerámica, barro, madera o metal.'},
+  {n:'Art. 29',tit:'T-V',t:'Puestos de productos alimenticios, camiones-tienda y gas',txt:'Alimentación sobre bancadas móviles sin contacto con el suelo. Camiones/remolques-tienda: aislamiento térmico, materiales impermeables, vitrinas/frigoríficos, agua potable y depósito de aguas residuales. Churros y puestos con gas: certificado de instalador autorizado y contrato de mantenimiento de extintores.'},
+  {n:'Art. 30',tit:'T-VI',t:'Organización y funcionamiento de los mercadillos',txt:'Carga/descarga: máx. 2 h antes y 1,5 h después del mercado. Prohibida circulación y estacionamiento de vehículos en horario de venta (salvo camiones-tienda). No comparecer al inicio = pérdida de derecho ese día. Prohibido expender fuera del puesto, obstaculizar pasillos, usar aparatos acústicos para vocear y ocupar puesto «al fallo». Obligación de cumplir órdenes de agentes/vigilantes.'},
+  {n:'Art. 31–33',tit:'T-VII',t:'Derechos, Obligaciones y Normas de limpieza',txt:'Derechos (Art. 31): hasta 4 días de vacaciones/año (aviso 1 mes), reserva por maternidad/incapacidad. Obligaciones (Art. 32): autorización visible, facturas de procedencia, precios visibles, hojas de reclamaciones, tiques, seguro RC, permanencia del titular/suplente, limpieza. Art. 33: embolsar residuos, plegar/atar cartones y desmontar al finalizar.'},
+  {n:'Art. 34–35',tit:'T-VIII',t:'Venta no sedentaria en suelo privado',txt:'Superficie comercial ≥ 2.500 m² requiere autorización autonómica de Conselleria (Ley 3/2011). Declaración responsable municipal con 1 mes de antelación (planos, plan de emergencia, contaminación acústica, contra incendios, relación de vendedores y reglamento). Verificación en 3 meses.'},
+  {n:'Art. 36',tit:'T-IX',t:'Infracciones (Leves, Graves, Muy Graves) e Incautación cautelar',txt:'Clasifica 5 infracciones Leves (36.1), 8 Graves (36.2, con 6 supuestos en 36.2.b) y 7 Muy Graves (36.3). Art. 36.6: los agentes pueden INCAUTAR productos cautelarmente ante riesgo para la salud/seguridad o sospecha fundada de origen ilícito. Prohibida venta a pérdida (salvo artículos usados).'},
+  {n:'Art. 37–40',tit:'T-IX',t:'Sanciones, Levantamiento del puesto, Procedimiento y Responsabilidad',txt:'Art. 37: Leves hasta 750 € y/o susp. 1 mes; Graves 750–1.500 € y/o susp. 3 meses; Muy Graves 1.500–3.000 € y/o susp. 6 meses o revocación definitiva. Art. 37.3: cese inmediato sin autorización/caducada y levantamiento inmediato del puesto por Policía Local en infracción flagrante grave o muy grave. Art. 39: Alcaldía-Presidencia. Art. 40: titular responde de familiares y asalariados.'},
+  {n:'Disp. Trans./Derog./Fin.',tit:'DISP',t:'Prórroga automática 15 años, Derogación y Entrada en vigor',txt:'Autorizaciones anteriores prorrogadas automáticamente a 15 años desde su concesión. Entrada en vigor conforme al art. 70.2 LBRL tras publicación en BOP (02/08/2016).'}
+];
+
+var ORD_VEN_CATS=[
+  ['ALL','Todas'],['AUTORIZ','Autoriz./Titular'],['FUNCION','Horario/Puesto'],['VEHICULOS','Vehículos'],
+  ['DOCUM','Docum./Consumo'],['LIMPIEZA','Aseo/Daños'],['ORDEN','Orden/Inspec.']
+];
+
+var ORD_VEN_INFS=[
+  /* LEVES (Art. 36.1: apercibimiento, multa hasta 750 € y/o suspensión hasta 1 mes) */
+  {id:'ven_36.1.a',art:'36.1.a',g:'L',cat:'DOCUM',eur:'Hasta 750 €',t:'Desarrollo del ejercicio de la venta incumpliendo la obligación de identificación.',n:'Art. 15 y 32.c: obligación de exponer en lugar visible la autorización/cartel municipal con NIF, fotos recientes de titular y colaboradores, productos y dirección de reclamaciones. Sanción: hasta 750 € y/o susp. 1 mes.'},
+  {id:'ven_36.1.b',art:'36.1.b',g:'L',cat:'DOCUM',eur:'Hasta 750 €',t:'No disponer de hojas de reclamaciones en el modelo oficial a disposición de los consumidores y usuarios o no anunciar la disposición de las mismas.',n:'Art. 32.h. Sanción: apercibimiento, hasta 750 € y/o suspensión hasta 1 mes.'},
+  {id:'ven_36.1.c',art:'36.1.c',g:'L',cat:'DOCUM',eur:'Hasta 750 €',t:'No presentar, cuando sea requerido para ello y en el plazo concedido, las facturas y documentos del género puesto a la venta que acrediten la lícita procedencia de los productos.',n:'Art. 32.f. Si hay motivos fundados de origen ilícito o falsificación, valorar incautación cautelar (Art. 36.6) y posible delito contra propiedad industrial.'},
+  {id:'ven_36.1.d',art:'36.1.d',g:'L',cat:'LIMPIEZA',eur:'Hasta 750 €',t:'Falta de aseo de las personas y puestos que no supongan infracción a las normas sanitarias.',n:'Art. 32.ñ y 33 (residuos, cartones sin plegar, suciedad en puesto). Si vulnera normas higiénico-sanitarias dar traslado a Generalitat (Art. 36.4).'},
+  {id:'ven_36.1.e',art:'36.1.e',g:'L',cat:'FUNCION',eur:'Hasta 750 €',t:'Incumplimiento de cualquiera de los requisitos que facultan para el ejercicio de la venta no sedentaria que no tenga consideración de grave o muy grave.',n:'Tipo residual leve: falta de carteles de precios (Art. 32.g), no expedir tique (Art. 32.i), usar aparatos acústicos para vocear (Art. 30.12), mercancía en el suelo (Art. 28.6) u ocupar puesto «al fallo» (Art. 30.14).'},
+
+  /* GRAVES (Art. 36.2: multa 750–1.500 € y/o suspensión hasta 3 meses; levantamiento puesto en flagrancia Art. 37.3) */
+  {id:'ven_36.2.a',art:'36.2.a',g:'G',cat:'ORDEN',eur:'750 – 1.500 €',t:'La reincidencia en cualquier infracción leve.',n:'Sanción Art. 37.1.b: 750–1.500 € y/o suspensión hasta 3 meses.'},
+  {id:'ven_36.2.b1',art:'36.2.b (Horario)',g:'G',cat:'FUNCION',eur:'750 – 1.500 €',t:'Ejercer la actividad fuera de los días u horarios autorizados.',n:'Art. 6, 30.1 y 33: incluye mantener puestos montados tras la hora de terminación dificultando la limpieza. En flagrancia, Policía Local puede ordenar levantamiento del puesto (Art. 37.3).'},
+  {id:'ven_36.2.b2',art:'36.2.b (Género)',g:'G',cat:'FUNCION',eur:'750 – 1.500 €',t:'La venta de mercaderías distintas a las señaladas en la autorización municipal.',n:'Comprobar epígrafe/productos en cartel identificativo (Art. 15 y 22.d). Recuerda: venta de animales expresamente prohibida (Art. 6).'},
+  {id:'ven_36.2.b3',art:'36.2.b (Perímetro)',g:'G',cat:'FUNCION',eur:'750 – 1.500 €',t:'La venta practicada fuera de los perímetros o lugares autorizados.',n:'Art. 30.7–8: incluye invadir pasillos, exceder metros asignados o situarse frente a accesos/escaparates. Posible levantamiento inmediato (Art. 37.3).'},
+  {id:'ven_36.2.b4',art:'36.2.b (Persona)',g:'G',cat:'AUTORIZ',eur:'750 – 1.500 €',t:'Permanecer en el puesto de venta persona distinta al titular de la autorización (no autorizada).',n:'Arts. 2.2 y 12.5: solo pueden colaborar familiares hasta 2º grado o empleados con contrato dados de alta en SS y que consten en la autorización.'},
+  {id:'ven_36.2.b5',art:'36.2.b (Vehículo)',g:'G',cat:'VEHICULOS',eur:'750 – 1.500 €',t:'La circulación o estacionamiento de vehículos dentro de los mercados fuera del horario permitido.',n:'Art. 30.2–5: prohibido circular o aparcar en el mercado durante horario de venta (salvo camiones-tienda). Carga/descarga máx. 2 h antes y 1,5 h después.'},
+  {id:'ven_36.2.b6',art:'36.2.b (Ausencia)',g:'G',cat:'AUTORIZ',eur:'750 – 1.500 €',t:'Ejercer la actividad persona distinta del titular de la autorización sin la presencia de éste (presunción tras más de 3 inspecciones sucesivas sin causa justificada).',n:'Documentar cada inspección en acta haciendo constar la ausencia del titular y quién atiende el puesto.'},
+  {id:'ven_36.2.c',art:'36.2.c',g:'G',cat:'ORDEN',eur:'750 – 1.500 €',t:'Negativa o resistencia manifiesta a suministrar datos o facilitar la información requerida por las autoridades competentes o sus agentes.',n:'Art. 32.k y 32.p. Valorar concurrencia con LO 4/2015 Art. 36.6 si existe desobediencia o negativa a identificarse.'},
+  {id:'ven_36.2.d',art:'36.2.d',g:'G',cat:'DOCUM',eur:'750 – 1.500 €',t:'Venta de productos defectuosos o deteriorados sin informar claramente de ello.',n:'Si supone riesgo para salud o seguridad, incautar cautelarmente (Art. 36.6) y dar traslado a Consumo/Sanidad (Art. 36.4).'},
+  {id:'ven_36.2.e',art:'36.2.e',g:'G',cat:'DOCUM',eur:'750 – 1.500 €',t:'Información o publicidad en el puesto que induzca a engaño o confusión, cuando ello tenga trascendencia económica.',n:'Reflejar literalmente la cartelería o reclamo engañoso (fotografía en acta).'},
+  {id:'ven_36.2.f',art:'36.2.f',g:'G',cat:'DOCUM',eur:'750 – 1.500 €',t:'Cualquier fraude en la cantidad o calidad del producto de venta que no sea constitutivo de delito.',n:'Comprobar balanzas/pesos y etiquetado. Si es delito (estafa / propiedad industrial), instruir diligencias penales (Art. 36.5).'},
+  {id:'ven_36.2.g',art:'36.2.g',g:'G',cat:'DOCUM',eur:'750 – 1.500 €',t:'No disponer de seguro de responsabilidad civil que cubra los riesgos de la actividad comercial.',n:'Art. 13.e y 32.n. Solicitar póliza y recibo al corriente de pago.'},
+  {id:'ven_36.2.h',art:'36.2.h',g:'G',cat:'ORDEN',eur:'750 – 1.500 €',t:'Falta de respeto o consideración al público y usuarios del mercado o puesto autorizado.',n:'Detallar expresiones o conducta y filiar a afectados/testigos si es posible.'},
+
+  /* MUY GRAVES (Art. 36.3: 1.500–3.000 € y/o susp. hasta 6 meses / revocación definitiva; cese/levantamiento inmediato Art. 37.3) */
+  {id:'ven_36.3.a',art:'36.3.a',g:'MG',cat:'ORDEN',eur:'1.500 – 3.000 €',t:'La reincidencia en cualquier infracción grave.',n:'Sanción Art. 37.1.c: 1.500–3.000 €, suspensión hasta 6 meses y/o revocación definitiva de autorización.'},
+  {id:'ven_36.3.b',art:'36.3.b',g:'MG',cat:'AUTORIZ',eur:'1.500 – 3.000 €',t:'Ejercer cualquier modalidad de venta no sedentaria sin autorización municipal o con una autorización caducada.',n:'Art. 37.3: ORDENAR CESE INMEDIATO DE LA ACTIVIDAD y levantamiento del puesto en el acto. Si hay riesgo sanitario o sospecha de origen ilícito, incautación cautelar (Art. 36.6).'},
+  {id:'ven_36.3.c',art:'36.3.c',g:'MG',cat:'AUTORIZ',eur:'1.500 – 3.000 €',t:'No acreditar los datos declarados para obtener la autorización cuando sea requerido para ello.',n:'Art. 18.2 y 19.1.c (plazo de 15 días hábiles conlleva también extinción).'},
+  {id:'ven_36.3.d',art:'36.3.d',g:'MG',cat:'AUTORIZ',eur:'1.500 – 3.000 €',t:'Incumplimiento, inexactitud o falsedad de los datos, manifestaciones y documentos facilitados para obtener autorización o desarrollar la actividad en mercado sobre suelo privado (promotor o vendedor).',n:'Art. 34.7: determina además la imposibilidad de iniciar o continuar la actividad.'},
+  {id:'ven_36.3.e',art:'36.3.e',g:'MG',cat:'LIMPIEZA',eur:'1.500 – 3.000 €',t:'Los daños causados dolosamente en puestos o instalaciones de la vía pública.',n:'Art. 30.11: obligación de reparar desperfectos en pavimento, arbolado o mobiliario urbano. Valorar delito leve/delito de daños (Art. 36.5).'},
+  {id:'ven_36.3.f',art:'36.3.f',g:'MG',cat:'FUNCION',eur:'1.500 – 3.000 €',t:'Ausencia injustificada durante cuatro semanas consecutivas al puesto de venta autorizado, o acumulación de 6 faltas de asistencia injustificadas al trimestre.',n:'Salvo periodo vacacional comunicado (máx. 4 días/año, Art. 31.e) o baja por maternidad/incapacidad (Art. 31.f).'},
+  {id:'ven_36.3.g',art:'36.3.g',g:'MG',cat:'ORDEN',eur:'1.500 – 3.000 €',t:'Cualquier agresión física entre vendedores, al público y a las autoridades y funcionarios municipales.',n:'Art. 36.5 y 37.3: levantamiento inmediato del puesto e instrucción de diligencias penales (lesiones / atentado a agentes de la autoridad).'}
+];
+
+var ORD_DATA={
+  litoral:{resumen:ORD_LIT_RESUMEN,tits:ORD_LIT_TITS,arts:ORD_LIT_ARTS,cats:ORD_LIT_CATS,infs:ORD_LIT_INFS},
+  acustica:{resumen:ORD_ACU_RESUMEN,tits:ORD_ACU_TITS,arts:ORD_ACU_ARTS,cats:ORD_ACU_CATS,infs:ORD_ACU_INFS},
+  venta:{resumen:ORD_VEN_RESUMEN,tits:ORD_VEN_TITS,arts:ORD_VEN_ARTS,cats:ORD_VEN_CATS,infs:ORD_VEN_INFS}
+};
 
 var ordState={view:'hub',selId:'litoral',busTit:'ALL',codCat:'ALL',codGrav:'',codFav:0,codQ:'',codExp:{}};
 
 function ordFavMap(){S.ordFav=S.ordFav||{};return S.ordFav;}
+function ordCurMeta(){return ORD_CATALOG.filter(function(x){return x.id===ordState.selId})[0]||ORD_CATALOG[0];}
+function ordCurData(){return ORD_DATA[ordState.selId]||ORD_DATA.litoral;}
 
 function ordOpenHub(){
   ordState.view='hub';
@@ -7476,6 +7792,16 @@ function ordOpenHub(){
 function ordSelect(id){
   var o=ORD_CATALOG.filter(function(x){return x.id===id})[0];
   if(!o)return;
+  if(ordState.selId!==id){
+    ordState.busTit='ALL';
+    ordState.codCat='ALL';
+    ordState.codGrav='';
+    ordState.codFav=0;
+    ordState.codQ='';
+    ordState.codExp={};
+    if($('ordb-q'))$('ordb-q').value='';
+    if($('ordc-q'))$('ordc-q').value='';
+  }
   ordState.selId=id;
   ordState.view='menu';
   $('ord-hub').classList.add('hide');
@@ -7485,6 +7811,11 @@ function ordSelect(id){
   $('ord-codificado').classList.add('hide');
   $('ord-sel-name').textContent=o.titulo;
   $('ord-sel-meta').textContent=o.meta;
+  if($('ord-desc-res'))$('ord-desc-res').textContent=o.descRes||'';
+  if($('ord-desc-bus'))$('ord-desc-bus').textContent=o.descBus||'';
+  if($('ord-desc-cod'))$('ord-desc-cod').textContent=o.descCod||'';
+  if($('ordb-q'))$('ordb-q').placeholder=o.busPh||'Buscar palabra o artículo...';
+  if($('ordc-q'))$('ordc-q').placeholder=o.codPh||'Buscar infracción...';
   $('ord-sub').textContent=o.corto;
   $('btn-back-ord').innerHTML=svg('back',15)+' Ordenanzas';
   window.scrollTo(0,0);
@@ -7497,7 +7828,7 @@ function ordOpenSub(sub){
   $('ord-resumen').classList.toggle('hide',sub!=='resumen');
   $('ord-buscador').classList.toggle('hide',sub!=='buscador');
   $('ord-codificado').classList.toggle('hide',sub!=='codificado');
-  var o=ORD_CATALOG.filter(function(x){return x.id===ordState.selId})[0]||ORD_CATALOG[0];
+  var o=ordCurMeta();
   var lbls={resumen:'Resumen Operativo',buscador:'Buscador de la Ordenanza',codificado:'Codificado de Infracciones'};
   $('ord-sub').textContent=o.corto+' · '+(lbls[sub]||'');
   $('btn-back-ord').innerHTML=svg('back',15)+' Volver';
@@ -7520,7 +7851,8 @@ function ordBack(){
 }
 
 function renderOrdResumen(){
-  var h=ORD_LIT_RESUMEN.map(function(sec){
+  var data=ordCurData();
+  var h=data.resumen.map(function(sec){
     var b='<div class="card" style="border-left:4px solid var(--gold)">';
     b+='<div class="card-hd" style="color:var(--gold2);margin-bottom:8px">'+svg('shield',15)+' '+esc(sec.tit)+'</div>';
     b+='<ul style="margin:0;padding-left:18px;font-size:13px;color:#dbe3f0;line-height:1.55">';
@@ -7545,35 +7877,21 @@ function ordHighlight(text,toks){
 }
 
 function ordCopyArt(idx){
-  var a=ORD_LIT_ARTS[idx];
+  var data=ordCurData(), meta=ordCurMeta();
+  var a=data.arts[idx];
   if(!a)return;
-  var txt='Ordenanza Litoral Pilar de la Horadada (BOP 30/07/2008) · '+a.n+' ('+a.t+')\n'+a.txt;
+  var txt=meta.copyPrefix+' · '+a.n+' ('+a.t+')\n'+a.txt;
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(function(){banner('Artículo copiado al portapapeles.','')}).catch(function(){prompt('Copia el texto:',txt)});
   }else{prompt('Copia el texto:',txt);}
 }
 
 function renderOrdBuscador(){
+  var data=ordCurData();
   var qEl=$('ordb-q');
   var qRaw=qEl?qEl.value:'';
   if($('ordb-clr'))$('ordb-clr').classList.toggle('hide',!qRaw);
-  var tits=[
-    ['ALL','Todos'],
-    ['T-I','T.I General'],
-    ['T-II','T.II Uso'],
-    ['T-III','T.III Limpieza'],
-    ['T-IV','T.IV Conces.'],
-    ['T-V','T.V Salvam.'],
-    ['T-VI','T.VI Animales'],
-    ['T-VII','T.VII Pesca'],
-    ['T-VIII','T.VIII Vehíc.'],
-    ['T-IX','T.IX Acamp.'],
-    ['T-X','T.X Náutica'],
-    ['T-XI','T.XI Juegos'],
-    ['T-XII','T.XII Venta'],
-    ['T-XIII','T.XIII Sanc.']
-  ];
-  $('ordb-tits').innerHTML=tits.map(function(t){
+  $('ordb-tits').innerHTML=data.tits.map(function(t){
     return '<button type="button" class="cd-nbtn'+(ordState.busTit===t[0]?' on':'')+'" onclick="ordSetBusTit(\''+t[0]+'\')">'+t[1]+'</button>';
   }).join('');
 
@@ -7581,7 +7899,7 @@ function renderOrdBuscador(){
   var toks=qNorm?qNorm.split(/\s+/).filter(Boolean):[];
   var rawToks=qRaw.trim()?qRaw.trim().split(/\s+/).filter(Boolean):[];
   var res=[];
-  ORD_LIT_ARTS.forEach(function(a,ix){
+  data.arts.forEach(function(a,ix){
     if(ordState.busTit!=='ALL'&&a.tit!==ordState.busTit)return;
     if(toks.length){
       var hay=cdNormStr(a.n+' '+a.tit+' '+a.t+' '+a.txt);
@@ -7590,7 +7908,7 @@ function renderOrdBuscador(){
     res.push({a:a,ix:ix});
   });
 
-  $('ordb-count').innerHTML='Mostrando <b>'+res.length+'</b> de '+ORD_LIT_ARTS.length+' bloques del articulado';
+  $('ordb-count').innerHTML='Mostrando <b>'+res.length+'</b> de '+data.arts.length+' bloques del articulado';
   if(!res.length){
     $('ordb-list').innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:24px 14px">No se encontraron coincidencias en la ordenanza.</div>';
     return;
@@ -7631,53 +7949,49 @@ function ordCodTogExp(id){
   renderOrdCod();
 }
 function ordCodCopy(id){
-  var r=ORD_LIT_INFS.filter(function(x){return x.id===id})[0];
+  var data=ordCurData(), meta=ordCurMeta();
+  var r=data.infs.filter(function(x){return x.id===id})[0];
   if(!r)return;
   var gLbl=r.g==='MG'?'MUY GRAVE':(r.g==='G'?'GRAVE':'LEVE');
-  var txt='Ordenanza Litoral Pilar de la Horadada (BOP 30/07/2008) · Art. '+r.art+' ('+gLbl+' · '+r.eur+')\nHecho: '+r.t+(r.n?'\nNota: '+r.n:'');
+  var txt=meta.copyPrefix+' · Art. '+r.art+' ('+gLbl+' · '+r.eur+')\nHecho: '+r.t+(r.n?'\nNota: '+r.n:'');
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(function(){banner('Infracción copiada al portapapeles.','')}).catch(function(){prompt('Copia el texto:',txt)});
   }else{prompt('Copia el texto:',txt);}
 }
 
 function renderOrdCod(){
-  var cats=[
-    ['ALL','Todas'],
-    ['SEGURIDAD','Seguridad'],
-    ['PLAYA','Playa/Uso'],
-    ['LIMPIEZA','Limpieza'],
-    ['ANIMALES','Animales'],
-    ['PESCA','Pesca'],
-    ['NAUTICA','Náutica'],
-    ['OCUP','Venta/Ocup.'],
-    ['OTRAS','Otras']
-  ];
-  $('ordc-cats').innerHTML=cats.map(function(c){
-    var cnt=c[0]==='ALL'?ORD_LIT_INFS.length:ORD_LIT_INFS.filter(function(x){return x.cat===c[0]}).length;
+  var data=ordCurData(), meta=ordCurMeta();
+  var infs=data.infs;
+  $('ordc-cats').innerHTML=data.cats.map(function(c){
+    var cnt=c[0]==='ALL'?infs.length:infs.filter(function(x){return x.cat===c[0]}).length;
     return '<button type="button" class="cd-nbtn'+(ordState.codCat===c[0]?' on':'')+'" onclick="ordCodSetCat(\''+c[0]+'\')">'+c[1]+' <small>('+cnt+')</small></button>';
   }).join('');
 
   var favM=ordFavMap();
-  var favCnt=Object.keys(favM).length;
+  var cMG=infs.filter(function(x){return x.g==='MG'}).length;
+  var cG=infs.filter(function(x){return x.g==='G'}).length;
+  var cL=infs.filter(function(x){return x.g==='L'}).length;
+  var favCnt=infs.filter(function(x){return !!favM[x.id]}).length;
+
   var sub='';
-  sub+='<button type="button" class="cd-fbtn'+(ordState.codGrav==='MG'?' on':'')+'" onclick="ordCodSetGrav(\'MG\')">Muy Graves (11)</button>';
-  sub+='<button type="button" class="cd-fbtn'+(ordState.codGrav==='G'?' on':'')+'" onclick="ordCodSetGrav(\'G\')">Graves (17)</button>';
-  sub+='<button type="button" class="cd-fbtn'+(ordState.codGrav==='L'?' on':'')+'" onclick="ordCodSetGrav(\'L\')">Leves (12)</button>';
+  sub+='<button type="button" class="cd-fbtn'+(ordState.codGrav==='MG'?' on':'')+'" onclick="ordCodSetGrav(\'MG\')">Muy Graves ('+cMG+')</button>';
+  sub+='<button type="button" class="cd-fbtn'+(ordState.codGrav==='G'?' on':'')+'" onclick="ordCodSetGrav(\'G\')">Graves ('+cG+')</button>';
+  sub+='<button type="button" class="cd-fbtn'+(ordState.codGrav==='L'?' on':'')+'" onclick="ordCodSetGrav(\'L\')">Leves ('+cL+')</button>';
   sub+='<button type="button" class="cd-fbtn'+(ordState.codFav?' on-fav':'')+'" onclick="ordCodTogFavF()">'+svg('heart',12)+' Favoritos ('+favCnt+')</button>';
   $('ordc-subf').innerHTML=sub;
 
   var q=cdNormStr(ordState.codQ||'');
   var toks=q?q.split(/\s+/).filter(Boolean):[];
-  var res=ORD_LIT_INFS.filter(function(r){
+  var res=infs.filter(function(r){
     if(ordState.codCat!=='ALL'&&r.cat!==ordState.codCat)return false;
     if(ordState.codGrav&&r.g!==ordState.codGrav)return false;
     if(ordState.codFav&&!favM[r.id])return false;
     if(!toks.length)return true;
-    var hay=cdNormStr('ordenanza litoral playa art '+r.art+' '+r.t+' '+r.n+' '+r.cat+' '+r.eur);
+    var hay=cdNormStr(meta.corto+' art '+r.art+' '+r.t+' '+r.n+' '+r.cat+' '+r.eur);
     return toks.every(function(tk){return hay.indexOf(tk)>=0});
   });
 
-  $('ordc-count').innerHTML='Mostrando <b>'+res.length+'</b> de '+ORD_LIT_INFS.length+' infracciones';
+  $('ordc-count').innerHTML='Mostrando <b>'+res.length+'</b> de '+infs.length+' infracciones';
   if(!res.length){
     $('ordc-list').innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:24px 14px">No se encontraron infracciones con esos filtros.</div>';
     return;
@@ -7688,7 +8002,7 @@ function renderOrdCod(){
     var gLbl=r.g==='MG'?'MUY GRAVE':(r.g==='G'?'GRAVE':'LEVE');
     var h='<div class="cd-card g-'+r.g+'">';
     h+='<div class="cd-top">';
-    h+='<span class="cd-code">Ord. Litoral · Art. '+esc(r.art)+'</span>';
+    h+='<span class="cd-code">'+esc(meta.artPrefix)+esc(r.art)+'</span>';
     h+='<div class="cd-pills">';
     h+='<span class="cd-pill cd-p-'+r.g+'">'+gLbl+'</span>';
     h+='<span class="cd-pill cd-p-eur">'+esc(r.eur)+'</span>';
@@ -7696,13 +8010,13 @@ function renderOrdCod(){
     h+='<button type="button" class="cd-fav-btn'+(isFav?' on':'')+'" onclick="ordCodTogFav(\''+r.id+'\')" title="Favorito">'+svg('heart',15)+'</button>';
     h+='</div>';
     h+='<div class="cd-txt">'+esc(r.t)+'</div>';
-    h+='<div class="cd-sub"><span>Órgano: <b>Alcaldía-Presidencia (Art. 59)</b></span><span>Cuantía (Art. 65): <b>'+esc(r.eur)+'</b></span></div>';
+    h+='<div class="cd-sub"><span>Órgano: <b>'+esc(meta.organo)+'</b></span><span>Cuantía ('+esc(meta.cuantiaRef)+'): <b>'+esc(r.eur)+'</b></span></div>';
     if(isExp){
       h+='<div class="cd-det">';
       h+='<div class="cd-det-grid">';
       h+='<div class="cd-ditem"><small>Clasificación</small><b>'+gLbl+'</b></div>';
-      h+='<div class="cd-ditem"><small>Multa (Art. 65)</small><b>'+esc(r.eur)+'</b></div>';
-      h+='<div class="cd-ditem"><small>Responsabilidad (Art. 67)</small><b>Autor / Padres / Titular</b></div>';
+      h+='<div class="cd-ditem"><small>Multa ('+esc(meta.cuantiaRef)+')</small><b>'+esc(r.eur)+'</b></div>';
+      h+='<div class="cd-ditem"><small>Responsabilidad</small><b>'+esc(meta.respLbl)+'</b></div>';
       h+='</div>';
       if(r.n)h+='<div class="cd-det-box"><b>Notas operativas / Artículos relacionados:</b> '+esc(r.n)+'</div>';
       h+='</div>';
