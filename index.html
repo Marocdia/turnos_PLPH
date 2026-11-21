@@ -1153,6 +1153,52 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
 }
 .cd-foot .btn{padding:5px 10px;font-size:12px}
 
+/* Acta Comprobaciones Específicas (Dispone / No dispone) */
+.ea-chk-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.ea-chk-item{
+  background:var(--bg2);
+  border:1px solid var(--line);
+  border-left:3px solid var(--line);
+  border-radius:10px;
+  padding:9px 10px;
+  transition:border-color .15s,background .15s;
+}
+.ea-chk-item.st-si{border-left-color:var(--green);background:rgba(36,194,120,.06)}
+.ea-chk-item.st-no{border-left-color:#e64558;background:rgba(201,56,74,.09)}
+.ea-chk-item.st-na{border-left-color:var(--mut);opacity:.82}
+.ea-chk-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.ea-chk-lbl{font-size:13px;font-weight:700;color:#eef3fa;line-height:1.3;flex:1;min-width:170px}
+.ea-chk-lbl small{display:block;font-size:11px;font-weight:500;color:var(--mut);margin-top:1px}
+.ea-chk-btns{display:flex;gap:5px;flex-shrink:0}
+.ea-btn{
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--mut);
+  border-radius:7px;
+  padding:5px 9px;
+  font-size:11.5px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .12s;
+}
+.ea-btn:active{transform:scale(.96)}
+.ea-btn.on-si{background:rgba(36,194,120,.22);border-color:var(--green);color:#7ae8b4}
+.ea-btn.on-no{background:rgba(201,56,74,.28);border-color:#ff6b7a;color:#ffd0d6}
+.ea-btn.on-na{background:rgba(127,144,173,.22);border-color:var(--mut);color:#dce4f2}
+.ea-chk-det{
+  width:100%;
+  background:rgba(7,13,24,.65);
+  border:1px solid var(--line);
+  border-radius:7px;
+  padding:6px 9px;
+  font-size:12.5px;
+  color:#e4ebf5;
+}
+.ea-chk-det:focus{outline:none;border-color:var(--gold2)}
+.ea-chk-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 7px}
+.ea-chk-stat{font-size:11.5px;color:var(--mut);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.ea-chk-stat b{color:var(--gold2)}
+
 /* Modal */
 .modal{position:fixed;inset:0;width:100%;max-width:100vw;background:rgba(5,10,20,.75);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;z-index:50;overflow:hidden}
 .mb{background:var(--card);width:100%;max-width:min(490px,100vw);max-height:88vh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;border-radius:16px 16px 0 0;padding:16px 14px calc(18px + env(safe-area-inset-bottom,0px));border:1px solid var(--line);border-top:4px solid var(--gold);box-shadow:0 -8px 34px rgba(0,0,0,.55)}
@@ -1880,15 +1926,11 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
        </select>
       </div>
 
-      <div class="dr-lbl" style="margin-top:10px">4. Comprobaciones específicas (Arts. 301–309 D. 143/2015)</div>
-      <div class="bn-grid2">
-       <input class="bn-in" id="ea-seg" placeholder="Seguro RC (estado, compañía, cuantía, vto.)">
-       <input class="bn-in" id="ea-ext" placeholder="Extintores (placa, caducidad, revisión, acceso)">
+      <div class="ea-chk-bar">
+       <div class="dr-lbl" style="margin:0">4. Comprobaciones específicas (Arts. 301–309 D. 143/2015)</div>
+       <span class="ea-chk-stat" id="ea-comp-stat">Revisados: 0/12</span>
       </div>
-      <div class="bn-grid2">
-       <input class="bn-in" id="ea-men" placeholder="Menores (iniciales, DNI >14, bebida/acceso)">
-       <input class="bn-in" id="ea-son" placeholder="Medios sonoros (equipo, altavoces, doble puerta)">
-      </div>
+      <div id="ea-comp-list" class="ea-chk-list"></div>
 
       <div class="dr-lbl" style="margin-top:10px">5. Posibles infracciones detectadas (Ley 14/2010 / Ley 1/2020)</div>
       <div id="ea-inf-list" class="dr-ind-list" style="margin-bottom:10px"></div>
@@ -4917,6 +4959,21 @@ function esLocImport(inp){
 
 
 /* ==================== ACTA DE INSPECCIÓN DE ESTABLECIMIENTOS (ARTS. 298–309 D. 143/2015) ==================== */
+var ES_ACT_COMPS=[
+  {id:'lic',art:'Art. 301 / Art. 15',t:'Licencia de apertura o Declaración Responsable visible',ph:'Nº expediente, actividad autorizada, exhibida/no exhibida...'},
+  {id:'hor',art:'Art. 301 / Art. 240',t:'Cartel horario oficial bilingüe visible desde exterior',ph:'Horario indicado en cartel, anomalías...'},
+  {id:'car',art:'Arts. 237–243 / 301',t:'Cartelería obligatoria (menores, alcohol/tabaco, reclamaciones, contacto)',ph:'Indicar si falta algún cartel obligatorio...'},
+  {id:'seg',art:'Art. 302 D. 143/2015',t:'Seguro de Responsabilidad Civil en vigor y recibo de pago',ph:'Compañía, nº póliza, capital asegurado, vencimiento...'},
+  {id:'ext',art:'Art. 303 D. 143/2015',t:'Extintores y medios de protección contra incendios',ph:'Placa, caducidad, revisión anual, retimbrado, acceso...'},
+  {id:'eva',art:'Art. 304 D. 143/2015',t:'Salidas de emergencia, puertas expeditas y alumbrado emergencia',ph:'Puertas sin pasadores, señalización luminosa, obstáculos...'},
+  {id:'son',art:'Art. 305 D. 143/2015',t:'Medios sonoros/audiovisuales autorizados y vestíbulo acústico',ph:'Equipo musical, altavoces, limitador, doble puerta...'},
+  {id:'sea',art:'Art. 306 D. 143/2015',t:'Servicio Específico de Admisión (SEA) / Control de acceso',ph:'Controladores acreditados, distintivo visible, Registro Prohibidos...'},
+  {id:'men',art:'Art. 307 D. 143/2015',t:'Control de acceso y prohibición de alcohol/tabaco a menores',ph:'Iniciales menor, DNI (>14), bebida consumida, circunstancias...'},
+  {id:'rec',art:'Art. 308 D. 143/2015',t:'Hojas de reclamaciones oficiales a disposición del público',ph:'Disponibilidad inmediata, negativas o incidencias...'},
+  {id:'bot',art:'Arts. 226 / 235 / 308',t:'Botiquín reglamentario y Plan de Emergencias / Autoprotección',ph:'Botiquín señalizado, enfermería (si ≥1000), plan suscrito...'},
+  {id:'ter',art:'Art. 309 / Ley 1/2020',t:'Autorización de terraza y/o máquinas recreativas (mando tipo B)',ph:'Nº mesas/sillas terraza, mando activación-desactivación tipo B...'}
+];
+
 var ES_ACT_INFS=[
   {id:'51.18',g:'GRAVE',t:'Incumplimiento horario apertura/cierre (Art. 51.18 Ley 14/2010)'},
   {id:'51.1',g:'GRAVE',t:'Apertura sin licencia / declaración responsable (Art. 51.1)'},
@@ -4938,7 +4995,7 @@ var ES_ACT_INFS=[
   {id:'J60.l',g:'GRAVE JUEGO',t:'Máquina tipo B sin mando activación-desactivación (Art. 60.l Ley 1/2020)'}
 ];
 
-var esActEditId=null, esActSelInf={};
+var esActEditId=null, esActSelInf={}, esActComps={};
 
 function esActList(){S.actas=S.actas||[];return S.actas;}
 
@@ -4972,9 +5029,46 @@ function esActLoadFromLoc(idStr){
   $('ea-lic').value='['+licO.ep+'] '+licO.n+(item.titulo?' · '+item.titulo:'');
   $('ea-aforo-aut').value=item.aforo||'';
   if(item.segcia||item.segcap){
-    $('ea-seg').value=(item.segcia||'')+(item.segcap?' · '+parseFloat(item.segcap).toLocaleString('es-ES')+' €':'')+(item.segvto?' · Vto: '+item.segvto:'');
+    esActComps.seg=esActComps.seg||{st:'',det:''};
+    esActComps.seg.det=(item.segcia||'')+(item.segcap?' · '+parseFloat(item.segcap).toLocaleString('es-ES')+' €':'')+(item.segvto?' · Vto: '+item.segvto:'');
+    esActRenderComps();
   }
   banner('Datos del establecimiento cargados en el acta.','');
+}
+
+function esActRenderComps(){
+  var box=$('ea-comp-list');
+  if(!box)return;
+  var rev=0, si=0, no=0;
+  box.innerHTML=ES_ACT_COMPS.map(function(c){
+    var cur=esActComps[c.id]||{st:'',det:''};
+    if(cur.st){rev++;if(cur.st==='si')si++;if(cur.st==='no')no++;}
+    var cls='ea-chk-item'+(cur.st?' st-'+cur.st:'');
+    var h='<div class="'+cls+'">';
+    h+='<div class="ea-chk-top">';
+    h+='<div class="ea-chk-lbl">'+esc(c.t)+'<small>'+esc(c.art)+'</small></div>';
+    h+='<div class="ea-chk-btns">';
+    h+='<button type="button" class="ea-btn'+(cur.st==='si'?' on-si':'')+'" onclick="esActSetComp(\''+c.id+'\',\'si\')">Dispone</button>';
+    h+='<button type="button" class="ea-btn'+(cur.st==='no'?' on-no':'')+'" onclick="esActSetComp(\''+c.id+'\',\'no\')">No dispone</button>';
+    h+='<button type="button" class="ea-btn'+(cur.st==='na'?' on-na':'')+'" onclick="esActSetComp(\''+c.id+'\',\'na\')">N/A</button>';
+    h+='</div></div>';
+    h+='<input class="ea-chk-det" value="'+esc(cur.det||'')+'" placeholder="'+esc(c.ph)+'" oninput="esActSetCompDet(\''+c.id+'\',this.value)">';
+    h+='</div>';
+    return h;
+  }).join('');
+  var stEl=$('ea-comp-stat');
+  if(stEl)stEl.innerHTML='Revisados: <b>'+rev+'/'+ES_ACT_COMPS.length+'</b>'+(si?' · <span style="color:#6de0a8">Sí:'+si+'</span>':'')+(no?' · <span style="color:#ff8694">No:'+no+'</span>':'');
+}
+
+function esActSetComp(id,st){
+  var cur=esActComps[id]||(esActComps[id]={st:'',det:''});
+  cur.st=(cur.st===st)?'':st;
+  esActRenderComps();
+}
+
+function esActSetCompDet(id,val){
+  var cur=esActComps[id]||(esActComps[id]={st:'',det:''});
+  cur.det=val;
 }
 
 function esActRenderInfChecks(){
@@ -4991,7 +5085,9 @@ function esActTogInf(id,val){
 function esActNew(){
   esActEditId=null;
   esActSelInf={};
+  esActComps={};
   esActPopulateLocPicker();
+  esActRenderComps();
   esActRenderInfChecks();
   var now=new Date();
   $('es-act-ftitle').textContent='Nueva Acta de Inspección';
@@ -5000,7 +5096,7 @@ function esActNew(){
   $('ea-fecha').value=now.toISOString().slice(0,10);
   $('ea-hora').value=pad(now.getHours())+':'+pad(now.getMinutes());
   $('ea-ag1').value=S.name||'';
-  ['ea-ag2','ea-nom','ea-dir','ea-tit','ea-nif','ea-lic','ea-aforo-aut','ea-comp-nom','ea-comp-dni','ea-pers','ea-recuento','ea-seg','ea-ext','ea-men','ea-son','ea-hechos','ea-manif'].forEach(function(id){if($(id))$(id).value='';});
+  ['ea-ag2','ea-nom','ea-dir','ea-tit','ea-nif','ea-lic','ea-aforo-aut','ea-comp-nom','ea-comp-dni','ea-pers','ea-recuento','ea-hechos','ea-manif'].forEach(function(id){if($(id))$(id).value='';});
   $('ea-comp-cal').value='Titular';
   $('ea-abierto').value='Sí, abierto y en funcionamiento';
   $('ea-cons').value='Sí, consumiendo y se siguen sirviendo bebidas';
@@ -5018,7 +5114,16 @@ function esActEdit(id){
   esActEditId=id;
   esActSelInf={};
   (a.infs||[]).forEach(function(k){esActSelInf[k]=1;});
+  esActComps=a.comps?JSON.parse(JSON.stringify(a.comps)):{};
+  // Compatibilidad con actas anteriores (seg, ext, men, son)
+  if(!a.comps){
+    if(a.seg)esActComps.seg={st:'',det:a.seg};
+    if(a.ext)esActComps.ext={st:'',det:a.ext};
+    if(a.men)esActComps.men={st:'',det:a.men};
+    if(a.son)esActComps.son={st:'',det:a.son};
+  }
   esActPopulateLocPicker();
+  esActRenderComps();
   esActRenderInfChecks();
   $('es-act-ftitle').textContent='Editar Acta '+a.num;
   $('ea-tipo').value=a.tipo||'ACTA DE INSPECCIÓN Y DENUNCIA';
@@ -5043,10 +5148,6 @@ function esActEdit(id){
   $('ea-luces').value=a.luces||'';
   $('ea-puertas').value=a.puertas||'';
   $('ea-mus').value=a.mus||'';
-  $('ea-seg').value=a.seg||'';
-  $('ea-ext').value=a.ext||'';
-  $('ea-men').value=a.men||'';
-  $('ea-son').value=a.son||'';
   $('ea-hechos').value=a.hechos||'';
   $('ea-manif').value=a.manif||'';
   $('ea-firma').value=a.firma||'Firma y recibe copia';
@@ -5057,6 +5158,13 @@ function esActEdit(id){
 function esActSave(){
   var nom=$('ea-nom').value.trim();
   if(!nom){banner('Indica el nombre del establecimiento inspeccionado.','');$('ea-nom').focus();return;}
+  var cleanComps={};
+  ES_ACT_COMPS.forEach(function(c){
+    var v=esActComps[c.id];
+    if(v&&(v.st||(v.det&&v.det.trim()))){
+      cleanComps[c.id]={st:v.st||'',det:(v.det||'').trim()};
+    }
+  });
   var rec={
     id:esActEditId||Date.now(),
     tipo:$('ea-tipo').value,
@@ -5081,10 +5189,7 @@ function esActSave(){
     luces:$('ea-luces').value,
     puertas:$('ea-puertas').value,
     mus:$('ea-mus').value,
-    seg:$('ea-seg').value.trim(),
-    ext:$('ea-ext').value.trim(),
-    men:$('ea-men').value.trim(),
-    son:$('ea-son').value.trim(),
+    comps:cleanComps,
     infs:Object.keys(esActSelInf),
     hechos:$('ea-hechos').value.trim(),
     manif:$('ea-manif').value.trim(),
@@ -5109,11 +5214,31 @@ function esActDel(id){
   esActShow('list');
 }
 
+function esActGetCompRows(a){
+  var rows=[];
+  var map=a.comps||{};
+  ES_ACT_COMPS.forEach(function(c){
+    var v=map[c.id];
+    if(v&&(v.st||v.det)){
+      var stTxt=v.st==='si'?'DISPONE':(v.st==='no'?'NO DISPONE':(v.st==='na'?'N/A':'OBSERVACIÓN'));
+      rows.push({id:c.id,t:c.t,art:c.art,st:v.st||'',stTxt:stTxt,det:v.det||''});
+    }
+  });
+  if(!a.comps){
+    if(a.seg)rows.push({id:'seg',t:'Seguro RC',art:'Art. 302',st:'',stTxt:'OBSERVACIÓN',det:a.seg});
+    if(a.ext)rows.push({id:'ext',t:'Extintores',art:'Art. 303',st:'',stTxt:'OBSERVACIÓN',det:a.ext});
+    if(a.men)rows.push({id:'men',t:'Menores',art:'Art. 307',st:'',stTxt:'OBSERVACIÓN',det:a.men});
+    if(a.son)rows.push({id:'son',t:'Medios sonoros',art:'Art. 305',st:'',stTxt:'OBSERVACIÓN',det:a.son});
+  }
+  return rows;
+}
+
 function esActFormatPlain(a){
   var infTxts=(a.infs||[]).map(function(k){
     var o=ES_ACT_INFS.filter(function(x){return x.id===k})[0];
     return o?('- ['+o.g+'] '+o.t):k;
   });
+  var compRows=esActGetCompRows(a);
   var lines=[
     'POLICÍA LOCAL DE PILAR DE LA HORADADA',
     a.tipo+' · Nº '+(a.num||'S/N'),
@@ -5135,10 +5260,13 @@ function esActFormatPlain(a){
     '- Puertas / Evacuación: '+(a.puertas||'—'),
     '- Música: '+(a.mus||'—')
   ];
-  if(a.seg)lines.push('- Seguro RC: '+a.seg);
-  if(a.ext)lines.push('- Extintores: '+a.ext);
-  if(a.men)lines.push('- Menores: '+a.men);
-  if(a.son)lines.push('- Medios sonoros: '+a.son);
+  if(compRows.length){
+    lines.push('--------------------------------------------------');
+    lines.push('COMPROBACIONES ESPECÍFICAS (ARTS. 301–309 D. 143/2015):');
+    compRows.forEach(function(r){
+      lines.push('- ['+r.stTxt+'] '+r.t+(r.det?' — '+r.det:''));
+    });
+  }
   if(infTxts.length){
     lines.push('--------------------------------------------------');
     lines.push('POSIBLES INFRACCIONES DETECTADAS:');
@@ -5172,13 +5300,22 @@ function esActPrint(id){
     var o=ES_ACT_INFS.filter(function(x){return x.id===k})[0];
     return o?('<li><b>['+esc(o.g)+']</b> '+esc(o.t)+'</li>'):'';
   }).join('');
+  var compRows=esActGetCompRows(a);
   var w=window.open('','_blank');
   if(!w){alert('Permite ventanas emergentes para imprimir o guardar en PDF.');return;}
-  w.document.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Acta '+esc(a.num)+'</title><style>body{font:12.5px/1.45 Arial,sans-serif;color:#111;margin:24px}h1{font-size:16px;margin:0;text-transform:uppercase}h2{font-size:13px;margin:14px 0 6px;border-bottom:1.5px solid #222;padding-bottom:2px;text-transform:uppercase}.hd{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:8px}.box{border:1px solid #bbb;padding:8px;border-radius:4px;white-space:pre-wrap;min-height:40px}.signs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:34px;text-align:center}.sline{border-top:1px solid #333;padding-top:4px;margin-top:44px;font-size:11px}@media print{body{margin:12mm}}</style></head><body>');
+  w.document.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Acta '+esc(a.num)+'</title><style>body{font:12px/1.45 Arial,sans-serif;color:#111;margin:22px}h1{font-size:15.5px;margin:0;text-transform:uppercase}h2{font-size:12.5px;margin:13px 0 6px;border-bottom:1.5px solid #222;padding-bottom:2px;text-transform:uppercase}.hd{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:10px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 14px;margin-bottom:8px}table{width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:8px}th,td{border:1px solid #bbb;padding:4px 6px;text-align:left}th{background:#f0f2f5}.st-si{color:#0f6b3d;font-weight:700}.st-no{color:#a81c2e;font-weight:700}.box{border:1px solid #bbb;padding:8px;border-radius:4px;white-space:pre-wrap;min-height:36px}.signs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:30px;text-align:center}.sline{border-top:1px solid #333;padding-top:4px;margin-top:42px;font-size:11px}@media print{body{margin:11mm}}</style></head><body>');
   w.document.write('<div class="hd"><div><h1>POLICÍA LOCAL DE PILAR DE LA HORADADA</h1><div><b>'+esc(a.tipo)+'</b> · Nº '+esc(a.num||'S/N')+'</div><div style="font-size:11px;color:#444">Ley 14/2010 · Decreto 143/2015 (Arts. 298–309) · Orden 3/2025</div></div><div style="text-align:right;font-size:12px"><b>Fecha:</b> '+esc(a.fecha||'—')+'<br><b>Hora:</b> '+esc(a.hora||'—')+' h</div></div>');
   w.document.write('<h2>1. Identificación (Art. 298 D. 143/2015)</h2><div class="grid"><div><b>Agentes actuantes:</b> NIP '+esc(a.ag1||'—')+(a.ag2?' / NIP '+esc(a.ag2):'')+'</div><div><b>Órgano destinatario:</b> '+esc(a.dest||'—')+'</div><div><b>Establecimiento:</b> '+esc(a.nom)+'</div><div><b>Emplazamiento:</b> '+esc(a.dir||'—')+'</div><div><b>Titular / Razón social:</b> '+esc(a.tit||'—')+'</div><div><b>NIF / CIF:</b> '+esc(a.nif||'—')+'</div><div><b>Licencia / Actividad:</b> '+esc(a.lic||'—')+'</div><div><b>Aforo autorizado:</b> '+(a.aforoAut?esc(a.aforoAut)+' personas':'No consta')+'</div><div><b>Compareciente:</b> '+esc(a.compNom||'—')+' ('+esc(a.compCal||'—')+')</div><div><b>DNI / NIE:</b> '+esc(a.compDni||'—')+'</div></div>');
-  w.document.write('<h2>2. Constataciones directas (Arts. 299–309 D. 143/2015)</h2><div class="grid"><div><b>Estado del local:</b> '+esc(a.abierto||'—')+'</div><div><b>Personas presentes:</b> '+(a.pers?esc(a.pers)+' pers.':'No consta')+(a.recuento?' ('+esc(a.recuento)+')':'')+'</div><div><b>Consumiciones:</b> '+esc(a.cons||'—')+'</div><div><b>Iluminación:</b> '+esc(a.luces||'—')+'</div><div><b>Puertas / Evacuación:</b> '+esc(a.puertas||'—')+'</div><div><b>Música:</b> '+esc(a.mus||'—')+'</div>'+(a.seg?'<div><b>Seguro RC:</b> '+esc(a.seg)+'</div>':'')+(a.ext?'<div><b>Extintores:</b> '+esc(a.ext)+'</div>':'')+(a.men?'<div><b>Menores:</b> '+esc(a.men)+'</div>':'')+(a.son?'<div><b>Medios sonoros:</b> '+esc(a.son)+'</div>':'')+'</div>');
-  if(infHtml)w.document.write('<h2>3. Posibles infracciones detectadas</h2><ul style="margin:4px 0 8px;padding-left:18px">'+infHtml+'</ul>');
+  w.document.write('<h2>2. Constataciones directas (Art. 299 D. 143/2015)</h2><div class="grid"><div><b>Estado del local:</b> '+esc(a.abierto||'—')+'</div><div><b>Personas presentes:</b> '+(a.pers?esc(a.pers)+' pers.':'No consta')+(a.recuento?' ('+esc(a.recuento)+')':'')+'</div><div><b>Consumiciones:</b> '+esc(a.cons||'—')+'</div><div><b>Iluminación:</b> '+esc(a.luces||'—')+'</div><div><b>Puertas / Evacuación:</b> '+esc(a.puertas||'—')+'</div><div><b>Música:</b> '+esc(a.mus||'—')+'</div></div>');
+  if(compRows.length){
+    w.document.write('<h2>3. Comprobaciones específicas (Arts. 301–309 D. 143/2015)</h2><table><tr><th>Elemento comprobado</th><th style="width:95px">Resultado</th><th>Observaciones / Detalle</th></tr>');
+    compRows.forEach(function(r){
+      var cls=r.st==='si'?'st-si':(r.st==='no'?'st-no':'');
+      w.document.write('<tr><td>'+esc(r.t)+' <span style="color:#555;font-size:10.5px">('+esc(r.art)+')</span></td><td class="'+cls+'">'+esc(r.stTxt)+'</td><td>'+esc(r.det||'—')+'</td></tr>');
+    });
+    w.document.write('</table>');
+  }
+  if(infHtml)w.document.write('<h2>Posibles infracciones detectadas</h2><ul style="margin:4px 0 8px;padding-left:18px">'+infHtml+'</ul>');
   w.document.write('<h2>Hechos directamente observados</h2><div class="box">'+esc(a.hechos||'Sin observaciones adicionales.')+'</div>');
   w.document.write('<h2>Manifestaciones del compareciente y entrega de copia</h2><div class="box">'+esc(a.manif||'No desea manifestar nada.')+'</div><div style="margin-top:6px"><b>Firma y copia:</b> '+esc(a.firma||'—')+'</div>');
   w.document.write('<div class="signs"><div class="sline">Agente NIP '+esc(a.ag1||'____')+'</div><div class="sline">Agente NIP '+esc(a.ag2||'____')+'</div><div class="sline">El/La Compareciente</div></div>');
@@ -5194,6 +5331,7 @@ function esActOpenView(id){
     var o=ES_ACT_INFS.filter(function(x){return x.id===k})[0];
     return o?('<li><b>['+esc(o.g)+']</b> '+esc(o.t)+'</li>'):'';
   }).join('');
+  var compRows=esActGetCompRows(a);
 
   var h='<div class="pc-card">';
   h+='<div class="bar" style="margin-bottom:8px;flex-wrap:wrap">';
@@ -5207,6 +5345,20 @@ function esActOpenView(id){
   h+='<div class="pc-sbox"><small>Titular / Compareciente</small><b>'+esc(a.tit||'—')+(a.nif?' ('+esc(a.nif)+')':'')+'</b><div style="font-size:11.5px;color:var(--mut)">Comp.: '+esc(a.compNom||'—')+' ('+esc(a.compCal||'—')+')</div></div>';
   h+='<div class="pc-sbox"><small>Constataciones (Art. 299)</small><b>'+esc(a.abierto)+'</b><div style="font-size:11.5px;color:var(--mut)">Personas: '+(a.pers?esc(a.pers):'—')+' · '+esc(a.puertas)+'</div></div>';
   h+='</div>';
+
+  if(compRows.length){
+    h+='<div class="card" style="background:var(--bg2);margin-bottom:10px;padding:10px 12px">';
+    h+='<div class="card-hd" style="font-size:13.5px;margin-bottom:6px">'+svg('clip',14)+' Comprobaciones específicas (Arts. 301–309)</div>';
+    h+='<div style="display:flex;flex-direction:column;gap:5px">';
+    compRows.forEach(function(r){
+      var pCls=r.st==='si'?'cd-p-L':(r.st==='no'?'cd-p-MG':'cd-p-norm');
+      h+='<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid rgba(28,45,72,.6);font-size:12.5px">';
+      h+='<div><b style="color:#eef3fa">'+esc(r.t)+'</b>'+(r.det?'<div style="color:var(--mut);font-size:12px">'+esc(r.det)+'</div>':'')+'</div>';
+      h+='<span class="cd-pill '+pCls+'" style="flex-shrink:0">'+esc(r.stTxt)+'</span>';
+      h+='</div>';
+    });
+    h+='</div></div>';
+  }
 
   if(infHtml)h+='<div class="pc-alert red" style="margin-top:0"><div><b>Posibles infracciones detectadas:</b><ul style="margin:4px 0 0;padding-left:18px">'+infHtml+'</ul></div></div>';
 
@@ -5234,10 +5386,11 @@ function renderEsActas(){
   }
   $('es-act-cards').innerHTML=res.map(function(a){
     var nInf=(a.infs||[]).length;
-    var h='<div class="bn-card '+(nInf?'t-man':'t-otr')+'" style="cursor:pointer" onclick="esActOpenView('+a.id+')">';
-    h+='<div class="bn-top"><span class="bn-badge '+(nInf?'t-man':'t-otr')+'">'+esc(a.tipo)+'</span><span class="bn-time">'+esc(a.fecha)+' '+esc(a.hora)+' h</span></div>';
+    var nNo=esActGetCompRows(a).filter(function(r){return r.st==='no'}).length;
+    var h='<div class="bn-card '+(nInf||nNo?'t-man':'t-otr')+'" style="cursor:pointer" onclick="esActOpenView('+a.id+')">';
+    h+='<div class="bn-top"><span class="bn-badge '+(nInf||nNo?'t-man':'t-otr')+'">'+esc(a.tipo)+'</span><span class="bn-time">'+esc(a.fecha)+' '+esc(a.hora)+' h</span></div>';
     h+='<div class="bn-head">'+esc(a.nom)+' <span style="font-size:12px;color:var(--mut)">Nº '+esc(a.num||'S/N')+'</span></div>';
-    h+='<div class="bn-meta"><span><b>Agentes:</b> '+esc(a.ag1||'—')+(a.ag2?' / '+esc(a.ag2):'')+'</span><span><b>Infracciones:</b> '+nInf+'</span></div>';
+    h+='<div class="bn-meta"><span><b>Agentes:</b> '+esc(a.ag1||'—')+(a.ag2?' / '+esc(a.ag2):'')+'</span><span><b>Infracciones:</b> '+nInf+'</span>'+(nNo?'<span style="color:#ff8694"><b>No dispone:</b> '+nNo+'</span>':'')+'</div>';
     if(a.hechos)h+='<div class="bn-body" style="max-height:48px;overflow:hidden">'+esc(a.hechos)+'</div>';
     h+='<div class="bn-foot" onclick="event.stopPropagation()">';
     h+='<button class="btn" style="padding:5px 10px;font-size:12px" onclick="esActPrint('+a.id+')">Imprimir / PDF</button>';
