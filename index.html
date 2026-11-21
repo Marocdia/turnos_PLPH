@@ -1589,6 +1589,18 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
     <button class="btn sec" onclick="esBack()" id="btn-back-es"></button>
    </div>
 
+   <!-- BARRA DE BASE DE DATOS COMPARTIDA (SOLO ESTABLECIMIENTOS Y ACTAS) -->
+   <div id="es-cloud-bar" class="card" style="padding:10px 12px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;border-color:rgba(124,179,255,.35)">
+    <div style="display:flex;align-items:center;gap:8px;font-size:12.5px">
+     <span id="es-cloud-dot" style="width:9px;height:9px;border-radius:50%;background:var(--gold);display:inline-block"></span>
+     <span id="es-cloud-txt"><b>Base común:</b> Modo local (configura URL compartida)</span>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+     <button class="btn sec" style="padding:5px 9px;font-size:11.5px" onclick="esCloudSync(true)">↻ Sincronizar</button>
+     <button class="btn sec" style="padding:5px 9px;font-size:11.5px" onclick="esCloudConfig()">Configurar nube</button>
+    </div>
+   </div>
+
    <!-- SUBMENÚ PRINCIPAL: 3 BOTONES -->
    <div id="es-hub" class="pc-panel">
     <div class="pc-opts" style="grid-template-columns:1fr;gap:10px">
@@ -4097,11 +4109,17 @@ function esOpen(sub){
     renderEsHorarios();
     renderEsTable();
   }
+  esCloudUpdateBar();
+  if(sub==='hub'){
+    esCloudSync(false);
+  }
   if(sub==='locales'){
     esLocShow('list');
+    esCloudSync(false);
   }
   if(sub==='acta'){
     esActShow('list');
+    esCloudSync(false);
   }
   window.scrollTo(0,0);
 }
@@ -4810,15 +4828,18 @@ function esLocSave(){
   }else{
     L.unshift(rec);
   }
+  rec.by=S.name||'Agente';
   save();
-  banner('Establecimiento guardado en el registro municipal.','');
+  esCloudPut('locales',rec.id,rec);
+  banner('Establecimiento guardado y compartido en el registro municipal.','');
   esLocOpenDetail(rec.id);
 }
 
 function esLocDel(id){
-  if(!confirm('¿Eliminar este establecimiento del registro?'))return;
+  if(!confirm('¿Eliminar este establecimiento del registro común?'))return;
   S.locales=esLocList().filter(function(x){return x.id!==id});
   save();
+  esCloudDel('locales',id);
   esLocShow('list');
 }
 
@@ -4861,6 +4882,25 @@ function esLocOpenDetail(id){
     h+='<div class="pc-alert gold" style="margin-bottom:10px">'+svg('clip',15)+'<div><b>PDF vinculado:</b> '+esc(item.doc.name)+'</div></div>';
   }
 
+  // ACTAS DE INSPECCIÓN VINCULADAS A ESTE ESTABLECIMIENTO
+  var locActas=esActForLoc(item);
+  h+='<div class="card" style="background:var(--bg2);margin-bottom:10px;border-color:rgba(200,157,60,.38)">';
+  h+='<div class="bar" style="margin-bottom:8px;flex-wrap:wrap"><div class="card-hd" style="font-size:13.5px;margin:0;color:var(--gold2)">'+svg('clip',14)+' Actas de Inspección ('+locActas.length+')</div><button class="btn" style="padding:5px 10px;font-size:12px" onclick="esActNewForLoc('+item.id+')">+ Nueva Acta aquí</button></div>';
+  if(!locActas.length){
+    h+='<div style="font-size:12.5px;color:var(--mut)">No constan actas de inspección registradas para este establecimiento.</div>';
+  }else{
+    h+='<div style="display:flex;flex-direction:column;gap:6px">';
+    locActas.forEach(function(a){
+      var nInf=(a.infs||[]).length;
+      h+='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:7px 9px;background:var(--card);border:1px solid var(--line);border-left:3px solid '+(nInf?'#e64558':'var(--green)')+';border-radius:8px">';
+      h+='<div style="font-size:12.5px"><b>Acta Nº '+esc(a.num||'S/N')+'</b> · '+esc(a.fecha||'—')+' '+esc(a.hora||'')+'<div style="font-size:11.5px;color:var(--mut)">'+esc(a.tipo)+' · Agente: '+esc(a.ag1||'—')+(nInf?' · <span style="color:#ff8694">'+nInf+' infracción(es)</span>':'')+'</div></div>';
+      h+='<div style="display:flex;gap:5px"><button class="btn sec" style="padding:4px 8px;font-size:11.5px" onclick="esActOpenFromLoc('+a.id+','+item.id+')">Ver Acta</button><button class="btn sec" style="padding:4px 8px;font-size:11.5px" onclick="esActPrint('+a.id+')">PDF</button></div>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+  h+='</div>';
+
   // REQUISITOS LEGALES SEGÚN SU LICENCIA
   h+=esLocBuildReqHtml(item.lic,item.aforo,item.mus,item.ter,item.maq,item.segcap,item.segvto);
 
@@ -4877,8 +4917,9 @@ function esLocAppendObs(id){
   if(!item)return;
   var now=new Date();
   var stamp='['+pad(now.getDate())+'/'+pad(now.getMonth()+1)+'/'+now.getFullYear()+'] ';
-  item.obs=(item.obs?item.obs+'\n':'')+stamp+txt;
+  item.obs=(item.obs?item.obs+'\n':'')+stamp+(S.name?'['+S.name+'] ':'')+txt;
   save();
+  esCloudPut('locales',item.id,item);
   esLocOpenDetail(id);
 }
 
@@ -4995,7 +5036,7 @@ var ES_ACT_INFS=[
   {id:'J60.l',g:'GRAVE JUEGO',t:'Máquina tipo B sin mando activación-desactivación (Art. 60.l Ley 1/2020)'}
 ];
 
-var esActEditId=null, esActSelInf={}, esActComps={};
+var esActEditId=null, esActSelInf={}, esActComps={}, esActLocId=null, esActReturnLocId=null;
 
 function esActList(){S.actas=S.actas||[];return S.actas;}
 
@@ -5017,10 +5058,11 @@ function esActPopulateLocPicker(){
 }
 
 function esActLoadFromLoc(idStr){
-  if(!idStr)return;
+  if(!idStr){esActLocId=null;return;}
   var id=parseInt(idStr,10);
   var item=esLocList().filter(function(x){return x.id===id})[0];
   if(!item)return;
+  esActLocId=item.id;
   var licO=esLicObj(item.lic);
   $('ea-nom').value=item.nom||'';
   $('ea-dir').value=(item.dir||'')+(item.zona?' ('+item.zona+')':'');
@@ -5084,6 +5126,8 @@ function esActTogInf(id,val){
 
 function esActNew(){
   esActEditId=null;
+  esActLocId=null;
+  esActReturnLocId=null;
   esActSelInf={};
   esActComps={};
   esActPopulateLocPicker();
@@ -5092,7 +5136,7 @@ function esActNew(){
   var now=new Date();
   $('es-act-ftitle').textContent='Nueva Acta de Inspección';
   $('ea-tipo').value='ACTA DE INSPECCIÓN Y DENUNCIA';
-  $('ea-num').value=now.getFullYear()+'/'+pad(esActList().length+1);
+  $('ea-num').value=esActNextNum(now.getFullYear());
   $('ea-fecha').value=now.toISOString().slice(0,10);
   $('ea-hora').value=pad(now.getHours())+':'+pad(now.getMinutes());
   $('ea-ag1').value=S.name||'';
@@ -5112,6 +5156,7 @@ function esActEdit(id){
   var a=esActList().filter(function(x){return x.id===id})[0];
   if(!a)return;
   esActEditId=id;
+  esActLocId=a.locId||null;
   esActSelInf={};
   (a.infs||[]).forEach(function(k){esActSelInf[k]=1;});
   esActComps=a.comps?JSON.parse(JSON.stringify(a.comps)):{};
@@ -5165,10 +5210,21 @@ function esActSave(){
       cleanComps[c.id]={st:v.st||'',det:(v.det||'').trim()};
     }
   });
+  // Vincular automáticamente al establecimiento por ID o por nombre comercial
+  var matchedLocId=esActLocId||null;
+  if(!matchedLocId){
+    var normNom=nom.toLowerCase();
+    var mLoc=esLocList().filter(function(x){return (x.nom||'').trim().toLowerCase()===normNom})[0];
+    if(mLoc)matchedLocId=mLoc.id;
+  }
+  var isNew=!esActEditId;
+  var yr=($('ea-fecha').value||'').slice(0,4)||String(new Date().getFullYear());
+  var numVal=$('ea-num').value.trim()||esActNextNum(yr);
   var rec={
     id:esActEditId||Date.now(),
+    locId:matchedLocId,
     tipo:$('ea-tipo').value,
-    num:$('ea-num').value.trim(),
+    num:numVal,
     fecha:$('ea-fecha').value,
     hora:$('ea-hora').value,
     ag1:$('ea-ag1').value.trim(),
@@ -5194,23 +5250,42 @@ function esActSave(){
     hechos:$('ea-hechos').value.trim(),
     manif:$('ea-manif').value.trim(),
     firma:$('ea-firma').value,
-    dest:$('ea-dest').value
+    dest:$('ea-dest').value,
+    by:S.name||'Agente'
   };
-  var L=esActList();
-  if(esActEditId){
-    for(var i=0;i<L.length;i++){if(L[i].id===esActEditId){L[i]=rec;break;}}
-  }else{
-    L.unshift(rec);
+  function finishSave(){
+    var L=esActList();
+    if(!isNew){
+      for(var i=0;i<L.length;i++){if(L[i].id===rec.id){L[i]=rec;break;}}
+    }else{
+      L.unshift(rec);
+    }
+    save();
+    esCloudPut('actas',rec.id,rec);
+    banner('Acta Nº '+rec.num+' guardada, compartida'+(rec.locId?' y vinculada a la ficha del local':'')+'.','');
+    esActOpenView(rec.id);
   }
-  save();
-  banner('Acta de inspección guardada correctamente.','');
-  esActOpenView(rec.id);
+  // Si es nueva y hay nube configurada, sincronizar el correlativo antes de guardar para evitar duplicados entre agentes
+  var url=esCloudUrl();
+  if(isNew&&url){
+    fetch(url+'/establecimientos/actas.json').then(function(r){return r.ok?r.json():null}).then(function(obj){
+      if(obj&&typeof obj==='object'){
+        var arr=Object.keys(obj).map(function(k){return obj[k]}).filter(Boolean);
+        S.actas=esMergeById(esActList(),arr);
+        rec.num=esActNextNum(yr);
+      }
+      finishSave();
+    }).catch(function(){finishSave();});
+  }else{
+    finishSave();
+  }
 }
 
 function esActDel(id){
-  if(!confirm('¿Eliminar esta acta del historial?'))return;
+  if(!confirm('¿Eliminar esta acta del historial común?'))return;
   S.actas=esActList().filter(function(x){return x.id!==id});
   save();
+  esCloudDel('actas',id);
   esActShow('list');
 }
 
@@ -5365,7 +5440,8 @@ function esActOpenView(id){
   h+='<div class="card" style="background:var(--bg2);margin-bottom:10px"><div class="card-hd" style="font-size:13.5px;margin-bottom:4px">Hechos observados</div><div style="font-size:13px;color:#e4ebf5;white-space:pre-wrap;line-height:1.45">'+esc(a.hechos||'Sin observaciones.')+'</div></div>';
   h+='<div class="card" style="background:var(--bg2);margin-bottom:10px;font-size:12.5px;color:#cfd9ea"><b>Manifestaciones:</b> '+esc(a.manif||'No desea manifestar nada.')+'<br><b>Firma:</b> '+esc(a.firma)+'<br><b>Remisión:</b> '+esc(a.dest)+'</div>';
 
-  h+='<div class="pc-nav"><button class="btn red" style="padding:7px 12px;font-size:12.5px" onclick="esActDel('+a.id+')">'+svg('trash',14)+' Eliminar</button><button class="btn sec" onclick="esActShow(\'list\')">Volver al historial</button></div>';
+  var backBtn=esActReturnLocId?'<button class="btn sec" onclick="esActBackToLoc()">'+svg('back',14)+' Volver a ficha del local</button>':'<button class="btn sec" onclick="esActShow(\'list\')">Volver al historial</button>';
+  h+='<div class="pc-nav"><button class="btn red" style="padding:7px 12px;font-size:12.5px" onclick="esActDel('+a.id+')">'+svg('trash',14)+' Eliminar</button>'+backBtn+'</div>';
   h+='</div>';
   $('es-act-view').innerHTML=h;
   esActShow('view');
@@ -5400,6 +5476,160 @@ function renderEsActas(){
     h+='</div></div>';
     return h;
   }).join('');
+}
+
+
+/* ==================== SINCRONIZACIÓN COMÚN (ESTABLECIMIENTOS + ACTAS) Y CORRELATIVO ==================== */
+// Si pegas aquí la URL de tu Firebase Realtime Database antes de subir a GitHub,
+// todos los agentes quedarán conectados automáticamente sin tener que configurar nada:
+var ES_DEFAULT_CLOUD_URL='https://pl-pilar-horadada-default-rtdb.europe-west1.firebasedatabase.app';
+
+function esCloudUrl(){
+  var u=(S.esCloudUrl||ES_DEFAULT_CLOUD_URL||'').trim();
+  return u.replace(/\/+$/,'');
+}
+
+function esCloudUpdateBar(msg,ok){
+  var dot=$('es-cloud-dot'), txt=$('es-cloud-txt');
+  if(!dot||!txt)return;
+  var url=esCloudUrl();
+  if(!url){
+    dot.style.background='var(--gold)';
+    txt.innerHTML='<b>Base común:</b> Solo local · Pulsa «Configurar nube» para compartir con todos los agentes';
+    return;
+  }
+  if(ok===false){
+    dot.style.background='#e64558';
+    txt.innerHTML='<b>Base común:</b> '+(msg||'Sin conexión (usando copia local)');
+  }else{
+    dot.style.background='var(--green)';
+    txt.innerHTML='<b>Base común conectada:</b> '+(msg||'Establecimientos y Actas compartidos entre agentes');
+  }
+}
+
+function esCloudConfig(){
+  var cur=esCloudUrl();
+  var h='<div class="mb"><div class="card-hd" style="font-size:16px;margin-bottom:6px">'+svg('store',16)+' Base de datos común (Establecimientos y Actas)</div>';
+  h+='<p style="color:var(--mut);font-size:13px;margin:0 0 10px;line-height:1.45">Los <b>Establecimientos</b> y las <b>Actas de Inspección</b> se comparten entre todos los agentes mediante una base de datos gratuita de Firebase Realtime Database. Tus <b>Turnos, Gratificaciones y Notas</b> siguen siendo 100% privados en tu dispositivo.</p>';
+  h+='<div class="fld"><label>URL de Firebase Realtime Database</label><input id="es-cld-in" value="'+esc(cur)+'" placeholder="https://tu-proyecto-default-rtdb.europe-west1.firebasedatabase.app"></div>';
+  h+='<div style="font-size:11.5px;color:var(--mut);margin-bottom:12px">Consejo: una vez creada la URL en Firebase, puedes pegarla aquí o en la variable <code>ES_DEFAULT_CLOUD_URL</code> del HTML para que todos los agentes entren conectados automáticamente.</div>';
+  h+='<div class="row" style="justify-content:flex-end;margin-bottom:0"><button class="btn sec" onclick="$(\'modal\').classList.add(\'hide\')">Cancelar</button><button class="btn" onclick="esCloudSaveUrl()">Guardar y sincronizar</button></div></div>';
+  $('modal').innerHTML=h;
+  $('modal').classList.remove('hide');
+}
+
+function esCloudSaveUrl(){
+  var v=($('es-cld-in')?$('es-cld-in').value:'').trim().replace(/\/+$/,'');
+  S.esCloudUrl=v;
+  save();
+  $('modal').classList.add('hide');
+  esCloudUpdateBar();
+  if(v)esCloudSync(true);
+}
+
+function esMergeById(localArr,remoteArr){
+  var map={};
+  (localArr||[]).forEach(function(x){if(x&&x.id)map[x.id]=x;});
+  (remoteArr||[]).forEach(function(x){if(x&&x.id)map[x.id]=x;});
+  return Object.keys(map).map(function(k){return map[k]}).sort(function(a,b){return (b.id||0)-(a.id||0)});
+}
+
+function esCloudPut(col,id,obj){
+  var url=esCloudUrl();
+  if(!url)return;
+  fetch(url+'/establecimientos/'+col+'/'+id+'.json',{
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(obj)
+  }).then(function(r){
+    if(r.ok)esCloudUpdateBar('Último cambio sincronizado',true);
+    else esCloudUpdateBar('Error al guardar en nube (revisa reglas Firebase)',false);
+  }).catch(function(){
+    esCloudUpdateBar('Sin conexión (guardado localmente)',false);
+  });
+}
+
+function esCloudDel(col,id){
+  var url=esCloudUrl();
+  if(!url)return;
+  fetch(url+'/establecimientos/'+col+'/'+id+'.json',{method:'DELETE'}).catch(function(){});
+}
+
+function esCloudSync(showToast){
+  var url=esCloudUrl();
+  if(!url){esCloudUpdateBar();return;}
+  esCloudUpdateBar('Sincronizando...',true);
+  fetch(url+'/establecimientos.json').then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  }).then(function(data){
+    data=data||{};
+    var remLoc=data.locales?Object.keys(data.locales).map(function(k){return data.locales[k]}).filter(Boolean):[];
+    var remAct=data.actas?Object.keys(data.actas).map(function(k){return data.actas[k]}).filter(Boolean):[];
+    // Si había registros locales que aún no estaban en la nube, subirlos también
+    var remLocIds={}, remActIds={};
+    remLoc.forEach(function(x){remLocIds[x.id]=1;});
+    remAct.forEach(function(x){remActIds[x.id]=1;});
+    esLocList().forEach(function(x){if(x&&x.id&&!remLocIds[x.id])esCloudPut('locales',x.id,x);});
+    esActList().forEach(function(x){if(x&&x.id&&!remActIds[x.id])esCloudPut('actas',x.id,x);});
+
+    S.locales=esMergeById(esLocList(),remLoc);
+    S.actas=esMergeById(esActList(),remAct);
+    save();
+    renderEsLocales();
+    renderEsActas();
+    var now=new Date();
+    esCloudUpdateBar('Sincronizado '+pad(now.getHours())+':'+pad(now.getMinutes())+' ('+S.locales.length+' locales · '+S.actas.length+' actas)',true);
+    if(showToast)banner('Sincronización completada: '+S.locales.length+' locales y '+S.actas.length+' actas.','');
+  }).catch(function(){
+    esCloudUpdateBar('No se pudo conectar a la nube (mostrando copia local)',false);
+  });
+}
+
+function esActNextNum(year){
+  var yr=String(year||new Date().getFullYear());
+  var maxN=0;
+  esActList().forEach(function(a){
+    var m=String(a.num||'').match(/^(\d{4})\/(\d+)$/);
+    if(m&&m[1]===yr){
+      var n=parseInt(m[2],10)||0;
+      if(n>maxN)maxN=n;
+    }
+  });
+  var next=maxN+1;
+  var s=String(next);
+  while(s.length<3)s='0'+s;
+  return yr+'/'+s;
+}
+
+function esActForLoc(loc){
+  if(!loc)return [];
+  var norm=(loc.nom||'').trim().toLowerCase();
+  return esActList().filter(function(a){
+    if(a.locId&&a.locId===loc.id)return true;
+    return norm&&(a.nom||'').trim().toLowerCase()===norm;
+  });
+}
+
+function esActNewForLoc(locId){
+  esOpen('acta');
+  esActNew();
+  esActReturnLocId=locId;
+  if($('ea-pick-loc'))$('ea-pick-loc').value=String(locId);
+  esActLoadFromLoc(String(locId));
+}
+
+function esActOpenFromLoc(actId,locId){
+  esActReturnLocId=locId;
+  esOpen('acta');
+  esActOpenView(actId);
+}
+
+function esActBackToLoc(){
+  var lid=esActReturnLocId;
+  esActReturnLocId=null;
+  esOpen('locales');
+  if(lid)esLocOpenDetail(lid);
 }
 
 initStaticIcons();
