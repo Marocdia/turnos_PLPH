@@ -2253,6 +2253,85 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
    </div>
   </div>
 
+  <!-- MÓDULO ORDENANZAS MUNICIPALES -->
+  <div id="ordenanzas" class="hide wrap-sm">
+   <div class="view-hd">
+    <div>
+     <h2 id="ord-title"></h2>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px" id="ord-sub">Ordenanzas Municipales de Pilar de la Horadada · Referencia policial</div>
+    </div>
+    <button class="btn sec" onclick="ordBack()" id="btn-back-ord"></button>
+   </div>
+
+   <!-- HUB PRINCIPAL DE ORDENANZAS (ESCALABLE) -->
+   <div id="ord-hub" class="pc-panel">
+    <div class="pc-opts" style="grid-template-columns:1fr;gap:10px" id="ord-hub-list"></div>
+   </div>
+
+   <!-- SUBMENÚ DE LA ORDENANZA SELECCIONADA -->
+   <div id="ord-menu" class="hide pc-panel">
+    <div class="card" style="padding:12px 14px;margin-bottom:10px;border-left:4px solid var(--gold)">
+     <div style="font-weight:800;font-size:14.5px;color:var(--gold2)" id="ord-sel-name"></div>
+     <div style="font-size:12px;color:var(--mut);margin-top:3px" id="ord-sel-meta"></div>
+    </div>
+    <div class="pc-opts" style="grid-template-columns:1fr;gap:10px">
+     <div class="dtile act" style="padding:16px 14px" onclick="ordOpenSub('resumen')">
+      <div class="ib c-gold" style="width:46px;height:46px" id="ord-ic-res"></div>
+      <div class="txt">
+       <div class="tt"><span>RESUMEN OPERATIVO</span></div>
+       <div class="ts" style="white-space:normal">Aspectos clave de intervención policial: playas oficiales, banderas, horarios, prohibiciones, medidas cautelares y cuantías</div>
+      </div>
+     </div>
+     <div class="dtile act" style="padding:16px 14px" onclick="ordOpenSub('buscador')">
+      <div class="ib c-teal" style="width:46px;height:46px" id="ord-ic-bus"></div>
+      <div class="txt">
+       <div class="tt"><span>BUSCADOR DE LA ORDENANZA</span></div>
+       <div class="ts" style="white-space:normal">Búsqueda instantánea de palabras y artículos en todo el articulado (Arts. 1 a 68 + Disposiciones)</div>
+      </div>
+     </div>
+     <div class="dtile act" style="padding:16px 14px" onclick="ordOpenSub('codificado')">
+      <div class="ib c-blue" style="width:46px;height:46px" id="ord-ic-cod"></div>
+      <div class="txt">
+       <div class="tt"><span>CODIFICADO DE INFRACCIONES</span></div>
+       <div class="ts" style="white-space:normal">Las 40 infracciones (Arts. 62, 63 y 64), filtros por gravedad/tema, cuantías, favoritos y copia rápida para boletín</div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <!-- SUBVISTA 1: RESUMEN OPERATIVO -->
+   <div id="ord-resumen" class="hide pc-panel"></div>
+
+   <!-- SUBVISTA 2: BUSCADOR DE PALABRAS EN EL ARTICULADO -->
+   <div id="ord-buscador" class="hide cd-wrap">
+    <div class="cd-search-box">
+     <input class="cd-search" id="ordb-q" type="search" placeholder="Buscar palabra o artículo (ej: perro, bandera, 200 metros, duna, sombrilla, pesca, alcohol, vidrio)..." oninput="renderOrdBuscador()">
+     <button type="button" class="cd-clr hide" id="ordb-clr" onclick="$('ordb-q').value='';renderOrdBuscador()" title="Limpiar">×</button>
+    </div>
+    <div class="cd-norms" id="ordb-tits"></div>
+    <div class="cd-meta-bar">
+     <span id="ordb-count">Mostrando 0 artículos</span>
+     <span style="font-size:11.5px">Coincidencias resaltadas en amarillo</span>
+    </div>
+    <div class="cd-list" id="ordb-list"></div>
+   </div>
+
+   <!-- SUBVISTA 3: CODIFICADO DE INFRACCIONES -->
+   <div id="ord-codificado" class="hide cd-wrap">
+    <div class="cd-search-box">
+     <input class="cd-search" id="ordc-q" type="search" placeholder="Buscar infracción (ej: 63.b, bandera roja, fuego, alcohol, perro, duna, venta ambulante, moto agua)..." oninput="ordCodOnSearch()">
+     <button type="button" class="cd-clr hide" id="ordc-clr" onclick="ordCodClearQ()" title="Limpiar">×</button>
+    </div>
+    <div class="cd-norms" id="ordc-cats"></div>
+    <div class="cd-subf" id="ordc-subf"></div>
+    <div class="cd-meta-bar">
+     <span id="ordc-count">Mostrando 0 infracciones</span>
+     <span style="font-size:11.5px">Toca «Detalles y redacción» para ver sanciones y notas</span>
+    </div>
+    <div class="cd-list" id="ordc-list"></div>
+   </div>
+  </div>
+
   <!-- MÓDULO ADMINISTRACIÓN DE USUARIOS Y ACCESOS -->
   <div id="admin" class="hide wrap-sm">
    <div class="view-hd">
@@ -2379,6 +2458,7 @@ var DASH_TOOLS=[
   {t:'PRUEBA DE CONTRASTE',s:'Guía protocolo alcohol/drogas sangre',i:'tube',c:'c-crim',act:1,go:'contraste'},
   {t:'ESTABLECIMIENTOS',s:'Horarios, locales Pilar y acta inspección',i:'store',c:'c-gold',act:1,go:'establecimientos'},
   {t:'4/2015',s:'Codificado LO 4/2015 y artículos policiales',i:'shield',c:'c-blue',act:1,go:'lo415'},
+  {t:'ORDENANZAS',s:'Ordenanzas municipales de interés policial',i:'book',c:'c-gold',act:1,go:'ordenanzas'},
   {t:'BLOC NOTAS',s:'Notas de vehículos, personas, otros',i:'note',c:'c-gold',act:1,go:'bloc'},
   {t:'FAVORITOS',s:'Infracciones guardadas',i:'heart',c:'c-crim',act:1,go:'favoritos'},
   {t:'FORO',s:'Comunidad y consultas',i:'chat',c:'c-blue'},
@@ -3122,6 +3202,8 @@ function navBack(){
     }
   }else if(curView==='lo415'){
     if(typeof loState!=='undefined'&&loState.sub!=='hub'){loOpen('hub');return;}
+  }else if(curView==='ordenanzas'){
+    if(typeof ordState!=='undefined'&&ordState.view!=='hub'){ordBack();return;}
   }else if(curView==='permisos'){
     if(typeof pmPath!=='undefined'&&pmPath.length>1){pmJump(pmPath.length-2);return;}
   }
@@ -3152,6 +3234,7 @@ function go(v,fromBack){
   $('lo415').classList.toggle('hide',v!=='lo415');
   $('oxido').classList.toggle('hide',v!=='oxido');
   if($('admin'))$('admin').classList.toggle('hide',v!=='admin');
+  if($('ordenanzas'))$('ordenanzas').classList.toggle('hide',v!=='ordenanzas');
   $('nv-menu').classList.toggle('on',v==='menu');
   $('nv-turnos').classList.toggle('on',v==='turnos');
   $('nv-drogas').classList.toggle('on',v==='drogas');
@@ -3173,6 +3256,7 @@ renderContraste();
   if(v==='permisos')renderPerm();
   if(v==='establecimientos')esOpen('hub');
   if(v==='lo415')loOpen('hub');
+  if(v==='ordenanzas')ordOpenHub();
   if(v==='oxido')renderOxido();
   if(v==='admin'){if(!authIsAdmin()){go('menu');return;}admLoadUsers(false);}
 }
@@ -3239,6 +3323,11 @@ function initStaticIcons(){
   if($('btn-back-adm'))$('btn-back-adm').innerHTML=svg('back',15)+' Inicio';
   if($('nv-adm'))$('nv-adm').innerHTML=svg('shield',14)+' Usuarios';
   if($('hero-adm-btn'))$('hero-adm-btn').innerHTML=svg('shield',14)+' Gestionar usuarios y accesos';
+  if($('ord-title'))$('ord-title').innerHTML=svg('book',18)+' Ordenanzas Municipales';
+  if($('btn-back-ord'))$('btn-back-ord').innerHTML=svg('back',15)+' Inicio';
+  if($('ord-ic-res'))$('ord-ic-res').innerHTML=svg('clip',22);
+  if($('ord-ic-bus'))$('ord-ic-bus').innerHTML=svg('book',22);
+  if($('ord-ic-cod'))$('ord-ic-cod').innerHTML=svg('dgt',22);
 }
 
 document.querySelectorAll('#maintabs .tab').forEach(function(b){
@@ -7216,6 +7305,414 @@ function renderOxido(){
   }
   h+='</div></div>';
   $('nx-step-body').innerHTML=h;
+}
+
+
+/* ==================== MÓDULO ORDENANZAS MUNICIPALES ==================== */
+var ORD_CATALOG=[
+  {
+    id:'litoral',
+    titulo:'Ordenanza de Seguridad en el Uso, Disfrute y Aprovechamiento del Litoral Municipal',
+    corto:'Seguridad y Uso del Litoral Municipal',
+    meta:'Ayuntamiento de Pilar de la Horadada · Aprobación definitiva Pleno 18/07/2008 · BOP Alicante nº 145 (30/07/2008) · 68 artículos',
+    icono:'shield',
+    color:'c-teal'
+  }
+];
+
+var ORD_LIT_RESUMEN=[
+  {tit:'1. Playas Oficiales de Pilar de la Horadada (Art. 2)',col:'c-blue',pts:[
+    'Denominaciones oficiales (10): Playa del Mojón, Playa de las Higuericas, Playa las Villas, Playa del Puerto, Playa del Conde, Playa los Jesuitas, Calas de Rocamar, Playa del Río, Playa Mil Palmeras y Playa Vistamar.',
+    'Competencia general: Concejalía de Medio Ambiente (Art. 3). El paseo, estancia y baño pacífico tienen preferencia sobre cualquier otro uso (Art. 9.2 y 56.a).',
+    'Apercibimiento policial (Art. 7): los agentes pueden apercibir verbalmente para el cese inmediato de la infracción, sin perjuicio de denuncia.'
+  ]},
+  {tit:'2. Zona de Baño y Banderas (Arts. 6.c, 6.g y 38)',col:'c-crim',pts:[
+    'Zona de baño: la balizada al efecto; si no hay balizamiento, franja de mar de 200 metros en playas y 50 metros en el resto de la costa.',
+    'Banderas (mín. 1×1,20 m): Verde (apto), Amarilla (precaución con restricciones), Roja (PROHIBIDO EL BAÑO).',
+    'Bañarse con bandera roja: infracción GRAVE (Art. 63.b, 751–1.500 €). Requerimiento verbal de salida inmediata del agua por agentes o socorristas (Art. 38.b).',
+    'Rachas de viento (Art. 41): los agentes pueden ordenar el cierre de sombrillas/parasoles y la retirada de elementos oxidados o deteriorados.'
+  ]},
+  {tit:'3. Prohibiciones Clave en Arena y Agua (Arts. 9, 15, 18, 21–23)',col:'c-gold',pts:[
+    'Duna litoral de las Higuericas (Art. 9.2): prohibido transitar fuera de las pasarelas habilitadas (Leve, Art. 62.f).',
+    'Fuego, gas y cocina (Art. 22): prohibido hacer fuego, barbacoas, anafes, usar bombonas de gas/líquidos inflamables o cocinar (Grave, Art. 63.c). Excepción: hogueras autorizadas por escrito en fiestas locales.',
+    'Bebidas alcohólicas (Art. 23): prohibida venta, suministro y consumo en playas, paseos y zonas peatonales adyacentes (Grave, Art. 63.e). Excepción: parcela de chiringuitos autorizados en su horario o fiestas locales acordadas.',
+    'Envases de vidrio (Art. 21): prohibido acceder a la playa con envases de vidrio (salvo interior de concesión de chiringuitos).',
+    'Higiene y duchas (Arts. 9.3 y 18): prohibido jabón, gel o champú en mar/duchas/lavapiés, lavar utensilios de cocina o evacuación fisiológica en mar/playa (Leve, Art. 62.d y 62.h).',
+    'Extracción de arena/piedras o arrancar plantas (Art. 9.7): prohibido sin autorización (Muy Grave, Art. 64.f y 64.g).'
+  ]},
+  {tit:'4. Animales en la Playa (Arts. 42–43)',col:'c-amber',pts:[
+    'Prohibida la presencia de animales en la playa durante la temporada de baño (Grave, Art. 63.h). Fuera de temporada sin requisitos legales: Leve (Art. 62.e).',
+    'Excepciones permitidas: perros de salvamento/auxilio y perros de asistencia acreditados (Ley 12/2003 GVA).',
+    'Responsable: el propietario o, subsidiariamente en su ausencia, quien lleve al animal en ese momento (Art. 67.c).'
+  ]},
+  {tit:'5. Acampadas y «Reserva de Sitio» (Arts. 50–51)',col:'c-purp',pts:[
+    'Acampada (Art. 50): prohibida todo el año y a cualquier hora (tiendas de campaña, parasoles no diáfanos en laterales, vehículos/remolques). Solo se permiten parasoles totalmente diáfanos en sus laterales, sillas y mesas.',
+    'Reserva de sitio (Art. 51): prohibido dejar sombrillas/sillas instaladas sin estar presentes sus propietarios (Leve, Art. 62.g).',
+    'Potestad policial: la Policía Local o empleados municipales pueden RETIRAR los elementos y depositarlos en dependencias municipales. Solo se devuelven acreditando propiedad y previo pago de la sanción.'
+  ]},
+  {tit:'6. Pesca, Vehículos, Embarcaciones y Venta Ambulante (Arts. 44–58)',col:'c-teal',pts:[
+    'Pesca desde orilla/espigones (Art. 44): prohibida en temporada de baño SALVO de 21:00 a 09:00 h (supeditada a ausencia de bañistas). Excepción sin límite horario: acantilado entre Torre de la Horadada y Playa del Río (Riomar).',
+    'Pesca submarina (Arts. 44 y 46): boya naranja obligatoria, perímetro mínimo de 20 m respecto a bañistas (Grave, Art. 63.k), prohibido entrar/salir con fusil o arpón cargado o manipularlo en tierra (Grave, Art. 63.d).',
+    'Vehículos (Arts. 48–49): prohibido circular o estacionar en la playa (salvo urgencias, seguridad, limpieza y carritos de minusválidos).',
+    'Embarcaciones y motos de agua (Arts. 53–54): prohibido navegar en zona balizada o a <200 m de playa (Muy Grave, Art. 64.e); lanzamiento solo por rampas autorizadas (Puerto Deportivo). Abandono en playa: acta y requerimiento 24 h (o retirada cautelar si no hay titular).',
+    'Concesiones/chiringuitos (Art. 28): horario general de 09:00 a 01:00 h salvo autorización escrita (incumplimiento: Grave, Art. 63.j).',
+    'Venta ambulante, masajes y tatuajes (Art. 58): totalmente prohibidos sin autorización. Los agentes pueden REQUISAR la mercancía (devolución solo con justificante de propiedad y previo pago de sanción).'
+  ]},
+  {tit:'7. Cuantías Sancionadoras y Responsabilidad (Arts. 65–68)',col:'c-crim',pts:[
+    'Leves (Art. 62): multa hasta 750,00 €.',
+    'Graves (Art. 63): multa de 751,00 a 1.500,00 €.',
+    'Muy Graves (Art. 64): multa de 1.501,00 a 3.000,00 €.',
+    'Menores de edad (Art. 67.a): responden padres, tutores o custodios legales. Vehículos/embarcaciones: titular responde subsidiariamente (Art. 67.b). Órgano sancionador: Alcaldía-Presidencia (Art. 59).'
+  ]}
+];
+
+var ORD_LIT_ARTS=[
+  {n:'Art. 1',tit:'T-I',t:'Objeto',txt:'Compatibilizar la normativa vigente, regular las condiciones generales de utilización y disfrute de las playas (seguridad, salud pública y medio ambiente) y regular las actividades practicadas en las playas.'},
+  {n:'Art. 2',tit:'T-I',t:'Ámbito de aplicación y Playas Oficiales',txt:'Aplicable al dominio público marítimo-terrestre y playas de Pilar de la Horadada. Denominaciones oficiales: Playa del Mojón, Playa de las Higuericas, Playa las Villas, Playa del Puerto, Playa del Conde, Playa los Jesuitas, Calas de Rocamar, Playa del Río, Playa Mil Palmeras y Playa Vistamar.'},
+  {n:'Art. 3',tit:'T-I',t:'Competencia',txt:'Atribuida a la Concejalía de Medio Ambiente del Ayuntamiento de Pilar de la Horadada, sin perjuicio de las competencias del resto de Concejalías.'},
+  {n:'Art. 4',tit:'T-I',t:'Temporada de baño',txt:'Periodo en que se prevé afluencia importante de bañistas. La Alcaldía-Presidencia reglamenta épocas y horarios de vigilancia y salvamento.'},
+  {n:'Art. 5',tit:'T-I',t:'Supuestos no regulados',txt:'En supuestos no regulados expresamente se aplicarán por analogía las normas similares o las dictadas mediante Bando de Alcaldía.'},
+  {n:'Art. 6',tit:'T-I',t:'Definiciones (Playas, Zona de baño, Acampada, Banderas, Animales, Pesca)',txt:'Zona de baño: la balizada o, sin balizar, 200 m en playas y 50 m en resto de costa. Acampada: tiendas de campaña, parasoles no diáfanos en sus laterales o vehículos/remolques. Banderas (1×1,20 m): Verde (apto), Amarilla (precaución), Roja (prohibido el baño), complementables (medusas). Define también animal de compañía y pesca marítima de recreo.'},
+  {n:'Art. 7',tit:'T-I',t:'Apercibimiento verbal y colaboración de socorrismo',txt:'La autoridad municipal o sus agentes podrán apercibir verbalmente a los infractores para el cese inmediato, sin perjuicio de incoar expediente sancionador. El personal de salvamento apoyará en la información y comunicará infracciones.'},
+  {n:'Art. 8',tit:'T-I',t:'Señalización preventiva y paneles informativos',txt:'Los paneles en accesos deben indicar municipio, playa, vigilancia y horarios, croquis de servicios, banderas, accesos (discapacitados y emergencias), teléfono de emergencias y prohibiciones. Sancionable manipular o deteriorar cartelería.'},
+  {n:'Art. 9',tit:'T-II',t:'Normas de uso, Duna de las Higuericas y duchas',txt:'Uso libre, público y gratuito; preferencia del paseo, estancia y baño pacífico. Duna litoral de las Higuericas: prohibido el tránsito salvo por pasarelas habilitadas. Prohibido uso indebido de duchas, lavapiés y aseos (limpiar cocina, usar jabón/gel/champú/detergente). Prohibido arrancar plantas o extraer arena/piedras sin autorización.'},
+  {n:'Art. 10',tit:'T-II',t:'Autorización municipal para actuaciones u objetos',txt:'Cualquier actuación o disposición de objetos, aún temporal, en el ámbito de la Ordenanza requiere preceptiva autorización municipal.'},
+  {n:'Art. 11–14',tit:'T-III',t:'Mantenimiento de limpieza, campañas y papeleras',txt:'Retirada de residuos, vaciado de papeleras y retirada de algas por el Ayuntamiento. Art. 13: prohibido cualquier acto que ensucie las playas, con obligación de limpieza inmediata por el responsable.'},
+  {n:'Art. 15',tit:'T-III',t:'Prohibición de arrojar o abandonar residuos',txt:'Prohibido arrojar residuos sólidos, líquidos o gaseosos (papeles, comida, latas, botellas, colillas, cáscaras de pipas) o abandonar muebles, carritos, palés, cajas o embalajes en playa o mar. Obligación de recogida por el infractor.'},
+  {n:'Art. 16–17',tit:'T-III',t:'Horarios de basuras de servicios de temporada y control de vertidos',txt:'Los servicios de temporada y ocupaciones deben cumplir los horarios municipales de depósito de basuras.'},
+  {n:'Art. 18',tit:'T-III',t:'Higiene personal y aseos públicos',txt:'Prohibida la evacuación (deposición, micción) en el mar o en la playa, y lavarse en mar o playa con jabón, gel, champú o similar. Sancionable el uso indebido de aseos públicos (jugar, lavar enseres, pintar, deteriorar).'},
+  {n:'Art. 19–20',tit:'T-III',t:'Limpieza de actividades y paso de máquinas limpiaplayas',txt:'Responsables de actividades deben mantener limpieza y salubridad y depositar residuos en contenedores selectivos. Prohibido instalar parasoles o elementos que entorpezcan el paso de limpieza en el horario establecido.'},
+  {n:'Art. 21',tit:'T-III',t:'Prohibición de envases de vidrio y faenas de pesca',txt:'No está permitido el acceso a las playas con envases de vidrio (salvo chiringuitos dentro de su zona de concesión). Los pescadores deben retirar inmediatamente residuos tras limpiar artes. Retirada inmediata a requerimiento policial.'},
+  {n:'Art. 22',tit:'T-III',t:'Prohibición de fuego, gas y cocinar en la playa',txt:'Prohibido: a) hacer fuego en arena/piedras/rocas (salvo hogueras autorizadas por escrito en fiestas locales); b) uso de bombonas de gas y/o líquidos inflamables; c) cocinar en las playas.'},
+  {n:'Art. 23',tit:'T-III',t:'Prohibición de bebidas alcohólicas',txt:'Prohibida la venta, suministro y consumo de bebidas alcohólicas en playas, paseos, zonas peatonales adyacentes y demás vías públicas. Excepción: parcela de establecimientos/chiringuitos autorizados en su horario y días de fiesta local acordados por Junta de Gobierno Local.'},
+  {n:'Art. 24–26',tit:'T-III',t:'Acumulación de basuras y calidad de las aguas',txt:'Titulares de servicios de temporada deben evitar acumulación de basuras. Derecho de los usuarios a ser informados sobre la calidad y aptitud de las aguas de baño.'},
+  {n:'Art. 27–31',tit:'T-IV',t:'Emplazamientos, concesiones, horario (09:00–01:00) y publicidad',txt:'Toda instalación requiere autorización municipal y homologación. Prohibida delimitación privada de la concesión. Horario de apertura de concesiones: de 09:00 a 01:00 h salvo autorización escrita (Art. 28). Respetar accesos, escaleras, puestos de socorro y rampas; prohibida obra fija sin permiso (Art. 30).'},
+  {n:'Art. 32–36',tit:'T-V',t:'Servicio Público de Salvamento, personal y puestos de primeros auxilios',txt:'Funciones de vigilancia, socorrismo, primera atención sanitaria, búsqueda de desaparecidos, baño adaptado y prevención. Estructura del personal titulado, equipamiento mínimo por playa y requisitos de puestos de primeros auxilios (1 por playa o cada 1.000 m).'},
+  {n:'Art. 37–39',tit:'T-V',t:'Mástiles, torres, bandera roja y vehículos de rescate',txt:'Mástiles de 3 m (distancia máx. ~800 m). Art. 38: prohibido el baño con bandera roja; a requerimiento verbal de agentes o socorristas deben salir de inmediato del agua sin perjuicio de denuncia.'},
+  {n:'Art. 40–41',tit:'T-V',t:'Balizamiento y seguridad por rachas de viento',txt:'Balizamiento conforme a Resolución Ministerial 02/09/1991. Art. 41: ante rachas de viento los agentes pueden ordenar el cierre de sombrillas, parasoles, sillas y hamacas, y la retirada de elementos oxidados o deteriorados.'},
+  {n:'Art. 42–43',tit:'T-VI',t:'Presencia de animales en las playas',txt:'Prohibida la presencia de animales en la playa. Propietario o acompañante es responsable de los daños/perjuicios. Se permiten perros de salvamento/auxilio y perros de asistencia acreditados conforme a los arts. 4 y 6 de la Ley 12/2003 GVA.'},
+  {n:'Art. 44–45',tit:'T-VII',t:'Pesca desde orilla, espigones y pesca submarina',txt:'En zonas/temporada de baño prohibida pesca desde orilla y espigones salvo de 21:00 a 09:00 h (supeditada a ausencia de usuarios). Permitida sin límite horario en el acantilado entre Torre de la Horadada y Playa del Río (Riomar). Pesca submarina: boya naranja a remolque obligatoria y nunca junto a bañistas. Excepción: concursos autorizados.'},
+  {n:'Art. 46',tit:'T-VII',t:'Prohibiciones específicas de pesca',txt:'Prohibido: a) entrar/salir del mar con fusil o arpón cargado o manipularlo en tierra; b) pescar en fechas de celebraciones/actos municipales; c) pesca submarina a menos de 20 metros de bañistas; d) manipular en tierra instrumentos de pesca peligrosos.'},
+  {n:'Art. 47–49',tit:'T-VIII',t:'Circulación y estacionamiento de vehículos en las playas',txt:'Prohibido estacionamiento y circulación de cualquier vehículo de 2 o más ruedas (tracción mecánica o animal). Excepciones: urgencia, seguridad, limpieza, mantenimiento, servicios municipales autorizados y carritos de minusválidos (deben retirarse tras su actuación).'},
+  {n:'Art. 50–52',tit:'T-IX',t:'Acampadas y reserva de sitio con sombrillas/sillas',txt:'Art. 50: prohibidas todo el año y a cualquier hora tiendas de campaña y acampadas; solo parasoles diáfanos en laterales, sillas y mesas. Art. 51: prohibido dejarlos instalados sin presencia del propietario para reservar sitio; la Policía Local puede retirarlos y depositarlos (devolución con justificante de propiedad y previo pago de sanción).'},
+  {n:'Art. 53',tit:'T-X',t:'Navegación y varada de embarcaciones y motos acuáticas',txt:'Prohibida navegación deportiva/recreo (motor o vela) en zonas balizadas o franja de 200 m en playas / 50 m en resto de costa. Lanzamiento solo por rampas autorizadas (Puerto Deportivo), nunca desde la orilla. Embarcaciones de servicio: máx. 3 nudos salvo salvamento.'},
+  {n:'Art. 54–55',tit:'T-X',t:'Abandono de embarcaciones/artefactos y retirada en 24 h',txt:'Prohibida ocupación o abandono de embarcaciones, remolques, windsurf, hidropedales, motos acuáticas o remos. Acta descriptiva y requerimiento de retirada en 24 h (orden de ejecución subsidiaria). Si no se localiza titular o no hay identificación: retirada cautelar inmediata a recinto municipal y publicación en tablón.'},
+  {n:'Art. 56–57',tit:'T-XI',t:'Juegos, vuelos rasantes, surf, windsurf y kitesurf',txt:'Juegos de pelota/paletas permitidos si no molestan. Prohibidos vuelos rasantes (aeromodelismo, cometas molestas). Surf, windsurf y kitesurf: en zonas habilitadas y supeditados a ausencia de bañistas (salvo concursos autorizados).'},
+  {n:'Art. 58',tit:'T-XII',t:'Venta ambulante, masajes y tatuajes',txt:'Prohibida venta no sedentaria de cualquier producto en playas y accesos, así como masajes o tatuajes fuera de establecimientos autorizados. Los agentes pueden requisar la mercancía; devolución solo acreditando propiedad y previo pago de sanción.'},
+  {n:'Art. 59–61',tit:'T-XIII',t:'Potestad sancionadora, restauración y clasificación',txt:'Sanciona la Alcaldía-Presidencia, sin perjuicio de tanto de culpa penal. Obligación de restaurar la realidad física alterada (ejecución subsidiaria). Clasificación: Leves, Graves y Muy Graves.'},
+  {n:'Art. 62',tit:'T-XIII',t:'Infracciones Leves (apartados a–l)',txt:'Juegos molestos, limpieza leve, aparatos sonoros molestos, uso indebido duchas/jabón, animales fuera de temporada sin requisitos, pisar duna Higuericas, reserva de sitio con sombrillas/sillas, evacuación fisiológica, venta ambulante sin autorización y simples irregularidades.'},
+  {n:'Art. 63',tit:'T-XIII',t:'Infracciones Graves (apartados a–q)',txt:'Baño con bandera roja, fuego/barbacoas/gas, pesca ilegal o fusil/arpón peligroso, consumo de alcohol, limpieza de concesiones, materiales en combustión en papeleras, animales en época de baño, surf/kitesurf irregular, horario de concesiones, pesca submarina <20 m, dificultar salvamento, dañar mobiliario, incumplir requerimiento, resistencia/datos falsos y reincidencia leve.'},
+  {n:'Art. 64',tit:'T-XIII',t:'Infracciones Muy Graves (apartados a–k)',txt:'Vertidos contaminantes/peligrosos, ocupación con instalación fija/desmontable sin autorización, varada/lanzado fuera de zona, navegación <200 m o en zona balizada, impacto negativo en fauna/flora, extraer arena/piedras, daño grave deliberado, incumplimiento reiterado de requerimientos y reincidencia grave (5 años).'},
+  {n:'Art. 65–68',tit:'T-XIII',t:'Sanciones, graduación, responsabilidad y procedimiento',txt:'Multas: Leves hasta 750 €; Graves 751 a 1.500 €; Muy Graves 1.501 a 3.000 €. Responsabilidad: autores físicos/jurídicos; menores → padres/tutores; vehículos/embarcaciones → titular subsidiario; animales → acompañante subsidiario; concesiones → titular licencia.'}
+];
+
+var ORD_LIT_INFS=[
+  /* LEVES (Art. 62: hasta 750 €) */
+  {id:'62.a',art:'62.a',g:'L',cat:'PLAYA',eur:'Hasta 750 €',t:'Realización de actividades como juegos de pelota, paletas u otros ejercicios, en las zonas y aguas de baño, que puedan molestar al resto de usuarios.',n:'Relacionado con Art. 56. El paseo, estancia y baño pacífico tienen preferencia. Exceptuadas zonas deportivas balizadas del Plan de Playas.'},
+  {id:'62.b',art:'62.b',g:'L',cat:'LIMPIEZA',eur:'Hasta 750 €',t:'Incumplimiento de las normas de limpieza por parte del usuario de la playa que no se considere grave en el artículo 63.',n:'Incluye arrojar papeles, colillas, restos de comida, latas o acceder con envases de vidrio (Arts. 13, 15 y 21). El infractor queda obligado a la recogida inmediata.'},
+  {id:'62.c',art:'62.c',g:'L',cat:'PLAYA',eur:'Hasta 750 €',t:'Uso de aparato sonoro o instrumento musical cuando por su volumen de sonoridad causen molestias a los demás usuarios de las playas.',n:'Apercibir verbalmente primero para bajar el volumen o cesar la molestia (Art. 7) y detallar la afección a usuarios cercanos.'},
+  {id:'62.d',art:'62.d',g:'L',cat:'LIMPIEZA',eur:'Hasta 750 €',t:'Uso indebido del agua de las duchas y lavapiés, así como lavarse en el mar o en la playa utilizando jabón o cualquier otro producto de aseo corporal.',n:'Relacionado con Arts. 9.3 y 18.b. Incluye limpiar utensilios de cocina o usar gel, champú o detergentes.'},
+  {id:'62.e',art:'62.e',g:'L',cat:'ANIMALES',eur:'Hasta 750 €',t:'Presencia de animales domésticos en la playa, fuera de la temporada de baño, sin los requisitos legalmente establecidos para su tenencia y circulación.',n:'Durante la temporada de baño la presencia de animales es infracción GRAVE (Art. 63.h). Exentos perros de salvamento y asistencia acreditados (Art. 43).'},
+  {id:'62.f',art:'62.f',g:'L',cat:'PLAYA',eur:'Hasta 750 €',t:'Pasear, caminar o simplemente atravesar la duna litoral de la playa de las Higuericas fuera de las pasarelas colocadas al efecto.',n:'Protección medioambiental específica del Art. 9.2. Si produce impacto negativo sobre flora/fauna, valorar Muy Grave (Art. 64.f).'},
+  {id:'62.g',art:'62.g',g:'L',cat:'OCUP',eur:'Hasta 750 €',t:'Dejar instalados parasoles totalmente diáfanos en sus laterales, así como sillas, mesas u otros complementos, sin estar presentes sus propietarios, para reservar un lugar en la playa.',n:'Art. 51: la Policía Local puede retirar y depositar los elementos en dependencias municipales. Devolución solo con justificante de propiedad y previo pago de la sanción.'},
+  {id:'62.h',art:'62.h',g:'L',cat:'LIMPIEZA',eur:'Hasta 750 €',t:'La evacuación fisiológica (deposición, micción, etc.) en el mar o en la playa.',n:'Relacionado con Art. 18.a.'},
+  {id:'62.i',art:'62.i',g:'L',cat:'OCUP',eur:'Hasta 750 €',t:'La venta ambulante (no sedentaria) sin autorización expresa en las playas y sus accesos.',n:'Art. 58: incluye masajes y tatuajes sin licencia. Potestad policial de REQUISAR la mercancía; devolución solo acreditando propiedad y previo pago de la sanción.'},
+  {id:'62.j',art:'62.j',g:'L',cat:'OTRAS',eur:'Hasta 750 €',t:'Simples irregularidades en la observación de las normas de esta Ordenanza y legislación sectorial sin trascendencia directa para el medio natural ni la salud pública.',n:'Tipo residual leve. Concretar el artículo sustantivo vulnerado (ej. vuelos rasantes Art. 56.d).'},
+  {id:'62.k',art:'62.k',g:'L',cat:'OTRAS',eur:'Hasta 750 €',t:'Infracciones cometidas por simple negligencia, siempre que la alteración o riesgo para el medio natural o la salud pública sean de escasa entidad.',n:'Describir la conducta negligente y el riesgo de escasa entidad.'},
+  {id:'62.l',art:'62.l',g:'L',cat:'OTRAS',eur:'Hasta 750 €',t:'Aquellas otras conductas que merezcan la calificación de leves o no proceda calificarlas como graves o muy graves.',n:'Citar el artículo de la Ordenanza infringido.'},
+
+  /* GRAVES (Art. 63: 751 a 1.500 €) */
+  {id:'63.a',art:'63.a',g:'G',cat:'OTRAS',eur:'751 – 1.500 €',t:'Las que reciban expresamente la calificación de graves en esta Ordenanza o en la legislación sectorial aplicable.',n:'Especificar la norma o precepto concreto.'},
+  {id:'63.b',art:'63.b',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Bañarse cuando esté izada la bandera roja.',n:'Art. 38.b: requerir verbalmente la salida inmediata del agua. Si desobedece persistentemente a los agentes, valorar además LO 4/2015 Art. 36.6.'},
+  {id:'63.c',art:'63.c',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Hacer fuego en la playa, así como usar barbacoas, anafes, bombonas de gas u otros utensilios para hacer fuego, sin la autorización correspondiente.',n:'Relacionado con Art. 22 (incluye líquidos inflamables y cocinar en la playa). Excepción: hogueras con autorización escrita en fiestas locales.'},
+  {id:'63.d',art:'63.d',g:'G',cat:'PESCA',eur:'751 – 1.500 €',t:'Practicar la pesca en lugar o época no autorizada, o uso de escopeta submarina, arpón o instrumento de pesca que por su proximidad suponga riesgo para la salud y seguridad de las personas.',n:'Arts. 44 y 46: prohibida pesca en temporada de baño de 09:00 a 21:00 h (salvo acantilado Torre–Playa del Río) y prohibido entrar/salir con fusil cargado o manipularlo en tierra.'},
+  {id:'63.e',art:'63.e',g:'G',cat:'PLAYA',eur:'751 – 1.500 €',t:'Consumir bebidas alcohólicas en la playa según lo establecido en el artículo 23 de la presente Ordenanza.',n:'Art. 23 extiende la prohibición a playas, paseos, zonas peatonales adyacentes y demás vías públicas (salvo parcela de chiringuitos autorizados en su horario o fiestas locales acordadas).'},
+  {id:'63.f',art:'63.f',g:'G',cat:'LIMPIEZA',eur:'751 – 1.500 €',t:'Incumplimiento de las normas de limpieza por parte de los titulares de los servicios de temporada de la playa, o de cualquier otra actividad autorizada.',n:'Arts. 16, 19, 20 y 24. Responsable: el titular de la licencia o concesión (Art. 67.d).'},
+  {id:'63.g',art:'63.g',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Depósito en papeleras y similares de materiales en combustión por parte de los usuarios de las playas.',n:'Incluye colillas encendidas, brasas o carbón de barbacoas/cachimbas en papeleras.'},
+  {id:'63.h',art:'63.h',g:'G',cat:'ANIMALES',eur:'751 – 1.500 €',t:'Presencia de animales en la playa durante la época de baño.',n:'Art. 43: exentos perros de salvamento/auxilio y perros de asistencia acreditados (Ley 12/2003 GVA). Responsable subsidiario quien lleve al animal (Art. 67.c).'},
+  {id:'63.i',art:'63.i',g:'G',cat:'NAUTICA',eur:'751 – 1.500 €',t:'Práctica de surf, windsurf, kitesurf y otros deportes similares incumpliendo las normas establecidas en esta Ordenanza.',n:'Art. 57: debe practicarse en zonas señalizadas y siempre supeditado a la ausencia de bañistas en el agua.'},
+  {id:'63.j',art:'63.j',g:'G',cat:'OCUP',eur:'751 – 1.500 €',t:'No respetar los horarios de apertura establecidos para las concesiones en la presente Ordenanza.',n:'Art. 28: horario general de 09:00 a 01:00 h salvo autorización escrita. Responsable: empresa concesionaria.'},
+  {id:'63.k',art:'63.k',g:'G',cat:'PESCA',eur:'751 – 1.500 €',t:'Pesca submarina junto a otros bañistas sin respetar el perímetro mínimo de seguridad de 20 metros.',n:'Art. 46.c y Art. 44 (obligatoria boya naranja a remolque).'},
+  {id:'63.l',art:'63.l',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Dificultar, de manera intencionada, las funciones del servicio público de salvamento recogidas en el Título V.',n:'Detallar la conducta obstaculizadora y recabar manifestación del socorrista/coordinador.'},
+  {id:'63.m',art:'63.m',g:'G',cat:'PLAYA',eur:'751 – 1.500 €',t:'Manipular, deteriorar o hacer un uso indebido del material o mobiliario público de las playas (cartelería, salvavidas, mástiles, puestos de socorro, banderas, lavapiés, pasarelas, aseos, papeleras, etc.).',n:'Art. 60: conlleva además obligación de restauración o indemnización del daño causado.'},
+  {id:'63.n',art:'63.n',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Incumplimiento de los requerimientos específicos que formule la Administración municipal, siempre que se produzca por primera vez.',n:'Si el incumplimiento es reiterado pasa a Muy Grave (Art. 64.i).'},
+  {id:'63.o',art:'63.o',g:'G',cat:'SEGURIDAD',eur:'751 – 1.500 €',t:'Resistencia a facilitar información, suministrar información o documentación falsa/inexacta/incompleta, o no prestar colaboración a la Administración municipal o a sus agentes.',n:'Valorar concurrencia con LO 4/2015 Art. 36.6 si hay negativa a identificarse o desobediencia.'},
+  {id:'63.p',art:'63.p',g:'G',cat:'OTRAS',eur:'751 – 1.500 €',t:'La reincidencia en la comisión de infracciones leves.',n:'Hacer constar antecedentes sancionadores si constan en expediente.'},
+  {id:'63.q',art:'63.q',g:'G',cat:'OTRAS',eur:'751 – 1.500 €',t:'Aquellas otras conductas que merezcan la calificación de graves o no proceda calificarlas como leves o muy graves.',n:'Citar el precepto sustantivo infringido (ej. circulación/estacionamiento de vehículos en playa, Art. 48; acampada, Art. 50).'},
+
+  /* MUY GRAVES (Art. 64: 1.501 a 3.000 €) */
+  {id:'64.a',art:'64.a',g:'MG',cat:'OTRAS',eur:'1.501 – 3.000 €',t:'Las que reciban expresamente la calificación de muy graves en esta Ordenanza o en la legislación sectorial aplicable.',n:'Especificar norma sectorial o artículo concreto.'},
+  {id:'64.b',art:'64.b',g:'MG',cat:'LIMPIEZA',eur:'1.501 – 3.000 €',t:'El vertido y depósito de materias que puedan producir contaminación y riesgo de accidentes.',n:'Adoptar medidas urgentes de señalización/retirada y valorar delito contra el medio ambiente si es grave.'},
+  {id:'64.c',art:'64.c',g:'MG',cat:'OCUP',eur:'1.501 – 3.000 €',t:'Realizar cualquier ocupación con instalación fija o desmontable sin contar con preceptiva autorización.',n:'Relacionado con Arts. 10, 27, 30 y 52. Incluye carpas, quioscos, estructuras o cerramientos sin permiso.'},
+  {id:'64.d',art:'64.d',g:'MG',cat:'NAUTICA',eur:'1.501 – 3.000 €',t:'La varada, lanzado o permanencia de embarcaciones, tablas de windsurf, hidropedales, motos acuáticas, etc., fuera de las zonas señaladas y destinadas a tal fin.',n:'Art. 53 y 54: lanzamiento solo por Puerto Deportivo o canales balizados. Si hay abandono: acta y requerimiento 24 h o retirada cautelar.'},
+  {id:'64.e',art:'64.e',g:'MG',cat:'NAUTICA',eur:'1.501 – 3.000 €',t:'La circulación de embarcaciones no autorizadas dentro del balizamiento o a distancia inferior a 200 metros de la costa.',n:'Art. 53: 200 m en playas y 50 m en resto de costa sin balizar. Comunicar también a Capitanía Marítima / Servicio Marítimo GC si procede (Art. 55).'},
+  {id:'64.f',art:'64.f',g:'MG',cat:'LIMPIEZA',eur:'1.501 – 3.000 €',t:'Causar cualquier tipo de impacto negativo sobre la fauna y flora tanto litoral como marina.',n:'Relacionado con Art. 9.2 (duna) y Art. 9.7 (arrancar plantas).'},
+  {id:'64.g',art:'64.g',g:'MG',cat:'LIMPIEZA',eur:'1.501 – 3.000 €',t:'Extraer arena o piedras que de forma natural se encuentren en las playas sin la correspondiente autorización.',n:'Relacionado con Art. 9.7. Obligación de restauración (Art. 60).'},
+  {id:'64.h',art:'64.h',g:'MG',cat:'SEGURIDAD',eur:'1.501 – 3.000 €',t:'Las infracciones que se realicen de forma consciente y deliberada, siempre que se produzca un daño grave.',n:'Detallar la intencionalidad y cuantificar o describir el daño grave ocasionado.'},
+  {id:'64.i',art:'64.i',g:'MG',cat:'SEGURIDAD',eur:'1.501 – 3.000 €',t:'El incumplimiento reiterado de los requerimientos específicos formulados por la Administración municipal.',n:'El primer incumplimiento es infracción grave (Art. 63.n).'},
+  {id:'64.j',art:'64.j',g:'MG',cat:'OTRAS',eur:'1.501 – 3.000 €',t:'La reincidencia en la comisión de faltas graves en los últimos cinco años.',n:'Acreditar resolución firme previa en los últimos 5 años.'},
+  {id:'64.k',art:'64.k',g:'MG',cat:'OTRAS',eur:'1.501 – 3.000 €',t:'Aquellas otras conductas que merezcan la calificación de muy graves o no proceda calificarlas como leves o graves.',n:'Motivar el riesgo grave para la salud, seguridad o medio ambiente (Art. 66.a).'}
+];
+
+var ordState={view:'hub',selId:'litoral',busTit:'ALL',codCat:'ALL',codGrav:'',codFav:0,codQ:'',codExp:{}};
+
+function ordFavMap(){S.ordFav=S.ordFav||{};return S.ordFav;}
+
+function ordOpenHub(){
+  ordState.view='hub';
+  $('ord-hub').classList.remove('hide');
+  $('ord-menu').classList.add('hide');
+  $('ord-resumen').classList.add('hide');
+  $('ord-buscador').classList.add('hide');
+  $('ord-codificado').classList.add('hide');
+  $('ord-sub').textContent='Ordenanzas Municipales de Pilar de la Horadada · Referencia policial';
+  $('btn-back-ord').innerHTML=svg('back',15)+' Inicio';
+  $('ord-hub-list').innerHTML=ORD_CATALOG.map(function(o){
+    return '<div class="dtile act" style="padding:16px 14px" onclick="ordSelect(\''+o.id+'\')"><div class="ib '+o.color+'" style="width:46px;height:46px">'+svg(o.icono,22)+'</div><div class="txt"><div class="tt"><span>'+esc(o.titulo)+'</span></div><div class="ts" style="white-space:normal">'+esc(o.meta)+'</div></div></div>';
+  }).join('');
+  window.scrollTo(0,0);
+}
+
+function ordSelect(id){
+  var o=ORD_CATALOG.filter(function(x){return x.id===id})[0];
+  if(!o)return;
+  ordState.selId=id;
+  ordState.view='menu';
+  $('ord-hub').classList.add('hide');
+  $('ord-menu').classList.remove('hide');
+  $('ord-resumen').classList.add('hide');
+  $('ord-buscador').classList.add('hide');
+  $('ord-codificado').classList.add('hide');
+  $('ord-sel-name').textContent=o.titulo;
+  $('ord-sel-meta').textContent=o.meta;
+  $('ord-sub').textContent=o.corto;
+  $('btn-back-ord').innerHTML=svg('back',15)+' Ordenanzas';
+  window.scrollTo(0,0);
+}
+
+function ordOpenSub(sub){
+  ordState.view=sub;
+  $('ord-hub').classList.add('hide');
+  $('ord-menu').classList.add('hide');
+  $('ord-resumen').classList.toggle('hide',sub!=='resumen');
+  $('ord-buscador').classList.toggle('hide',sub!=='buscador');
+  $('ord-codificado').classList.toggle('hide',sub!=='codificado');
+  var o=ORD_CATALOG.filter(function(x){return x.id===ordState.selId})[0]||ORD_CATALOG[0];
+  var lbls={resumen:'Resumen Operativo',buscador:'Buscador de la Ordenanza',codificado:'Codificado de Infracciones'};
+  $('ord-sub').textContent=o.corto+' · '+(lbls[sub]||'');
+  $('btn-back-ord').innerHTML=svg('back',15)+' Volver';
+  if(sub==='resumen')renderOrdResumen();
+  if(sub==='buscador')renderOrdBuscador();
+  if(sub==='codificado')renderOrdCod();
+  window.scrollTo(0,0);
+}
+
+function ordBack(){
+  if(ordState.view==='resumen'||ordState.view==='buscador'||ordState.view==='codificado'){
+    ordSelect(ordState.selId);
+    return;
+  }
+  if(ordState.view==='menu'){
+    ordOpenHub();
+    return;
+  }
+  go('menu');
+}
+
+function renderOrdResumen(){
+  var h=ORD_LIT_RESUMEN.map(function(sec){
+    var b='<div class="card" style="border-left:4px solid var(--gold)">';
+    b+='<div class="card-hd" style="color:var(--gold2);margin-bottom:8px">'+svg('shield',15)+' '+esc(sec.tit)+'</div>';
+    b+='<ul style="margin:0;padding-left:18px;font-size:13px;color:#dbe3f0;line-height:1.55">';
+    sec.pts.forEach(function(p){b+='<li style="margin-bottom:5px">'+esc(p)+'</li>';});
+    b+='</ul></div>';
+    return b;
+  }).join('');
+  $('ord-resumen').innerHTML=h;
+}
+
+function ordSetBusTit(t){ordState.busTit=t;renderOrdBuscador();}
+
+function ordHighlight(text,toks){
+  var safe=esc(text);
+  if(!toks||!toks.length)return safe;
+  toks.forEach(function(tk){
+    if(tk.length<2)return;
+    var re=new RegExp('('+tk.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    safe=safe.replace(re,'<mark style="background:rgba(226,189,104,.35);color:#fff;padding:0 2px;border-radius:3px">$1</mark>');
+  });
+  return safe;
+}
+
+function ordCopyArt(idx){
+  var a=ORD_LIT_ARTS[idx];
+  if(!a)return;
+  var txt='Ordenanza Litoral Pilar de la Horadada (BOP 30/07/2008) · '+a.n+' ('+a.t+')\n'+a.txt;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){banner('Artículo copiado al portapapeles.','')}).catch(function(){prompt('Copia el texto:',txt)});
+  }else{prompt('Copia el texto:',txt);}
+}
+
+function renderOrdBuscador(){
+  var qEl=$('ordb-q');
+  var qRaw=qEl?qEl.value:'';
+  if($('ordb-clr'))$('ordb-clr').classList.toggle('hide',!qRaw);
+  var tits=[
+    ['ALL','Todos'],
+    ['T-I','T.I General'],
+    ['T-II','T.II Uso'],
+    ['T-III','T.III Limpieza'],
+    ['T-IV','T.IV Conces.'],
+    ['T-V','T.V Salvam.'],
+    ['T-VI','T.VI Animales'],
+    ['T-VII','T.VII Pesca'],
+    ['T-VIII','T.VIII Vehíc.'],
+    ['T-IX','T.IX Acamp.'],
+    ['T-X','T.X Náutica'],
+    ['T-XI','T.XI Juegos'],
+    ['T-XII','T.XII Venta'],
+    ['T-XIII','T.XIII Sanc.']
+  ];
+  $('ordb-tits').innerHTML=tits.map(function(t){
+    return '<button type="button" class="cd-nbtn'+(ordState.busTit===t[0]?' on':'')+'" onclick="ordSetBusTit(\''+t[0]+'\')">'+t[1]+'</button>';
+  }).join('');
+
+  var qNorm=cdNormStr(qRaw);
+  var toks=qNorm?qNorm.split(/\s+/).filter(Boolean):[];
+  var rawToks=qRaw.trim()?qRaw.trim().split(/\s+/).filter(Boolean):[];
+  var res=[];
+  ORD_LIT_ARTS.forEach(function(a,ix){
+    if(ordState.busTit!=='ALL'&&a.tit!==ordState.busTit)return;
+    if(toks.length){
+      var hay=cdNormStr(a.n+' '+a.tit+' '+a.t+' '+a.txt);
+      if(!toks.every(function(tk){return hay.indexOf(tk)>=0}))return;
+    }
+    res.push({a:a,ix:ix});
+  });
+
+  $('ordb-count').innerHTML='Mostrando <b>'+res.length+'</b> de '+ORD_LIT_ARTS.length+' bloques del articulado';
+  if(!res.length){
+    $('ordb-list').innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:24px 14px">No se encontraron coincidencias en la ordenanza.</div>';
+    return;
+  }
+  $('ordb-list').innerHTML=res.map(function(item){
+    var a=item.a;
+    var h='<div class="cd-card g-G">';
+    h+='<div class="cd-top"><span class="cd-code">'+esc(a.n)+'</span><div class="cd-pills"><span class="cd-pill cd-p-norm">'+esc(a.tit)+'</span></div><button type="button" class="btn sec" style="padding:4px 8px;font-size:11.5px" onclick="ordCopyArt('+item.ix+')">'+svg('copy',12)+' Copiar</button></div>';
+    h+='<div class="cd-txt" style="color:var(--gold2);font-size:14px">'+ordHighlight(a.t,rawToks)+'</div>';
+    h+='<div style="font-size:13px;color:#dbe3f0;line-height:1.5">'+ordHighlight(a.txt,rawToks)+'</div>';
+    h+='</div>';
+    return h;
+  }).join('');
+}
+
+function ordCodOnSearch(){
+  ordState.codQ=$('ordc-q').value;
+  $('ordc-clr').classList.toggle('hide',!ordState.codQ);
+  renderOrdCod();
+}
+function ordCodClearQ(){
+  $('ordc-q').value='';
+  ordState.codQ='';
+  $('ordc-clr').classList.add('hide');
+  renderOrdCod();
+}
+function ordCodSetCat(c){ordState.codCat=c;renderOrdCod();}
+function ordCodSetGrav(g){ordState.codGrav=(ordState.codGrav===g?'':g);renderOrdCod();}
+function ordCodTogFavF(){ordState.codFav=ordState.codFav?0:1;renderOrdCod();}
+function ordCodTogFav(id){
+  var m=ordFavMap();
+  if(m[id])delete m[id];else m[id]=1;
+  save();
+  renderOrdCod();
+}
+function ordCodTogExp(id){
+  if(ordState.codExp[id])delete ordState.codExp[id];else ordState.codExp[id]=1;
+  renderOrdCod();
+}
+function ordCodCopy(id){
+  var r=ORD_LIT_INFS.filter(function(x){return x.id===id})[0];
+  if(!r)return;
+  var gLbl=r.g==='MG'?'MUY GRAVE':(r.g==='G'?'GRAVE':'LEVE');
+  var txt='Ordenanza Litoral Pilar de la Horadada (BOP 30/07/2008) · Art. '+r.art+' ('+gLbl+' · '+r.eur+')\nHecho: '+r.t+(r.n?'\nNota: '+r.n:'');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){banner('Infracción copiada al portapapeles.','')}).catch(function(){prompt('Copia el texto:',txt)});
+  }else{prompt('Copia el texto:',txt);}
+}
+
+function renderOrdCod(){
+  var cats=[
+    ['ALL','Todas'],
+    ['SEGURIDAD','Seguridad'],
+    ['PLAYA','Playa/Uso'],
+    ['LIMPIEZA','Limpieza'],
+    ['ANIMALES','Animales'],
+    ['PESCA','Pesca'],
+    ['NAUTICA','Náutica'],
+    ['OCUP','Venta/Ocup.'],
+    ['OTRAS','Otras']
+  ];
+  $('ordc-cats').innerHTML=cats.map(function(c){
+    var cnt=c[0]==='ALL'?ORD_LIT_INFS.length:ORD_LIT_INFS.filter(function(x){return x.cat===c[0]}).length;
+    return '<button type="button" class="cd-nbtn'+(ordState.codCat===c[0]?' on':'')+'" onclick="ordCodSetCat(\''+c[0]+'\')">'+c[1]+' <small>('+cnt+')</small></button>';
+  }).join('');
+
+  var favM=ordFavMap();
+  var favCnt=Object.keys(favM).length;
+  var sub='';
+  sub+='<button type="button" class="cd-fbtn'+(ordState.codGrav==='MG'?' on':'')+'" onclick="ordCodSetGrav(\'MG\')">Muy Graves (11)</button>';
+  sub+='<button type="button" class="cd-fbtn'+(ordState.codGrav==='G'?' on':'')+'" onclick="ordCodSetGrav(\'G\')">Graves (17)</button>';
+  sub+='<button type="button" class="cd-fbtn'+(ordState.codGrav==='L'?' on':'')+'" onclick="ordCodSetGrav(\'L\')">Leves (12)</button>';
+  sub+='<button type="button" class="cd-fbtn'+(ordState.codFav?' on-fav':'')+'" onclick="ordCodTogFavF()">'+svg('heart',12)+' Favoritos ('+favCnt+')</button>';
+  $('ordc-subf').innerHTML=sub;
+
+  var q=cdNormStr(ordState.codQ||'');
+  var toks=q?q.split(/\s+/).filter(Boolean):[];
+  var res=ORD_LIT_INFS.filter(function(r){
+    if(ordState.codCat!=='ALL'&&r.cat!==ordState.codCat)return false;
+    if(ordState.codGrav&&r.g!==ordState.codGrav)return false;
+    if(ordState.codFav&&!favM[r.id])return false;
+    if(!toks.length)return true;
+    var hay=cdNormStr('ordenanza litoral playa art '+r.art+' '+r.t+' '+r.n+' '+r.cat+' '+r.eur);
+    return toks.every(function(tk){return hay.indexOf(tk)>=0});
+  });
+
+  $('ordc-count').innerHTML='Mostrando <b>'+res.length+'</b> de '+ORD_LIT_INFS.length+' infracciones';
+  if(!res.length){
+    $('ordc-list').innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:24px 14px">No se encontraron infracciones con esos filtros.</div>';
+    return;
+  }
+
+  $('ordc-list').innerHTML=res.map(function(r){
+    var isFav=!!favM[r.id], isExp=!!ordState.codExp[r.id];
+    var gLbl=r.g==='MG'?'MUY GRAVE':(r.g==='G'?'GRAVE':'LEVE');
+    var h='<div class="cd-card g-'+r.g+'">';
+    h+='<div class="cd-top">';
+    h+='<span class="cd-code">Ord. Litoral · Art. '+esc(r.art)+'</span>';
+    h+='<div class="cd-pills">';
+    h+='<span class="cd-pill cd-p-'+r.g+'">'+gLbl+'</span>';
+    h+='<span class="cd-pill cd-p-eur">'+esc(r.eur)+'</span>';
+    h+='</div>';
+    h+='<button type="button" class="cd-fav-btn'+(isFav?' on':'')+'" onclick="ordCodTogFav(\''+r.id+'\')" title="Favorito">'+svg('heart',15)+'</button>';
+    h+='</div>';
+    h+='<div class="cd-txt">'+esc(r.t)+'</div>';
+    h+='<div class="cd-sub"><span>Órgano: <b>Alcaldía-Presidencia (Art. 59)</b></span><span>Cuantía (Art. 65): <b>'+esc(r.eur)+'</b></span></div>';
+    if(isExp){
+      h+='<div class="cd-det">';
+      h+='<div class="cd-det-grid">';
+      h+='<div class="cd-ditem"><small>Clasificación</small><b>'+gLbl+'</b></div>';
+      h+='<div class="cd-ditem"><small>Multa (Art. 65)</small><b>'+esc(r.eur)+'</b></div>';
+      h+='<div class="cd-ditem"><small>Responsabilidad (Art. 67)</small><b>Autor / Padres / Titular</b></div>';
+      h+='</div>';
+      if(r.n)h+='<div class="cd-det-box"><b>Notas operativas / Artículos relacionados:</b> '+esc(r.n)+'</div>';
+      h+='</div>';
+    }
+    h+='<div class="cd-foot">';
+    h+='<button type="button" class="btn sec" onclick="ordCodTogExp(\''+r.id+'\')">'+(isExp?'Ocultar detalles':'Detalles y redacción')+'</button>';
+    h+='<button type="button" class="btn sec" onclick="ordCodCopy(\''+r.id+'\')">'+svg('copy',13)+' Copiar texto</button>';
+    h+='</div></div>';
+    return h;
+  }).join('');
 }
 
 </script>
