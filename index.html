@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Policía Local · GAO</title>
 <meta name="theme-color" content="#070d18">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -39,9 +39,9 @@
   --X:#7d1d2c;
   --shadow:0 6px 20px rgba(0,0,0,.38);
 }
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);overflow-x:hidden;width:100%;max-width:100vw;overscroll-behavior-x:none}
 *{box-sizing:border-box}
-body{
+body{overflow-x:hidden;width:100%;max-width:100vw;overscroll-behavior-x:none;touch-action:pan-y;
   margin:0;
   background:radial-gradient(circle at 50% 0%,#12223d 0%,var(--bg) 52%);
   background-attachment:fixed;
@@ -92,7 +92,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .navbtn.on .svg{color:var(--gold2)}
 .navbtn.dim{opacity:.55;cursor:default}
 .navbtn.dim:hover{color:var(--mut);background:transparent}
-@media(max-width:780px){.navbtn.desk{display:none}}
+@media(max-width:780px){.nav{display:none}}
 
 /* Telemetry Status Strip */
 .statbar{
@@ -1154,8 +1154,12 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
 .cd-foot .btn{padding:5px 10px;font-size:12px}
 
 /* Modal */
-.modal{position:fixed;inset:0;background:rgba(5,10,20,.75);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;z-index:50}
-.mb{background:var(--card);width:100%;max-width:490px;max-height:90vh;overflow:auto;border-radius:16px 16px 0 0;padding:18px;border:1px solid var(--line);border-top:4px solid var(--gold);box-shadow:0 -8px 34px rgba(0,0,0,.55)}
+.modal{position:fixed;inset:0;width:100%;max-width:100vw;background:rgba(5,10,20,.75);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;z-index:50;overflow:hidden}
+.mb{background:var(--card);width:100%;max-width:min(490px,100vw);max-height:88vh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;border-radius:16px 16px 0 0;padding:16px 14px calc(18px + env(safe-area-inset-bottom,0px));border:1px solid var(--line);border-top:4px solid var(--gold);box-shadow:0 -8px 34px rgba(0,0,0,.55)}
+.mb .chip{max-width:100%;white-space:normal;text-align:left;line-height:1.3}
+.mb .row{max-width:100%;flex-wrap:nowrap}
+.mb .row input,.mb .row select,.mb .fld select,.mb .fld input{max-width:100%}
+#app{width:100%;max-width:100vw;overflow-x:hidden}
 @media(min-width:600px){.modal{align-items:center}.mb{border-radius:16px}}
 @media(max-width:600px){
   .top{padding:9px 12px}
