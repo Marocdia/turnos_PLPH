@@ -1579,6 +1579,70 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
    </div>
   </div>
 
+  <!-- MÓDULO LO 4/2015 SEGURIDAD CIUDADANA -->
+  <div id="lo415" class="hide wrap-sm">
+   <div class="view-hd">
+    <div>
+     <h2 id="lo-title"></h2>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px" id="lo-sub">Ley Orgánica 4/2015, de 30 de marzo, de protección de la seguridad ciudadana</div>
+    </div>
+    <button class="btn sec" onclick="loBack()" id="btn-back-lo"></button>
+   </div>
+
+   <!-- SUBMENÚ PRINCIPAL: 2 BOTONES -->
+   <div id="lo-hub" class="pc-panel">
+    <div class="pc-opts" style="grid-template-columns:1fr;gap:10px">
+     <div class="dtile act" style="padding:16px 14px" onclick="loOpen('cod')">
+      <div class="ib c-blue" style="width:46px;height:46px" id="lo-ic-cod"></div>
+      <div class="txt">
+       <div class="tt"><span>CODIFICADO DE INFRACCIONES</span><span class="tag-act">ACTIVO</span></div>
+       <div class="ts" style="white-space:normal">Buscador de las 44 infracciones (Arts. 35, 36 y 37), importes, tramos, prescripción, notas TC y copia rápida</div>
+      </div>
+     </div>
+     <div class="dtile act" style="padding:16px 14px" onclick="loOpen('arts')">
+      <div class="ib c-gold" style="width:46px;height:46px" id="lo-ic-arts"></div>
+      <div class="txt">
+       <div class="tt"><span>ARTÍCULOS RELEVANTES · ACTUACIÓN POLICIAL</span><span class="tag-act">ACTIVO</span></div>
+       <div class="ts" style="white-space:normal">Guía operativa de potestades: identificación (6h), cacheos, entradas en domicilio, controles, actas y procedimiento</div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <!-- SUBMÓDULO 1: CODIFICADO LO 4/2015 (MISMA ESTRUCTURA QUE CODIFICADO DGT) -->
+   <div id="lo-cod" class="hide cd-wrap">
+    <div class="cd-search-box">
+     <input class="cd-search" id="lo-q" type="search" placeholder="Buscar por artículo, palabra o tema (ej: 36.16, drogas, armas, desobediencia, respeto, okupa, alcohol)..." oninput="loOnSearch()">
+     <button type="button" class="cd-clr hide" id="lo-clr" onclick="loClearQ()" title="Limpiar">×</button>
+    </div>
+
+    <div class="cd-norms" id="lo-cats"></div>
+    <div class="cd-subf" id="lo-subf"></div>
+
+    <div class="cd-meta-bar">
+     <span id="lo-count">Mostrando 0 infracciones</span>
+     <span style="font-size:11.5px">Toca «Detalles y redacción» para ver tramos, órgano y notas</span>
+    </div>
+
+    <div class="cd-list" id="lo-list"></div>
+   </div>
+
+   <!-- SUBMÓDULO 2: ARTÍCULOS RELEVANTES PARA ACTUACIÓN POLICIAL -->
+   <div id="lo-arts" class="hide cd-wrap">
+    <div class="cd-search-box">
+     <input class="cd-search" id="loa-q" type="search" placeholder="Buscar artículo o potestad (ej: 16, identificación, cacheo, domicilio, menor, 6 horas, acta, valor probatorio)..." oninput="renderLoArts()">
+     <button type="button" class="cd-clr hide" id="loa-clr" onclick="$('loa-q').value='';renderLoArts()" title="Limpiar">×</button>
+    </div>
+
+    <div class="cd-norms" id="loa-cats"></div>
+    <div class="cd-meta-bar">
+     <span id="loa-count">Mostrando 0 artículos</span>
+     <span style="font-size:11.5px">Referencia rápida de intervención policial</span>
+    </div>
+    <div class="cd-list" id="loa-list"></div>
+   </div>
+  </div>
+
   <!-- MÓDULO ESTABLECIMIENTOS PÚBLICOS -->
   <div id="establecimientos" class="hide wrap-sm">
    <div class="view-hd">
@@ -2076,10 +2140,10 @@ var DASH_TOOLS=[
   {t:'ACCIDENTES CON HERIDOS',s:'Guía protocolo heridos graves y fallecidos',i:'siren',c:'c-crim',act:1,go:'accidentes'},
   {t:'PRUEBA DE CONTRASTE',s:'Guía protocolo alcohol/drogas sangre',i:'tube',c:'c-crim',act:1,go:'contraste'},
   {t:'ESTABLECIMIENTOS',s:'Horarios, locales Pilar y acta inspección',i:'store',c:'c-gold',act:1,go:'establecimientos'},
+  {t:'4/2015',s:'Codificado LO 4/2015 y artículos policiales',i:'shield',c:'c-blue',act:1,go:'lo415'},
   {t:'BLOC NOTAS',s:'Notas de vehículos, personas, otros',i:'note',c:'c-gold',act:1,go:'bloc'},
   {t:'FAVORITOS',s:'Infracciones guardadas',i:'heart',c:'c-crim',act:1,go:'favoritos'},
   {t:'FORO',s:'Comunidad y consultas',i:'chat',c:'c-blue'},
-  {t:'4/2015',s:'Infracciones de la LO 4/2015',i:'shield',c:'c-blue'},
   {t:'INFRACCIONES',s:'Consultar por ordenanza y leyes',i:'alert',c:'c-crim'},
   {t:'PENAL',s:'Calificador de delitos',i:'scale',c:'c-slate'},
   {t:'MI CARPETA',s:'Briefing y notas de actuaciones',i:'folder',c:'c-gold'},
@@ -2218,6 +2282,7 @@ function go(v){
   $('accidentes').classList.toggle('hide',v!=='accidentes');
   $('permisos').classList.toggle('hide',v!=='permisos');
   $('establecimientos').classList.toggle('hide',v!=='establecimientos');
+  $('lo415').classList.toggle('hide',v!=='lo415');
   $('nv-menu').classList.toggle('on',v==='menu');
   $('nv-turnos').classList.toggle('on',v==='turnos');
   $('nv-drogas').classList.toggle('on',v==='drogas');
@@ -2237,6 +2302,7 @@ renderContraste();
   if(v==='accidentes')renderAcc();
   if(v==='permisos')renderPerm();
   if(v==='establecimientos')esOpen('hub');
+  if(v==='lo415')loOpen('hub');
 }
 
 function initStaticIcons(){
@@ -2278,6 +2344,10 @@ function initStaticIcons(){
   $('es-ic-hor').innerHTML=svg('cal',22);
   $('es-ic-loc').innerHTML=svg('pin',22);
   $('es-ic-act').innerHTML=svg('clip',22);
+  $('lo-title').innerHTML=svg('shield',18)+' Ley Orgánica 4/2015';
+  $('btn-back-lo').innerHTML=svg('back',15)+' Inicio';
+  $('lo-ic-cod').innerHTML=svg('dgt',22);
+  $('lo-ic-arts').innerHTML=svg('book',22);
   $('es-loc-btn-new').innerHTML=svg('plus',15)+' Nuevo establecimiento';
   $('es-loc-save-btn').innerHTML=svg('save',15)+' Guardar establecimiento';
   $('es-act-btn-new').innerHTML=svg('plus',15)+' Nueva Acta de Inspección';
@@ -5630,6 +5700,361 @@ function esActBackToLoc(){
   esActReturnLocId=null;
   esOpen('locales');
   if(lid)esLocOpenDetail(lid);
+}
+
+
+/* ==================== MÓDULO LO 4/2015 SEGURIDAD CIUDADANA ==================== */
+var LO_INFS=[
+  /* MUY GRAVES (Art. 35: 30.001 a 600.000 € · Prescripción 2 años · Sin pronto pago) */
+  {id:'35.1',art:'35.1',g:'MG',cat:'ORDEN',eur:'30.001 – 600.000 €',t:'Reuniones o manifestaciones no comunicadas o prohibidas en infraestructuras de servicios básicos o sus inmediaciones, o intrusión/sobrevuelo en sus recintos generando riesgo para la vida o integridad física.',n:'Responsables en reuniones/manifestaciones: organizadores o promotores (Art. 30.3). Infraestructuras básicas: nucleares, petroquímicas, puertos, aeropuertos, agua, gas, electricidad y telecomunicaciones (DA 6ª).'},
+  {id:'35.2',art:'35.2',g:'MG',cat:'ARMAS',eur:'30.001 – 600.000 €',t:'Fabricación, reparación, almacenamiento, circulación, comercio, transporte, tenencia o uso irregular de armas reglamentarias, explosivos, cartuchería o pirotecnia, o falta de medidas de seguridad obligatorias, causando perjuicios muy graves (no delito).',n:'Si no causa perjuicios muy graves, se encuadra en infracción grave del Art. 36.12. Posible retirada de armas/licencias y clausura (Art. 39.2).'},
+  {id:'35.3',art:'35.3',g:'MG',cat:'ORDEN',eur:'30.001 – 600.000 €',t:'Celebración de espectáculos públicos o actividades recreativas quebrantando la prohibición o suspensión ordenada por la autoridad por razones de seguridad pública.',n:'Relacionado con la facultad de prohibición o suspensión preventiva del Art. 27.2.'},
+  {id:'35.4',art:'35.4',g:'MG',cat:'ORDEN',eur:'30.001 – 600.000 €',t:'Proyección de haces de luz (p. ej. punteros láser) sobre pilotos o conductores de medios de transporte que puedan deslumbrarles, distraerles y provocar accidentes.',n:'Si el haz de luz se proyecta sobre agentes de las FFCCSS para impedir o dificultar sus funciones, es infracción leve del Art. 37.6.'},
+
+  /* GRAVES (Art. 36: 601 a 30.000 € · Grado mín. 601–10.400 € · Prescripción 1 año · Pronto pago 50% en 15 días) */
+  {id:'36.1',art:'36.1',g:'G',cat:'ORDEN',eur:'601 – 30.000 €',t:'Perturbación de la seguridad ciudadana en actos públicos, espectáculos deportivos o culturales, solemnidades, oficios religiosos o reuniones numerosas (no delito).',n:'Detallar en el acta la entidad de la perturbación, nº aproximado de asistentes y cómo afectó al desarrollo del acto.'},
+  {id:'36.2',art:'36.2',g:'G',cat:'ORDEN',eur:'601 – 30.000 €',t:'Perturbación grave de la seguridad ciudadana en reuniones o manifestaciones frente a las sedes del Congreso, Senado o asambleas legislativas autonómicas, aunque no estén reunidas (no delito).',n:'Carácter orgánico (DF 3ª).'},
+  {id:'36.3',art:'36.3',g:'G',cat:'ORDEN',eur:'601 – 30.000 €',t:'Causar desórdenes en vías, espacios o establecimientos públicos, u obstaculizar la vía pública con mobiliario urbano, vehículos, contenedores, neumáticos u otros objetos causando alteración grave de la seguridad ciudadana.',n:'Si no hay alteración grave pero hay ocupación indebida de vía pública, valorar Art. 37.7.'},
+  {id:'36.4',art:'36.4',g:'G',cat:'AGENTES',eur:'601 – 30.000 €',t:'Actos de obstrucción para impedir a cualquier autoridad, empleado público o corporación oficial el ejercicio legítimo de sus funciones o la ejecución de resoluciones administrativas o judiciales (no delito).',n:'Debe producirse al margen de los procedimientos legalmente establecidos.'},
+  {id:'36.5',art:'36.5',g:'G',cat:'AGENTES',eur:'601 – 30.000 €',t:'Acciones u omisiones que impidan u obstaculicen el funcionamiento de los servicios de emergencia, generando o aumentando riesgo para personas/bienes o agravando el suceso.',n:'Aplicable a ambulancias, bomberos, protección civil y policía en intervención de emergencia.'},
+  {id:'36.6',art:'36.6',g:'G',cat:'AGENTES',eur:'601 – 30.000 €',t:'Desobediencia o resistencia a la autoridad o sus agentes en el ejercicio de sus funciones (no delito), negativa a identificarse a requerimiento policial o alegación de datos falsos o inexactos en la identificación.',n:'Valorar delito de resistencia/desobediencia grave (Art. 556 CP) si concurre oposición física activa o negativa contumaz reiterada. Especificar el requerimiento concreto y la reacción del infractor.'},
+  {id:'36.7',art:'36.7',g:'G',cat:'ORDEN',eur:'601 – 30.000 €',t:'Negativa a disolver reuniones o manifestaciones en lugares de tránsito público cuando lo ordene la autoridad competente en los supuestos del Art. 5 LO 9/1983.',n:'Requiere aviso previo a los participantes (Art. 23.3), salvo alteración con armas u objetos peligrosos.'},
+  {id:'36.8',art:'36.8',g:'G',cat:'ORDEN',eur:'601 – 30.000 €',t:'Perturbación del desarrollo de una reunión o manifestación lícita (no delito).',n:'Protege el ejercicio pacífico del derecho de reunión frente a terceros que intenten boicotearlo.'},
+  {id:'36.9',art:'36.9',g:'G',cat:'ORDEN',eur:'601 – 30.000 €',t:'Intrusión en infraestructuras o instalaciones de servicios básicos para la comunidad, incluido su sobrevuelo, produciendo interferencia grave en su funcionamiento.',n:'Si genera riesgo para la vida o integridad física, pasa a Muy Grave (Art. 35.1).'},
+  {id:'36.10',art:'36.10',g:'G',cat:'ARMAS',eur:'601 – 30.000 €',t:'Portar, exhibir o usar armas prohibidas, o portar, exhibir o usar armas de modo negligente, temerario, intimidatorio o fuera de los lugares habilitados (incluso con licencia), no siendo delito.',n:'Intervención cautelar del arma con acta de aprehensión (Arts. 18, 19.2 y 47.1). Posible retirada de licencia (Art. 39.2.a). Valorar Art. 563 CP para armas prohibidas de especial potencialidad lesiva.'},
+  {id:'36.11',art:'36.11',g:'G',cat:'ORDEN',eur:'601 – 30.000 €',t:'Solicitud o aceptación por el demandante de servicios sexuales retribuidos en zonas de tránsito público próximas a lugares usados por menores (colegios, parques) o con riesgo para la seguridad vial.',n:'A quienes ofrezcan estos servicios en dichos lugares se les requerirá que se abstengan; si incumplen el requerimiento, puede denunciarse por desobediencia del Art. 36.6.'},
+  {id:'36.12',art:'36.12',g:'G',cat:'ARMAS',eur:'601 – 30.000 €',t:'Fabricación, reparación, almacenamiento, circulación, comercio, transporte, tenencia o uso irregular de armas reglamentarias, explosivos, cartuchería o pirotecnia, o falta de medidas de seguridad obligatorias (no delito).',n:'Tipo básico administrativo en materia de armas y pirotecnia cuando no se causan perjuicios muy graves (Art. 35.2).'},
+  {id:'36.13',art:'36.13',g:'G',cat:'LOCALES',eur:'601 – 30.000 €',t:'Negativa de acceso u obstrucción deliberada de inspecciones o controles reglamentarios previstos en esta Ley en fábricas, locales, establecimientos, embarcaciones y aeronaves.',n:'Aplicable a actividades obligadas a registro documental o medidas de seguridad (Arts. 25, 26 y 28).'},
+  {id:'36.14',art:'36.14',g:'G',cat:'AGENTES',eur:'601 – 30.000 €',t:'Uso público e indebido de uniformes, insignias, condecoraciones oficiales o réplicas, así como equipamiento policial o de emergencias que pueda generar engaño sobre la condición de quien los use (no delito).',n:'Si realiza actos propios de autoridad o funcionario atribuyéndose carácter oficial, valorar delito de usurpación de funciones (Art. 402 CP).'},
+  {id:'36.15',art:'36.15',g:'G',cat:'AGENTES',eur:'601 – 30.000 €',t:'Falta de colaboración con las FFCCSS en la averiguación de delitos o prevención de riesgos para la seguridad ciudadana en los supuestos del Art. 7.',n:'Especialmente relevante para personal de seguridad privada, detectives y funcionarios públicos (Art. 7.1 y 7.3).'},
+  {id:'36.16',art:'36.16',g:'G',cat:'DROGAS',eur:'601 – 30.000 €',t:'Consumo o tenencia ilícitos de drogas tóxicas, estupefacientes o sustancias psicotrópicas (aunque no destinadas al tráfico) en lugares, vías, establecimientos públicos o transportes colectivos, así como el abandono de útiles empleados.',n:'Extender acta de aprehensión con pesaje/descripción y cadena de custodia (Art. 19.2). En menores de 18 años la multa puede suspenderse por tratamiento/reeducación (DA 5ª). Si supera umbral INTCF o hay indicios de tráfico: Art. 368 CP.'},
+  {id:'36.17',art:'36.17',g:'G',cat:'DROGAS',eur:'601 – 30.000 €',t:'Traslado de personas, con cualquier tipo de vehículo, con el objeto de facilitarles el acceso a drogas tóxicas, estupefacientes o sustancias psicotrópicas (no delito).',n:'Conocido como «cundas» o transporte a puntos de venta de droga cuando no llegue a constituir cooperación al tráfico (Art. 368 CP).'},
+  {id:'36.18',art:'36.18',g:'G',cat:'DROGAS',eur:'601 – 30.000 €',t:'Actos de plantación y cultivo ilícitos de drogas tóxicas, estupefacientes o sustancias psicotrópicas en lugares visibles al público (no delito).',n:'Típico en terrazas, balcones o patios visibles desde la vía pública cuando se acredite destino al autoconsumo y no al tráfico.'},
+  {id:'36.19',art:'36.19',g:'G',cat:'DROGAS',eur:'601 – 30.000 €',t:'Tolerancia del consumo ilegal o del tráfico de drogas en locales o establecimientos públicos, o falta de diligencia para impedirlos por parte de propietarios, administradores o encargados.',n:'Imputable al titular/encargado del establecimiento. Hacer constar en el acta la pasividad o ausencia de medidas de control.'},
+  {id:'36.20',art:'36.20',g:'G',cat:'LOCALES',eur:'601 – 30.000 €',t:'Carencia de los registros documentales previstos en esta Ley para actividades relevantes de seguridad ciudadana (hospedaje, compraventa oro/usados, alquiler vehículos, chatarrerías...) u omisión de comunicaciones obligatorias.',n:'Si el registro existe pero tiene irregularidades o retrasos en la comunicación, es infracción leve del Art. 37.9.'},
+  {id:'36.21',art:'36.21',g:'G',cat:'DOC',eur:'601 – 30.000 €',t:'Alegación de datos o circunstancias falsos para obtener las documentaciones previstas en esta Ley (DNI, pasaporte, licencias...), siempre que no sea delito.',n:'Valorar falsedad documental (Arts. 390 y ss. CP) si se aportan documentos manipulados.'},
+  {id:'36.22',art:'36.22',g:'G',cat:'ORDEN',eur:'601 – 30.000 €',t:'Incumplimiento de las restricciones a la navegación impuestas a embarcaciones de alta velocidad y aeronaves ligeras por motivos de seguridad ciudadana.',n:'STC 13/2021: constitucional interpretado cuando el incumplimiento produzca un perjuicio real o amenaza concreta para la seguridad ciudadana.'},
+  {id:'36.23',art:'36.23',g:'G',cat:'AGENTES',eur:'601 – 30.000 €',t:'Uso de imágenes o datos personales o profesionales de autoridades o miembros de las FFCCSS que pueda poner en peligro la seguridad personal o familiar de los agentes, de las instalaciones protegidas o el éxito de una operación.',n:'STC 172/2020 y STC 13/2021: declarado inconstitucional y nulo el inciso «no autorizado». La mera grabación sin riesgo concreto no es sancionable; debe motivarse el peligro real para los agentes o la operación.'},
+
+  /* LEVES (Art. 37: 100 a 600 € · Prescripción 6 meses · Pronto pago 50% en 15 días) */
+  {id:'37.1',art:'37.1',g:'L',cat:'ORDEN',eur:'100 – 600 €',t:'Celebración de reuniones en lugares de tránsito público o manifestaciones incumpliendo los requisitos formales de comunicación/itinerario de la LO 9/1983.',n:'Responsabilidad exclusiva de los organizadores o promotores.'},
+  {id:'37.2',art:'37.2',g:'L',cat:'ARMAS',eur:'100 – 600 €',t:'Exhibición de objetos peligrosos para la vida e integridad física de las personas con ánimo intimidatorio (no delito ni infracción grave).',n:'Aplicable a objetos peligrosos que no tengan la consideración legal de arma (bate, cadena, botella rota, herramienta...).'},
+  {id:'37.3',art:'37.3',g:'L',cat:'ORDEN',eur:'100 – 600 €',t:'Incumplimiento de restricciones de circulación peatonal o itinerario en actos públicos, reuniones o manifestaciones provocando alteraciones menores.',n:'Interpretación conforme STC 172/2020.'},
+  {id:'37.4',art:'37.4',g:'L',cat:'AGENTES',eur:'100 – 600 €',t:'Faltas de respeto y consideración dirigidas a un miembro de las FFCCSS en el ejercicio de sus funciones de protección de la seguridad ciudadana (no delito).',n:'Transcribir textualmente y entrecomilladas las expresiones proferidas o describir con precisión los gestos despectivos.'},
+  {id:'37.5',art:'37.5',g:'L',cat:'ORDEN',eur:'100 – 600 €',t:'Realización o incitación de actos que atenten contra la libertad e indemnidad sexual, o ejecutar actos de exhibición obscena (no delito).',n:'Si hay menores o personas con discapacidad delante en exhibición obscena, valorar delito del Art. 185 CP.'},
+  {id:'37.6',art:'37.6',g:'L',cat:'AGENTES',eur:'100 – 600 €',t:'Proyección de haces de luz mediante cualquier dispositivo sobre miembros de las FFCCSS para impedir o dificultar el ejercicio de sus funciones.',n:'Si se dirige contra pilotos o conductores con riesgo de accidente: Muy Grave (Art. 35.4).'},
+  {id:'37.7',art:'37.7',g:'L',cat:'ORDEN',eur:'100 – 600 €',t:'Ocupación o permanencia en inmuebles, viviendas o edificios ajenos contra la voluntad de su titular (no delito), así como ocupación indebida de la vía pública, incluida la venta ambulante no autorizada.',n:'Valorar allanamiento de morada (Art. 202 CP) o usurpación (Art. 245 CP) si procede. Interpretación conforme STC 172/2020 y 13/2021.'},
+  {id:'37.8',art:'37.8',g:'L',cat:'ARMAS',eur:'100 – 600 €',t:'Omisión o insuficiencia de medidas para conservar la documentación de armas y explosivos, o falta de denuncia de su pérdida o sustracción.',n:'Afecta a guías de pertenencia, licencias y autorizaciones de armas.'},
+  {id:'37.9',art:'37.9',g:'L',cat:'LOCALES',eur:'100 – 600 €',t:'Irregularidades en la cumplimentación de los registros documentales obligatorios (datos falsos u omisión de comunicaciones dentro de plazo), no siendo delito.',n:'Si carece totalmente de registro: Grave (Art. 36.20).'},
+  {id:'37.10',art:'37.10',g:'L',cat:'DOC',eur:'100 – 600 €',t:'Incumplimiento de la obligación de obtener la documentación personal legalmente exigida (DNI desde los 14 años) u omisión negligente de denunciar su sustracción o extravío.',n:'Relacionado con el Art. 9.1 y 9.2.'},
+  {id:'37.11',art:'37.11',g:'L',cat:'DOC',eur:'100 – 600 €',t:'Negligencia en la custodia y conservación de la documentación personal (tercera y posteriores pérdidas o extravíos en el plazo de un año).',n:'Aplicable a DNI y pasaporte.'},
+  {id:'37.12',art:'37.12',g:'L',cat:'DOC',eur:'100 – 600 €',t:'Negativa a entregar la documentación personal legalmente exigida cuando se hubiese acordado su retirada o retención.',n:'Solo cuando exista resolución legal que acuerde la retirada o sustitución del documento.'},
+  {id:'37.13',art:'37.13',g:'L',cat:'ORDEN',eur:'100 – 600 €',t:'Daños o deslucimiento (pintadas, grafitis, pegado abusivo) de bienes muebles o inmuebles de uso o servicio público, o de bienes privados en la vía pública (no delito).',n:'Conlleva además la obligación de reposición o indemnización por daños (Art. 42). Si supera 400 € o afecta a bienes especialmente protegidos, valorar delito de daños (Art. 263 CP).'},
+  {id:'37.14',art:'37.14',g:'L',cat:'ORDEN',eur:'100 – 600 €',t:'Escalamiento de edificios o monumentos sin autorización cuando exista riesgo cierto de ocasionar daños a personas o bienes.',n:'Hacer constar el riesgo concreto observado (altura, caída de elementos, tránsito inferior).'},
+  {id:'37.15',art:'37.15',g:'L',cat:'AGENTES',eur:'100 – 600 €',t:'Remoción de vallas, encintados u otros elementos colocados por las FFCCSS para delimitar perímetros de seguridad, incluso preventivos (no infracción grave).',n:'Relacionado con las zonas de seguridad del Art. 17.1.'},
+  {id:'37.16',art:'37.16',g:'L',cat:'ORDEN',eur:'100 – 600 €',t:'Dejar sueltos o en condiciones de causar daños animales feroces o dañinos, así como abandonar animales domésticos en condiciones en que pueda peligrar su vida.',n:'Valorar delito de maltrato o abandono animal (Arts. 340 bis / 340 ter CP) si concurren sus elementos.'},
+  {id:'37.17',art:'37.17',g:'L',cat:'ORDEN',eur:'100 – 600 €',t:'Consumo de bebidas alcohólicas en lugares, vías, establecimientos o transportes públicos cuando perturbe gravemente la tranquilidad ciudadana.',n:'No basta el mero consumo (botellón); debe acreditarse en el acta la perturbación grave de la tranquilidad ciudadana (ruidos intensos, gritos, suciedad, molestias vecinales).'}
+];
+
+var LO_ARTS=[
+  {id:'a16',num:'Art. 16',cat:'POTESTADES',tit:'Identificación de personas (y traslado a dependencias hasta 6h)',
+   res:'Habilita a requerir la identificación cuando existan indicios de participación en una infracción o sea razonablemente necesario para prevenir un delito.',
+   pts:[
+     'Permite comprobaciones in situ, incluida la retirada temporal de prendas que cubran el rostro cuando sea preciso.',
+     'Respeto estricto a proporcionalidad, igualdad de trato y no discriminación.',
+     'Traslado a dependencias policiales más próximas solo si no es posible identificar por ningún medio (incluido telemático/telefónico) o ante negativa, para impedir delito o sancionar infracción.',
+     'Duración máxima estricta: 6 horas. Informar de inmediato y de forma comprensible de los motivos.',
+     'Obligatorio anotar en Libro-Registro (remisión mensual a Fiscalía) y expedir volante acreditativo a la salida con tiempo, causa e identidad de los agentes.'
+   ]},
+  {id:'a15',num:'Art. 15',cat:'POTESTADES',tit:'Entrada y registro en domicilio y edificios oficiales',
+   res:'Regula los supuestos habilitantes de entrada en domicilio y edificios públicos.',
+   pts:[
+     'En domicilio particular: solo en casos permitidos por la Constitución (consentimiento, resolución judicial o delito flagrante).',
+     'Causa legítima suficiente: evitar daños inminentes y graves a personas o cosas en catástrofe, calamidad, ruina inminente o extrema y urgente necesidad.',
+     'Edificios de organismos oficiales o entidades públicas: no precisa consentimiento del titular/funcionario a cargo.',
+     'Tras entrar en domicilio particular por estas causas, remitir sin dilación acta o atestado a la autoridad judicial.'
+   ]},
+  {id:'a17',num:'Art. 17',cat:'POTESTADES',tit:'Restricción del tránsito y controles en vías públicas',
+   res:'Permite acotar zonas de seguridad y montar controles preventivos en vías y establecimientos.',
+   pts:[
+     'Limitar o restringir circulación/permanencia y fijar zonas de seguridad ante alteración o indicios racionales de alteración, por el tiempo imprescindible.',
+     'Ocupación preventiva de efectos o instrumentos susceptibles de uso ilegal.',
+     'Controles en vías, lugares o establecimientos públicos para prevenir delitos graves o de alarma social, detener autores o recoger pruebas: permite identificar personas, registrar vehículos y controlar superficialmente efectos personales.'
+   ]},
+  {id:'a18',num:'Art. 18',cat:'POTESTADES',tit:'Comprobaciones y registros en lugares públicos',
+   res:'Faculta a comprobar personas, bienes y vehículos para evitar el porte ilegal de armas u objetos peligrosos.',
+   pts:[
+     'Procede cuando haya indicios de eventual presencia de armas, explosivos, sustancias peligrosas u objetos de riesgo grave en vías o establecimientos públicos.',
+     'Los ciudadanos tienen el deber de colaborar y no obstaculizar la labor policial.',
+     'Permite la ocupación temporal de medios de agresión, incluso armas portadas con licencia, si es necesario para prevenir un delito o existe peligro para personas o bienes.'
+   ]},
+  {id:'a19',num:'Art. 19',cat:'POTESTADES',tit:'Disposiciones comunes a identificación, registro y actas de aprehensión',
+   res:'Aclara que estas diligencias no son una detención y regula el valor del acta de aprehensión.',
+   pts:[
+     'Las diligencias de identificación, registro y comprobación no están sujetas a las mismas formalidades que la detención.',
+     'La aprehensión de armas, drogas u otros efectos se hará constar en acta firmada por el interesado (si se niega, hacer constar expresamente la negativa).',
+     'El acta goza de presunción de veracidad de los hechos consignados, salvo prueba en contrario.'
+   ]},
+  {id:'a20',num:'Art. 20',cat:'POTESTADES',tit:'Registros corporales externos (cacheos)',
+   res:'Regula el cacheo superficial por indicios racionales de hallazgo de instrumentos, efectos u objetos relevantes.',
+   pts:[
+     'Salvo urgencia por riesgo grave e inminente para los agentes: debe hacerlo un agente del mismo sexo.',
+     'Si exige descubrir partes del cuerpo normalmente cubiertas por ropa: en lugar reservado, fuera de la vista de terceros y dejando constancia escrita de causas e identidad del agente.',
+     'Principio de injerencia mínima y menor perjuicio a dignidad e intimidad; informar de modo inmediato y comprensible de las razones.',
+     'Puede ejecutarse contra la voluntad del afectado usando la compulsión indispensable (idoneidad, necesidad y proporcionalidad).'
+   ]},
+  {id:'a21',num:'Art. 21',cat:'POTESTADES',tit:'Medidas de seguridad extraordinarias en emergencias',
+   res:'Habilita a los agentes a actuar de inmediato (incluso con órdenes verbales) ante peligros inminentes.',
+   pts:[
+     'Cierre o desalojo de locales o establecimientos, prohibición de paso, evacuación de inmuebles o espacios acotados y depósito de explosivos.',
+     'Pueden ser adoptadas directamente por los agentes si la urgencia lo hace imprescindible, durante el tiempo estrictamente necesario.'
+   ]},
+  {id:'a8_9',num:'Arts. 8 y 9',cat:'DOCUMENTACION',tit:'DNI: valor probatorio y obligación de exhibición',
+   res:'El DNI es obligatorio desde los 14 años y es el único documento con valor suficiente por sí solo para acreditar la identidad de españoles.',
+   pts:[
+     'Personal e intransferible; no se puede privar de él ni temporalmente salvo sustitución legal.',
+     'Obligación de exhibirlo y permitir comprobar sus medidas de seguridad cuando lo requieran los agentes conforme al Art. 16.1.',
+     'Deber de denunciar su sustracción o extravío tan pronto como sea posible.'
+   ]},
+  {id:'a13',num:'Art. 13',cat:'DOCUMENTACION',tit:'Identificación de ciudadanos extranjeros',
+   res:'Derecho y obligación de conservar y portar documentación de identidad de origen y acreditativa de situación regular.',
+   pts:[
+     'No pueden ser privados de su documentación de origen salvo en investigaciones judiciales penales.',
+     'Obligados a exhibirla y permitir comprobar medidas de seguridad por el tiempo imprescindible.',
+     'Si no la llevan consigo, pueden demostrar su identidad por cualquier otro medio.'
+   ]},
+  {id:'a23',num:'Art. 23',cat:'POTESTADES',tit:'Reuniones y manifestaciones',
+   res:'Protección del derecho de reunión, intervención gradual y disolución como último recurso.',
+   pts:[
+     'Medidas siempre graduales y proporcionadas; la disolución es el último recurso.',
+     'Aviso previo obligatorio antes de disolver (puede ser verbal por urgencia), excepto si hay alteración con armas, explosivos u objetos contundentes/peligrosos.',
+     'Permite disolver concentraciones de vehículos y retirar obstáculos que impidan o pongan en peligro la circulación.'
+   ]},
+  {id:'a30',num:'Art. 30',cat:'SANCIONADOR',tit:'Sujetos responsables y menores de 14 años',
+   res:'La responsabilidad recae en el autor; los menores de 14 años están exentos de sanción administrativa.',
+   pts:[
+     'Si el autor es menor de 14 años: no se sanciona administrativamente; se comunica al Ministerio Fiscal.',
+     'Menores entre 14 y 18 años no emancipados: responden solidariamente de los daños y perjuicios sus padres, tutores o guardadores (Art. 42.3).',
+     'DA 5ª: en consumo/tenencia de drogas por menores de 18 años, la multa puede suspenderse si se someten a tratamiento o reeducación.'
+   ]},
+  {id:'a32_33',num:'Arts. 32, 33 y 39',cat:'SANCIONADOR',tit:'Órganos competentes, importes y graduación',
+   res:'Cuantías de multas, tramos y competencias (incluyendo Alcaldes en espacios municipales).',
+   pts:[
+     'Leves: 100 – 600 € · Graves: 601 – 30.000 € (Mín. 601–10.400 / Med. 10.401–20.200 / Máx. 20.201–30.000) · Muy graves: 30.001 – 600.000 €.',
+     'Por defecto se aplica grado mínimo; pasa a grado medio si concurre reincidencia (2 años), violencia/intimidación, ocultación de rostro o utilización de menores/vulnerables.',
+     'Competencia: Delegado del Gobierno (graves/leves), Secretario de Estado Seguridad (muy graves mín/med), Ministro Interior (muy graves máx) y Alcaldes en espacios públicos municipales o bienes locales.'
+   ]},
+  {id:'a38_40',num:'Arts. 38 y 40',cat:'SANCIONADOR',tit:'Prescripción de infracciones y sanciones',
+   res:'Plazos legales de prescripción y causas de interrupción.',
+   pts:[
+     'Infracciones: Leves 6 meses · Graves 1 año · Muy graves 2 años (desde el día de comisión).',
+     'Sanciones firmes: Leves 1 año · Graves 2 años · Muy graves 3 años.',
+     'Se interrumpe por actuación administrativa notificada o por apertura de proceso penal (Art. 45). Caducidad del expediente: 1 año (Art. 50).'
+   ]},
+  {id:'a45',num:'Art. 45',cat:'SANCIONADOR',tit:'Preferencia de la vía penal (Non bis in idem)',
+   res:'Carácter subsidiario del procedimiento administrativo respecto al penal.',
+   pts:[
+     'No pueden sancionarse hechos ya sancionados penal o administrativamente con identidad de sujeto, hecho y fundamento.',
+     'Si hay indicios de delito, pasar el tanto de culpa a Juzgado/Fiscalía y suspender la vía administrativa.',
+     'Las medidas cautelares previas pueden mantenerse mientras el juez no resuelva otra cosa.'
+   ]},
+  {id:'a47',num:'Art. 47',cat:'SANCIONADOR',tit:'Medidas provisionales anteriores al procedimiento',
+   res:'Intervención y aprehensión cautelar directa por los agentes en el momento de la infracción.',
+   pts:[
+     'Los agentes intervendrán cautelarmente los instrumentos de la infracción y el dinero/productos obtenidos, custodiándolos hasta resolución o comiso.',
+     'En riesgo grave o peligro inminente, los agentes pueden adoptar medidas del Art. 49.1 (excepto suspensión de licencias), que deben ratificarse en 15 días.'
+   ]},
+  {id:'a52_54',num:'Arts. 52 y 54',cat:'SANCIONADOR',tit:'Valor probatorio de agentes y pronto pago (50%)',
+   res:'Presunción de veracidad de las denuncias/actas policiales y procedimiento abreviado.',
+   pts:[
+     'Art. 52: las denuncias, atestados o actas de agentes que presenciaron los hechos (previa ratificación si son negados) son base suficiente para sancionar, salvo prueba en contrario.',
+     'Art. 54: en graves y leves, el pago voluntario en 15 días desde la incoación reduce la multa en un 50% y finaliza el procedimiento (no aplicable a muy graves).'
+   ]}
+];
+
+var loState={sub:'hub',cat:'ALL',grav:'',fav:0,q:'',exp:{},artCat:'ALL'};
+
+function loFavMap(){S.loFav=S.loFav||{};return S.loFav;}
+
+function loOpen(sub){
+  loState.sub=sub||'hub';
+  $('lo-hub').classList.toggle('hide',sub!=='hub');
+  $('lo-cod').classList.toggle('hide',sub!=='cod');
+  $('lo-arts').classList.toggle('hide',sub!=='arts');
+  var subs={
+    hub:'Ley Orgánica 4/2015, de 30 de marzo, de protección de la seguridad ciudadana',
+    cod:'Codificado de Infracciones (Arts. 35, 36 y 37) · Importes, tramos y notas TC',
+    arts:'Artículos relevantes para la actuación policial · Potestades y procedimiento'
+  };
+  $('lo-sub').textContent=subs[sub]||subs.hub;
+  $('btn-back-lo').innerHTML=svg('back',15)+(sub==='hub'?' Inicio':' Menú 4/2015');
+  if(sub==='cod')renderLoCod();
+  if(sub==='arts')renderLoArts();
+  window.scrollTo(0,0);
+}
+
+function loBack(){
+  if(loState.sub!=='hub'){loOpen('hub');return;}
+  go('menu');
+}
+
+function loOnSearch(){
+  loState.q=$('lo-q').value;
+  $('lo-clr').classList.toggle('hide',!loState.q);
+  renderLoCod();
+}
+function loClearQ(){
+  $('lo-q').value='';
+  loState.q='';
+  $('lo-clr').classList.add('hide');
+  renderLoCod();
+}
+function loSetCat(c){loState.cat=c;renderLoCod();}
+function loSetGrav(g){loState.grav=(loState.grav===g?'':g);renderLoCod();}
+function loTogFavFilter(){loState.fav=loState.fav?0:1;renderLoCod();}
+function loTogFav(id){
+  var m=loFavMap();
+  if(m[id])delete m[id];else m[id]=1;
+  save();
+  renderLoCod();
+}
+function loTogExp(id){
+  if(loState.exp[id])delete loState.exp[id];else loState.exp[id]=1;
+  renderLoCod();
+}
+
+function loCopy(id){
+  var r=LO_INFS.filter(function(x){return x.id===id})[0];
+  if(!r)return;
+  var gLbl=r.g==='MG'?'MUY GRAVE':(r.g==='G'?'GRAVE':'LEVE');
+  var txt='LO 4/2015 · Art. '+r.art+' ('+gLbl+' · '+r.eur+')\nHecho: '+r.t+(r.n?'\nNota: '+r.n:'');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){banner('Infracción LO 4/2015 copiada.','')}).catch(function(){prompt('Copia el texto:',txt)});
+  }else{prompt('Copia el texto:',txt);}
+}
+
+function renderLoCod(){
+  var cats=[
+    ['ALL','Todas'],
+    ['DROGAS','Drogas'],
+    ['ARMAS','Armas'],
+    ['AGENTES','Agentes'],
+    ['ORDEN','Orden Público'],
+    ['DOC','Documentación'],
+    ['LOCALES','Locales/Reg.']
+  ];
+  $('lo-cats').innerHTML=cats.map(function(c){
+    var cnt=c[0]==='ALL'?LO_INFS.length:LO_INFS.filter(function(x){return x.cat===c[0]}).length;
+    return '<button type="button" class="cd-nbtn'+(loState.cat===c[0]?' on':'')+'" onclick="loSetCat(\''+c[0]+'\')">'+c[1]+' <small>('+cnt+')</small></button>';
+  }).join('');
+
+  var favM=loFavMap();
+  var favCnt=Object.keys(favM).length;
+  var sub='';
+  sub+='<button type="button" class="cd-fbtn'+(loState.grav==='MG'?' on':'')+'" onclick="loSetGrav(\'MG\')">Muy Graves (4)</button>';
+  sub+='<button type="button" class="cd-fbtn'+(loState.grav==='G'?' on':'')+'" onclick="loSetGrav(\'G\')">Graves (23)</button>';
+  sub+='<button type="button" class="cd-fbtn'+(loState.grav==='L'?' on':'')+'" onclick="loSetGrav(\'L\')">Leves (17)</button>';
+  sub+='<button type="button" class="cd-fbtn'+(loState.fav?' on-fav':'')+'" onclick="loTogFavFilter()">'+svg('heart',12)+' Favoritos ('+favCnt+')</button>';
+  $('lo-subf').innerHTML=sub;
+
+  var q=cdNormStr(loState.q||'');
+  var toks=q?q.split(/\s+/).filter(Boolean):[];
+  var res=LO_INFS.filter(function(r){
+    if(loState.cat!=='ALL'&&r.cat!==loState.cat)return false;
+    if(loState.grav&&r.g!==loState.grav)return false;
+    if(loState.fav&&!favM[r.id])return false;
+    if(!toks.length)return true;
+    var hay=cdNormStr('lo 4/2015 art '+r.art+' '+r.t+' '+r.n+' '+r.cat+' '+r.eur);
+    return toks.every(function(tk){return hay.indexOf(tk)>=0});
+  });
+
+  $('lo-count').innerHTML='Mostrando <b>'+res.length+'</b> de '+LO_INFS.length+' infracciones';
+  if(!res.length){
+    $('lo-list').innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:24px 14px">No se encontraron infracciones con esos filtros.</div>';
+    return;
+  }
+
+  $('lo-list').innerHTML=res.map(function(r){
+    var isFav=!!favM[r.id], isExp=!!loState.exp[r.id];
+    var gLbl=r.g==='MG'?'MUY GRAVE':(r.g==='G'?'GRAVE':'LEVE');
+    var pres=r.g==='MG'?'2 años':(r.g==='G'?'1 año':'6 meses');
+    var pp=r.g==='MG'?'No aplicable':'50% en 15 días';
+    var org=r.g==='MG'?'Ministro / Sec. Estado Seguridad':'Delegado Gobierno / Alcalde (esp. mun.)';
+    var tramos=r.g==='MG'?'Mín: 30.001–220.000 € · Med: 220.001–410.000 € · Máx: 410.001–600.000 €':(r.g==='G'?'Mín: 601–10.400 € · Med: 10.401–20.200 € · Máx: 20.201–30.000 €':'Tramo único: 100 – 600 €');
+
+    var h='<div class="cd-card g-'+r.g+'">';
+    h+='<div class="cd-top">';
+    h+='<span class="cd-code">LO 4/2015 · Art. '+esc(r.art)+'</span>';
+    h+='<div class="cd-pills">';
+    h+='<span class="cd-pill cd-p-'+r.g+'">'+gLbl+'</span>';
+    h+='<span class="cd-pill cd-p-eur">'+esc(r.eur)+'</span>';
+    h+='</div>';
+    h+='<button type="button" class="cd-fav-btn'+(isFav?' on':'')+'" onclick="loTogFav(\''+r.id+'\')" title="Favorito">'+svg('heart',15)+'</button>';
+    h+='</div>';
+    h+='<div class="cd-txt">'+esc(r.t)+'</div>';
+    h+='<div class="cd-sub"><span>Prescripción: <b>'+pres+'</b></span><span>Pronto pago: <b>'+pp+'</b></span></div>';
+    if(isExp){
+      h+='<div class="cd-det">';
+      h+='<div class="cd-det-grid">';
+      h+='<div class="cd-ditem"><small>Órgano competente (Art. 32)</small><b>'+org+'</b></div>';
+      h+='<div class="cd-ditem"><small>Prescripción (Art. 38)</small><b>'+pres+'</b></div>';
+      h+='<div class="cd-ditem"><small>Reducción (Art. 54)</small><b>'+pp+'</b></div>';
+      h+='</div>';
+      h+='<div class="cd-det-box"><b>Tramos de sanción (Art. 39.1):</b> '+tramos+'</div>';
+      if(r.n)h+='<div class="cd-det-box"><b>Notas operativas / Jurisprudencia:</b> '+esc(r.n)+'</div>';
+      h+='</div>';
+    }
+    h+='<div class="cd-foot">';
+    h+='<button type="button" class="btn sec" onclick="loTogExp(\''+r.id+'\')">'+(isExp?'Ocultar detalles':'Detalles y redacción')+'</button>';
+    h+='<button type="button" class="btn sec" onclick="loCopy(\''+r.id+'\')">'+svg('copy',13)+' Copiar texto</button>';
+    h+='</div></div>';
+    return h;
+  }).join('');
+}
+
+function loSetArtCat(c){loState.artCat=c;renderLoArts();}
+
+function renderLoArts(){
+  var qEl=$('loa-q');
+  var qRaw=qEl?qEl.value:'';
+  if($('loa-clr'))$('loa-clr').classList.toggle('hide',!qRaw);
+  var cats=[
+    ['ALL','Todos'],
+    ['POTESTADES','Potestades Policiales'],
+    ['DOCUMENTACION','Documentación'],
+    ['SANCIONADOR','Régimen Sancionador']
+  ];
+  $('loa-cats').innerHTML=cats.map(function(c){
+    var cnt=c[0]==='ALL'?LO_ARTS.length:LO_ARTS.filter(function(x){return x.cat===c[0]}).length;
+    return '<button type="button" class="cd-nbtn'+(loState.artCat===c[0]?' on':'')+'" onclick="loSetArtCat(\''+c[0]+'\')">'+c[1]+' <small>('+cnt+')</small></button>';
+  }).join('');
+
+  var q=cdNormStr(qRaw);
+  var toks=q?q.split(/\s+/).filter(Boolean):[];
+  var res=LO_ARTS.filter(function(a){
+    if(loState.artCat!=='ALL'&&a.cat!==loState.artCat)return false;
+    if(!toks.length)return true;
+    var hay=cdNormStr(a.num+' '+a.tit+' '+a.res+' '+a.pts.join(' '));
+    return toks.every(function(tk){return hay.indexOf(tk)>=0});
+  });
+
+  $('loa-count').innerHTML='Mostrando <b>'+res.length+'</b> de '+LO_ARTS.length+' artículos clave';
+  if(!res.length){
+    $('loa-list').innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:24px 14px">No se encontraron artículos que coincidan.</div>';
+    return;
+  }
+
+  $('loa-list').innerHTML=res.map(function(a){
+    var cls=a.cat==='POTESTADES'?'g-G':(a.cat==='DOCUMENTACION'?'g-L':'g-MG');
+    var h='<div class="cd-card '+cls+'">';
+    h+='<div class="cd-top"><span class="cd-code">'+esc(a.num)+'</span><div class="cd-pills"><span class="cd-pill cd-p-norm">'+esc(a.cat)+'</span></div></div>';
+    h+='<div class="cd-txt" style="color:var(--gold2);font-size:14.5px">'+esc(a.tit)+'</div>';
+    h+='<div style="font-size:13px;color:#dbe3f0;margin-bottom:8px">'+esc(a.res)+'</div>';
+    h+='<ul style="margin:0;padding-left:18px;font-size:12.5px;color:#cfd9ea;line-height:1.5">';
+    a.pts.forEach(function(p){h+='<li style="margin-bottom:3px">'+esc(p)+'</li>';});
+    h+='</ul></div>';
+    return h;
+  }).join('');
 }
 
 initStaticIcons();
