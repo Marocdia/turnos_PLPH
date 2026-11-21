@@ -1560,11 +1560,11 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
        <div class="ts" style="white-space:normal">Registro municipal de locales, carga de licencia PDF/foto, requisitos legales y observaciones</div>
       </div>
      </div>
-     <div class="dtile act" style="padding:16px 14px;border-color:var(--line);background:linear-gradient(180deg,rgba(19,33,56,.88),rgba(13,23,40,.95))" onclick="esOpen('acta')">
+     <div class="dtile act" style="padding:16px 14px" onclick="esOpen('acta')">
       <div class="ib c-crim" style="width:46px;height:46px" id="es-ic-act"></div>
       <div class="txt">
-       <div class="tt"><span>ACTA DE INSPECCIÓN</span></div>
-       <div class="ts" style="white-space:normal">Generador de acta de inspección de establecimientos públicos (en desarrollo)</div>
+       <div class="tt"><span>ACTA DE INSPECCIÓN</span><span class="tag-act">ACTIVO</span></div>
+       <div class="ts" style="white-space:normal">Generador oficial de Acta de Inspección / Denuncia (Arts. 298–309 D. 143/2015), historial e impresión PDF</div>
       </div>
      </div>
     </div>
@@ -1768,12 +1768,159 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
 
    <!-- SUBMÓDULO 3: ACTA DE INSPECCIÓN -->
    <div id="es-acta" class="hide pc-panel">
-    <div class="card" style="text-align:center;padding:24px 16px">
-     <div style="color:var(--gold2);margin-bottom:8px" id="es-act-ico"></div>
-     <h3 style="margin:0 0 6px;font-size:16px">Acta de Inspección de Establecimientos</h3>
-     <p style="color:var(--mut);font-size:13.5px;margin:0 0 14px">Espacio preparado para desarrollar el formulario interactivo de Acta de Inspección de la Policía Local.</p>
-     <button class="btn sec" onclick="esOpen('hub')">Volver a Establecimientos</button>
+    <!-- VISTA 1: HISTORIAL DE ACTAS -->
+    <div id="es-act-list-view">
+     <div class="card" style="padding:12px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px">
+       <button class="btn" onclick="esActNew()" id="es-act-btn-new"></button>
+       <span id="es-act-cnt" style="font-size:12px;color:var(--mut)">0 actas guardadas</span>
+      </div>
+      <input class="bn-in" id="es-act-q" type="search" placeholder="Buscar por local, titular, fecha, agente o infracción..." oninput="renderEsActas()">
+     </div>
+     <div id="es-act-cards" class="bn-list"></div>
     </div>
+
+    <!-- VISTA 2: FORMULARIO ACTA DE INSPECCIÓN / DENUNCIA -->
+    <div id="es-act-form-view" class="hide">
+     <div class="pc-card">
+      <div class="bar" style="margin-bottom:10px">
+       <h3 style="margin:0;font-size:16px" id="es-act-ftitle">Nueva Acta de Inspección</h3>
+       <button class="btn sec" style="padding:6px 10px;font-size:12px" onclick="esActShow('list')">Cancelar</button>
+      </div>
+
+      <!-- IMPORTAR DATOS DESDE DIRECTORIO MUNICIPAL -->
+      <div style="background:rgba(37,99,185,.12);border:1px solid rgba(124,179,255,.35);border-radius:10px;padding:10px 12px;margin-bottom:12px">
+       <div style="font-size:12px;font-weight:700;color:#8cc0ff;margin-bottom:5px">Cargar datos desde Establecimientos Pilar de la Horadada (opcional)</div>
+       <select class="bn-in" id="ea-pick-loc" onchange="esActLoadFromLoc(this.value)" style="padding:8px 10px;font-size:13.5px">
+        <option value="">— Seleccionar establecimiento registrado —</option>
+       </select>
+      </div>
+
+      <div class="dr-lbl">1. Datos de la actuación y agentes (Art. 298 D. 143/2015)</div>
+      <div class="bn-grid2">
+       <select class="bn-in" id="ea-tipo">
+        <option value="ACTA DE INSPECCIÓN Y DENUNCIA">Tipo: Acta de Inspección y Denuncia</option>
+        <option value="ACTA DE INSPECCIÓN (SIN INFRACCIÓN)">Tipo: Acta de Inspección (Sin infracción)</option>
+        <option value="ACTA DE COMPROBACIÓN / SUBSANACIÓN">Tipo: Acta de Comprobación / Subsanación</option>
+       </select>
+       <input class="bn-in" id="ea-num" placeholder="Nº Acta / Referencia (ej. 2026/001)">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="ea-fecha" type="date">
+       <input class="bn-in" id="ea-hora" type="time">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="ea-ag1" placeholder="Agente actuante 1 (NIP) *">
+       <input class="bn-in" id="ea-ag2" placeholder="Agente actuante 2 (NIP)">
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">2. Establecimiento, titular y compareciente</div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="ea-nom" placeholder="Nombre comercial del local *">
+       <input class="bn-in" id="ea-dir" placeholder="Dirección exacta *">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="ea-tit" placeholder="Titular / Razón social">
+       <input class="bn-in" id="ea-nif" placeholder="NIF / CIF titular" style="text-transform:uppercase">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="ea-lic" placeholder="Actividad / Licencia exhibida">
+       <input class="bn-in" id="ea-aforo-aut" type="number" min="0" placeholder="Aforo máx. autorizado">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="ea-comp-nom" placeholder="Compareciente (Nombre y apellidos)">
+       <input class="bn-in" id="ea-comp-dni" placeholder="DNI / NIE compareciente" style="text-transform:uppercase">
+      </div>
+      <div class="bn-grid2">
+       <select class="bn-in" id="ea-comp-cal">
+        <option value="Titular">Calidad: Titular</option>
+        <option value="Encargado/a">Calidad: Encargado/a</option>
+        <option value="Empleado/a">Calidad: Empleado/a</option>
+        <option value="Representante">Calidad: Representante</option>
+       </select>
+       <select class="bn-in" id="ea-abierto">
+        <option value="Sí, abierto y en funcionamiento">Local: Abierto y en funcionamiento</option>
+        <option value="Puertas cerradas con público en interior">Local: Puertas cerradas con público</option>
+        <option value="En proceso de desalojo">Local: En proceso de desalojo</option>
+        <option value="Cerrado sin actividad">Local: Cerrado sin actividad</option>
+       </select>
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">3. Constataciones obligatorias en inspección (Art. 299 D. 143/2015)</div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="ea-pers" type="number" min="0" placeholder="Nº personas presentes (aforo real)">
+       <input class="bn-in" id="ea-recuento" placeholder="Modo de recuento (ej. conteo manual directo)">
+      </div>
+      <div class="bn-grid2">
+       <select class="bn-in" id="ea-cons">
+        <option value="Sí, consumiendo y se siguen sirviendo bebidas">Consumo: Consumen y siguen sirviendo</option>
+        <option value="Consumen pero barra cerrada">Consumo: Consumen, barra cerrada</option>
+        <option value="No se observan consumiciones">Consumo: Sin consumiciones</option>
+       </select>
+       <select class="bn-in" id="ea-luces">
+        <option value="Luces interiores y exteriores encendidas">Luces: Interiores y exteriores encendidas</option>
+        <option value="Luces interiores encendidas, exteriores apagadas">Luces: Interiores ON / Exteriores OFF</option>
+        <option value="Luces generales encendidas (modo cierre)">Luces: Generales encendidas (cierre)</option>
+        <option value="Luces tenues / ambiente musical">Luces: Tenues / ambiente</option>
+       </select>
+      </div>
+      <div class="bn-grid2">
+       <select class="bn-in" id="ea-puertas">
+        <option value="Puertas de acceso y emergencia expeditas y abiertas">Puertas: Expeditas y abiertas</option>
+        <option value="Puertas de acceso cerradas con llave/pasador">Puertas: Cerradas con llave/pasador</option>
+        <option value="Salida de emergencia obstaculizada o cerrada">Puertas: Emergencia obstaculizada/cerrada</option>
+        <option value="Puertas abiertas facilitando desalojo">Puertas: Abiertas facilitando desalojo</option>
+       </select>
+       <select class="bn-in" id="ea-mus">
+        <option value="Sin música">Música: Sin música</option>
+        <option value="Amenización musical (≤70 dB mec.)">Música: Amenización musical</option>
+        <option value="Ambientación musical activa (no trasciende)">Música: Ambientación (no trasciende)</option>
+        <option value="Ambientación musical activa TRASCENDIENDO al exterior">Música: TRASCIENDE al exterior</option>
+        <option value="Actuación en directo / DJ">Música: Actuación en directo / DJ</option>
+       </select>
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">4. Comprobaciones específicas (Arts. 301–309 D. 143/2015)</div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="ea-seg" placeholder="Seguro RC (estado, compañía, cuantía, vto.)">
+       <input class="bn-in" id="ea-ext" placeholder="Extintores (placa, caducidad, revisión, acceso)">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="ea-men" placeholder="Menores (iniciales, DNI >14, bebida/acceso)">
+       <input class="bn-in" id="ea-son" placeholder="Medios sonoros (equipo, altavoces, doble puerta)">
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">5. Posibles infracciones detectadas (Ley 14/2010 / Ley 1/2020)</div>
+      <div id="ea-inf-list" class="dr-ind-list" style="margin-bottom:10px"></div>
+
+      <div class="dr-lbl" style="margin-top:10px">6. Descripción detallada de hechos observados (Art. 299.1)</div>
+      <textarea class="bn-ta" id="ea-hechos" style="min-height:110px" placeholder="Describe con precisión los hechos directamente observados por los agentes (evitar frases genéricas, Art. 299.3 D. 143/2015)..."></textarea>
+
+      <div class="dr-lbl" style="margin-top:10px">7. Manifestaciones del compareciente y firma</div>
+      <textarea class="bn-ta" id="ea-manif" style="min-height:66px" placeholder="Manifestaciones u observaciones del titular/compareciente (o 'No desea manifestar nada')..."></textarea>
+      <div class="bn-grid2" style="margin-top:8px">
+       <select class="bn-in" id="ea-firma">
+        <option value="Firma y recibe copia">Compareciente: Firma y recibe copia</option>
+        <option value="Se niega a firmar, se le entrega copia">Compareciente: Se niega a firmar (recibe copia)</option>
+        <option value="Se niega a firmar y a recoger copia">Compareciente: Se niega a firmar y recoger copia</option>
+       </select>
+       <select class="bn-in" id="ea-dest">
+        <option value="Generalitat Valenciana (Infracción Grave / Muy Grave · Art. 56.2)">Remisión: Generalitat (Grave / Muy Grave)</option>
+        <option value="Ayuntamiento Pilar de la Horadada (Infracción Leve · Art. 56.1)">Remisión: Ayuntamiento (Leve)</option>
+        <option value="Conselleria de Juego (Ley 1/2020)">Remisión: Conselleria de Juego</option>
+        <option value="Archivo interno Policía Local (Sin infracción)">Remisión: Archivo interno PL</option>
+       </select>
+      </div>
+
+      <div class="pc-nav">
+       <button class="btn sec" onclick="esActShow('list')">Cancelar</button>
+       <button class="btn" onclick="esActSave()" id="es-act-save-btn"></button>
+      </div>
+     </div>
+    </div>
+
+    <!-- VISTA 3: VISTA PREVIA OFICIAL / IMPRESIÓN -->
+    <div id="es-act-view" class="hide"></div>
    </div>
   </div>
  </div>
@@ -2079,7 +2226,8 @@ function initStaticIcons(){
   $('es-ic-act').innerHTML=svg('clip',22);
   $('es-loc-btn-new').innerHTML=svg('plus',15)+' Nuevo establecimiento';
   $('es-loc-save-btn').innerHTML=svg('save',15)+' Guardar establecimiento';
-  $('es-act-ico').innerHTML=svg('clip',34);
+  $('es-act-btn-new').innerHTML=svg('plus',15)+' Nueva Acta de Inspección';
+  $('es-act-save-btn').innerHTML=svg('save',15)+' Guardar y ver Acta';
   $('es-des-hd').innerHTML=svg('alert',15)+' Reglas clave de cierre definitivo, música y terrazas';
   $('es-tbl-hd').innerHTML=svg('clip',15)+' Tabla resumen de horarios 2026 (Comunitat Valenciana)';
   $('tab-cal').innerHTML=svg('cal',15)+' Calendario';
@@ -3910,6 +4058,9 @@ function esOpen(sub){
   if(sub==='locales'){
     esLocShow('list');
   }
+  if(sub==='acta'){
+    esActShow('list');
+  }
   window.scrollTo(0,0);
 }
 function esBack(){
@@ -4762,6 +4913,340 @@ function esLocImport(inp){
     inp.value='';
   };
   r.readAsText(file);
+}
+
+
+/* ==================== ACTA DE INSPECCIÓN DE ESTABLECIMIENTOS (ARTS. 298–309 D. 143/2015) ==================== */
+var ES_ACT_INFS=[
+  {id:'51.18',g:'GRAVE',t:'Incumplimiento horario apertura/cierre (Art. 51.18 Ley 14/2010)'},
+  {id:'51.1',g:'GRAVE',t:'Apertura sin licencia / declaración responsable (Art. 51.1)'},
+  {id:'51.3',g:'GRAVE',t:'Actividad distinta a la autorizada en licencia (Art. 51.3)'},
+  {id:'51.6',g:'GRAVE',t:'Exceso de aforo permitido sin grave riesgo (Art. 51.6)'},
+  {id:'52.4',g:'MUY GRAVE',t:'Exceso de aforo con grave riesgo (Art. 52.4)'},
+  {id:'51.30',g:'GRAVE',t:'Medios sonoros/audiovisuales sin autorización (Art. 51.30)'},
+  {id:'51.28',g:'GRAVE',t:'Carecer de seguro RC obligatorio o insuficiente (Art. 51.28)'},
+  {id:'51.12',g:'GRAVE',t:'Venta/suministro/consumo de alcohol a <18 años (Art. 51.12)'},
+  {id:'51.14',g:'GRAVE',t:'Admisión de menores en local prohibido (Art. 51.14)'},
+  {id:'51.10',g:'GRAVE',t:'Falta de Servicio Específico de Admisión (SEA) (Art. 51.10)'},
+  {id:'51.7',g:'GRAVE',t:'Incumplimiento condiciones seguridad/extintores (Art. 51.7)'},
+  {id:'52.8',g:'MUY GRAVE',t:'Incumplimiento medidas evacuación / salidas bloqueadas (Art. 52.8)'},
+  {id:'52.9',g:'MUY GRAVE',t:'Negativa acceso o colaboración con agentes (Art. 52.9)'},
+  {id:'50.8',g:'LEVE',t:'No exposición de la licencia en lugar visible (Art. 50.8)'},
+  {id:'50.10',g:'LEVE',t:'Falta de cartel horario exterior bilingüe (Art. 50.10)'},
+  {id:'50.3',g:'LEVE',t:'Falta hojas de reclamaciones o cartel (Art. 50.3)'},
+  {id:'50.9',g:'LEVE',t:'Falta cartel prohibición menores (Art. 50.9)'},
+  {id:'J60.l',g:'GRAVE JUEGO',t:'Máquina tipo B sin mando activación-desactivación (Art. 60.l Ley 1/2020)'}
+];
+
+var esActEditId=null, esActSelInf={};
+
+function esActList(){S.actas=S.actas||[];return S.actas;}
+
+function esActShow(view){
+  $('es-act-list-view').classList.toggle('hide',view!=='list');
+  $('es-act-form-view').classList.toggle('hide',view!=='form');
+  $('es-act-view').classList.toggle('hide',view!=='view');
+  if(view==='list')renderEsActas();
+  window.scrollTo(0,0);
+}
+
+function esActPopulateLocPicker(){
+  var sel=$('ea-pick-loc');
+  if(!sel)return;
+  var L=esLocList();
+  sel.innerHTML='<option value="">— Seleccionar establecimiento registrado ('+L.length+') —</option>'+L.map(function(x){
+    return '<option value="'+x.id+'">'+esc(x.nom)+' ('+esc(x.dir||x.zona)+')</option>';
+  }).join('');
+}
+
+function esActLoadFromLoc(idStr){
+  if(!idStr)return;
+  var id=parseInt(idStr,10);
+  var item=esLocList().filter(function(x){return x.id===id})[0];
+  if(!item)return;
+  var licO=esLicObj(item.lic);
+  $('ea-nom').value=item.nom||'';
+  $('ea-dir').value=(item.dir||'')+(item.zona?' ('+item.zona+')':'');
+  $('ea-tit').value=item.tit||'';
+  $('ea-nif').value=item.nif||'';
+  $('ea-lic').value='['+licO.ep+'] '+licO.n+(item.titulo?' · '+item.titulo:'');
+  $('ea-aforo-aut').value=item.aforo||'';
+  if(item.segcia||item.segcap){
+    $('ea-seg').value=(item.segcia||'')+(item.segcap?' · '+parseFloat(item.segcap).toLocaleString('es-ES')+' €':'')+(item.segvto?' · Vto: '+item.segvto:'');
+  }
+  banner('Datos del establecimiento cargados en el acta.','');
+}
+
+function esActRenderInfChecks(){
+  $('ea-inf-list').innerHTML=ES_ACT_INFS.map(function(inf){
+    var ck=esActSelInf[inf.id]?'checked':'';
+    return '<label class="dr-chk"><input type="checkbox" '+ck+' onchange="esActTogInf(\''+inf.id+'\',this.checked)"><span><b>['+esc(inf.g)+']</b> '+esc(inf.t)+'</span></label>';
+  }).join('');
+}
+
+function esActTogInf(id,val){
+  if(val)esActSelInf[id]=1;else delete esActSelInf[id];
+}
+
+function esActNew(){
+  esActEditId=null;
+  esActSelInf={};
+  esActPopulateLocPicker();
+  esActRenderInfChecks();
+  var now=new Date();
+  $('es-act-ftitle').textContent='Nueva Acta de Inspección';
+  $('ea-tipo').value='ACTA DE INSPECCIÓN Y DENUNCIA';
+  $('ea-num').value=now.getFullYear()+'/'+pad(esActList().length+1);
+  $('ea-fecha').value=now.toISOString().slice(0,10);
+  $('ea-hora').value=pad(now.getHours())+':'+pad(now.getMinutes());
+  $('ea-ag1').value=S.name||'';
+  ['ea-ag2','ea-nom','ea-dir','ea-tit','ea-nif','ea-lic','ea-aforo-aut','ea-comp-nom','ea-comp-dni','ea-pers','ea-recuento','ea-seg','ea-ext','ea-men','ea-son','ea-hechos','ea-manif'].forEach(function(id){if($(id))$(id).value='';});
+  $('ea-comp-cal').value='Titular';
+  $('ea-abierto').value='Sí, abierto y en funcionamiento';
+  $('ea-cons').value='Sí, consumiendo y se siguen sirviendo bebidas';
+  $('ea-luces').value='Luces interiores y exteriores encendidas';
+  $('ea-puertas').value='Puertas de acceso y emergencia expeditas y abiertas';
+  $('ea-mus').value='Sin música';
+  $('ea-firma').value='Firma y recibe copia';
+  $('ea-dest').value='Generalitat Valenciana (Infracción Grave / Muy Grave · Art. 56.2)';
+  esActShow('form');
+}
+
+function esActEdit(id){
+  var a=esActList().filter(function(x){return x.id===id})[0];
+  if(!a)return;
+  esActEditId=id;
+  esActSelInf={};
+  (a.infs||[]).forEach(function(k){esActSelInf[k]=1;});
+  esActPopulateLocPicker();
+  esActRenderInfChecks();
+  $('es-act-ftitle').textContent='Editar Acta '+a.num;
+  $('ea-tipo').value=a.tipo||'ACTA DE INSPECCIÓN Y DENUNCIA';
+  $('ea-num').value=a.num||'';
+  $('ea-fecha').value=a.fecha||'';
+  $('ea-hora').value=a.hora||'';
+  $('ea-ag1').value=a.ag1||'';
+  $('ea-ag2').value=a.ag2||'';
+  $('ea-nom').value=a.nom||'';
+  $('ea-dir').value=a.dir||'';
+  $('ea-tit').value=a.tit||'';
+  $('ea-nif').value=a.nif||'';
+  $('ea-lic').value=a.lic||'';
+  $('ea-aforo-aut').value=a.aforoAut||'';
+  $('ea-comp-nom').value=a.compNom||'';
+  $('ea-comp-dni').value=a.compDni||'';
+  $('ea-comp-cal').value=a.compCal||'Titular';
+  $('ea-abierto').value=a.abierto||'Sí, abierto y en funcionamiento';
+  $('ea-pers').value=a.pers||'';
+  $('ea-recuento').value=a.recuento||'';
+  $('ea-cons').value=a.cons||'';
+  $('ea-luces').value=a.luces||'';
+  $('ea-puertas').value=a.puertas||'';
+  $('ea-mus').value=a.mus||'';
+  $('ea-seg').value=a.seg||'';
+  $('ea-ext').value=a.ext||'';
+  $('ea-men').value=a.men||'';
+  $('ea-son').value=a.son||'';
+  $('ea-hechos').value=a.hechos||'';
+  $('ea-manif').value=a.manif||'';
+  $('ea-firma').value=a.firma||'Firma y recibe copia';
+  $('ea-dest').value=a.dest||'';
+  esActShow('form');
+}
+
+function esActSave(){
+  var nom=$('ea-nom').value.trim();
+  if(!nom){banner('Indica el nombre del establecimiento inspeccionado.','');$('ea-nom').focus();return;}
+  var rec={
+    id:esActEditId||Date.now(),
+    tipo:$('ea-tipo').value,
+    num:$('ea-num').value.trim(),
+    fecha:$('ea-fecha').value,
+    hora:$('ea-hora').value,
+    ag1:$('ea-ag1').value.trim(),
+    ag2:$('ea-ag2').value.trim(),
+    nom:nom,
+    dir:$('ea-dir').value.trim(),
+    tit:$('ea-tit').value.trim(),
+    nif:$('ea-nif').value.trim().toUpperCase(),
+    lic:$('ea-lic').value.trim(),
+    aforoAut:$('ea-aforo-aut').value.trim(),
+    compNom:$('ea-comp-nom').value.trim(),
+    compDni:$('ea-comp-dni').value.trim().toUpperCase(),
+    compCal:$('ea-comp-cal').value,
+    abierto:$('ea-abierto').value,
+    pers:$('ea-pers').value.trim(),
+    recuento:$('ea-recuento').value.trim(),
+    cons:$('ea-cons').value,
+    luces:$('ea-luces').value,
+    puertas:$('ea-puertas').value,
+    mus:$('ea-mus').value,
+    seg:$('ea-seg').value.trim(),
+    ext:$('ea-ext').value.trim(),
+    men:$('ea-men').value.trim(),
+    son:$('ea-son').value.trim(),
+    infs:Object.keys(esActSelInf),
+    hechos:$('ea-hechos').value.trim(),
+    manif:$('ea-manif').value.trim(),
+    firma:$('ea-firma').value,
+    dest:$('ea-dest').value
+  };
+  var L=esActList();
+  if(esActEditId){
+    for(var i=0;i<L.length;i++){if(L[i].id===esActEditId){L[i]=rec;break;}}
+  }else{
+    L.unshift(rec);
+  }
+  save();
+  banner('Acta de inspección guardada correctamente.','');
+  esActOpenView(rec.id);
+}
+
+function esActDel(id){
+  if(!confirm('¿Eliminar esta acta del historial?'))return;
+  S.actas=esActList().filter(function(x){return x.id!==id});
+  save();
+  esActShow('list');
+}
+
+function esActFormatPlain(a){
+  var infTxts=(a.infs||[]).map(function(k){
+    var o=ES_ACT_INFS.filter(function(x){return x.id===k})[0];
+    return o?('- ['+o.g+'] '+o.t):k;
+  });
+  var lines=[
+    'POLICÍA LOCAL DE PILAR DE LA HORADADA',
+    a.tipo+' · Nº '+(a.num||'S/N'),
+    'Normativa: Ley 14/2010 · Decreto 143/2015 (Arts. 298–309) · Orden 3/2025',
+    '--------------------------------------------------',
+    'FECHA Y HORA: '+(a.fecha||'—')+' a las '+(a.hora||'—')+' horas',
+    'AGENTES ACTUANTES: NIP '+(a.ag1||'—')+(a.ag2?' y NIP '+a.ag2:''),
+    'ESTABLECIMIENTO: '+a.nom,
+    'EMPLAZAMIENTO: '+(a.dir||'—'),
+    'TITULAR / RAZÓN SOCIAL: '+(a.tit||'—')+(a.nif?' (NIF/CIF: '+a.nif+')':''),
+    'LICENCIA / ACTIVIDAD: '+(a.lic||'—')+(a.aforoAut?' · Aforo autorizado: '+a.aforoAut+' pers.':''),
+    'COMPARECIENTE: '+(a.compNom||'—')+(a.compDni?' (DNI: '+a.compDni+')':'')+' · En calidad de: '+(a.compCal||'—'),
+    '--------------------------------------------------',
+    'CONSTATACIONES (ART. 299 D. 143/2015):',
+    '- Estado del local: '+(a.abierto||'—'),
+    '- Personas presentes: '+(a.pers||'No consta')+(a.recuento?' (Modo recuento: '+a.recuento+')':''),
+    '- Consumiciones: '+(a.cons||'—'),
+    '- Iluminación: '+(a.luces||'—'),
+    '- Puertas / Evacuación: '+(a.puertas||'—'),
+    '- Música: '+(a.mus||'—')
+  ];
+  if(a.seg)lines.push('- Seguro RC: '+a.seg);
+  if(a.ext)lines.push('- Extintores: '+a.ext);
+  if(a.men)lines.push('- Menores: '+a.men);
+  if(a.son)lines.push('- Medios sonoros: '+a.son);
+  if(infTxts.length){
+    lines.push('--------------------------------------------------');
+    lines.push('POSIBLES INFRACCIONES DETECTADAS:');
+    lines=lines.concat(infTxts);
+  }
+  lines.push('--------------------------------------------------');
+  lines.push('HECHOS OBSERVADOS:');
+  lines.push(a.hechos||'Sin observaciones adicionales.');
+  lines.push('--------------------------------------------------');
+  lines.push('MANIFESTACIONES DEL COMPARECIENTE: '+(a.manif||'No desea manifestar nada.'));
+  lines.push('FIRMA Y ENTREGA DE COPIA: '+(a.firma||'—'));
+  lines.push('ÓRGANO DESTINATARIO: '+(a.dest||'—'));
+  return lines.join('\n');
+}
+
+function esActCopy(id){
+  var a=esActList().filter(function(x){return x.id===id})[0];
+  if(!a)return;
+  var txt=esActFormatPlain(a);
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){banner('Acta copiada al portapapeles.','')}).catch(function(){prompt('Copia el acta:',txt)});
+  }else{
+    prompt('Copia el acta:',txt);
+  }
+}
+
+function esActPrint(id){
+  var a=esActList().filter(function(x){return x.id===id})[0];
+  if(!a)return;
+  var infHtml=(a.infs||[]).map(function(k){
+    var o=ES_ACT_INFS.filter(function(x){return x.id===k})[0];
+    return o?('<li><b>['+esc(o.g)+']</b> '+esc(o.t)+'</li>'):'';
+  }).join('');
+  var w=window.open('','_blank');
+  if(!w){alert('Permite ventanas emergentes para imprimir o guardar en PDF.');return;}
+  w.document.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Acta '+esc(a.num)+'</title><style>body{font:12.5px/1.45 Arial,sans-serif;color:#111;margin:24px}h1{font-size:16px;margin:0;text-transform:uppercase}h2{font-size:13px;margin:14px 0 6px;border-bottom:1.5px solid #222;padding-bottom:2px;text-transform:uppercase}.hd{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:8px}.box{border:1px solid #bbb;padding:8px;border-radius:4px;white-space:pre-wrap;min-height:40px}.signs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:34px;text-align:center}.sline{border-top:1px solid #333;padding-top:4px;margin-top:44px;font-size:11px}@media print{body{margin:12mm}}</style></head><body>');
+  w.document.write('<div class="hd"><div><h1>POLICÍA LOCAL DE PILAR DE LA HORADADA</h1><div><b>'+esc(a.tipo)+'</b> · Nº '+esc(a.num||'S/N')+'</div><div style="font-size:11px;color:#444">Ley 14/2010 · Decreto 143/2015 (Arts. 298–309) · Orden 3/2025</div></div><div style="text-align:right;font-size:12px"><b>Fecha:</b> '+esc(a.fecha||'—')+'<br><b>Hora:</b> '+esc(a.hora||'—')+' h</div></div>');
+  w.document.write('<h2>1. Identificación (Art. 298 D. 143/2015)</h2><div class="grid"><div><b>Agentes actuantes:</b> NIP '+esc(a.ag1||'—')+(a.ag2?' / NIP '+esc(a.ag2):'')+'</div><div><b>Órgano destinatario:</b> '+esc(a.dest||'—')+'</div><div><b>Establecimiento:</b> '+esc(a.nom)+'</div><div><b>Emplazamiento:</b> '+esc(a.dir||'—')+'</div><div><b>Titular / Razón social:</b> '+esc(a.tit||'—')+'</div><div><b>NIF / CIF:</b> '+esc(a.nif||'—')+'</div><div><b>Licencia / Actividad:</b> '+esc(a.lic||'—')+'</div><div><b>Aforo autorizado:</b> '+(a.aforoAut?esc(a.aforoAut)+' personas':'No consta')+'</div><div><b>Compareciente:</b> '+esc(a.compNom||'—')+' ('+esc(a.compCal||'—')+')</div><div><b>DNI / NIE:</b> '+esc(a.compDni||'—')+'</div></div>');
+  w.document.write('<h2>2. Constataciones directas (Arts. 299–309 D. 143/2015)</h2><div class="grid"><div><b>Estado del local:</b> '+esc(a.abierto||'—')+'</div><div><b>Personas presentes:</b> '+(a.pers?esc(a.pers)+' pers.':'No consta')+(a.recuento?' ('+esc(a.recuento)+')':'')+'</div><div><b>Consumiciones:</b> '+esc(a.cons||'—')+'</div><div><b>Iluminación:</b> '+esc(a.luces||'—')+'</div><div><b>Puertas / Evacuación:</b> '+esc(a.puertas||'—')+'</div><div><b>Música:</b> '+esc(a.mus||'—')+'</div>'+(a.seg?'<div><b>Seguro RC:</b> '+esc(a.seg)+'</div>':'')+(a.ext?'<div><b>Extintores:</b> '+esc(a.ext)+'</div>':'')+(a.men?'<div><b>Menores:</b> '+esc(a.men)+'</div>':'')+(a.son?'<div><b>Medios sonoros:</b> '+esc(a.son)+'</div>':'')+'</div>');
+  if(infHtml)w.document.write('<h2>3. Posibles infracciones detectadas</h2><ul style="margin:4px 0 8px;padding-left:18px">'+infHtml+'</ul>');
+  w.document.write('<h2>Hechos directamente observados</h2><div class="box">'+esc(a.hechos||'Sin observaciones adicionales.')+'</div>');
+  w.document.write('<h2>Manifestaciones del compareciente y entrega de copia</h2><div class="box">'+esc(a.manif||'No desea manifestar nada.')+'</div><div style="margin-top:6px"><b>Firma y copia:</b> '+esc(a.firma||'—')+'</div>');
+  w.document.write('<div class="signs"><div class="sline">Agente NIP '+esc(a.ag1||'____')+'</div><div class="sline">Agente NIP '+esc(a.ag2||'____')+'</div><div class="sline">El/La Compareciente</div></div>');
+  w.document.write('</body></html>');
+  w.document.close();
+  setTimeout(function(){w.focus();w.print();},250);
+}
+
+function esActOpenView(id){
+  var a=esActList().filter(function(x){return x.id===id})[0];
+  if(!a)return;
+  var infHtml=(a.infs||[]).map(function(k){
+    var o=ES_ACT_INFS.filter(function(x){return x.id===k})[0];
+    return o?('<li><b>['+esc(o.g)+']</b> '+esc(o.t)+'</li>'):'';
+  }).join('');
+
+  var h='<div class="pc-card">';
+  h+='<div class="bar" style="margin-bottom:8px;flex-wrap:wrap">';
+  h+='<div><h3 style="margin:0;font-size:16px;color:#fff">'+esc(a.tipo)+' · Nº '+esc(a.num||'S/N')+'</h3><div style="font-size:12px;color:var(--gold2);margin-top:2px">'+esc(a.nom)+' · '+esc(a.fecha)+' '+esc(a.hora)+' h</div></div>';
+  h+='<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" style="padding:6px 10px;font-size:12px" onclick="esActPrint('+a.id+')">Imprimir / PDF</button><button class="btn sec" style="padding:6px 10px;font-size:12px" onclick="esActCopy('+a.id+')">'+svg('copy',13)+' Copiar</button><button class="btn sec" style="padding:6px 10px;font-size:12px" onclick="esActEdit('+a.id+')">'+svg('edit',13)+' Editar</button></div>';
+  h+='</div>';
+
+  h+='<div class="pc-summary-grid" style="margin-bottom:10px">';
+  h+='<div class="pc-sbox"><small>Agentes actuantes</small><b>NIP '+esc(a.ag1||'—')+(a.ag2?' / NIP '+esc(a.ag2):'')+'</b></div>';
+  h+='<div class="pc-sbox"><small>Establecimiento / Dirección</small><b>'+esc(a.nom)+'</b><div style="font-size:11.5px;color:var(--mut)">'+esc(a.dir||'—')+'</div></div>';
+  h+='<div class="pc-sbox"><small>Titular / Compareciente</small><b>'+esc(a.tit||'—')+(a.nif?' ('+esc(a.nif)+')':'')+'</b><div style="font-size:11.5px;color:var(--mut)">Comp.: '+esc(a.compNom||'—')+' ('+esc(a.compCal||'—')+')</div></div>';
+  h+='<div class="pc-sbox"><small>Constataciones (Art. 299)</small><b>'+esc(a.abierto)+'</b><div style="font-size:11.5px;color:var(--mut)">Personas: '+(a.pers?esc(a.pers):'—')+' · '+esc(a.puertas)+'</div></div>';
+  h+='</div>';
+
+  if(infHtml)h+='<div class="pc-alert red" style="margin-top:0"><div><b>Posibles infracciones detectadas:</b><ul style="margin:4px 0 0;padding-left:18px">'+infHtml+'</ul></div></div>';
+
+  h+='<div class="card" style="background:var(--bg2);margin-bottom:10px"><div class="card-hd" style="font-size:13.5px;margin-bottom:4px">Hechos observados</div><div style="font-size:13px;color:#e4ebf5;white-space:pre-wrap;line-height:1.45">'+esc(a.hechos||'Sin observaciones.')+'</div></div>';
+  h+='<div class="card" style="background:var(--bg2);margin-bottom:10px;font-size:12.5px;color:#cfd9ea"><b>Manifestaciones:</b> '+esc(a.manif||'No desea manifestar nada.')+'<br><b>Firma:</b> '+esc(a.firma)+'<br><b>Remisión:</b> '+esc(a.dest)+'</div>';
+
+  h+='<div class="pc-nav"><button class="btn red" style="padding:7px 12px;font-size:12.5px" onclick="esActDel('+a.id+')">'+svg('trash',14)+' Eliminar</button><button class="btn sec" onclick="esActShow(\'list\')">Volver al historial</button></div>';
+  h+='</div>';
+  $('es-act-view').innerHTML=h;
+  esActShow('view');
+}
+
+function renderEsActas(){
+  var L=esActList();
+  var q=($('es-act-q')?$('es-act-q').value:'').trim().toLowerCase();
+  var res=L.filter(function(a){
+    if(!q)return true;
+    var hay=(a.num+' '+a.nom+' '+a.dir+' '+a.tit+' '+a.fecha+' '+a.ag1+' '+a.hechos+' '+(a.infs||[]).join(' ')).toLowerCase();
+    return hay.indexOf(q)>=0;
+  });
+  $('es-act-cnt').textContent=res.length+' acta'+(res.length===1?'':'s')+' guardada'+(res.length===1?'':'s');
+  if(!res.length){
+    $('es-act-cards').innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:24px 14px">No hay actas de inspección'+(q?' que coincidan con la búsqueda':' registradas todavía. Pulsa «Nueva Acta de Inspección» para crear la primera')+'.</div>';
+    return;
+  }
+  $('es-act-cards').innerHTML=res.map(function(a){
+    var nInf=(a.infs||[]).length;
+    var h='<div class="bn-card '+(nInf?'t-man':'t-otr')+'" style="cursor:pointer" onclick="esActOpenView('+a.id+')">';
+    h+='<div class="bn-top"><span class="bn-badge '+(nInf?'t-man':'t-otr')+'">'+esc(a.tipo)+'</span><span class="bn-time">'+esc(a.fecha)+' '+esc(a.hora)+' h</span></div>';
+    h+='<div class="bn-head">'+esc(a.nom)+' <span style="font-size:12px;color:var(--mut)">Nº '+esc(a.num||'S/N')+'</span></div>';
+    h+='<div class="bn-meta"><span><b>Agentes:</b> '+esc(a.ag1||'—')+(a.ag2?' / '+esc(a.ag2):'')+'</span><span><b>Infracciones:</b> '+nInf+'</span></div>';
+    if(a.hechos)h+='<div class="bn-body" style="max-height:48px;overflow:hidden">'+esc(a.hechos)+'</div>';
+    h+='<div class="bn-foot" onclick="event.stopPropagation()">';
+    h+='<button class="btn" style="padding:5px 10px;font-size:12px" onclick="esActPrint('+a.id+')">Imprimir / PDF</button>';
+    h+='<button class="btn sec" onclick="esActCopy('+a.id+')">'+svg('copy',13)+' Copiar</button>';
+    h+='<button class="btn sec" onclick="esActEdit('+a.id+')">'+svg('edit',13)+' Editar</button>';
+    h+='<button class="btn sec" onclick="esActDel('+a.id+')" title="Eliminar">'+svg('trash',13)+'</button>';
+    h+='</div></div>';
+    return h;
+  }).join('');
 }
 
 initStaticIcons();
