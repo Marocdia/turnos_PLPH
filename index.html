@@ -1553,11 +1553,11 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
        <div class="ts" style="white-space:normal">Guía interactiva paso a paso de horarios de cierre definitivo (Orden 3/2025), ampliaciones y tabla resumen 2026</div>
       </div>
      </div>
-     <div class="dtile act" style="padding:16px 14px;border-color:var(--line);background:linear-gradient(180deg,rgba(19,33,56,.88),rgba(13,23,40,.95))" onclick="esOpen('locales')">
+     <div class="dtile act" style="padding:16px 14px" onclick="esOpen('locales')">
       <div class="ib c-blue" style="width:46px;height:46px" id="es-ic-loc"></div>
       <div class="txt">
-       <div class="tt"><span>ESTABLECIMIENTOS PILAR DE LA HORADADA</span></div>
-       <div class="ts" style="white-space:normal">Directorio municipal de locales, licencias, aforos y observaciones (en desarrollo)</div>
+       <div class="tt"><span>ESTABLECIMIENTOS PILAR DE LA HORADADA</span><span class="tag-act">ACTIVO</span></div>
+       <div class="ts" style="white-space:normal">Registro municipal de locales, carga de licencia PDF/foto, requisitos legales y observaciones</div>
       </div>
      </div>
      <div class="dtile act" style="padding:16px 14px;border-color:var(--line);background:linear-gradient(180deg,rgba(19,33,56,.88),rgba(13,23,40,.95))" onclick="esOpen('acta')">
@@ -1606,12 +1606,164 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
 
    <!-- SUBMÓDULO 2: ESTABLECIMIENTOS PILAR DE LA HORADADA -->
    <div id="es-locales" class="hide pc-panel">
-    <div class="card" style="text-align:center;padding:24px 16px">
-     <div style="color:var(--gold2);margin-bottom:8px" id="es-loc-ico"></div>
-     <h3 style="margin:0 0 6px;font-size:16px">Establecimientos Pilar de la Horadada</h3>
-     <p style="color:var(--mut);font-size:13.5px;margin:0 0 14px">Espacio preparado para cargar el listado de establecimientos, licencias, grupos horarios, terrazas y observaciones del municipio.</p>
-     <button class="btn sec" onclick="esOpen('hub')">Volver a Establecimientos</button>
+    <!-- VISTA 1: LISTADO / DIRECTORIO -->
+    <div id="es-loc-list-view">
+     <div class="card" style="padding:12px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px">
+       <button class="btn" onclick="esLocNew()" id="es-loc-btn-new"></button>
+       <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn sec" style="padding:7px 10px;font-size:12px" onclick="esLocExport()">Exportar JSON</button>
+        <label class="btn sec" style="padding:7px 10px;font-size:12px;cursor:pointer;margin:0">Importar JSON<input type="file" accept=".json" style="display:none" onchange="esLocImport(this)"></label>
+       </div>
+      </div>
+      <div class="bn-grid2" style="margin-bottom:8px">
+       <input class="bn-in" id="es-loc-q" type="search" placeholder="Buscar nombre, dirección, titular, CIF, observaciones..." oninput="renderEsLocales()">
+       <select class="bn-in" id="es-loc-fzona" onchange="renderEsLocales()">
+        <option value="">Todas las zonas</option>
+        <option>Casco Urbano</option>
+        <option>Torre de la Horadada</option>
+        <option>Mil Palmeras</option>
+        <option>Pinar de Campoverde</option>
+        <option>Higuericas</option>
+        <option>El Mojón</option>
+        <option>Río Seco / Campo</option>
+        <option>Polígono / Comercial</option>
+       </select>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+       <select class="bn-in" id="es-loc-fcat" style="max-width:260px;padding:7px 10px;font-size:13px" onchange="renderEsLocales()">
+        <option value="">Todos los tipos de licencia</option>
+        <option value="host">Hostelería y Restauración</option>
+        <option value="ocio">Ocio Nocturno y Música</option>
+        <option value="juego">Juego y Recreativos</option>
+        <option value="cult">Espectáculos y Cultura</option>
+        <option value="dep">Deportes, Piscinas y Otros</option>
+       </select>
+       <span id="es-loc-cnt" style="font-size:12px;color:var(--mut)">0 establecimientos</span>
+      </div>
+     </div>
+     <div id="es-loc-cards" class="bn-list"></div>
     </div>
+
+    <!-- VISTA 2: FORMULARIO CREAR / EDITAR -->
+    <div id="es-loc-form-view" class="hide">
+     <div class="pc-card">
+      <div class="bar" style="margin-bottom:10px">
+       <h3 style="margin:0;font-size:16px" id="es-loc-ftitle">Nuevo establecimiento</h3>
+       <button class="btn sec" style="padding:6px 10px;font-size:12px" onclick="esLocShow('list')">Cancelar</button>
+      </div>
+
+      <!-- CAJA SUBIDA PDF / FOTO CON LECTURA AUTOMÁTICA -->
+      <div style="background:rgba(200,157,60,.08);border:1.5px dashed rgba(200,157,60,.55);border-radius:12px;padding:12px;margin-bottom:14px">
+       <div style="font-weight:700;font-size:13px;color:var(--gold2);margin-bottom:4px">Subir licencia (PDF o Foto) para rellenar datos automáticamente</div>
+       <div style="font-size:12px;color:var(--mut);margin-bottom:8px">Sube el PDF de la licencia/DR o haz una foto del documento. La app leerá el texto y rellenará automáticamente el tipo de licencia, titular, CIF, dirección, aforo y dB.</div>
+       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <label class="btn" style="padding:7px 12px;font-size:12.5px;cursor:pointer;margin:0">Subir PDF o Foto<input type="file" id="es-loc-file" accept=".pdf,image/*" style="display:none" onchange="esLocHandleFile(this)"></label>
+        <button type="button" class="btn sec hide" id="es-loc-clrdoc" style="padding:7px 10px;font-size:12px" onclick="esLocClearDoc()">Quitar adjunto</button>
+       </div>
+       <div id="es-loc-ocr-st" style="font-size:12px;color:#cfd9ea;margin-top:8px"></div>
+       <div id="es-loc-doc-prev" style="margin-top:8px"></div>
+      </div>
+
+      <div class="dr-lbl">1. Identificación del establecimiento (Art. 15 Ley 14/2010)</div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="el-nom" placeholder="Nombre comercial / rótulo *">
+       <select class="bn-in" id="el-zona">
+        <option value="Casco Urbano">Zona: Casco Urbano</option>
+        <option value="Torre de la Horadada">Zona: Torre de la Horadada</option>
+        <option value="Mil Palmeras">Zona: Mil Palmeras</option>
+        <option value="Pinar de Campoverde">Zona: Pinar de Campoverde</option>
+        <option value="Higuericas">Zona: Higuericas</option>
+        <option value="El Mojón">Zona: El Mojón</option>
+        <option value="Río Seco / Campo">Zona: Río Seco / Campo</option>
+        <option value="Polígono / Comercial">Zona: Polígono / Comercial</option>
+       </select>
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="el-dir" placeholder="Dirección / emplazamiento *">
+       <input class="bn-in" id="el-tel" placeholder="Teléfono / email contacto">
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">2. Titular / Prestador</div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="el-tit" placeholder="Titular o razón social">
+       <input class="bn-in" id="el-nif" placeholder="NIF / CIF" style="text-transform:uppercase">
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">3. Tipo de licencia y título habilitante</div>
+      <div class="fld">
+       <label>Tipo de licencia / Epígrafe (Catálogo Ley 14/2010 y Juego) *</label>
+       <select class="bn-in" id="el-lic" onchange="esLocUpdateLiveReq()"></select>
+      </div>
+      <div class="bn-grid2">
+       <select class="bn-in" id="el-titulo">
+        <option value="Licencia de apertura">Título: Licencia de apertura</option>
+        <option value="Declaración Responsable + OCA">Título: Declaración Responsable + OCA</option>
+        <option value="Declaración Responsable (sin OCA)">Título: Declaración Responsable (sin OCA)</option>
+        <option value="Autorización Administrativa">Título: Autorización Administrativa</option>
+        <option value="Licencia excepcional">Título: Licencia excepcional</option>
+        <option value="En trámite / Sin acreditar">Título: En trámite / Sin acreditar</option>
+       </select>
+       <input class="bn-in" id="el-exp" placeholder="Nº Expediente / Licencia">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="el-flic" type="date" title="Fecha licencia o DR">
+       <input class="bn-in" id="el-comp" placeholder="Actividades compatibles / adicionales (ej. karaoke)">
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">4. Aforo, Música y Seguro de RC</div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="el-aforo" type="number" min="0" placeholder="Aforo máximo autorizado (pers.)" oninput="esLocUpdateLiveReq()">
+       <select class="bn-in" id="el-mus" onchange="esLocUpdateLiveReq()">
+        <option value="sin">Música: Sin música</option>
+        <option value="amen">Música: Amenización musical (≤70 dB mec.)</option>
+        <option value="amb">Música: Ambientación musical</option>
+        <option value="dir">Música: Actuaciones en directo</option>
+       </select>
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="el-db" placeholder="Límite dB(A) en licencia (si consta)">
+       <input class="bn-in" id="el-segcia" placeholder="Compañía seguro RC y nº póliza">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="el-segcap" type="number" min="0" step="1000" placeholder="Capital asegurado RC (€)" oninput="esLocUpdateLiveReq()">
+       <input class="bn-in" id="el-segvto" type="date" title="Fecha vencimiento seguro RC">
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">5. Terraza y Máquinas Recreativas / Juego</div>
+      <div class="bn-grid2">
+       <select class="bn-in" id="el-ter" onchange="esLocUpdateLiveReq()">
+        <option value="no">Terraza: Sin terraza</option>
+        <option value="via">Terraza: En vía pública (Art. 64.1.b)</option>
+        <option value="priv">Terraza: Privada anexa en licencia (Art. 64.1.a)</option>
+       </select>
+       <input class="bn-in" id="el-terdet" placeholder="Detalle terraza (mesas, sillas, m²)">
+      </div>
+      <div class="bn-grid2">
+       <select class="bn-in" id="el-maq" onchange="esLocUpdateLiveReq()">
+        <option value="no">Máquinas: Ninguna</option>
+        <option value="A">Máquinas: Tipo A (recreativas sin premio)</option>
+        <option value="B">Máquinas: Tipo B (con premio / hostelería)</option>
+        <option value="salon">Máquinas: Salón de Juego / Apuestas</option>
+       </select>
+       <input class="bn-in" id="el-maqn" type="number" min="0" placeholder="Nº de máquinas instaladas">
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">6. Observaciones del establecimiento</div>
+      <textarea class="bn-ta" id="el-obs" placeholder="Anota observaciones policiales, incidencias, contactos, horario real habitual, particularidades de la licencia..."></textarea>
+
+      <!-- VISTA PREVIA DE REQUISITOS LEGALES SEGÚN LICENCIA -->
+      <div id="es-loc-live-req" style="margin-top:12px"></div>
+
+      <div class="pc-nav">
+       <button class="btn sec" onclick="esLocShow('list')">Cancelar</button>
+       <button class="btn" onclick="esLocSave()" id="es-loc-save-btn"></button>
+      </div>
+     </div>
+    </div>
+
+    <!-- VISTA 3: FICHA DETALLADA Y REQUISITOS LEGALES -->
+    <div id="es-loc-detail-view" class="hide"></div>
    </div>
 
    <!-- SUBMÓDULO 3: ACTA DE INSPECCIÓN -->
@@ -1925,7 +2077,8 @@ function initStaticIcons(){
   $('es-ic-hor').innerHTML=svg('cal',22);
   $('es-ic-loc').innerHTML=svg('pin',22);
   $('es-ic-act').innerHTML=svg('clip',22);
-  $('es-loc-ico').innerHTML=svg('pin',34);
+  $('es-loc-btn-new').innerHTML=svg('plus',15)+' Nuevo establecimiento';
+  $('es-loc-save-btn').innerHTML=svg('save',15)+' Guardar establecimiento';
   $('es-act-ico').innerHTML=svg('clip',34);
   $('es-des-hd').innerHTML=svg('alert',15)+' Reglas clave de cierre definitivo, música y terrazas';
   $('es-tbl-hd').innerHTML=svg('clip',15)+' Tabla resumen de horarios 2026 (Comunitat Valenciana)';
@@ -3754,6 +3907,9 @@ function esOpen(sub){
     renderEsHorarios();
     renderEsTable();
   }
+  if(sub==='locales'){
+    esLocShow('list');
+  }
   window.scrollTo(0,0);
 }
 function esBack(){
@@ -3925,6 +4081,687 @@ function renderEsTable(){
   th+='</table>';
   th+='<div style="font-size:11.5px;color:var(--mut);margin-top:8px;line-height:1.45"><b>*Salones de juego (Art. 7.2):</b> 03:00 h de lunes a jueves; 04:00 h viernes, sábados, domingos, festivos, vísperas y meses de julio, agosto y septiembre.<br><b>Ampliaciones automáticas (Orden 3/2025):</b> <b>+60 min</b> en Noche de Reyes (5 ene), víspera 9 d\'Octubre (8 oct), Nochebuena (24 dic) y víspera Todos los Santos (31 oct); <b>+90 min</b> en Nochevieja/Año Nuevo (31 dic).</div>';
   $('es-tbl-wrap').innerHTML=th;
+}
+
+
+/* ==================== ESTABLECIMIENTOS PILAR DE LA HORADADA (REGISTRO + REQUISITOS + PDF/OCR) ==================== */
+var ES_LIC_TYPES=[
+  {id:'2.8.3',ep:'2.8.3',n:'Café, bar',cat:'host',grp:'J',ap:'06:00',ci:'01:30',
+   def:'Expedido de bebidas para consumo interior en barra o mesas. Puede servir tapas, bocadillos y raciones en las mismas condiciones que las bebidas (Anexo Ley 14/2010).',
+   men:'Acceso permitido a menores. Prohibida venta, suministro o consumo de alcohol y tabaco a <18 años (Art. 34.2 Ley 14/2010).',
+   mus:'Sin ambientación musical inherente. Puede tener amenización musical (≤70 dB mecánicos, coincide con horario). Si declara ambientación musical: vestíbulo acústico doble puerta (Art. 196.2) y nunca antes de las 10:00 h. Actuaciones en directo solo horario diurno (10:00–22:00 h) si consta ambientación (Art. 12 Orden 3/2025).',
+   maq:'Máx. 2 máquinas tipo B (de una única empresa operadora) con mando de activación-desactivación obligatorio por el personal (Art. 51 Ley 1/2020). Prohibidas en terrazas/vía pública.',
+   adm:'Servicio de admisión general (titular/personal). SEA no obligatorio salvo decisión voluntaria.'},
+  {id:'2.8.4',ep:'2.8.4',n:'Cafetería',cat:'host',grp:'J',ap:'06:00',ci:'01:30',
+   def:'Consumo indistinto de bebidas o comidas en barra o en mesas (Anexo Ley 14/2010).',
+   men:'Acceso permitido a menores. Prohibida venta/consumo de alcohol y tabaco a <18 años.',
+   mus:'Amenización musical ≤70 dB mecánicos. Ambientación musical requiere declaración expresa, vestíbulo acústico doble puerta y nunca antes de las 10:00 h. Directos solo diurnos (10:00–22:00 h) si tiene ambientación.',
+   maq:'Máx. 2 máquinas tipo B con mando activación-desactivación obligatorio (Art. 51 Ley 1/2020). Prohibidas en terrazas y en centros docentes/sanitarios/deportivos.',
+   adm:'Servicio de admisión general.'},
+  {id:'2.8.2',ep:'2.8.2',n:'Restaurante (asador, pizzería, hamburguesería)',cat:'host',grp:'J',ap:'06:00',ci:'01:30',
+   def:'Servicio específico de comidas al público en comedores (Anexo Ley 14/2010). Cocinas >50 kW = local de riesgo alto (Art. 24.2 D. 143/2015).',
+   men:'Acceso permitido a menores. Prohibido alcohol y tabaco a <18 años.',
+   mus:'Amenización musical ≤70 dB mecánicos. Ambientación musical requiere declaración, vestíbulo acústico y ≥10:00 h. Directos solo 10:00–22:00 h si tiene ambientación.',
+   maq:'Máx. 2 máquinas tipo B con mando activación-desactivación obligatorio (Art. 51 Ley 1/2020). Prohibidas en terrazas.',
+   adm:'Servicio de admisión general.'},
+  {id:'2.8.6',ep:'2.8.6',n:'Salón-lounge',cat:'host',grp:'O',ap:'12:00',ci:'02:30',
+   def:'Servicio de bebidas y, en su caso, comidas en barra o mesas. Puede contar con sistema de reproducción para amenización musical y servicio de cocina (Anexo Ley 14/2010).',
+   men:'Prohibido alcohol y tabaco a <18 años.',
+   mus:'Puede contar con amenización musical (≤70 dB mecánicos). Si incorpora ambientación musical: vestíbulo acústico doble puerta y límite dB en licencia.',
+   maq:'Máx. 2 máquinas tipo B con mando activación-desactivación obligatorio (Art. 51 Ley 1/2020).',
+   adm:'Servicio de admisión general.'},
+  {id:'2.8.1',ep:'2.8.1',n:'Salón de banquetes',cat:'host',grp:'L',ap:'10:00',ci:'03:30',
+   def:'Servicio de comidas y bebidas a precio concertado en fecha/hora predeterminadas en servicio de mesas. Puede realizar baile posterior a la comida en horario nocturno si reúne seguridad e insonorización (Art. 12.2 Orden 3/2025).',
+   men:'Prohibido alcohol y tabaco a <18 años.',
+   mus:'Ambientación musical si consta en licencia (vestíbulo acústico). Actuaciones en directo diurnas (10:00–22:00 h) y baile nocturno tras comida si está insonorizado.',
+   maq:'No habitual; sujeto a autorización de juego si existiera.',
+   adm:'Servicio de admisión general.'},
+  {id:'2.8.5',ep:'2.8.5',n:'Hostelería en zona marítimo-terrestre / costa',cat:'host',grp:'MAR',ap:'10:00',ci:'04:00*',
+   def:'Establecimiento hostelero en dominio público marítimo-terrestre/portuario. Horario 10:00–04:00 solo con declaración expresa del Ayuntamiento comunicada a Conselleria (Art. 2.3 Orden 3/2025); si no, aplica Grupo J (06:00–01:30).',
+   men:'Prohibido alcohol y tabaco a <18 años.',
+   mus:'Si cuenta con ambientación musical: directos solo en horario diurno (10:00–22:00 h).',
+   maq:'Prohibida instalación de máquinas tipo B en establecimientos de temporada en playas, vías públicas o zonas de recreo (Art. 33.1.d D. 115/2006).',
+   adm:'Servicio de admisión general.'},
+  {id:'2.7.4',ep:'2.7.4',n:'Pub / Karaoke',cat:'ocio',grp:'B',ap:'12:00',ci:'04:00',
+   def:'Servicio preferente de bebidas. Ambientación musical exclusivamente por medios mecánicos. Puede disponer de karaoke. Sin pista de baile (Anexo Ley 14/2010).',
+   men:'PROHIBIDA entrada y permanencia a <16 años (Art. 34.1.d Ley 14/2010). Prohibido alcohol/tabaco a <18 años. Sesiones menores (14–18 años) solo con autorización: 17:00–22:00 h, cierre 1 h antes de sesión ordinaria.',
+   mus:'Ambientación musical inherente (medios mecánicos). Vestíbulo acústico doble puerta OBLIGATORIO (Art. 196.2 D. 143/2015). Límite dB(A) obligatorio en licencia. Directos solo horario diurno 10:00–22:00 h.',
+   maq:'Máx. 2 máquinas tipo B con mando activación-desactivación obligatorio (Art. 51 Ley 1/2020).',
+   adm:'SERVICIO ESPECÍFICO DE ADMISIÓN (SEA) OBLIGATORIO si aforo > 200 personas (mín. 1 por puerta, Art. 131.1.b D. 143/2015). Seguridad Privada obligatoria si aforo > 500.'},
+  {id:'1.2.5',ep:'1.2.5',n:'Café-teatro / Café-concierto / Café-cantante',cat:'ocio',grp:'B',ap:'12:00',ci:'04:00',
+   def:'Actuaciones musicales, teatrales o de variedades en directo, sin pista de baile, pudiendo tener escenario/camerinos y servicio preferente de bebidas. Pueden programar conciertos (Anexo Ley 14/2010).',
+   men:'Prohibido alcohol y tabaco a <18 años. Conciertos con <16 años: fin máx. 02:30 h, autorización paterna y <14 acompañados (Art. 34.1.c Ley 14/2010 y Art. 11 Orden 3/2025).',
+   mus:'Ambientación musical y directos autorizados. Vestíbulo acústico doble puerta obligatorio. Límite dB(A) en licencia.',
+   maq:'Sujeto a autorización sectorial de juego.',
+   adm:'Servicio de admisión general.'},
+  {id:'2.7.2',ep:'2.7.2',n:'Discoteca',cat:'ocio',grp:'I',ap:'17:00',ci:'07:30',
+   def:'Servicio de bebidas con una o más pistas de baile (diámetro mín. 7 m sin obstáculos) y guardarropía obligatoria. Puede ofrecer actuaciones en directo (Anexo Ley 14/2010).',
+   men:'PROHIBIDA entrada y permanencia a <16 años (Art. 34.1.d Ley 14/2010). Prohibido alcohol/tabaco a <18 años. Sesiones menores (14–18 años) solo con autorización autonómica (17:00–22:00 h).',
+   mus:'Ambientación musical inherente. Vestíbulo acústico doble puerta OBLIGATORIO. Límite dB(A) en licencia.',
+   maq:'Máx. 2 máquinas tipo B en zona bar claramente delimitada, con mando activación-desactivación.',
+   adm:'SERVICIO ESPECÍFICO DE ADMISIÓN (SEA) SIEMPRE OBLIGATORIO (mín. 1 por puerta, Art. 131.1.a D. 143/2015). Seguridad Privada obligatoria si aforo > 500. Conteo automático aforo si > 2.000.'},
+  {id:'2.7.1',ep:'2.7.1',n:'Sala de fiestas / Sala de baile',cat:'ocio',grp:'I',ap:'17:00',ci:'07:30',
+   def:'Escenario, pista de baile (diámetro mín. 7 m), camerinos y guardarropía obligatorios. Puede ofrecer servicio de cocina (salas de fiestas) y mesas/sillas (Anexo Ley 14/2010).',
+   men:'PROHIBIDA entrada y permanencia a <16 años. Prohibido alcohol/tabaco a <18 años.',
+   mus:'Ambientación musical y actuaciones en directo. Vestíbulo acústico doble puerta OBLIGATORIO.',
+   maq:'Máx. 2 máquinas tipo B en zona bar delimitada con mando activación-desactivación.',
+   adm:'SERVICIO ESPECÍFICO DE ADMISIÓN (SEA) SIEMPRE OBLIGATORIO (mín. 1 por puerta). Seguridad Privada si aforo > 500.'},
+  {id:'2.7.6',ep:'2.7.6',n:'Establecimiento de exhibiciones eróticas',cat:'ocio',grp:'B_ERO',ap:'12:00',ci:'03:30',
+   def:'Exhibición de películas o actuaciones de contenido erótico. Excluido de la ampliación a las 04:00 h del Grupo B (Art. 2.1 Orden 3/2025).',
+   men:'PROHIBIDA entrada y permanencia a <18 años (Art. 34.1.b Ley 14/2010). Cartel exterior obligatorio.',
+   mus:'Según licencia y normativa acústica.',
+   maq:'No aplica.',
+   adm:'Servicio de admisión con control estricto de mayoría de edad (18 años).'},
+  {id:'2.6.5',ep:'2.6.5',n:'Salón de juego (máquinas tipo B / apuestas)',cat:'juego',grp:'SJ',ap:'10:00',ci:'03:00 / 04:00*',
+   def:'Explotación de máquinas tipo B (mín. 8 máquinas en municipios <120.000 hab., Art. 7.3 D. 55/2015; máx. 1 cada 3 m² útiles). Superficie mín. útil 100 m². Rótulo obligatorio «Salón de Juego». Interior NUNCA visible desde exterior (Art. 4.2 D. 55/2015). Bar interior máx. 25% superficie, SIN terraza (Art. 17.1 D. 55/2015).',
+   men:'PROHIBIDA entrada a <18 años (Art. 19 Ley 1/2020 y Art. 17.2 D. 55/2015). Cartel visible en castellano y valenciano. Prohibidos espacios de fumadores/clubes fumadores (Art. 45.9 Ley 1/2020).',
+   mus:'Prohibida publicidad exterior del juego (Art. 8.2 Ley 1/2020) y publicidad de entidades financieras/crédito en interior (Art. 45.10 Ley 1/2020). Hojas informativas prevención ludopatía obligatorias.',
+   maq:'Autorización instalación/funcionamiento Conselleria Juego (10 años) + Licencia municipal. Cada máquina con placa identidad, guía circulación, autorización instalación y leyenda +18/adicción. Libro de Inspección y Reclamaciones de Juego obligatorio (Art. 18 D. 55/2015).',
+   adm:'CONTROL DE ADMISIÓN OBLIGATORIO en entrada con verificación DNI y conexión directa al Registro de Prohibidos (Art. 22 Ley 1/2020).'},
+  {id:'2.6.4',ep:'2.6.4',n:'Salón recreativo / Centro ocio familiar',cat:'juego',grp:'C',ap:'08:00',ci:'01:00',
+   def:'Explotación exclusiva de máquinas tipo A (mín. 5 máquinas, máx. 1 cada 3 m² útiles; superficie mín. útil 50 m²). Rótulo «Salón Recreativo» o «Centro de Ocio Familiar» (D. 55/2015).',
+   men:'Acceso permitido a menores. PROHIBIDA venta y consumo de bebidas alcohólicas en el bar interior (Art. 17.1 D. 55/2015). Sin terraza.',
+   mus:'Amenización musical según normativa acústica.',
+   maq:'Solo máquinas tipo A con boletín de situación (5 años). Premios directos máx. 6 €, vales/fichas máx. 20 € (solo juguetes infantiles).',
+   adm:'Servicio de admisión general.'},
+  {id:'2.6.2',ep:'2.6.2',n:'Sala de bingo / Casino / Local apuestas',cat:'juego',grp:'SJ',ap:'Normativa juego',ci:'Normativa juego',
+   def:'Establecimiento específico de juego sujeto a autorización autonómica (Ley 1/2020) y licencia municipal. Interior no visible desde exterior. Prohibidos clubes de fumadores y publicidad exterior.',
+   men:'PROHIBIDA entrada a <18 años en todo caso (Art. 19 Ley 1/2020).',
+   mus:'Hojas informativas ludopatía obligatorias. Prohibida publicidad de créditos/préstamos.',
+   maq:'Autorizaciones específicas de Conselleria de Juego. Libro de Inspección y Reclamaciones.',
+   adm:'CONTROL DE ADMISIÓN OBLIGATORIO con DNI y Registro de Prohibidos (Art. 22 Ley 1/2020).'},
+  {id:'2.7.5',ep:'2.7.5',n:'Ciber-café',cat:'host',grp:'J',ap:'06:00',ci:'01:30',
+   def:'Servicio de bebidas y equipos informáticos conectados a internet (Anexo Ley 14/2010). Aforo: 1 pers./1,5 m² (Art. 184.3 D. 143/2015).',
+   men:'PROHIBIDA entrada a <18 años si se sirven bebidas alcohólicas o si internet no tiene filtro de edad (epígrafe 2.7.5 Ley 14/2010).',
+   mus:'Amenización musical ≤70 dB.',
+   maq:'Equipos informáticos sin acceso a apuestas/azar.',
+   adm:'Servicio de admisión general.'},
+  {id:'1.2.7',ep:'1.2.7',n:'Sala de conciertos',cat:'cult',grp:'A',ap:'10:00',ci:'Fin últ. sesión (≤01:05)',
+   def:'Local insonorizado para actuaciones musicales en directo y actividades culturales, con escenario y camerino. Puede tener bar/cafetería vinculado (Anexo Ley 14/2010).',
+   men:'Menores <16 años permitidos con autorización paterna (<14 acompañados); fin máx. 02:30 h (Art. 11 Orden 3/2025). Al acabar, no pueden permanecer. Prohibido alcohol/tabaco <18.',
+   mus:'Insonorización obligatoria y vestíbulo acústico doble puerta. Apertura 15–30 min antes del inicio (Art. 3.1 Orden 3/2025).',
+   maq:'No aplica.',
+   adm:'Servicio de admisión. Seguridad privada si aforo > 500 (Art. 142 D. 143/2015).'},
+  {id:'2.1.3',ep:'2.1.3',n:'Sala polivalente / Sala sociocultural',cat:'cult',grp:'N',ap:'09:00',ci:'02:30 / 01:00*',
+   def:'Local sin asientos fijos para reuniones sociales, culturales o festivas (Polivalente 09:00–02:30, aforo 1 pers./m²; Sociocultural 09:00–01:00, puede hacer directos diurnos hasta 22:00 h).',
+   men:'Prohibido alcohol y tabaco a <18 años.',
+   mus:'Según licencia y normativa acústica.',
+   maq:'No aplica.',
+   adm:'Servicio de admisión general.'},
+  {id:'2.5.1',ep:'2.5.1',n:'Ludoteca',cat:'dep',grp:'E',ap:'09:00',ci:'24:00',
+   def:'Ocio infantil con juegos homologados (Art. 286–290 D. 143/2015). NO puede ser escuela infantil ni cobrar matrícula/mensualidades. Aforo: 1 pers./2 m². Puede tener cafetería.',
+   men:'Personal obligatorio de control de acceso y juegos. Carteles de uso y edad en cada atracción.',
+   mus:'Amenización infantil ≤70 dB.',
+   maq:'Solo juegos infantiles homologados (no máquinas tipo B).',
+   adm:'Personal de control de acceso y vigilancia de menores (Art. 289 D. 143/2015).'},
+  {id:'2.3.4',ep:'2.3.4',n:'Gimnasio / Instalación deportiva',cat:'dep',grp:'H',ap:'06:30 (06:00*)',ci:'01:00',
+   def:'Local con aparatos/instalaciones deportivas. Gimnasios con insonorización acreditada pueden abrir a las 06:00 h (Art. 2.1 Orden 3/2025). Vestuarios separados por sexos obligatorios (Art. 229–230 D. 143/2015).',
+   men:'Según normas de uso y edad del centro.',
+   mus:'Amenización musical ≤70 dB; ambientación ≥10:00 h.',
+   maq:'Prohibidas máquinas de juego tipo B en recintos deportivos (Art. 51.3 Ley 1/2020).',
+   adm:'Servicio de admisión general.'},
+  {id:'2.3.7',ep:'2.3.7',n:'Bolera / Billares / Salón recreativo tradicional',cat:'juego',grp:'G',ap:'10:00',ci:'01:00',
+   def:'Boleras, billares, futbolines, tenis de mesa. Pueden disponer de cafetería (Art. 275 D. 143/2015).',
+   men:'Prohibido alcohol y tabaco a <18 años.',
+   mus:'Amenización musical ≤70 dB.',
+   maq:'En salones tradicionales: máx. 2 máquinas tipo A o B (Art. 275 D. 143/2015).',
+   adm:'Servicio de admisión general.'},
+  {id:'1.1.1',ep:'1.1.1',n:'Cine / Teatro / Auditorio',cat:'cult',grp:'A',ap:'10:00',ci:'Fin últ. sesión (≤01:05)',
+   def:'Proyecciones o representaciones con patio de butacas/gradas. Vestíbulo previo obligatorio (10 pers./m², Art. 196.1 D. 143/2015). Apertura 15–30 min antes.',
+   men:'Según calificación por edades.',
+   mus:'Aislamiento acústico conforme a licencia.',
+   maq:'No aplica.',
+   adm:'Servicio de admisión general. Seguridad privada si aforo > 500.'},
+  {id:'OTRO',ep:'Otro',n:'Otro establecimiento público / Comercio',cat:'dep',grp:'-',ap:'Según licencia',ci:'Según licencia',
+   def:'Establecimiento no encuadrado en los epígrafes anteriores. Sujeto a licencia municipal / declaración responsable y normativa sectorial aplicable.',
+   men:'Prohibida venta de alcohol y tabaco a <18 años.',
+   mus:'Según normativa municipal de ruidos y título habilitante.',
+   maq:'Requiere autorización específica de Conselleria de Juego.',
+   adm:'Servicio de admisión general.'}
+];
+
+var esLocEditId=null, esLocTempDoc=null, esLocDetailId=null;
+
+function esLocList(){S.locales=S.locales||[];return S.locales;}
+function esLicObj(id){return ES_LIC_TYPES.filter(function(x){return x.id===id})[0]||ES_LIC_TYPES[0];}
+
+function esCalcSeguroMin(aforo){
+  var a=parseInt(aforo,10)||0;
+  if(a<=0)return 0;
+  if(a<=25)return 150000;
+  if(a<=50)return 300000;
+  if(a<=100)return 400000;
+  if(a<=200)return 500000;
+  if(a<=300)return 600000;
+  if(a<=500)return 750000;
+  if(a<=700)return 900000;
+  if(a<=1000)return 1000000;
+  if(a<=1500)return 1200000;
+  if(a<=5000)return 1800000;
+  if(a<=25000)return 1800000+Math.ceil((a-5000)/2500)*120000;
+  return 1800000+8*120000+Math.ceil((a-25000)/5000)*120000;
+}
+
+function esLocPopulateLicSelect(){
+  var sel=$('el-lic');
+  if(!sel||sel.options.length>0)return;
+  sel.innerHTML=ES_LIC_TYPES.map(function(l){
+    return '<option value="'+l.id+'">['+l.ep+'] '+esc(l.n)+' ('+l.ap+' – '+l.ci+')</option>';
+  }).join('');
+}
+
+function esLocShow(view){
+  $('es-loc-list-view').classList.toggle('hide',view!=='list');
+  $('es-loc-form-view').classList.toggle('hide',view!=='form');
+  $('es-loc-detail-view').classList.toggle('hide',view!=='detail');
+  if(view==='list')renderEsLocales();
+  window.scrollTo(0,0);
+}
+
+function esLocNew(){
+  esLocEditId=null;
+  esLocTempDoc=null;
+  esLocPopulateLicSelect();
+  $('es-loc-ftitle').textContent='Nuevo establecimiento · Pilar de la Horadada';
+  ['el-nom','el-dir','el-tel','el-tit','el-nif','el-exp','el-flic','el-comp','el-aforo','el-db','el-segcia','el-segcap','el-segvto','el-terdet','el-maqn','el-obs'].forEach(function(id){if($(id))$(id).value='';});
+  $('el-zona').value='Casco Urbano';
+  $('el-lic').value='2.8.3';
+  $('el-titulo').value='Licencia de apertura';
+  $('el-mus').value='sin';
+  $('el-ter').value='no';
+  $('el-maq').value='no';
+  $('es-loc-ocr-st').innerHTML='';
+  $('es-loc-doc-prev').innerHTML='';
+  $('es-loc-clrdoc').classList.add('hide');
+  if($('es-loc-file'))$('es-loc-file').value='';
+  esLocUpdateLiveReq();
+  esLocShow('form');
+}
+
+function esLocEdit(id){
+  var item=esLocList().filter(function(x){return x.id===id})[0];
+  if(!item)return;
+  esLocEditId=id;
+  esLocTempDoc=item.doc||null;
+  esLocPopulateLicSelect();
+  $('es-loc-ftitle').textContent='Editar establecimiento: '+item.nom;
+  $('el-nom').value=item.nom||'';
+  $('el-zona').value=item.zona||'Casco Urbano';
+  $('el-dir').value=item.dir||'';
+  $('el-tel').value=item.tel||'';
+  $('el-tit').value=item.tit||'';
+  $('el-nif').value=item.nif||'';
+  $('el-lic').value=item.lic||'2.8.3';
+  $('el-titulo').value=item.titulo||'Licencia de apertura';
+  $('el-exp').value=item.exp||'';
+  $('el-flic').value=item.flic||'';
+  $('el-comp').value=item.comp||'';
+  $('el-aforo').value=item.aforo||'';
+  $('el-mus').value=item.mus||'sin';
+  $('el-db').value=item.db||'';
+  $('el-segcia').value=item.segcia||'';
+  $('el-segcap').value=item.segcap||'';
+  $('el-segvto').value=item.segvto||'';
+  $('el-ter').value=item.ter||'no';
+  $('el-terdet').value=item.terdet||'';
+  $('el-maq').value=item.maq||'no';
+  $('el-maqn').value=item.maqn||'';
+  $('el-obs').value=item.obs||'';
+  $('es-loc-ocr-st').innerHTML='';
+  esLocRenderDocPrev();
+  esLocUpdateLiveReq();
+  esLocShow('form');
+}
+
+function esLocClearDoc(){
+  esLocTempDoc=null;
+  if($('es-loc-file'))$('es-loc-file').value='';
+  $('es-loc-ocr-st').innerHTML='';
+  esLocRenderDocPrev();
+}
+
+function esLocRenderDocPrev(){
+  var p=$('es-loc-doc-prev'), btn=$('es-loc-clrdoc');
+  if(!esLocTempDoc){p.innerHTML='';btn.classList.add('hide');return;}
+  btn.classList.remove('hide');
+  if(esLocTempDoc.type==='img'&&esLocTempDoc.data){
+    p.innerHTML='<div style="display:flex;gap:10px;align-items:center"><img src="'+esLocTempDoc.data+'" style="width:70px;height:70px;object-fit:cover;border-radius:8px;border:1px solid var(--line)"><div style="font-size:12px;color:#cfd9ea"><b>Imagen adjunta:</b> '+esc(esLocTempDoc.name||'foto_licencia.jpg')+'</div></div>';
+  }else{
+    p.innerHTML='<div style="font-size:12px;color:#cfd9ea"><b>PDF adjunto:</b> '+esc(esLocTempDoc.name||'licencia.pdf')+'</div>';
+  }
+}
+
+function esLocBuildReqHtml(licId, aforo, mus, ter, maq, segCap, segVto){
+  var L=esLicObj(licId);
+  var af=parseInt(aforo,10)||0;
+  var segMin=esCalcSeguroMin(af);
+  var segC=parseFloat(segCap)||0;
+  var segWarn='';
+  if(segMin>0&&segC>0&&segC<segMin)segWarn+='<span style="color:#ff8694;font-weight:700"> (INSUFICIENTE: mínimo '+segMin.toLocaleString('es-ES')+' €)</span>';
+  if(segVto){
+    var todayStr=new Date().toISOString().slice(0,10);
+    if(segVto<todayStr)segWarn+='<span style="color:#ff8694;font-weight:700"> (SEGURO CADUCADO: '+esc(segVto)+')</span>';
+  }
+
+  var segPriv='No obligatoria por aforo (≤500 pers.).';
+  if(af>500){
+    var nv=(af<=1000)?1:(af<=2000?2:2+Math.ceil((af-2000)/1000));
+    segPriv='<b style="color:#ff8694">OBLIGATORIA (Arts. 142–143 D. 143/2015):</b> mínimo <b>'+nv+' vigilante(s) de seguridad privada</b>.';
+  }
+  var seaTxt=L.adm;
+  if((licId==='2.7.4')&&af>200)seaTxt='<b style="color:#ff8694">SERVICIO ESPECÍFICO DE ADMISIÓN (SEA) OBLIGATORIO</b> (Pub/Karaoke con aforo >200 pers.: mín. 1 controlador acreditado por puerta, Art. 131.1.b D. 143/2015).';
+
+  var tech=[];
+  tech.push('<b>Cartelería obligatoria en castellano y valenciano (Arts. 237–243 D. 143/2015):</b> copia de licencia en lugar visible, cartel horario exterior, hojas de reclamaciones, datos identificativos (tel./email), prohibición alcohol/tabaco a <18 años y limitación de edad si aplica.');
+  tech.push(af>=1000?'<b>Sanidad (Art. 227):</b> Servicio de <b>enfermería</b> (o botiquín + ambulancia) obligatorio (aforo ≥1.000).':(af>=200?'<b>Sanidad (Art. 226.2):</b> Botiquín portátil señalizado + <b>lugar específico de primeros auxilios</b> (aforo 200–1.000).':'<b>Sanidad (Art. 226.1):</b> Botiquín portátil reglamentario señalizado.'));
+  tech.push(af>=2000?'<b>Emergencias y aforo (Arts. 185 y 235):</b> <b>Plan de Autoprotección</b> y <b>sistema automático de conteo de aforo</b> en tiempo real OBLIGATORIOS (aforo ≥2.000).':'<b>Emergencias (Art. 235.4):</b> <b>Plan de Actuación ante Emergencias</b> suscrito por el titular.');
+  tech.push('<b>Aseos y evacuación (Arts. 193, 218–220):</b> Aseos separados por sexos + aseo adaptado PMR; puertas expeditas sin pasadores (ancho mín. '+(af>50?'120 cm':'80 cm')+').');
+  if(mus==='amb'||licId==='2.7.4'||licId==='2.7.2'||licId==='2.7.1'||licId==='1.2.5'||licId==='1.2.7'){
+    tech.push('<b>Vestíbulo acústico (Art. 196.2 D. 143/2015):</b> Doble puerta con muelle de retorno OBLIGATORIA al disponer de ambientación musical.');
+  }
+
+  var h='<div class="card" style="border-color:rgba(200,157,60,.45);background:rgba(15,26,45,.95);margin-bottom:0">';
+  h+='<div class="card-hd" style="color:var(--gold2);margin-bottom:8px">'+svg('shield',16)+' Características y requisitos legales · ['+esc(L.ep)+'] '+esc(L.n)+'</div>';
+  h+='<div class="pc-summary-grid" style="margin-bottom:10px">';
+  h+='<div class="pc-sbox"><small>Horario Oficial 2026 (Orden 3/2025)</small><b style="color:var(--gold2)">'+esc(L.ap)+' – '+esc(L.ci)+' h</b><div style="font-size:11px;color:var(--mut)">Cierre definitivo (incluye desalojo) · Banda mín. 4 h</div></div>';
+  h+='<div class="pc-sbox"><small>Seguro RC mínimo (Art. 60 D. 143/2015)</small><b>'+(segMin?segMin.toLocaleString('es-ES')+' € (sin sublímites)':'Indicar aforo para calcular')+'</b>'+segWarn+'</div>';
+  h+='</div>';
+  h+='<ul style="margin:0;padding-left:18px;font-size:12.5px;color:#cfd9ea;line-height:1.5">';
+  h+='<li><b>Actividad autorizada:</b> '+esc(L.def)+'</li>';
+  h+='<li><b>Menores de edad:</b> '+esc(L.men)+'</li>';
+  h+='<li><b>Música y acústica:</b> '+esc(L.mus)+'</li>';
+  h+='<li><b>Admisión y Seguridad Privada:</b> '+seaTxt+' · '+segPriv+'</li>';
+  h+='<li><b>Máquinas y Juego:</b> '+esc(L.maq)+'</li>';
+  if(ter==='via')h+='<li><b>Terraza vía pública (Art. 18 Orden 3/2025):</b> Requiere autorización municipal expresa; nunca puede superar el horario oficial del local.</li>';
+  if(ter==='priv')h+='<li><b>Terraza privada anexa (Art. 64.1.a D. 143/2015):</b> Debe figurar en la licencia de apertura; rige el horario oficial del local.</li>';
+  tech.forEach(function(t){h+='<li>'+t+'</li>';});
+  h+='</ul></div>';
+  return h;
+}
+
+function esLocUpdateLiveReq(){
+  var box=$('es-loc-live-req');
+  if(!box)return;
+  box.innerHTML=esLocBuildReqHtml($('el-lic').value,$('el-aforo').value,$('el-mus').value,$('el-ter').value,$('el-maq').value,$('el-segcap').value,$('el-segvto').value);
+}
+
+/* ==================== LECTURA AUTOMÁTICA PDF / FOTO (OCR) + PARSER DE LICENCIAS ==================== */
+function esLoadScript(src,cb,errCb){
+  var s=document.createElement('script');
+  s.src=src;s.onload=cb;s.onerror=errCb;
+  document.head.appendChild(s);
+}
+
+function esLocHandleFile(inp){
+  var file=inp.files&&inp.files[0];
+  if(!file)return;
+  var st=$('es-loc-ocr-st');
+  if(file.type==='application/pdf'||/\.pdf$/i.test(file.name)){
+    esLocTempDoc={type:'pdf',name:file.name};
+    esLocRenderDocPrev();
+    st.innerHTML='<span style="color:var(--gold2)">Leyendo texto del PDF...</span>';
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var ab=ev.target.result;
+      function runPdfJs(){
+        try{
+          pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+          pdfjsLib.getDocument({data:ab}).promise.then(function(pdf){
+            var pages=[], maxP=Math.min(pdf.numPages,5);
+            for(var i=1;i<=maxP;i++)pages.push(i);
+            Promise.all(pages.map(function(p){
+              return pdf.getPage(p).then(function(pg){
+                return pg.getTextContent().then(function(tc){
+                  return tc.items.map(function(it){return it.str}).join(' ');
+                });
+              });
+            })).then(function(texts){
+              var full=texts.join('\n').trim();
+              if(full.length>20){
+                esApplyParsedLicense(full,st);
+              }else{
+                st.innerHTML='<span style="color:#f0b27a">PDF escaneado (sin capa de texto). Sube una foto/captura para OCR o rellena manualmente.</span>';
+              }
+            });
+          }).catch(function(){esFallbackPdfText(ab,st);});
+        }catch(e){esFallbackPdfText(ab,st);}
+      }
+      if(window.pdfjsLib)runPdfJs();
+      else esLoadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',runPdfJs,function(){esFallbackPdfText(ab,st);});
+    };
+    reader.readAsArrayBuffer(file);
+  }else if(file.type.indexOf('image/')===0){
+    st.innerHTML='<span style="color:var(--gold2)">Procesando imagen y preparando lectura OCR...</span>';
+    var reader2=new FileReader();
+    reader2.onload=function(ev){
+      var img=new Image();
+      img.onload=function(){
+        var cv=document.createElement('canvas');
+        var maxW=950, sc=Math.min(1,maxW/img.width);
+        cv.width=Math.round(img.width*sc);
+        cv.height=Math.round(img.height*sc);
+        cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+        var dataUrl=cv.toDataURL('image/jpeg',0.78);
+        esLocTempDoc={type:'img',name:file.name,data:dataUrl};
+        esLocRenderDocPrev();
+        function runOcr(){
+          st.innerHTML='<span style="color:var(--gold2)">Reconociendo texto de la foto (OCR)... puede tardar unos segundos.</span>';
+          Tesseract.recognize(dataUrl,'spa',{
+            logger:function(m){
+              if(m.status==='recognizing text'&&m.progress){
+                st.innerHTML='<span style="color:var(--gold2)">Leyendo documento (OCR): '+Math.round(m.progress*100)+'%</span>';
+              }
+            }
+          }).then(function(res){
+            var txt=(res&&res.data&&res.data.text)?res.data.text:'';
+            if(txt.trim().length>15)esApplyParsedLicense(txt,st);
+            else st.innerHTML='<span style="color:#f0b27a">Imagen guardada, pero no se pudo leer texto claro. Puedes rellenar los campos manualmente.</span>';
+          }).catch(function(){
+            st.innerHTML='<span style="color:#f0b27a">Imagen adjuntada. OCR no disponible sin conexión; rellena los datos manualmente.</span>';
+          });
+        }
+        if(window.Tesseract)runOcr();
+        else esLoadScript('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js',runOcr,function(){
+          st.innerHTML='<span style="color:#f0b27a">Imagen adjuntada. Sin conexión para OCR automático; rellena los campos manualmente.</span>';
+        });
+      };
+      img.src=ev.target.result;
+    };
+    reader2.readAsDataURL(file);
+  }
+}
+
+function esFallbackPdfText(ab,st){
+  try{
+    var bytes=new Uint8Array(ab), raw='';
+    for(var i=0;i<Math.min(bytes.length,250000);i++){
+      var c=bytes[i];
+      raw+=(c>=32&&c<=126)?String.fromCharCode(c):' ';
+    }
+    var m=raw.match(/\(([^()]{3,120})\)/g);
+    var txt=m?m.map(function(x){return x.slice(1,-1)}).join(' '):'';
+    if(txt.length>25)esApplyParsedLicense(txt,st);
+    else st.innerHTML='<span style="color:#f0b27a">PDF adjuntado. Sin conexión para decodificar PDF comprimido; rellena los datos manualmente.</span>';
+  }catch(e){
+    st.innerHTML='<span style="color:#f0b27a">PDF adjuntado. Rellena los campos manualmente.</span>';
+  }
+}
+
+function esApplyParsedLicense(text,st){
+  var t=text.replace(/\s+/g,' ');
+  var tl=t.toLowerCase();
+  var found=[];
+
+  // 1. Tipo de licencia / Epígrafe
+  var licRules=[
+    ['2.6.5',/sal[oó]n\s+de\s+juego|m[aá]quinas?\s+(de\s+)?tipo\s*b|2\.6\.5/i],
+    ['2.6.4',/sal[oó]n\s+recreativo|centro\s+de\s+ocio\s+familiar|2\.6\.4/i],
+    ['2.6.2',/sala\s+de\s+bingo|casino\s+de\s+juego|local\s+espec[ií]fico\s+de\s+apuestas|2\.6\.1|2\.6\.2/i],
+    ['2.7.2',/discoteca|2\.7\.2/i],
+    ['2.7.1',/sala\s+de\s+fiestas|sala\s+de\s+baile|2\.7\.1|2\.7\.3/i],
+    ['2.7.4',/\bpub\b|karaoke|2\.7\.4/i],
+    ['1.2.5',/caf[eé][\s-]teatro|caf[eé][\s-]concierto|caf[eé][\s-]cantante|1\.2\.5/i],
+    ['1.2.7',/sala\s+de\s+conciertos|1\.2\.7/i],
+    ['2.8.6',/sal[oó]n[\s-]lounge|lounge|2\.8\.6/i],
+    ['2.8.1',/sal[oó]n\s+de\s+banquetes|2\.8\.1/i],
+    ['2.8.5',/mar[ií]timo[\s-]terrestre|chiringuito|zona\s+portuaria|2\.8\.5/i],
+    ['2.7.5',/ciber[\s-]caf[eé]|2\.7\.5/i],
+    ['2.8.2',/restaurante|pizzer[ií]a|asador|hamburgueser[ií]a|2\.8\.2/i],
+    ['2.8.4',/cafeter[ií]a|2\.8\.4/i],
+    ['2.8.3',/caf[eé][\s,-]+bar|\bbar\b|2\.8\.3/i],
+    ['2.5.1',/ludoteca|2\.5\.1/i],
+    ['2.3.4',/gimnasio|instalaci[oó]n\s+deportiva|2\.3\.4/i],
+    ['2.1.3',/sala\s+polivalente|sala\s+sociocultural|2\.1\.3|2\.1\.4/i]
+  ];
+  for(var i=0;i<licRules.length;i++){
+    if(licRules[i][1].test(t)){
+      $('el-lic').value=licRules[i][0];
+      found.push('Tipo de licencia ('+esLicObj(licRules[i][0]).n+')');
+      break;
+    }
+  }
+
+  // 2. Título habilitante
+  if(/declaraci[oó]n\s+responsable/i.test(t)){
+    $('el-titulo').value=/\boca\b|organismo\s+de\s+certificaci[oó]n/i.test(t)?'Declaración Responsable + OCA':'Declaración Responsable (sin OCA)';
+    found.push('Título habilitante');
+  }else if(/licencia\s+de\s+apertura/i.test(t)){
+    $('el-titulo').value='Licencia de apertura';
+    found.push('Licencia de apertura');
+  }
+
+  // 3. CIF / NIF
+  var mNif=t.match(/\b([ABCDEFGHJKLMNPQRSUVW]\d{7}[0-9A-J]|\d{8}[A-Z]|[XYZ]\d{7}[A-Z])\b/i);
+  if(mNif&&!$('el-nif').value){$('el-nif').value=mNif[1].toUpperCase();found.push('NIF/CIF');}
+
+  // 4. Aforo
+  var mAf=t.match(/aforo(?:\s+m[aá]ximo)?(?:\s+autorizado)?\s*[:=]?\s*(\d{1,5})/i);
+  if(mAf&&!$('el-aforo').value){$('el-aforo').value=mAf[1];found.push('Aforo ('+mAf[1]+' pers.)');}
+
+  // 5. Expediente
+  var mExp=t.match(/(?:expediente|exp\.?|licencia\s+n[º°]?)\s*[:=]?\s*([A-Z0-9\/-]{4,25})/i);
+  if(mExp&&!$('el-exp').value){$('el-exp').value=mExp[1];found.push('Expediente');}
+
+  // 6. Titular
+  var mTit=t.match(/(?:titular|raz[oó]n\s+social|interesad[oa])\s*[:=]\s*([A-ZÁÉÍÓÚÑ0-9\s.,&-]{4,60}?)(?=\s+(?:nif|cif|dni|domicilio|emplazamiento|actividad|aforo|calle|c\/|avda|$))/i);
+  if(mTit&&!$('el-tit').value){$('el-tit').value=mTit[1].trim();found.push('Titular');}
+
+  // 7. Nombre comercial
+  var mNom=t.match(/(?:denominaci[oó]n|nombre\s+comercial|r[oó]tulo)\s*[:=]\s*([A-ZÁÉÍÓÚÑ0-9\s.,&-]{3,50}?)(?=\s+(?:emplazamiento|direcci[oó]n|titular|actividad|aforo|calle|c\/|$))/i);
+  if(mNom&&!$('el-nom').value){$('el-nom').value=mNom[1].trim();found.push('Nombre comercial');}
+
+  // 8. Emplazamiento / Dirección
+  var mDir=t.match(/(?:emplazamiento|direcci[oó]n|ubicaci[oó]n|sito\s+en)\s*[:=]?\s*((?:c\/|calle|avda\.?|avenida|plaza|paseo|ctra\.?|urbanizaci[oó]n)[^,;\n]{4,65})/i);
+  if(mDir&&!$('el-dir').value){$('el-dir').value=mDir[1].trim();found.push('Dirección');}
+
+  // 9. Zona Pilar de la Horadada
+  if(/torre\s+de\s+la\s+horadada/i.test(tl))$('el-zona').value='Torre de la Horadada';
+  else if(/mil\s+palmeras/i.test(tl))$('el-zona').value='Mil Palmeras';
+  else if(/campoverde/i.test(tl))$('el-zona').value='Pinar de Campoverde';
+  else if(/higuericas/i.test(tl))$('el-zona').value='Higuericas';
+  else if(/moj[oó]n/i.test(tl))$('el-zona').value='El Mojón';
+
+  // 10. Música y dB
+  if(/ambientaci[oó]n\s+musical/i.test(tl)){$('el-mus').value='amb';found.push('Ambientación musical');}
+  else if(/amenizaci[oó]n\s+musical/i.test(tl)){$('el-mus').value='amen';found.push('Amenización musical');}
+  var mDb=t.match(/(\d{2,3})\s*dB(?:\(A\))?/i);
+  if(mDb&&!$('el-db').value){$('el-db').value=mDb[1]+' dB(A)';found.push('Límite '+mDb[1]+' dB(A)');}
+
+  // 11. Terraza
+  if(/terraza/i.test(tl)){$('el-ter').value=/v[ií]a\s+p[uú]blica/i.test(tl)?'via':'priv';found.push('Terraza');}
+
+  esLocUpdateLiveReq();
+  if(found.length){
+    st.innerHTML='<span style="color:#6de0a8"><b>✓ Datos detectados y rellenados:</b> '+esc(found.join(', '))+'. Revisa y completa lo que falte.</span>';
+  }else{
+    st.innerHTML='<span style="color:#f0b27a">Documento leído, pero no se reconocieron campos estándar automáticamente. Revisa y rellena manualmente.</span>';
+  }
+}
+
+function esLocSave(){
+  var nom=$('el-nom').value.trim();
+  var dir=$('el-dir').value.trim();
+  if(!nom){banner('Indica el nombre comercial del establecimiento.','');$('el-nom').focus();return;}
+  var now=new Date();
+  var ts=pad(now.getDate())+'/'+pad(now.getMonth()+1)+'/'+now.getFullYear();
+  var rec={
+    id:esLocEditId||Date.now(),
+    nom:nom,
+    zona:$('el-zona').value,
+    dir:dir,
+    tel:$('el-tel').value.trim(),
+    tit:$('el-tit').value.trim(),
+    nif:$('el-nif').value.trim().toUpperCase(),
+    lic:$('el-lic').value,
+    titulo:$('el-titulo').value,
+    exp:$('el-exp').value.trim(),
+    flic:$('el-flic').value,
+    comp:$('el-comp').value.trim(),
+    aforo:$('el-aforo').value.trim(),
+    mus:$('el-mus').value,
+    db:$('el-db').value.trim(),
+    segcia:$('el-segcia').value.trim(),
+    segcap:$('el-segcap').value.trim(),
+    segvto:$('el-segvto').value,
+    ter:$('el-ter').value,
+    terdet:$('el-terdet').value.trim(),
+    maq:$('el-maq').value,
+    maqn:$('el-maqn').value.trim(),
+    obs:$('el-obs').value.trim(),
+    doc:esLocTempDoc,
+    upd:ts
+  };
+  var L=esLocList();
+  if(esLocEditId){
+    for(var i=0;i<L.length;i++){if(L[i].id===esLocEditId){L[i]=rec;break;}}
+  }else{
+    L.unshift(rec);
+  }
+  save();
+  banner('Establecimiento guardado en el registro municipal.','');
+  esLocOpenDetail(rec.id);
+}
+
+function esLocDel(id){
+  if(!confirm('¿Eliminar este establecimiento del registro?'))return;
+  S.locales=esLocList().filter(function(x){return x.id!==id});
+  save();
+  esLocShow('list');
+}
+
+function esLocOpenDetail(id){
+  var item=esLocList().filter(function(x){return x.id===id})[0];
+  if(!item)return;
+  esLocDetailId=id;
+  var L=esLicObj(item.lic);
+  var musLbl={sin:'Sin música',amen:'Amenización musical (≤70 dB mec.)',amb:'Ambientación musical',dir:'Actuaciones en directo'}[item.mus]||'Sin especificar';
+  var terLbl={no:'Sin terraza',via:'Terraza en vía pública',priv:'Terraza privada anexa'}[item.ter]||'Sin terraza';
+  var maqLbl={no:'Ninguna',A:'Tipo A (recreativas)',B:'Tipo B (hostelería)',salon:'Salón de Juego / Apuestas'}[item.maq]||'Ninguna';
+
+  var h='<div class="pc-card">';
+  h+='<div class="bar" style="margin-bottom:8px;flex-wrap:wrap">';
+  h+='<div><h3 style="margin:0;font-size:17px;color:#fff">'+esc(item.nom)+'</h3><div style="font-size:12px;color:var(--gold2);margin-top:2px">['+esc(L.ep)+'] '+esc(L.n)+' · '+esc(item.zona)+'</div></div>';
+  h+='<div style="display:flex;gap:6px"><button class="btn sec" style="padding:6px 10px;font-size:12px" onclick="esLocEdit('+item.id+')">'+svg('edit',13)+' Editar</button><button class="btn sec" style="padding:6px 10px;font-size:12px" onclick="esLocShow(\'list\')">'+svg('back',13)+' Listado</button></div>';
+  h+='</div>';
+
+  h+='<div class="pc-summary-grid" style="margin-bottom:10px">';
+  h+='<div class="pc-sbox"><small>Emplazamiento</small><b>'+esc(item.dir||'Sin especificar')+'</b>'+(item.tel?'<div style="font-size:11.5px;color:var(--mut)">Tel.: '+esc(item.tel)+'</div>':'')+'</div>';
+  h+='<div class="pc-sbox"><small>Titular / NIF-CIF</small><b>'+esc(item.tit||'Sin especificar')+'</b>'+(item.nif?'<div style="font-size:11.5px;color:var(--mut)">'+esc(item.nif)+'</div>':'')+'</div>';
+  h+='<div class="pc-sbox"><small>Título habilitante / Exp.</small><b>'+esc(item.titulo||'—')+'</b>'+(item.exp?'<div style="font-size:11.5px;color:var(--mut)">Exp.: '+esc(item.exp)+(item.flic?' · '+esc(item.flic):'')+'</div>':'')+'</div>';
+  h+='<div class="pc-sbox"><small>Aforo / Música</small><b>'+(item.aforo?esc(item.aforo)+' personas':'Aforo no indicado')+'</b><div style="font-size:11.5px;color:var(--mut)">'+esc(musLbl)+(item.db?' · '+esc(item.db):'')+'</div></div>';
+  h+='<div class="pc-sbox"><small>Seguro RC</small><b>'+(item.segcap?parseFloat(item.segcap).toLocaleString('es-ES')+' €':'No indicado')+'</b><div style="font-size:11.5px;color:var(--mut)">'+esc(item.segcia||'—')+(item.segvto?' · Vto: '+esc(item.segvto):'')+'</div></div>';
+  h+='<div class="pc-sbox"><small>Terraza / Máquinas</small><b>'+esc(terLbl)+(item.terdet?' ('+esc(item.terdet)+')':'')+'</b><div style="font-size:11.5px;color:var(--mut)">Máquinas: '+esc(maqLbl)+(item.maqn?' ('+esc(item.maqn)+')':'')+'</div></div>';
+  h+='</div>';
+
+  if(item.comp)h+='<div class="pc-alert gold" style="margin-top:0">'+svg('clip',16)+'<div><b>Actividades compatibles / adicionales:</b> '+esc(item.comp)+'</div></div>';
+
+  // Observaciones + añadir nota rápida
+  h+='<div class="card" style="background:var(--bg2);margin-bottom:10px">';
+  h+='<div class="card-hd" style="font-size:13.5px;margin-bottom:6px">'+svg('note',14)+' Observaciones del establecimiento</div>';
+  h+='<div style="font-size:13px;color:#e4ebf5;white-space:pre-wrap;line-height:1.45;margin-bottom:8px">'+(item.obs?esc(item.obs):'<span style="color:var(--mut)">Sin observaciones registradas.</span>')+'</div>';
+  h+='<div class="row" style="margin-bottom:0"><input class="nm" id="es-loc-addobs" placeholder="Añadir nueva observación con fecha..."><button class="btn" style="padding:7px 11px;font-size:12px" onclick="esLocAppendObs('+item.id+')">Añadir</button></div>';
+  h+='</div>';
+
+  if(item.doc&&item.doc.type==='img'&&item.doc.data){
+    h+='<div class="card" style="background:var(--bg2);margin-bottom:10px"><div class="card-hd" style="font-size:13px;margin-bottom:6px">'+svg('clip',14)+' Documento de licencia adjunto</div><img src="'+item.doc.data+'" style="max-width:100%;border-radius:8px;border:1px solid var(--line)"></div>';
+  }else if(item.doc&&item.doc.name){
+    h+='<div class="pc-alert gold" style="margin-bottom:10px">'+svg('clip',15)+'<div><b>PDF vinculado:</b> '+esc(item.doc.name)+'</div></div>';
+  }
+
+  // REQUISITOS LEGALES SEGÚN SU LICENCIA
+  h+=esLocBuildReqHtml(item.lic,item.aforo,item.mus,item.ter,item.maq,item.segcap,item.segvto);
+
+  h+='<div class="pc-nav"><button class="btn red" style="padding:7px 12px;font-size:12.5px" onclick="esLocDel('+item.id+')">'+svg('trash',14)+' Eliminar</button><button class="btn sec" onclick="esLocShow(\'list\')">Volver al listado</button></div>';
+  h+='</div>';
+  $('es-loc-detail-view').innerHTML=h;
+  esLocShow('detail');
+}
+
+function esLocAppendObs(id){
+  var txt=($('es-loc-addobs')?$('es-loc-addobs').value:'').trim();
+  if(!txt)return;
+  var item=esLocList().filter(function(x){return x.id===id})[0];
+  if(!item)return;
+  var now=new Date();
+  var stamp='['+pad(now.getDate())+'/'+pad(now.getMonth()+1)+'/'+now.getFullYear()+'] ';
+  item.obs=(item.obs?item.obs+'\n':'')+stamp+txt;
+  save();
+  esLocOpenDetail(id);
+}
+
+function renderEsLocales(){
+  var L=esLocList();
+  var q=($('es-loc-q')?$('es-loc-q').value:'').trim().toLowerCase();
+  var fz=$('es-loc-fzona')?$('es-loc-fzona').value:'';
+  var fc=$('es-loc-fcat')?$('es-loc-fcat').value:'';
+  var todayStr=new Date().toISOString().slice(0,10);
+
+  var res=L.filter(function(x){
+    var licO=esLicObj(x.lic);
+    if(fz&&x.zona!==fz)return false;
+    if(fc&&licO.cat!==fc)return false;
+    if(!q)return true;
+    var hay=(x.nom+' '+x.dir+' '+x.zona+' '+x.tit+' '+x.nif+' '+x.exp+' '+licO.n+' '+licO.ep+' '+x.obs).toLowerCase();
+    return hay.indexOf(q)>=0;
+  });
+
+  $('es-loc-cnt').textContent=res.length+' establecimiento'+(res.length===1?'':'s')+(L.length!==res.length?' (de '+L.length+')':'');
+
+  if(!res.length){
+    $('es-loc-cards').innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:24px 14px">No hay establecimientos'+(q||fz||fc?' que coincidan con el filtro':' registrados todavía. Pulsa «Nuevo establecimiento» para crear el primero o subir una licencia en PDF/foto')+'.</div>';
+    return;
+  }
+
+  $('es-loc-cards').innerHTML=res.map(function(x){
+    var licO=esLicObj(x.lic);
+    var segMin=esCalcSeguroMin(x.aforo);
+    var badSeg=(x.segvto&&x.segvto<todayStr)||(segMin>0&&x.segcap&&parseFloat(x.segcap)<segMin);
+    var h='<div class="bn-card t-veh" style="cursor:pointer" onclick="esLocOpenDetail('+x.id+')">';
+    h+='<div class="bn-top"><span class="bn-badge t-veh">['+esc(licO.ep)+'] '+esc(licO.n)+'</span><span class="bn-time" style="color:var(--gold2);font-weight:700">'+esc(licO.ap)+' – '+esc(licO.ci)+' h</span></div>';
+    h+='<div class="bn-head">'+esc(x.nom)+(badSeg?' <span class="cd-pill cd-p-MG">REVISAR SEGURO</span>':'')+'</div>';
+    h+='<div class="bn-meta">';
+    if(x.dir)h+='<span><b>Dir.:</b> '+esc(x.dir)+' ('+esc(x.zona)+')</span>';
+    if(x.aforo)h+='<span><b>Aforo:</b> '+esc(x.aforo)+' pers.</span>';
+    if(x.tit)h+='<span><b>Titular:</b> '+esc(x.tit)+'</span>';
+    h+='</div>';
+    if(x.obs)h+='<div class="bn-body" style="max-height:54px;overflow:hidden">'+esc(x.obs)+'</div>';
+    h+='<div class="bn-foot" onclick="event.stopPropagation()">';
+    h+='<button class="btn" style="padding:5px 10px;font-size:12px" onclick="esLocOpenDetail('+x.id+')">Ver ficha y requisitos</button>';
+    h+='<button class="btn sec" onclick="esLocEdit('+x.id+')">'+svg('edit',13)+' Editar</button>';
+    h+='<button class="btn sec" onclick="esLocDel('+x.id+')" title="Eliminar">'+svg('trash',13)+'</button>';
+    h+='</div></div>';
+    return h;
+  }).join('');
+}
+
+function esLocExport(){
+  var data=JSON.stringify(esLocList(),null,2);
+  var blob=new Blob([data],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='establecimientos_pilar_horadada.json';
+  a.click();
+}
+
+function esLocImport(inp){
+  var file=inp.files&&inp.files[0];
+  if(!file)return;
+  var r=new FileReader();
+  r.onload=function(ev){
+    try{
+      var arr=JSON.parse(ev.target.result);
+      if(!Array.isArray(arr))throw 0;
+      var cur=esLocList(), ids={};
+      cur.forEach(function(x){ids[x.id]=1;});
+      var added=0;
+      arr.forEach(function(x){if(x&&x.nom&&!ids[x.id]){cur.push(x);added++;}});
+      save();
+      renderEsLocales();
+      banner('Importados '+added+' establecimientos correctamente.','');
+    }catch(e){alert('Archivo JSON no válido');}
+    inp.value='';
+  };
+  r.readAsText(file);
 }
 
 initStaticIcons();
