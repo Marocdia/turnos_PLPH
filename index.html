@@ -143,7 +143,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .btn.red{background:var(--crimson);color:#fff}
 .btn.ico{padding:7px 9px}
 
-.wrap{max-width:1080px;margin:0 auto;padding:16px 18px 28px}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 18px 68px}
 .wrap-sm{max-width:900px;margin:0 auto}
 
 
@@ -1207,14 +1207,53 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
 .mb .row input,.mb .row select,.mb .fld select,.mb .fld input{max-width:100%}
 #app{width:100%;max-width:100vw;overflow-x:hidden}
 @media(min-width:600px){.modal{align-items:center}.mb{border-radius:16px}}
+/* Botones flotantes fijos (Atrás / Inicio) */
+.fab-nav{
+  position:fixed;
+  right:14px;
+  bottom:calc(14px + env(safe-area-inset-bottom,0px));
+  z-index:40;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.fab-btn{
+  border:1px solid rgba(200,157,60,.55);
+  background:rgba(10,19,36,.92);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  color:var(--tx);
+  border-radius:20px;
+  padding:7px 12px;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.03em;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.55);
+  transition:transform .1s,border-color .15s,background .15s;
+}
+.fab-btn .svg{color:var(--gold2)}
+.fab-btn:hover{border-color:var(--gold2);background:rgba(22,40,68,.96)}
+.fab-btn:active{transform:scale(.95)}
+.fab-btn.home{
+  background:linear-gradient(180deg,var(--gold2),var(--gold));
+  color:#0a1324;
+  border-color:var(--gold2);
+}
+.fab-btn.home .svg{color:#0a1324}
 @media(max-width:600px){
   .top{padding:9px 12px}
   .statbar{padding:6px 12px;font-size:11px}
-  .wrap{padding:12px 10px 24px}
+  .wrap{padding:12px 10px 64px}
   .cal{gap:3px}
   .dc{min-height:80px;padding:4px 2px}
   .hero{padding:10px 0 14px}
   .hero img.esc{width:96px;height:96px}
+  .fab-nav{right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));gap:6px}
+  .fab-btn{padding:6px 10px;font-size:11.5px}
 }
 </style>
 </head>
@@ -2042,6 +2081,10 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
    </div>
   </div>
  </div>
+ <div id="fab-nav" class="fab-nav hide" aria-label="Navegación rápida">
+  <button type="button" class="fab-btn" id="fab-back" onclick="navBack()"></button>
+  <button type="button" class="fab-btn home" id="fab-home" onclick="go('menu')"></button>
+ </div>
 </div>
 
 <div id="modal" class="modal hide"></div>
@@ -2270,8 +2313,40 @@ function openCodFav(){
   go('codificado');
 }
 
-function go(v){
+var curView='menu', navHist=[];
+function navBack(){
+  if($('modal')&&!$('modal').classList.contains('hide')){closeM();return;}
+  if(curView==='establecimientos'){
+    if(esView==='locales'){
+      if(!$('es-loc-form-view').classList.contains('hide')||!$('es-loc-detail-view').classList.contains('hide')){esLocShow('list');return;}
+      esOpen('hub');return;
+    }
+    if(esView==='acta'){
+      if(!$('es-act-form-view').classList.contains('hide')||!$('es-act-view').classList.contains('hide')){esActShow('list');return;}
+      esOpen('hub');return;
+    }
+    if(esView==='horarios'){
+      if(typeof esSt!=='undefined'&&esSt.step>0){esJump(esSt.step-1);return;}
+      esOpen('hub');return;
+    }
+  }else if(curView==='lo415'){
+    if(typeof loState!=='undefined'&&loState.sub!=='hub'){loOpen('hub');return;}
+  }else if(curView==='permisos'){
+    if(typeof pmPath!=='undefined'&&pmPath.length>1){pmJump(pmPath.length-2);return;}
+  }
+  var prev=navHist.pop();
+  go(prev||'menu',true);
+}
+
+function go(v,fromBack){
   if(v==='favoritos'){openCodFav();return;}
+  if(!fromBack&&curView&&curView!==v){
+    navHist.push(curView);
+    if(navHist.length>20)navHist.shift();
+  }
+  if(v==='menu')navHist=[];
+  curView=v;
+  if($('fab-nav'))$('fab-nav').classList.toggle('hide',v==='menu');
   if(v!=='drogas')resetDrugs(true);
   $('menu').classList.toggle('hide',v!=='menu');
   $('turnos').classList.toggle('hide',v!=='turnos');
@@ -2357,6 +2432,8 @@ function initStaticIcons(){
   $('tab-cal').innerHTML=svg('cal',15)+' Calendario';
   $('tab-cat').innerHTML=svg('eur',15)+' Gratificaciones';
   $('tab-cfg').innerHTML=svg('cfg',15)+' Ajustes';
+  $('fab-back').innerHTML=svg('back',13)+' Atrás';
+  $('fab-home').innerHTML=svg('home',13)+' Inicio';
 }
 
 document.querySelectorAll('#maintabs .tab').forEach(function(b){
