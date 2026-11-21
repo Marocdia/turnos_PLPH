@@ -204,6 +204,23 @@ button,input,select,textarea{font:inherit;color:inherit}
 .lcard input{width:100%;padding:11px 12px;margin-bottom:12px;border:1px solid var(--line);border-radius:9px;background:var(--bg2);text-align:center;color:#fff}
 .lcard input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
 .lcard .btn{width:100%;padding:11px}
+.lcard .ltabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px}
+.lcard .ltab{background:var(--bg2);border:1px solid var(--line);color:var(--mut);padding:8px 6px;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .15s}
+.lcard .ltab.on{background:var(--navy);border-color:var(--gold);color:var(--gold2)}
+.lcard .lmsg{font-size:12.5px;line-height:1.4;border-radius:9px;padding:9px 10px;margin-bottom:12px;text-align:left}
+.lcard .lmsg.err{background:rgba(201,56,74,.2);border:1px solid #c9384a;color:#ffd0d6}
+.lcard .lmsg.ok{background:rgba(36,194,120,.15);border:1px solid #2c8f63;color:#c7f5de}
+.lcard .lmsg.warn{background:rgba(200,157,60,.16);border:1px solid var(--gold);color:#f3e1b5}
+.lcard .llink{background:none;border:0;color:var(--gold2);font-size:12.5px;cursor:pointer;margin-top:10px;text-decoration:underline;padding:4px}
+.adm-badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:10px;background:#e64558;color:#fff;font-size:10.5px;font-weight:800;margin-left:4px}
+.adm-bar{display:inline-flex;margin-top:10px}
+.adm-card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:12px 13px;box-shadow:var(--shadow)}
+.adm-card.st-activo{border-left-color:var(--green)}
+.adm-card.st-pendiente{border-left-color:var(--gold2)}
+.adm-card.st-bloqueado{border-left-color:#e64558}
+.adm-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.adm-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;padding-top:8px;border-top:1px solid var(--line)}
+.adm-acts .btn{padding:6px 10px;font-size:12px}
 
 /* Dashboard Hero */
 .hero{text-align:center;padding:18px 0 22px}
@@ -1317,9 +1334,20 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
   <img class="esc" alt="Escudo Policía Local GAO">
   <h2>Policía Local</h2>
   <div class="badge">Grupo de Apoyo Operativo · GAO</div>
-  <p class="sub">Pilar de la Horadada · Herramientas del servicio</p>
-  <input id="u" placeholder="Nombre o nº de placa (NIP)" autocomplete="off">
-  <button class="btn" onclick="enter()">Entrar al servicio</button>
+  <p class="sub">Pilar de la Horadada · Acceso restringido</p>
+  <div class="ltabs">
+   <button type="button" class="ltab on" id="lt-in" onclick="authSetMode('in')">Iniciar sesión</button>
+   <button type="button" class="ltab" id="lt-up" onclick="authSetMode('up')">Solicitar acceso</button>
+  </div>
+  <div id="auth-msg" class="lmsg hide"></div>
+  <div id="auth-reg-fields" class="hide">
+   <input id="reg-nip" placeholder="Nº de placa (NIP) *" autocomplete="off">
+   <input id="reg-nom" placeholder="Nombre y apellidos *" autocomplete="name">
+  </div>
+  <input id="u" type="email" placeholder="Correo electrónico corporativo *" autocomplete="username">
+  <input id="p" type="password" placeholder="Contraseña (mín. 6 caracteres) *" autocomplete="current-password" onkeydown="if(event.key==='Enter')authSubmit()">
+  <button class="btn" id="auth-btn" onclick="authSubmit()">Entrar al servicio</button>
+  <button type="button" class="llink" id="auth-rst-btn" onclick="authResetPass()">¿Olvidaste tu contraseña?</button>
  </div>
 </div>
 
@@ -1338,6 +1366,7 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
    <button class="navbtn" id="nv-cod" onclick="go('codificado')"></button>
    <button class="navbtn desk dim" id="nv-pen"></button>
    <button class="navbtn desk" id="nv-fav" onclick="openCodFav()"></button>
+   <button class="navbtn hide" id="nv-adm" onclick="go('admin')"></button>
   </div>
   <button class="btn w" onclick="logout()">Salir</button>
  </div>
@@ -1358,6 +1387,9 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
       <span class="sep"></span>
       <span class="st" id="hero-st"><span class="dot"></span><span id="hero-st-tx">EN SERVICIO</span></span>
      </div>
+    </div>
+    <div id="hero-adm-wrap" class="adm-bar hide">
+     <button type="button" class="btn sec" style="padding:6px 12px;font-size:12px;border-color:rgba(200,157,60,.55)" id="hero-adm-btn" onclick="go('admin')"></button>
     </div>
    </div>
 
@@ -2220,6 +2252,27 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
     </div>
    </div>
   </div>
+
+  <!-- MÓDULO ADMINISTRACIÓN DE USUARIOS Y ACCESOS -->
+  <div id="admin" class="hide wrap-sm">
+   <div class="view-hd">
+    <div>
+     <h2 id="adm-title"></h2>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px">Gestión de autorizaciones · Aprobar, bloquear y asignar roles de agentes</div>
+    </div>
+    <button class="btn sec" onclick="go('menu')" id="btn-back-adm"></button>
+   </div>
+   <div class="pc-panel">
+    <div class="card" style="padding:12px">
+     <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px">
+      <div class="tabs" style="margin:0" id="adm-tabs"></div>
+      <button type="button" class="btn sec" style="padding:6px 10px;font-size:12px" onclick="admLoadUsers(true)">↻ Actualizar</button>
+     </div>
+     <input class="bn-in" id="adm-q" type="search" placeholder="Buscar por NIP, nombre o correo..." oninput="admRenderList()">
+    </div>
+    <div id="adm-list" class="bn-list"></div>
+   </div>
+  </div>
  </div>
  <div id="fab-nav" class="fab-nav hide" aria-label="Navegación rápida">
   <button type="button" class="fab-btn" id="fab-back" onclick="navBack()"></button>
@@ -2662,16 +2715,384 @@ function updateStatusBar(){
   }
 }
 
-function enter(){
-  var n=$('u').value.trim();
-  if(n)S.name=n;
+/* ==================== AUTENTICACIÓN FIREBASE Y CONTROL DE ACCESOS ==================== */
+var FB_API_KEY='AIzaSyBYVyVv_WI1r3jar5azLQ5YATZf2chYDIA';
+var FB_ADMIN_EMAIL='14279@pilardelahoradada.org';
+var authMode='in', authUser=null, admUsers=[], admFilter='pendiente';
+
+function authSaveSess(u){
+  authUser=u;
+  try{if(u)localStorage.setItem('plpilar_auth',JSON.stringify(u));else localStorage.removeItem('plpilar_auth');}catch(e){}
+}
+function authLoadSess(){
+  try{return JSON.parse(localStorage.getItem('plpilar_auth')||'null');}catch(e){return null;}
+}
+function authIsAdmin(){
+  return !!(authUser && (authUser.rol==='admin' || (authUser.email||'').toLowerCase()===FB_ADMIN_EMAIL.toLowerCase()));
+}
+function fbAuthParam(){
+  return (authUser&&authUser.idToken)?('?auth='+encodeURIComponent(authUser.idToken)):'';
+}
+function authMsg(txt,type){
+  var el=$('auth-msg');
+  if(!el)return;
+  if(!txt){el.classList.add('hide');el.textContent='';return;}
+  el.className='lmsg '+(type||'err');
+  el.innerHTML=txt;
+}
+function authSetMode(m){
+  authMode=m;
+  if($('lt-in'))$('lt-in').classList.toggle('on',m==='in');
+  if($('lt-up'))$('lt-up').classList.toggle('on',m==='up');
+  if($('auth-reg-fields'))$('auth-reg-fields').classList.toggle('hide',m!=='up');
+  if($('auth-btn'))$('auth-btn').textContent=(m==='up'?'Enviar solicitud de acceso':'Entrar al servicio');
+  if($('auth-rst-btn'))$('auth-rst-btn').classList.toggle('hide',m==='up');
+  authMsg('');
+}
+function authErrText(code){
+  var map={
+    EMAIL_NOT_FOUND:'No existe ninguna cuenta con ese correo. Pulsa «Solicitar acceso» si eres nuevo.',
+    INVALID_PASSWORD:'Contraseña incorrecta.',
+    INVALID_LOGIN_CREDENTIALS:'Correo o contraseña incorrectos.',
+    USER_DISABLED:'Esta cuenta ha sido deshabilitada.',
+    EMAIL_EXISTS:'Ese correo ya está registrado. Prueba a iniciar sesión.',
+    WEAK_PASSWORD:'La contraseña debe tener al menos 6 caracteres.',
+    INVALID_EMAIL:'El formato del correo electrónico no es válido.',
+    TOO_MANY_ATTEMPTS_TRY_LATER:'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.'
+  };
+  return map[code]||('Error de acceso ('+(code||'red')+'). Comprueba tu conexión.');
+}
+
+function fbAuthPost(endpoint,body){
+  return fetch('https://identitytoolkit.googleapis.com/v1/'+endpoint+'?key='+FB_API_KEY,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  }).then(function(r){return r.json()});
+}
+
+function authRefreshToken(){
+  if(!authUser||!authUser.refreshToken)return Promise.resolve(false);
+  return fetch('https://securetoken.googleapis.com/v1/token?key='+FB_API_KEY,{
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:'grant_type=refresh_token&refresh_token='+encodeURIComponent(authUser.refreshToken)
+  }).then(function(r){return r.json()}).then(function(d){
+    if(d&&d.id_token){
+      authUser.idToken=d.id_token;
+      authUser.refreshToken=d.refresh_token||authUser.refreshToken;
+      authUser.exp=Date.now()+((parseInt(d.expires_in,10)||3600)-120)*1000;
+      authSaveSess(authUser);
+      return true;
+    }
+    return false;
+  }).catch(function(){return false;});
+}
+
+function authFetchProfile(uid,token){
+  var url=esCloudUrl();
+  return fetch(url+'/usuarios/'+encodeURIComponent(uid)+'.json?auth='+encodeURIComponent(token))
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
+}
+
+function authWriteProfile(uid,token,obj){
+  var url=esCloudUrl();
+  return fetch(url+'/usuarios/'+encodeURIComponent(uid)+'.json?auth='+encodeURIComponent(token),{
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(obj)
+  }).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
+}
+
+function authEnterApp(prof,sess){
+  authSaveSess({
+    uid:sess.uid,
+    email:prof.email||sess.email,
+    nip:prof.nip||'',
+    nombre:prof.nombre||'',
+    rol:prof.rol||'agente',
+    estado:prof.estado||'activo',
+    idToken:sess.idToken,
+    refreshToken:sess.refreshToken,
+    exp:sess.exp
+  });
+  S.name=prof.nip||prof.nombre||prof.email;
   save();
   $('login').classList.add('hide');
   $('app').classList.remove('hide');
-  $('who-nip').textContent=S.name?S.name.toUpperCase():'GAO';
+  $('who-nip').textContent=(prof.nip?(prof.nip+(prof.nombre?' · '+prof.nombre:'')):(prof.nombre||prof.email||'GAO')).toUpperCase();
+  var isAdm=authIsAdmin();
+  if($('nv-adm'))$('nv-adm').classList.toggle('hide',!isAdm);
+  if($('hero-adm-wrap'))$('hero-adm-wrap').classList.toggle('hide',!isAdm);
   go('menu');
+  if(isAdm)admLoadUsers(false);
 }
-function logout(){resetDrugs(true);$('app').classList.add('hide');$('login').classList.remove('hide')}
+
+function authSubmit(){
+  var email=($('u')?$('u').value:'').trim().toLowerCase();
+  var pass=($('p')?$('p').value:'');
+  if(!email||!pass){authMsg('Introduce correo electrónico y contraseña.','err');return;}
+  var btn=$('auth-btn');
+  if(btn){btn.disabled=true;btn.textContent='Verificando...';}
+  authMsg('');
+
+  if(authMode==='up'){
+    var nip=($('reg-nip')?$('reg-nip').value:'').trim();
+    var nom=($('reg-nom')?$('reg-nom').value:'').trim();
+    if(!nip||!nom){
+      authMsg('Introduce tu NIP y tu nombre completo para solicitar acceso.','err');
+      if(btn){btn.disabled=false;btn.textContent='Enviar solicitud de acceso';}
+      return;
+    }
+    if(pass.length<6){
+      authMsg('La contraseña debe tener al menos 6 caracteres.','err');
+      if(btn){btn.disabled=false;btn.textContent='Enviar solicitud de acceso';}
+      return;
+    }
+    fbAuthPost('accounts:signUp',{email:email,password:pass,returnSecureToken:true}).then(function(d){
+      if(d.error)throw new Error(d.error.message||'ERROR');
+      var isMainAdm=(email===FB_ADMIN_EMAIL.toLowerCase());
+      var nowIso=new Date().toISOString();
+      var prof={
+        email:email,
+        nip:nip,
+        nombre:nom,
+        rol:isMainAdm?'admin':'agente',
+        estado:isMainAdm?'activo':'pendiente',
+        creado:nowIso,
+        ultimoAcceso:nowIso
+      };
+      var sess={uid:d.localId,email:email,idToken:d.idToken,refreshToken:d.refreshToken,exp:Date.now()+((parseInt(d.expiresIn,10)||3600)-120)*1000};
+      return authWriteProfile(d.localId,d.idToken,prof).then(function(){
+        if(isMainAdm){
+          authEnterApp(prof,sess);
+        }else{
+          authSetMode('in');
+          authMsg('<b>Solicitud enviada correctamente.</b><br>Tu cuenta (NIP '+esc(nip)+') está <b>pendiente de autorización</b> por el administrador. Cuando sea aprobada podrás entrar con tu correo y contraseña.','ok');
+        }
+      });
+    }).catch(function(err){
+      authMsg(authErrText(err.message),'err');
+    }).finally(function(){
+      if(btn){btn.disabled=false;btn.textContent=(authMode==='up'?'Enviar solicitud de acceso':'Entrar al servicio');}
+    });
+    return;
+  }
+
+  /* Inicio de sesión */
+  fbAuthPost('accounts:signInWithPassword',{email:email,password:pass,returnSecureToken:true}).then(function(d){
+    if(d.error)throw new Error(d.error.message||'ERROR');
+    var sess={uid:d.localId,email:email,idToken:d.idToken,refreshToken:d.refreshToken,exp:Date.now()+((parseInt(d.expiresIn,10)||3600)-120)*1000};
+    return authFetchProfile(d.localId,d.idToken).then(function(prof){
+      var isMainAdm=(email===FB_ADMIN_EMAIL.toLowerCase());
+      var nowIso=new Date().toISOString();
+      if(!prof){
+        prof={
+          email:email,
+          nip:isMainAdm?'14279':'',
+          nombre:isMainAdm?'Administrador':'',
+          rol:isMainAdm?'admin':'agente',
+          estado:isMainAdm?'activo':'pendiente',
+          creado:nowIso,
+          ultimoAcceso:nowIso
+        };
+        return authWriteProfile(d.localId,d.idToken,prof).then(function(){return {prof:prof,sess:sess}});
+      }
+      if(isMainAdm&&(prof.rol!=='admin'||prof.estado!=='activo')){
+        prof.rol='admin';prof.estado='activo';
+      }
+      prof.ultimoAcceso=nowIso;
+      return authWriteProfile(d.localId,d.idToken,prof).then(function(){return {prof:prof,sess:sess}}).catch(function(){return {prof:prof,sess:sess}});
+    });
+  }).then(function(res){
+    var p=res.prof;
+    if(p.estado==='activo'){
+      authEnterApp(p,res.sess);
+    }else if(p.estado==='pendiente'){
+      authMsg('<b>Acceso pendiente de autorización.</b><br>El administrador aún no ha aprobado tu cuenta.','warn');
+    }else{
+      authMsg('<b>Acceso revocado o bloqueado.</b><br>Contacta con el administrador para restablecer el permiso.','err');
+    }
+  }).catch(function(err){
+    authMsg(authErrText(err.message),'err');
+  }).finally(function(){
+    if(btn){btn.disabled=false;btn.textContent=(authMode==='up'?'Enviar solicitud de acceso':'Entrar al servicio');}
+  });
+}
+
+function authResetPass(){
+  var email=($('u')?$('u').value:'').trim().toLowerCase();
+  if(!email){authMsg('Escribe primero tu correo electrónico arriba y vuelve a pulsar «¿Olvidaste tu contraseña?».','warn');return;}
+  fbAuthPost('accounts:sendOobCode',{requestType:'PASSWORD_RESET',email:email}).then(function(d){
+    if(d.error)throw new Error(d.error.message||'ERROR');
+    authMsg('Te hemos enviado un correo a <b>'+esc(email)+'</b> para restablecer tu contraseña (revisa también la carpeta de spam).','ok');
+  }).catch(function(err){
+    authMsg(authErrText(err.message),'err');
+  });
+}
+
+function logout(msg){
+  resetDrugs(true);
+  authSaveSess(null);
+  $('app').classList.add('hide');
+  $('login').classList.remove('hide');
+  if($('p'))$('p').value='';
+  if(msg)authMsg(msg,'err');else authMsg('');
+}
+
+function authVerifyActive(){
+  if(!authUser||!authUser.uid)return;
+  var p=(Date.now()>(authUser.exp||0))?authRefreshToken():Promise.resolve(true);
+  p.then(function(ok){
+    if(!ok)return;
+    return authFetchProfile(authUser.uid,authUser.idToken).then(function(prof){
+      if(!prof||prof.estado!=='activo'){
+        logout('Tu acceso ha sido revocado por el administrador.');
+        return;
+      }
+      authUser.rol=prof.rol||'agente';
+      authSaveSess(authUser);
+      var isAdm=authIsAdmin();
+      if($('nv-adm'))$('nv-adm').classList.toggle('hide',!isAdm);
+      if($('hero-adm-wrap'))$('hero-adm-wrap').classList.toggle('hide',!isAdm);
+    });
+  }).catch(function(){});
+}
+
+function authAutoRestore(){
+  var saved=authLoadSess();
+  if(!saved||!saved.refreshToken){
+    if(saved&&saved.email&&$('u'))$('u').value=saved.email;
+    return;
+  }
+  authUser=saved;
+  if($('u'))$('u').value=saved.email||'';
+  authRefreshToken().then(function(ok){
+    if(!ok){authSaveSess(null);return;}
+    return authFetchProfile(authUser.uid,authUser.idToken).then(function(prof){
+      if(prof&&prof.estado==='activo'){
+        authEnterApp(prof,authUser);
+      }else{
+        authSaveSess(null);
+        if(prof&&prof.estado==='bloqueado')authMsg('Tu acceso ha sido revocado por el administrador.','err');
+        else if(prof&&prof.estado==='pendiente')authMsg('Tu cuenta sigue pendiente de autorización.','warn');
+      }
+    });
+  }).catch(function(){});
+}
+
+/* ==================== PANEL ADMINISTRADOR DE USUARIOS ==================== */
+function admUpdateBadges(){
+  var pend=admUsers.filter(function(u){return u.estado==='pendiente'}).length;
+  var bHtml=pend?('<span class="adm-badge">'+pend+'</span>'):'';
+  if($('nv-adm'))$('nv-adm').innerHTML=svg('shield',14)+' Usuarios'+bHtml;
+  if($('hero-adm-btn'))$('hero-adm-btn').innerHTML=svg('shield',14)+' Gestionar usuarios y accesos'+bHtml;
+}
+
+function admLoadUsers(showToast){
+  if(!authIsAdmin())return;
+  var url=esCloudUrl();
+  fetch(url+'/usuarios.json'+fbAuthParam()).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  }).then(function(obj){
+    admUsers=Object.keys(obj||{}).map(function(uid){
+      var u=obj[uid]||{};
+      u.uid=uid;
+      return u;
+    }).sort(function(a,b){return (b.creado||'').localeCompare(a.creado||'')});
+    admUpdateBadges();
+    if(curView==='admin')admRenderList();
+    if(showToast)banner('Lista de usuarios actualizada ('+admUsers.length+').','');
+  }).catch(function(e){
+    if(curView==='admin')$('adm-list').innerHTML='<div class="card" style="color:#ff8694">No se pudo cargar la lista de usuarios ('+esc(e.message)+'). Comprueba las reglas de Firebase.</div>';
+  });
+}
+
+function admSetFilter(f){admFilter=f;admRenderList();}
+
+function admRenderList(){
+  var cPend=admUsers.filter(function(u){return u.estado==='pendiente'}).length;
+  var cAct=admUsers.filter(function(u){return u.estado==='activo'}).length;
+  var cBloq=admUsers.filter(function(u){return u.estado==='bloqueado'}).length;
+  var tabs=[
+    ['pendiente','Pendientes ('+cPend+')'],
+    ['activo','Activos ('+cAct+')'],
+    ['bloqueado','Bloqueados ('+cBloq+')'],
+    ['all','Todos ('+admUsers.length+')']
+  ];
+  $('adm-tabs').innerHTML=tabs.map(function(t){
+    return '<button type="button" class="tab'+(admFilter===t[0]?' on':'')+'" style="padding:5px 10px;font-size:12px" onclick="admSetFilter(\''+t[0]+'\')">'+t[1]+'</button>';
+  }).join('');
+
+  var q=($('adm-q')?$('adm-q').value:'').trim().toLowerCase();
+  var res=admUsers.filter(function(u){
+    if(admFilter!=='all'&&u.estado!==admFilter)return false;
+    if(!q)return true;
+    return ((u.nip||'')+' '+(u.nombre||'')+' '+(u.email||'')).toLowerCase().indexOf(q)>=0;
+  });
+
+  if(!res.length){
+    $('adm-list').innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:24px 14px">No hay usuarios en esta categoría.</div>';
+    return;
+  }
+
+  $('adm-list').innerHTML=res.map(function(u){
+    var isMain=(u.email||'').toLowerCase()===FB_ADMIN_EMAIL.toLowerCase();
+    var stCls=u.estado==='activo'?'cd-p-L':(u.estado==='pendiente'?'cd-p-G':'cd-p-MG');
+    var h='<div class="adm-card st-'+esc(u.estado||'pendiente')+'">';
+    h+='<div class="adm-top"><div><b style="font-size:15px;color:#fff">'+(u.nip?'NIP '+esc(u.nip)+' · ':'')+esc(u.nombre||'Sin nombre')+'</b><div style="font-size:12px;color:var(--mut)">'+esc(u.email||'')+'</div></div>';
+    h+='<div style="display:flex;gap:5px;flex-wrap:wrap"><span class="cd-pill '+stCls+'">'+esc((u.estado||'').toUpperCase())+'</span><span class="cd-pill cd-p-norm">'+esc((u.rol||'agente').toUpperCase())+'</span></div></div>';
+    if(u.ultimoAcceso){
+      h+='<div style="font-size:11.5px;color:var(--mut)">Último acceso: '+esc(u.ultimoAcceso.replace('T',' ').slice(0,16))+'</div>';
+    }
+    if(!isMain){
+      h+='<div class="adm-acts">';
+      if(u.estado==='pendiente'){
+        h+='<button type="button" class="btn" onclick="admPatchUser(\''+u.uid+'\',{estado:\'activo\'})">'+svg('check',13)+' Aprobar acceso</button>';
+        h+='<button type="button" class="btn red" onclick="admPatchUser(\''+u.uid+'\',{estado:\'bloqueado\'})">Rechazar</button>';
+      }else if(u.estado==='activo'){
+        h+='<button type="button" class="btn red" onclick="admPatchUser(\''+u.uid+'\',{estado:\'bloqueado\'})">Bloquear acceso</button>';
+        if(u.rol==='admin'){
+          h+='<button type="button" class="btn sec" onclick="admPatchUser(\''+u.uid+'\',{rol:\'agente\'})">Quitar Admin</button>';
+        }else{
+          h+='<button type="button" class="btn sec" onclick="admPatchUser(\''+u.uid+'\',{rol:\'admin\'})">Hacer Admin</button>';
+        }
+      }else{
+        h+='<button type="button" class="btn" onclick="admPatchUser(\''+u.uid+'\',{estado:\'activo\'})">Reactivar acceso</button>';
+        h+='<button type="button" class="btn sec" onclick="admDeleteUser(\''+u.uid+'\')">'+svg('trash',13)+' Eliminar ficha</button>';
+      }
+      h+='</div>';
+    }else{
+      h+='<div style="font-size:11.5px;color:var(--gold2);margin-top:6px">Administrador principal protegido</div>';
+    }
+    h+='</div>';
+    return h;
+  }).join('');
+}
+
+function admPatchUser(uid,patch){
+  var url=esCloudUrl();
+  fetch(url+'/usuarios/'+encodeURIComponent(uid)+'.json'+fbAuthParam(),{
+    method:'PATCH',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(patch)
+  }).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    banner('Permisos actualizados correctamente.','');
+    admLoadUsers(false);
+  }).catch(function(e){
+    banner('Error al actualizar permisos ('+e.message+').','');
+  });
+}
+
+function admDeleteUser(uid){
+  if(!confirm('¿Eliminar la ficha de este usuario de la base de datos?'))return;
+  var url=esCloudUrl();
+  fetch(url+'/usuarios/'+encodeURIComponent(uid)+'.json'+fbAuthParam(),{method:'DELETE'})
+    .then(function(){banner('Ficha eliminada.','');admLoadUsers(false);})
+    .catch(function(){banner('Error al eliminar ficha.','');});
+}
 
 function openCodFav(){
   cdState.norm='ALL';
@@ -2730,6 +3151,7 @@ function go(v,fromBack){
   $('establecimientos').classList.toggle('hide',v!=='establecimientos');
   $('lo415').classList.toggle('hide',v!=='lo415');
   $('oxido').classList.toggle('hide',v!=='oxido');
+  if($('admin'))$('admin').classList.toggle('hide',v!=='admin');
   $('nv-menu').classList.toggle('on',v==='menu');
   $('nv-turnos').classList.toggle('on',v==='turnos');
   $('nv-drogas').classList.toggle('on',v==='drogas');
@@ -2737,6 +3159,7 @@ function go(v,fromBack){
   $('nv-bloc').classList.toggle('on',v==='bloc');
   $('nv-cod').classList.toggle('on',v==='codificado'&&!cdState.fav);
   $('nv-fav').classList.toggle('on',v==='codificado'&&!!cdState.fav);
+  if($('nv-adm'))$('nv-adm').classList.toggle('on',v==='admin');
   window.scrollTo(0,0);
   updateStatusBar();
   if(v==='turnos')draw();
@@ -2751,6 +3174,7 @@ renderContraste();
   if(v==='establecimientos')esOpen('hub');
   if(v==='lo415')loOpen('hub');
   if(v==='oxido')renderOxido();
+  if(v==='admin'){if(!authIsAdmin()){go('menu');return;}admLoadUsers(false);}
 }
 
 function initStaticIcons(){
@@ -2811,6 +3235,10 @@ function initStaticIcons(){
   $('tab-cfg').innerHTML=svg('cfg',15)+' Ajustes';
   $('fab-back').innerHTML=svg('back',13)+' Atrás';
   $('fab-home').innerHTML=svg('home',13)+' Inicio';
+  if($('adm-title'))$('adm-title').innerHTML=svg('shield',18)+' Control de Accesos y Usuarios';
+  if($('btn-back-adm'))$('btn-back-adm').innerHTML=svg('back',15)+' Inicio';
+  if($('nv-adm'))$('nv-adm').innerHTML=svg('shield',14)+' Usuarios';
+  if($('hero-adm-btn'))$('hero-adm-btn').innerHTML=svg('shield',14)+' Gestionar usuarios y accesos';
 }
 
 document.querySelectorAll('#maintabs .tab').forEach(function(b){
@@ -5792,7 +6220,7 @@ function esActSave(){
   // Si es nueva y hay nube configurada, sincronizar el correlativo antes de guardar para evitar duplicados entre agentes
   var url=esCloudUrl();
   if(isNew&&url){
-    fetch(url+'/establecimientos/actas.json').then(function(r){return r.ok?r.json():null}).then(function(obj){
+    fetch(url+'/establecimientos/actas.json'+fbAuthParam()).then(function(r){return r.ok?r.json():null}).then(function(obj){
       if(obj&&typeof obj==='object'){
         var arr=Object.keys(obj).map(function(k){return obj[k]}).filter(Boolean);
         S.actas=esMergeById(esActList(),arr);
@@ -6061,7 +6489,7 @@ function esMergeById(localArr,remoteArr){
 function esCloudPut(col,id,obj){
   var url=esCloudUrl();
   if(!url)return;
-  fetch(url+'/establecimientos/'+col+'/'+id+'.json',{
+  fetch(url+'/establecimientos/'+col+'/'+id+'.json'+fbAuthParam(),{
     method:'PUT',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify(obj)
@@ -6076,14 +6504,14 @@ function esCloudPut(col,id,obj){
 function esCloudDel(col,id){
   var url=esCloudUrl();
   if(!url)return;
-  fetch(url+'/establecimientos/'+col+'/'+id+'.json',{method:'DELETE'}).catch(function(){});
+  fetch(url+'/establecimientos/'+col+'/'+id+'.json'+fbAuthParam(),{method:'DELETE'}).catch(function(){});
 }
 
 function esCloudSync(showToast){
   var url=esCloudUrl();
   if(!url){esCloudUpdateBar();return;}
   esCloudUpdateBar('Sincronizando...',true);
-  fetch(url+'/establecimientos.json').then(function(r){
+  fetch(url+'/establecimientos.json'+fbAuthParam()).then(function(r){
     if(!r.ok)throw new Error('HTTP '+r.status);
     return r.json();
   }).then(function(data){
@@ -6516,8 +6944,9 @@ renderBloc();
 renderContraste();
 renderDrugs();
 renderDash();
-$('u').value=S.name||'';
 setEsc();
+authAutoRestore();
+setInterval(authVerifyActive,60000);
 updateStatusBar();
 setInterval(updateStatusBar,1000);
 setInterval(dueCheck,30000);
