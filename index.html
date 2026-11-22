@@ -221,6 +221,16 @@ button,input,select,textarea{font:inherit;color:inherit}
 .adm-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .adm-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;padding-top:8px;border-top:1px solid var(--line)}
 .adm-acts .btn{padding:6px 10px;font-size:12px}
+.sig-acc{background:var(--bg2);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden}
+.sig-hd{width:100%;background:transparent;border:0;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;color:#eef3fa;font-weight:700;font-size:13px;text-align:left}
+.sig-hd:hover{background:rgba(255,255,255,.03)}
+.sig-st{font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(127,144,173,.2);color:var(--mut)}
+.sig-st.ok{background:rgba(36,194,120,.2);color:#7ae8b4}
+.sig-st.no{background:rgba(201,56,74,.24);color:#ffb0ba}
+.sig-body{padding:10px 12px 12px;border-top:1px solid var(--line);background:rgba(7,13,24,.5)}
+.sig-canvas-wrap{background:#fff;border:2px dashed #7f90ad;border-radius:9px;overflow:hidden;position:relative;touch-action:none;margin-bottom:8px}
+.sig-canvas{display:block;width:100%;height:155px;cursor:crosshair;touch-action:none}
+.sig-prev-img{max-height:70px;background:#fff;border-radius:6px;padding:3px 6px;border:1px solid var(--line);margin-top:6px;display:block}
 
 /* Dashboard Hero */
 .hero{text-align:center;padding:18px 0 22px}
@@ -2296,6 +2306,13 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
        <div class="ts" style="white-space:normal" id="ord-desc-cod"></div>
       </div>
      </div>
+     <div class="dtile act" style="padding:16px 14px" onclick="ordOpenSub('acta')">
+      <div class="ib c-crim" style="width:46px;height:46px" id="ord-ic-act"></div>
+      <div class="txt">
+       <div class="tt"><span>ACTA DENUNCIA</span></div>
+       <div class="ts" style="white-space:normal" id="ord-desc-act">Generar Acta Denuncia con nº correlativo, firma táctil en pantalla, PDF oficial e historial privado del agente</div>
+      </div>
+     </div>
     </div>
    </div>
 
@@ -2329,6 +2346,164 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
      <span style="font-size:11.5px">Toca «Detalles y redacción» para ver sanciones y notas</span>
     </div>
     <div class="cd-list" id="ordc-list"></div>
+   </div>
+
+   <!-- SUBVISTA 4: ACTA DENUNCIA DE ORDENANZA -->
+   <div id="ord-acta" class="hide pc-panel">
+    <!-- LISTADO PERSONAL DEL AGENTE -->
+    <div id="oa-list-view">
+     <div class="card" style="padding:12px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px">
+       <button type="button" class="btn" onclick="ordActNew()" id="oa-btn-new"></button>
+       <span id="oa-cnt" style="font-size:12px;color:var(--mut)">0 actas en tu área personal</span>
+      </div>
+      <div style="font-size:11.5px;color:var(--mut);margin-bottom:8px">Tus Actas Denuncia se guardan en tu área personal privada. La numeración correlativa (1/YYYY, 2/YYYY...) es independiente para cada ordenanza y se reserva automáticamente para evitar duplicados entre agentes.</div>
+      <input class="bn-in" id="oa-q" type="search" placeholder="Buscar por nº acta, denunciado, DNI, artículo o lugar..." oninput="renderOrdActList()">
+     </div>
+     <div id="oa-cards" class="bn-list"></div>
+    </div>
+
+    <!-- FORMULARIO CREAR / EDITAR ACTA DENUNCIA -->
+    <div id="oa-form-view" class="hide">
+     <div class="pc-card">
+      <div class="bar" style="margin-bottom:10px">
+       <div>
+        <h3 style="margin:0;font-size:16px" id="oa-ftitle">Nueva Acta Denuncia</h3>
+        <div style="font-size:12px;color:var(--gold2);margin-top:2px" id="oa-num-badge">Número correlativo: pendiente de asignar</div>
+       </div>
+       <button type="button" class="btn sec" style="padding:6px 10px;font-size:12px" onclick="ordActShow('list')">Cancelar</button>
+      </div>
+
+      <div class="dr-lbl">1. Datos de la actuación y agentes actuantes</div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="oa-fecha" type="date">
+       <input class="bn-in" id="oa-hora" type="time">
+      </div>
+      <div style="margin-bottom:8px">
+       <input class="bn-in" id="oa-lugar" placeholder="Lugar exacto de los hechos (calle, nº, playa, mercadillo, zona) *">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="oa-ag1" placeholder="Agente actuante 1 (NIP) *">
+       <input class="bn-in" id="oa-ag2" placeholder="Agente actuante 2 (NIP)">
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">2. Datos del denunciado</div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="oa-dnom" placeholder="Nombre y apellidos / Razón social *">
+       <input class="bn-in" id="oa-ddni" placeholder="DNI / NIE / Pasaporte *" style="text-transform:uppercase">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="oa-dfnac" type="date" title="Fecha de nacimiento">
+       <input class="bn-in" id="oa-dtel" type="tel" placeholder="Teléfono de contacto">
+      </div>
+      <div style="margin-bottom:8px">
+       <input class="bn-in" id="oa-ddom" placeholder="Domicilio completo (calle, nº, CP, localidad)">
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="oa-dtutor" placeholder="Padre/Madre/Tutor (si es menor) o Representante">
+       <input class="bn-in" id="oa-dveh" placeholder="Vehículo / Embarcación / Puesto (opcional)">
+      </div>
+
+      <div class="dr-lbl" style="margin-top:10px">3. Infracción observada</div>
+      <div class="fld">
+       <label>Seleccionar infracción del Codificado de esta ordenanza</label>
+       <select class="bn-in" id="oa-inf-sel" onchange="ordActPickInf(this.value)"></select>
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="oa-art" placeholder="Artículo / Precepto infringido *">
+       <select class="bn-in" id="oa-grav">
+        <option value="LEVE">Calificación: LEVE</option>
+        <option value="GRAVE">Calificación: GRAVE</option>
+        <option value="MUY GRAVE">Calificación: MUY GRAVE</option>
+       </select>
+      </div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="oa-imp" placeholder="Importe / Tramo sancionador (€)">
+       <input class="bn-in" id="oa-org" placeholder="Órgano sancionador">
+      </div>
+      <textarea class="bn-ta" id="oa-hechos" style="min-height:95px" placeholder="Descripción detallada de los hechos observados por los agentes..."></textarea>
+
+      <div class="dr-lbl" style="margin-top:10px">4. Medidas cautelares, decomisos y manifestaciones</div>
+      <div class="bn-grid2">
+       <select class="bn-in" id="oa-med">
+        <option value="Ninguna">Medida: Ninguna</option>
+        <option value="Apercibimiento verbal previo incumplido">Medida: Apercibimiento verbal previo</option>
+        <option value="Cese inmediato de la actividad">Medida: Cese inmediato actividad</option>
+        <option value="Levantamiento de puesto / retirada de elementos">Medida: Levantamiento / retirada elementos</option>
+        <option value="Decomiso / intervención cautelar de género o útiles">Medida: Decomiso / intervención cautelar</option>
+        <option value="Inmovilización / retirada de vehículo">Medida: Inmovilización / retirada vehículo</option>
+        <option value="Suspensión temporal / precintado">Medida: Suspensión temporal / precintado</option>
+       </select>
+       <select class="bn-in" id="oa-copia">
+        <option value="Se entrega copia al denunciado">Entrega: Se entrega copia al denunciado</option>
+        <option value="El denunciado se niega a recoger copia">Entrega: Se niega a recoger copia</option>
+        <option value="Notificación posterior (denunciado ausente)">Entrega: Notificación posterior</option>
+       </select>
+      </div>
+      <div style="margin-bottom:8px">
+       <input class="bn-in" id="oa-dec" placeholder="Detalle de objetos/género decomisado o medida adoptada (opcional)">
+      </div>
+      <textarea class="bn-ta" id="oa-manif" style="min-height:60px" placeholder="Manifestaciones del denunciado (o 'No desea manifestar nada')..."></textarea>
+
+      <div class="dr-lbl" style="margin-top:12px">5. Firmas en pantalla (pulsa para desplegar y firmar con el dedo)</div>
+
+      <!-- FIRMA DENUNCIADO -->
+      <div class="sig-acc">
+       <button type="button" class="sig-hd" onclick="sigToggle('den')">
+        <span>✍ Firma del Denunciado</span>
+        <span class="sig-st" id="sig-st-den">Pendiente</span>
+       </button>
+       <div class="sig-body hide" id="sig-body-den">
+        <label class="dr-chk" style="margin-bottom:8px"><input type="checkbox" id="oa-neg-den" onchange="sigSetNegDen(this.checked)"><span>El denunciado se niega a firmar</span></label>
+        <div id="sig-pad-wrap-den">
+         <div class="sig-canvas-wrap"><canvas class="sig-canvas" id="sig-cv-den"></canvas></div>
+         <div style="display:flex;gap:6px;justify-content:flex-end">
+          <button type="button" class="btn sec" style="padding:5px 10px;font-size:12px" onclick="sigClear('den')">Borrar firma</button>
+          <button type="button" class="btn" style="padding:5px 12px;font-size:12px" onclick="sigConfirm('den')">Guardar firma</button>
+         </div>
+        </div>
+       </div>
+      </div>
+
+      <!-- FIRMA AGENTE 1 -->
+      <div class="sig-acc">
+       <button type="button" class="sig-hd" onclick="sigToggle('ag1')">
+        <span>✍ Firma Agente Actuante 1</span>
+        <span class="sig-st" id="sig-st-ag1">Pendiente</span>
+       </button>
+       <div class="sig-body hide" id="sig-body-ag1">
+        <div class="sig-canvas-wrap"><canvas class="sig-canvas" id="sig-cv-ag1"></canvas></div>
+        <div style="display:flex;gap:6px;justify-content:flex-end">
+         <button type="button" class="btn sec" style="padding:5px 10px;font-size:12px" onclick="sigClear('ag1')">Borrar firma</button>
+         <button type="button" class="btn" style="padding:5px 12px;font-size:12px" onclick="sigConfirm('ag1')">Guardar firma</button>
+        </div>
+       </div>
+      </div>
+
+      <!-- FIRMA AGENTE 2 -->
+      <div class="sig-acc">
+       <button type="button" class="sig-hd" onclick="sigToggle('ag2')">
+        <span>✍ Firma Agente Actuante 2 (opcional)</span>
+        <span class="sig-st" id="sig-st-ag2">Pendiente</span>
+       </button>
+       <div class="sig-body hide" id="sig-body-ag2">
+        <div class="sig-canvas-wrap"><canvas class="sig-canvas" id="sig-cv-ag2"></canvas></div>
+        <div style="display:flex;gap:6px;justify-content:flex-end">
+         <button type="button" class="btn sec" style="padding:5px 10px;font-size:12px" onclick="sigClear('ag2')">Borrar firma</button>
+         <button type="button" class="btn" style="padding:5px 12px;font-size:12px" onclick="sigConfirm('ag2')">Guardar firma</button>
+        </div>
+       </div>
+      </div>
+
+      <div class="pc-nav">
+       <button type="button" class="btn sec" onclick="ordActShow('list')">Cancelar</button>
+       <button type="button" class="btn" onclick="ordActSave()" id="oa-save-btn"></button>
+      </div>
+     </div>
+    </div>
+
+    <!-- VISTA PREVIA OFICIAL / PDF -->
+    <div id="oa-detail-view" class="hide"></div>
    </div>
   </div>
 
@@ -3328,6 +3503,9 @@ function initStaticIcons(){
   if($('ord-ic-res'))$('ord-ic-res').innerHTML=svg('clip',22);
   if($('ord-ic-bus'))$('ord-ic-bus').innerHTML=svg('book',22);
   if($('ord-ic-cod'))$('ord-ic-cod').innerHTML=svg('dgt',22);
+  if($('ord-ic-act'))$('ord-ic-act').innerHTML=svg('edit',22);
+  if($('oa-btn-new'))$('oa-btn-new').innerHTML=svg('plus',15)+' Nueva Acta Denuncia';
+  if($('oa-save-btn'))$('oa-save-btn').innerHTML=svg('save',15)+' Guardar y ver Acta Denuncia';
 }
 
 document.querySelectorAll('#maintabs .tab').forEach(function(b){
@@ -7363,6 +7541,24 @@ var ORD_CATALOG=[
     organo:'Alcaldía-Presidencia (Art. 39)',
     cuantiaRef:'Art. 37',
     respLbl:'Titular (responde de familiares/asalariados · Art. 40)'
+  },
+  {
+    id:'convivencia',
+    titulo:'Ordenanza General Municipal de Convivencia Ciudadana en el Espacio Público',
+    corto:'Convivencia Ciudadana en el Espacio Público',
+    meta:'Ayuntamiento de Pilar de la Horadada · Pleno 26/04/2018 · BOP Alicante nº 131 (11/07/2018) · 77 artículos + Cuadro Infractor',
+    icono:'viogen',
+    color:'c-purp',
+    descRes:'Dignidad, grafitos/carteles, trile, juegos, mendicidad/gorrillas, servicios sexuales, necesidades fisiológicas, basuras (20–22h), vandalismo, alcohol, tabaco menores y desobediencia (3 denuncias)',
+    descBus:'Búsqueda instantánea de palabras y artículos en los Títulos I, II (Caps. I–XV) y III (Arts. 1 a 77)',
+    descCod:'Cuadro Infractor completo (91 infracciones con Art.Apar.Opc e importe exacto: Leves hasta 300 €, Graves 300,01–1.000 €), filtros, favoritos y denuncia directa',
+    busPh:'Buscar palabra o artículo (ej: grafito, gorrilla, trile, orinar, alcohol, tabaco, menor, basura, 20:00, petardos, Río Seco, vado, 556)...',
+    codPh:'Buscar infracción (ej: 48.2.n, heces, orinar, alcohol, grafito, petardos, gorrilla, basuras, colilla, vado, acampar, menor)...',
+    copyPrefix:'Ordenanza Convivencia Ciudadana Pilar de la Horadada (BOP 11/07/2018)',
+    artPrefix:'Ord. Convivencia · Art. ',
+    organo:'Alcaldía-Presidencia (Art. 68)',
+    cuantiaRef:'Cuadro Infractor',
+    respLbl:'Autor / Grupo solidario / Padres menores (Art. 69)'
   }
 ];
 
@@ -7762,10 +7958,192 @@ var ORD_VEN_INFS=[
   {id:'ven_36.3.g',art:'36.3.g',g:'MG',cat:'ORDEN',eur:'1.500 – 3.000 €',t:'Cualquier agresión física entre vendedores, al público y a las autoridades y funcionarios municipales.',n:'Art. 36.5 y 37.3: levantamiento inmediato del puesto e instrucción de diligencias penales (lesiones / atentado a agentes de la autoridad).'}
 ];
 
+/* ----- 4. DATOS: ORDENANZA CONVIVENCIA CIUDADANA (BOP 11/07/2018) ----- */
+var ORD_CONV_RESUMEN=[
+  {tit:'1. Ámbito, Menores y Potestades Policiales Directas (Arts. 1–6, 69–76)',col:'c-blue',pts:[
+    'Ámbito (Art. 3): todo el término municipal (calles, parques, mobiliario, marquesinas, contenedores) y espacios privados cuando sus conductas o mal mantenimiento afecten negativamente al espacio público.',
+    'Menores de edad (Art. 4.2 y 69.2): padres, tutores o guardadores son responsables civiles subsidiarios y responsables directos y solidarios cuando conste dolo, culpa o negligencia (incluida simple inobservancia).',
+    'DESOBEDIENCIA PENAL POR REITERACIÓN (Art. 71.5): si el infractor, tras haber sido denunciado en al menos TRES OCASIONES, persiste en la conducta, instruir atestado por Art. 556 CP adjuntando las 3 denuncias previas.',
+    'Identificación y decomiso (Arts. 74 y 76): requerimiento verbal de cese; acompañamiento a dependencias si no se logra identificar (Art. 74.3); decomiso cautelar de género, utensilios o medios empleados (Art. 76).'
+  ]},
+  {tit:'2. Dignidad, Grafitos, Carteles y Apuestas/Juegos (Arts. 9–27)',col:'c-crim',pts:[
+    'Atentados contra la dignidad y actos obscenos (Arts. 10–11): insultos, vejaciones, discriminación, acoso a menores y exhibición/práctica sexual en vía pública = GRAVE (300,01–1.000 €). En grupo, imputable a todos los participantes.',
+    'Grafitos y pintadas (Arts. 14–16): Leve (50–100 €, máx. 300 €) o GRAVE (300,01–1.000 €) en monumentos/edificios protegidos. Intervención de materiales y conminación a limpieza inmediata.',
+    'Carteles, pancartas y folletos (Arts. 17–19): prohibido en edificios municipales, mobiliario, parabrisas de vehículos (50 €) o esparcir folletos (100 €). GRAVE (300,01 €) en monumentos o tapando señales de tráfico. Responde solidariamente el promotor.',
+    'Apuestas y juegos (Arts. 21–27): apuestas en vía pública (Leve 100 €), juego del «trile» (GRAVE 300,01 €). Prohibidas acrobacias con bicis/patines/monopatines en escaleras, rampas de accesibilidad o mobiliario (Leve 50 €; intervención cautelar).'
+  ]},
+  {tit:'3. Mendicidad, Servicios Sexuales, Venta Ambulante y Necesidades Fisiológicas (Arts. 28–46)',col:'c-gold',pts:[
+    'Mendicidad y «gorrillas» (Arts. 29–31): prohibida mendicidad coactiva/obstructiva (100 €), limpiar parabrisas en semáforos y aparcacoches «gorrillas» sin permiso (50 €). Mendicidad con menores o discapacitados = GRAVE (300,01 €, valorar Art. 232 CP).',
+    'Servicios sexuales retribuidos (Arts. 33–35): prohibido ofrecer, solicitar, negociar o aceptar (especialmente a <500 m de núcleos urbanos, viviendas o menores) o mantener relaciones retribuidas en espacio público (Leve: 100–200 €).',
+    'Necesidades fisiológicas (Arts. 37–38): defecar (100 €), orinar (100 €), escupir (50 €) y dejar restos de heces o vómitos (100 €).',
+    'Venta ambulante y servicios no autorizados (Arts. 40–46): venta ambulante (100 €; con megafonía 150 €), «aguadores»/colaboradores (100 €), compradores (50 €), tarot/masajes/tatuajes/mimo/música sin permiso (100 €). Intervención cautelar del género.'
+  ]},
+  {tit:'4. Uso Impropio del Espacio Público y Basuras (Arts. 47–50)',col:'c-amber',pts:[
+    'Acampar o dormir de día o de noche en vías/espacios públicos (Art. 48.2.a: 100 €; coordinación con Servicios Sociales Art. 50.2).',
+    'Basuras y limpieza (Art. 48.2.m–r): depositar basura fuera del horario 20:00–22:00 h (50 €), hurgar causando molestias (50 €), dejar basura fuera de contenedores (50 €), colillas/papeles (50 €), chicles (25 €), restos de poda (50 €), no recoger heces de animales (50 €), dar de comer a animales sin permiso técnico (50 €).',
+    'Otras prohibiciones (Art. 48.2): lavar vehículos, cambiar aceite o reparar/pintar en vía pública (50 €), bañarse/lavar ropa en fuentes (50 €), tendederos/sacudir/regar causando molestias (50 €), barbacoas sin autorización (50 €), usar instalaciones municipales sin permiso o desatender a conserjes/socorristas (50 €).'
+  ]},
+  {tit:'5. Vandalismo, Petardos, Alcohol, Tabaco Menores y Otros (Arts. 51–66)',col:'c-teal',pts:[
+    'Vandalismo (Arts. 52–54): mover/volcar/arrancar/incendiar contenedores, papeleras o bancos (100–300 €); si genera riesgo para personas o bienes = GRAVE (300,01–1.000 €).',
+    'Petardos (Art. 52.4–5): prohibido lanzarlos sobre personas/animales (150 €) o vegetación/mobiliario (100 €). PROHIBIDO detonar petardos en Pinar de Campoverde, Área Natural «Río Seco», Mil Palmeras y Riomar (100 €).',
+    'Alcohol en vía pública (Arts. 58–60): prohibido salvo terrazas autorizadas (Leve 100 € + incautación cautelar de bebidas).',
+    'TABACO EN MENORES (Arts. 61–63): prohibida la tenencia de cualquier producto del tabaco por menores; los agentes lo INTERVIENEN y ponen a disposición de padres/tutores (en reincidencia o consentimiento paterno → traslado a Servicios Sociales).',
+    'Seguridad ciudadana y otras conductas (Arts. 55–56 y 65–66): datos falsos/inexactos a agentes = GRAVE (400 €); ruidos 22:00–08:00 h (100 €); encender fuego sin permiso (50 €); desatender a Protección Civil (150 €); invadir o romper cinta policial (100 €); colocar señales o placas de vado sin autorización (200 €).'
+  ]},
+  {tit:'6. Cuantías, Prescripción y Órgano Sancionador (Arts. 67–72 y Anexo)',col:'c-purp',pts:[
+    'LEVES: multa hasta 300,00 € (cuantías prefijadas en Cuadro Infractor: 25 €, 50 €, 100 €, 150 €, 200 € o 300 €; residual 50 €). Prescripción: 6 meses.',
+    'GRAVES: multa de 300,01 a 1.000,00 € (cuantías prefijadas: 300,01 € o 400 €). Prescripción: 1 año.',
+    'MUY GRAVES (criterio residual Art. 140 LBRL): mínimo 1.000,01 €. Prescripción: 2 años. Órgano sancionador: Alcaldía-Presidencia (Art. 68).'
+  ]}
+];
+
+var ORD_CONV_TITS=[
+  ['ALL','Todos'],['T-I','T.I General'],['C1-2','Dign./Visual'],['C3-6','Apuest./Mend./Sex'],
+  ['C7-9','Hig./Venta/Serv'],['C10','Uso Impropio'],['C11','Vandal./Petard.'],['C12-14','Seg./Alc./Tab.'],
+  ['C15','Otras Cond.'],['T-III','T.III Sanc.']
+];
+
+var ORD_CONV_ARTS=[
+  {n:'Arts. 1–4',tit:'T-I',t:'Finalidad, Fundamentos y Ámbito objetivo/subjetivo',txt:'Preservar el espacio público de Pilar de la Horadada (Arts. 139 ss. LBRL). Aplica a vías, parques, mobiliario, transportes, contenedores y bienes privados que afecten a la convivencia. Aplica a todas las personas y menores de edad (responsabilidad directa/solidaria de padres si consta dolo, culpa o negligencia).'},
+  {n:'Arts. 5–8',tit:'T-I',t:'Principios, Deberes de civismo, Fomento y Actos públicos',txt:'Libertad individual con respeto a los demás y deber de colaboración con los Agentes. Art. 8: organizadores de actos públicos deben garantizar seguridad, limpieza y reparación de daños; posible fianza o seguro.'},
+  {n:'Arts. 9–12',tit:'C1-2',t:'Atentados contra la dignidad de las personas y actos obscenos',txt:'Prohibido menosprecio, discriminación (xenófoba, racista, sexista, homófoba), insultos, acoso a menores y actos obscenos/exhibición sexual en vía pública. Sanción: GRAVE (300,01–1.000 €); en grupo se imputa a todos los participantes.'},
+  {n:'Arts. 13–16',tit:'C1-2',t:'Grafitos, pintadas y expresiones gráficas',txt:'Prohibido cualquier grafito, pintada, mancha o rayado en espacio público o bien privado visible sin autorización (salvo murales autorizados). Leve hasta 300 €; GRAVE (300,01–1.000 €) en monumentos/edificios protegidos. Intervención de materiales y conminación a limpieza.'},
+  {n:'Arts. 17–19',tit:'C1-2',t:'Pancartas, carteles y folletos publicitarios',txt:'Solo en lugares habilitados. Prohibido en edificios municipales, monumentos, señales de tráfico, parabrisas de vehículos o esparcir folletos; prohibido dejar propaganda fuera de porterías. Responde solidariamente el promotor. Intervención cautelar.'},
+  {n:'Arts. 20–23',tit:'C3-6',t:'Apuestas en el espacio público y juego del «trile»',txt:'Prohibido ofrecer juegos con apuestas de dinero o bienes sin autorización (Leve hasta 300 €). Apuestas con riesgo desproporcionado o juego del «trile»: GRAVE (300,01–1.000 €). Intervención cautelar de medios.'},
+  {n:'Arts. 24–27',tit:'C3-6',t:'Uso inadecuado del espacio público para juegos y acrobacias',txt:'Prohibidos juegos/competiciones que perturben derechos o pongan en peligro personas/bienes. Prohibidas acrobacias con bicis, patines o monopatines fuera de áreas destinadas o sobre escaleras, rampas de accesibilidad, barandillas o bancos. Leve hasta 300 € e intervención cautelar.'},
+  {n:'Arts. 28–31',tit:'C3-6',t:'Mendicidad, limpiaparabrisas y aparcacoches «gorrillas»',txt:'Prohibida mendicidad coactiva/obstructiva, ofrecer bienes/servicios a ocupantes de vehículos (limpiaparabrisas), aparcacoches «gorrillas» sin autorización y obstruir calzada/semáforos (Leve hasta 300 €). Mendicidad con menores o discapacitados: GRAVE (300,01–1.000 €, sin perjuicio Art. 232 CP).'},
+  {n:'Arts. 32–35',tit:'C3-6',t:'Ofrecimiento y demanda de servicios sexuales retribuidos',txt:'Prohibido ofrecer, solicitar, negociar o aceptar servicios sexuales retribuidos en espacio público (especialmente a <500 m de núcleos urbanos, viviendas o menores) y mantener relaciones retribuidas en vía pública. Leve hasta 300 €.'},
+  {n:'Arts. 36–38',tit:'C7-9',t:'Necesidades fisiológicas en vía pública',txt:'Prohibido defecar, orinar, escupir o dejar restos de heces y vómitos en espacios públicos. Leve hasta 300 €.'},
+  {n:'Arts. 39–42',tit:'C7-9',t:'Comercio ambulante no autorizado, colaboradores y compradores',txt:'Prohibida venta ambulante de alimentos, bebidas, productos o servicios (tapiceros, afiladores) y uso de megafonía; prohibido colaborar («aguadores») y comprar género no autorizado. Leve hasta 300 € e intervención cautelar (destrucción si fungibles).'},
+  {n:'Arts. 43–46',tit:'C7-9',t:'Actividades y servicios no autorizados (tarot, masajes, tatuajes)',txt:'Prohibido tarot, videncia, masajes, tatuajes, mimo o música sin permiso, colaborar vigilando o demandar/consumir dichos servicios. Leve hasta 300 €, intervención cautelar y traslado penal si estafa.'},
+  {n:'Arts. 47–50',tit:'C10',t:'Uso impropio del espacio público e instalaciones municipales',txt:'Prohíbe (Art. 48.2): acampar/dormir en vía pública; mal uso bancos; obstaculizar escaleras/rampas; bañarse/lavar ropa en fuentes; regar/sacudir/tender causando molestias; lavar/reparar/cambiar aceite a vehículos; subir/dañar árboles o plantas; tirar residuos/colillas/chicles; no recoger heces; dar de comer a animales sin permiso técnico; sacar basuras fuera de 20:00–22:00 h o hurgar; barbacoas sin permiso; restos de poda; usar instalaciones municipales sin permiso o desatender empleados. Leve hasta 300 €.'},
+  {n:'Arts. 51–54',tit:'C11',t:'Actitudes vandálicas, mobiliario urbano y petardos',txt:'Prohibidas conductas vandálicas (GRAVE 300,01–1.000 € si riesgo físico), destrozos, mover/arrancar/incendiar/volcar/vaciar papeleras o contenedores. Petardos: prohibido sobre personas/animales/vegetación y prohibido detonar en Pinar de Campoverde, Área Natural «Río Seco», Mil Palmeras y Riomar.'},
+  {n:'Arts. 55–56',tit:'C12-14',t:'Protección de la seguridad ciudadana',txt:'Abandono de útiles de consumo de drogas, tenencia/exhibición de objetos peligrosos, desobediencia a mandatos, alteración de seguridad/desórdenes, falta de respeto a agentes y no colaborar (Leve hasta 300 €). Facilitar datos personales inexactos o incorrectos a agentes: GRAVE (300,01–1.000 €). Incautación de objetos.'},
+  {n:'Arts. 57–60',tit:'C12-14',t:'Consumo de alcohol en la vía pública',txt:'Prohibido consumir alcohol en vía y espacios públicos salvo terrazas de establecimientos autorizados. Leve hasta 300 € (100 € en cuadro) + incautación cautelar de bebidas (Art. 60).'},
+  {n:'Arts. 61–63',tit:'C12-14',t:'Tenencia de productos del tabaco por menores de edad',txt:'Prohibida la tenencia de cualquier producto del tabaco por menores. Los agentes lo intervienen y ponen a disposición de padre/madre/tutor; en reincidencia o consentimiento paterno se da traslado a Servicios Sociales.'},
+  {n:'Arts. 64–66',tit:'C15',t:'Otras conductas: ruidos, fuego, Protección Civil, balizamiento y vados',txt:'Prohibidos ruidos evitables en vía pública o viviendas (especialmente 22:00–08:00 h), mal estado de inmuebles, encender fuego sin permiso, desatender a Protección Civil, invadir o romper cinta de balizamiento policial y colocar señales de tráfico o placas de vado sin autorización. Leve hasta 300 €.'},
+  {n:'Arts. 67–73',tit:'T-III',t:'Graduación, Competencia, Responsabilidad, Delito (3 denuncias) y Prescripción',txt:'Alcalde competente (Art. 68). Responsabilidad solidaria y de padres de menores (Art. 69). Art. 71.5: tras 3 denuncias previas si persiste → Atestado por Art. 556 CP (desobediencia grave). Prescripción (Art. 72): 2 años MG, 1 año G, 6 meses L. Obligación de reparar daños (Art. 73).'},
+  {n:'Arts. 74–77',tit:'T-III',t:'Policía administrativa directa, Medidas provisionales, Decomisos y Multas coercitivas',txt:'Requerimiento verbal de cese, reparación inmediata y requerimiento de identificación / acompañamiento a dependencias (Art. 74). Medidas provisionales (Art. 75). Decomisos y destino tras 2 meses de firmeza (Art. 76). Multas coercitivas (Art. 77).'}
+];
+
+var ORD_CONV_CATS=[
+  ['ALL','Todas'],['DIGNIDAD','Dignidad'],['VISUAL','Grafitos/Cart.'],['JUEGO','Apuest./Juegos'],
+  ['MENDSEX','Mendic./Sex.'],['VENTA','Venta/Serv.'],['ESPACIO','Uso Espacio/Bas.'],
+  ['VANDAL','Vandal./Petard.'],['SEGALC','Seg./Alcohol'],['OTRAS','Ruidos/Otras']
+];
+
+var ORD_CONV_INFS=[
+  {id:'cv_10.1.1',art:'10.1.1',g:'G',cat:'DIGNIDAD',eur:'300,01 € (300,01–1.000 €)',t:'Realizar conductas de menosprecio a la dignidad de otras personas, de hecho, por escrito o de palabra (insultos, burlas, molestias intencionadas, coacción, agresiones o conductas vejatorias).',n:'En grupo, imputable a todos los miembros presentes que participen activa o pasivamente (Art. 11). Valorar ilícito penal (Art. 12).'},
+  {id:'cv_10.1.2',art:'10.1.2',g:'G',cat:'DIGNIDAD',eur:'400,00 € (300,01–1.000 €)',t:'Tener comportamientos discriminatorios hacia otra persona de contenido xenófobo, racista, sexista, homófobo o de cualquier otra condición.',n:'Valorar delito de odio / discriminación (Art. 510 CP) si procede.'},
+  {id:'cv_10.2.1',art:'10.2.1',g:'G',cat:'DIGNIDAD',eur:'400,00 € (300,01–1.000 €)',t:'Realizar conductas de menosprecio a la dignidad de personas mayores, menores o discapacitadas, de hecho, por escrito o de palabra.',n:'Agravado por vulnerabilidad de la víctima (Art. 10.2).'},
+  {id:'cv_10.3.1',art:'10.3.1',g:'G',cat:'DIGNIDAD',eur:'300,01 € (300,01–1.000 €)',t:'Realizar conductas de acoso a menores o entre menores en el espacio público.',n:'Comunicar a padres/tutores y valorar Fiscalía de Menores si procede.'},
+  {id:'cv_10.3.2',art:'10.3.2',g:'G',cat:'DIGNIDAD',eur:'400,01 € (300,01–1.000 €)',t:'Realizar conductas de agresión o asedio a menores realizadas por grupos de personas que actúen en el espacio urbano.',n:'Imputable a todos los miembros del grupo (Art. 11).'},
+  {id:'cv_10.4.1',art:'10.4.1',g:'G',cat:'DIGNIDAD',eur:'300,01 € (300,01–1.000 €)',t:'Atentar contra la dignidad sexual de las personas (actos de exhibición y provocación sexual, práctica de sexo o masturbación explícita) sin constituir delito.',n:'Si hay menores o personas con discapacidad presentes, valorar delito de exhibicionismo (Art. 185 CP).'},
+  {id:'cv_14.1.1',art:'14.1.1',g:'L',cat:'VISUAL',eur:'100,00 € (hasta 300 €)',t:'Realizar cualquier grafito o pintada sobre cualquier elemento del espacio público.',n:'Art. 16: intervenir cautelarmente botes/materiales y conminar a limpieza inmediata. Padres responsables solidarios si menor (Art. 14.4).'},
+  {id:'cv_14.1.2',art:'14.1.2',g:'L',cat:'VISUAL',eur:'100,00 € (hasta 300 €)',t:'Realizar una inscripción o grafismo rayando la superficie sobre cualquier elemento del espacio público.',n:'Art. 16: intervención de medios y resarcimiento de reparación.'},
+  {id:'cv_14.1.3',art:'14.1.3',g:'L',cat:'VISUAL',eur:'50,00 € (hasta 300 €)',t:'Realizar mancha, garabato, escrito, inscripción o grafismo sobre cualquier elemento del espacio público.',n:'Conminar a limpieza inmediata (Art. 16.2).'},
+  {id:'cv_14.1.2g',art:'14.1.2 (Grave)',g:'G',cat:'VISUAL',eur:'300,01 € (300,01–1.000 €)',t:'Realizar cualquier grafito o pintada sobre monumentos o edificios catalogados o protegidos.',n:'Art. 15.2. Valorar delito contra patrimonio histórico (Art. 323 CP) si hay daño relevante.'},
+  {id:'cv_14.2.1',art:'14.2.1',g:'L',cat:'VISUAL',eur:'100,00 € (hasta 300 €)',t:'Realizar cualquier grafito o pintada en un bien privado instalado de manera visible en la vía pública sin autorización.',n:'Requiere autorización del propietario y expresa del Ayuntamiento (Art. 14.2).'},
+  {id:'cv_17.1.1',art:'17.1.1',g:'L',cat:'VISUAL',eur:'100,00 € (hasta 300 €)',t:'Colocar sin autorización municipal carteles, vallas o cualquier otra forma de publicidad en edificios e instalaciones municipales.',n:'Art. 17.8: el promotor/empresa anunciante responde directa y solidariamente.'},
+  {id:'cv_17.2.1',art:'17.2.1',g:'L',cat:'VISUAL',eur:'100,00 € (hasta 300 €)',t:'Colocar sin autorización municipal carteles, vallas o cualquier otra forma de publicidad en un bien privado (visible/espacio público).',n:'Intervención cautelar del material (Art. 19).'},
+  {id:'cv_17.2.2',art:'17.2.2',g:'G',cat:'VISUAL',eur:'300,01 € (300,01–1.000 €)',t:'Colocar sin autorización municipal carteles, vallas o cualquier otra forma de publicidad sobre monumentos o edificios catalogados o protegidos.',n:'Infracción GRAVE. Retirada a cargo del responsable.'},
+  {id:'cv_17.2.3',art:'17.2.3',g:'G',cat:'VISUAL',eur:'300,01 € (300,01–1.000 €)',t:'Colocación de carteles, pancartas o adhesivos en señales de tráfico de manera que imposibilite una correcta visión por conductores y/o peatones.',n:'Infracción GRAVE. Retirada inmediata por seguridad vial.'},
+  {id:'cv_17.3.1',art:'17.3.1',g:'L',cat:'VISUAL',eur:'100,00 € (hasta 300 €)',t:'Colocación de carteles o pancartas que sobrevuelen el espacio público sin autorización municipal.',n:'Excluidas pancartas en balcones y otras aberturas (Art. 17.3).'},
+  {id:'cv_17.5.1',art:'17.5.1',g:'L',cat:'VISUAL',eur:'50,00 € (hasta 300 €)',t:'Rasgar, arrancar y tirar al espacio público carteles, anuncios, pancartas y objetos similares.',n:'Conminar a retirada inmediata (Art. 19.2).'},
+  {id:'cv_17.6.1',art:'17.6.1',g:'L',cat:'VISUAL',eur:'50,00 € (hasta 300 €)',t:'Colocar publicidad sobre la parte exterior de los cristales de los vehículos.',n:'Responde solidariamente la empresa anunciante (Art. 17.8).'},
+  {id:'cv_17.7.1',art:'17.7.1',g:'L',cat:'VISUAL',eur:'100,00 € (hasta 300 €)',t:'Repartir, esparcir y tirar toda clase de folletos o papeles de publicidad comercial o material similar en la vía pública.',n:'Incluye dejar propaganda domiciliaria fuera de porterías (Art. 17.7).'},
+  {id:'cv_21.1.1',art:'21.1.1',g:'L',cat:'JUEGO',eur:'100,00 € (hasta 300 €)',t:'Ofrecer en el espacio público juegos que impliquen apuestas con dinero o bienes, salvo los autorizados expresamente.',n:'Art. 23: intervención cautelar de materiales y dinero/medios empleados.'},
+  {id:'cv_22.3.1',art:'22.3.1',g:'G',cat:'JUEGO',eur:'300,01 € (300,01–1.000 €)',t:'Ofrecer apuestas que impliquen un riesgo de pérdida más allá de lo habitual en juegos de azar, y en cualquier caso, el juego del «trile».',n:'Infracción GRAVE. Intervención cautelar de medios (Art. 23) y valorar delito de estafa.'},
+  {id:'cv_25.1.1',art:'25.1.1',g:'L',cat:'JUEGO',eur:'200,00 € (hasta 300 €)',t:'Practicar juegos o competiciones deportivas masivas en espacios o vías públicas perturbando el legítimo derecho de vecinos o usuarios.',n:'Art. 27: posible intervención cautelar de medios empleados.'},
+  {id:'cv_25.2.1',art:'25.2.1',g:'L',cat:'JUEGO',eur:'50,00 € (hasta 300 €)',t:'Practicar juegos con instrumentos que puedan poner en peligro la integridad física de usuarios o la integridad de bienes/instalaciones.',n:'Posible intervención cautelar de medios (Art. 27).'},
+  {id:'cv_25.3.1',art:'25.3.1',g:'L',cat:'JUEGO',eur:'50,00 € (hasta 300 €)',t:'Realizar acrobacias y juegos de habilidad con bicicletas, patines o monopatines fuera de las áreas destinadas a tal efecto.',n:'Posible intervención cautelar del patín/monopatín (Art. 27).'},
+  {id:'cv_25.3.2',art:'25.3.2',g:'L',cat:'JUEGO',eur:'50,00 € (hasta 300 €)',t:'Realizar acrobacias con patines y monopatines utilizando escaleras peatonales, elementos de accesibilidad para discapacitados, barandillas, bancos o mobiliario urbano.',n:'Posible intervención cautelar del patín/monopatín (Art. 27).'},
+  {id:'cv_29.1.1',art:'29.1.1',g:'L',cat:'MENDSEX',eur:'100,00 € (hasta 300 €)',t:'Realizar conductas que bajo apariencia de mendicidad representen actitudes coactivas o de acoso, u obstaculicen intencionadamente el libre tránsito.',n:'Art. 31: informar de Servicios Sociales y posible retirada cautelar de medios.'},
+  {id:'cv_29.2.1',art:'29.2.1',g:'L',cat:'MENDSEX',eur:'50,00 € (hasta 300 €)',t:'Ofrecer cualquier bien o servicio a personas que se encuentren en el interior de vehículos privados o públicos (ej. limpieza de parabrisas en semáforos).',n:'Art. 31: posible intervención cautelar de medios empleados.'},
+  {id:'cv_29.2.2',art:'29.2.2',g:'L',cat:'MENDSEX',eur:'50,00 € (hasta 300 €)',t:'Realizar la actividad de aparcacoches («gorrillas») sin autorización municipal.',n:'Si hay coacción o amenazas, valorar delito leve/coacciones.'},
+  {id:'cv_29.3.1',art:'29.3.1',g:'G',cat:'MENDSEX',eur:'300,01 € (300,01–1.000 €)',t:'Realizar la mendicidad con acompañamiento de menores o con personas con discapacidad.',n:'Infracción GRAVE. Valorar delito Art. 232.1 CP y activar Servicios Sociales / protección del menor.'},
+  {id:'cv_29.4.1',art:'29.4.1',g:'L',cat:'MENDSEX',eur:'100,00 € (hasta 300 €)',t:'Realizar en el espacio público actividades que obstruyan el tráfico rodado, pongan en peligro la seguridad o impidan el libre tránsito por aceras o espacios públicos.',n:'Especialmente en calzada, semáforos o invadiendo tráfico rodado.'},
+  {id:'cv_33.1.1',art:'33.1.1',g:'L',cat:'MENDSEX',eur:'200,00 € (hasta 300 €)',t:'Solicitar o negociar directa o indirectamente servicios sexuales retribuidos en el espacio público.',n:'Especialmente a <500 m de núcleos urbanos, viviendas o menores (Art. 33.2).'},
+  {id:'cv_33.1.2',art:'33.1.2',g:'L',cat:'MENDSEX',eur:'100,00 € (hasta 300 €)',t:'Ofrecer, negociar o aceptar directa o indirectamente servicios sexuales retribuidos en el espacio público.',n:'Art. 35: informar de recursos de Servicios Sociales; perseguir proxenetismo/trata.'},
+  {id:'cv_33.3.1',art:'33.3.1',g:'L',cat:'MENDSEX',eur:'100,00 € (hasta 300 €)',t:'Mantener relaciones sexuales mediante retribución por ellas en el espacio público.',n:'Valorar concurrencia con Art. 10.4 (actos obscenos, Grave) si trasciende a terceros/menores.'},
+  {id:'cv_37.1.1',art:'37.1.1',g:'L',cat:'ESPACIO',eur:'100,00 € (hasta 300 €)',t:'Defecar en cualquiera de los espacios públicos definidos en el artículo 3 de esta ordenanza.',n:'Art. 37–38.'},
+  {id:'cv_37.1.2',art:'37.1.2',g:'L',cat:'ESPACIO',eur:'100,00 € (hasta 300 €)',t:'Orinar en cualquiera de los espacios públicos definidos en el artículo 3 de esta ordenanza.',n:'Art. 37–38.'},
+  {id:'cv_37.1.3',art:'37.1.3',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Escupir en cualquiera de los espacios públicos definidos en el artículo 3 de esta ordenanza.',n:'Art. 37–38.'},
+  {id:'cv_37.1.4',art:'37.1.4',g:'L',cat:'ESPACIO',eur:'100,00 € (hasta 300 €)',t:'Dejar restos de heces y vómitos en la vía y espacios públicos.',n:'Art. 37–38.'},
+  {id:'cv_40.1.1',art:'40.1.1',g:'L',cat:'VENTA',eur:'100,00 € (hasta 300 €)',t:'Realizar venta ambulante de alimentos, bebidas, productos (gafas, relojes, bolsos, pulseras) o servicios (tapicerías, afiladores) sin autorización.',n:'Art. 42: intervenir cautelarmente género y medios (destrucción si fungibles). Valorar Ordenanza Venta No Sedentaria (Art. 36.3.b).'},
+  {id:'cv_40.1.2',art:'40.1.2',g:'L',cat:'VENTA',eur:'150,00 € (hasta 300 €)',t:'Realizar venta ambulante sin autorización utilizando megafonía, publicidad o anuncios de cualquier tipo.',n:'Intervención cautelar de género y equipos acústicos (Art. 42).'},
+  {id:'cv_40.2.1',art:'40.2.1',g:'L',cat:'VENTA',eur:'100,00 € (hasta 300 €)',t:'Colaborar con vendedores ambulantes no autorizados facilitando el género.',n:'Art. 40.2.'},
+  {id:'cv_40.2.2',art:'40.2.2',g:'L',cat:'VENTA',eur:'100,00 € (hasta 300 €)',t:'Colaborar con vendedores ambulantes no autorizados vigilando y alertando sobre la presencia de los agentes de la autoridad («aguadores»).',n:'Art. 40.2.'},
+  {id:'cv_40.3.1',art:'40.3.1',g:'L',cat:'VENTA',eur:'50,00 € (hasta 300 €)',t:'Comprar o adquirir en el espacio público alimentos, bebidas, productos o servicios procedentes de la venta ambulante no autorizada.',n:'Art. 40.3.'},
+  {id:'cv_44.1.1',art:'44.1.1',g:'L',cat:'VENTA',eur:'100,00 € (hasta 300 €)',t:'Realizar actividades y prestación de servicios no autorizados en espacio público (tarot, videncia, masajes, tatuajes, mimo, música...).',n:'Art. 46: intervención cautelar de medios/materiales; valorar estafa si procede.'},
+  {id:'cv_44.1.2',art:'44.1.2',g:'L',cat:'VENTA',eur:'150,00 € (hasta 300 €)',t:'Realizar actividades o servicios no autorizados en espacio público utilizando megafonía, publicidad o anuncios.',n:'Art. 44.1 y 46.'},
+  {id:'cv_44.2.1',art:'44.2.1',g:'L',cat:'VENTA',eur:'100,00 € (hasta 300 €)',t:'Colaborar con quien realiza actividades o servicios no autorizados vigilando y alertando sobre la presencia policial.',n:'Art. 44.2.'},
+  {id:'cv_44.3.1',art:'44.3.1',g:'L',cat:'VENTA',eur:'50,00 € (hasta 300 €)',t:'Demandar, usar o consumir en el espacio público actividades o servicios no autorizados (tarot, videncia, masajes, tatuajes).',n:'Art. 44.3.'},
+  {id:'cv_48.2.a',art:'48.2.a',g:'L',cat:'ESPACIO',eur:'100,00 € (hasta 300 €)',t:'Acampar en las vías y espacios públicos salvo autorizados, o dormir de día o de noche en espacios públicos.',n:'Art. 50.2: si procede por razones sociales/salud, coordinar con Servicios Sociales (no sanción si se acompaña a recurso asistencial).'},
+  {id:'cv_48.2.b',art:'48.2.b',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Utilizar los bancos y asientos públicos para usos distintos a los que están destinados.',n:'Art. 48.2.b.'},
+  {id:'cv_48.2.c',art:'48.2.c',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Obstaculizar escaleras y rampas de acceso en zonas o lugares de pública concurrencia impidiendo o dificultando el acceso o salida.',n:'Art. 48.2.c.'},
+  {id:'cv_48.2.d',art:'48.2.d',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Lavarse o bañarse en fuentes, estanques o similares.',n:'Art. 48.2.d.'},
+  {id:'cv_48.2.e',art:'48.2.e',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Lavar ropa en fuentes, estanques, duchas o similares.',n:'Art. 48.2.e.'},
+  {id:'cv_48.2.f',art:'48.2.f',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Regar en balcones y ventanas cuando se ensucien bienes ajenos o se produzcan daños o molestias a vecinos o viandantes.',n:'Art. 48.2.f.'},
+  {id:'cv_48.2.g',art:'48.2.g',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Sacudir alfombras, esteras, ropas o efectos personales desde balcones, ventanas, terrazas o portales hacia la vía pública.',n:'Art. 48.2.g.'},
+  {id:'cv_48.2.h',art:'48.2.h',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Colocar tendederos de ropa y similar en la vía pública.',n:'Art. 48.2.h.'},
+  {id:'cv_48.2.i1',art:'48.2.i1',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Lavar vehículos en el espacio público.',n:'Art. 48.2.i.'},
+  {id:'cv_48.2.i2',art:'48.2.i2',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Realizar cambios de aceite en la vía pública.',n:'Art. 48.2.i. Valorar también posible vertido contaminante.'},
+  {id:'cv_48.2.i3',art:'48.2.i3',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Realizar reparaciones o pintado de vehículos en la vía pública.',n:'Art. 48.2.i.'},
+  {id:'cv_48.2.j',art:'48.2.j',g:'L',cat:'ESPACIO',eur:'25,00 € (hasta 300 €)',t:'Subirse a los árboles o mobiliario urbano no destinado al efecto.',n:'Art. 48.2.j.'},
+  {id:'cv_48.2.k',art:'48.2.k',g:'L',cat:'ESPACIO',eur:'25,00 € (hasta 300 €)',t:'Arrancar flores, plantas o frutos situados en la vía pública o en parques y jardines.',n:'Art. 48.2.k.'},
+  {id:'cv_48.2.l',art:'48.2.l',g:'L',cat:'ESPACIO',eur:'100,00 € (hasta 300 €)',t:'Talar, romper y zarandear árboles, cortar ramas u hojas, grabar o raspar su corteza en vía pública, parques o jardines.',n:'Art. 48.2.l. Conlleva obligación de reparar daños (Art. 73).'},
+  {id:'cv_48.2.m1',art:'48.2.m1',g:'L',cat:'ESPACIO',eur:'100,00 € (hasta 300 €)',t:'Arrojar o depositar residuos orgánicos o de otra clase, desperdicios o suciedad sin utilizar los recipientes destinados al efecto.',n:'Art. 48.2.m.'},
+  {id:'cv_48.2.m2',art:'48.2.m2',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Tirar o dejar caer colillas a la vía y espacios públicos.',n:'Art. 48.2.m.'},
+  {id:'cv_48.2.m3',art:'48.2.m3',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Tirar o dejar caer papeles y similares a la vía y espacios públicos.',n:'Art. 48.2.m.'},
+  {id:'cv_48.2.m4',art:'48.2.m4',g:'L',cat:'ESPACIO',eur:'25,00 € (hasta 300 €)',t:'Tirar o dejar caer chicles y derivados a la vía y espacios públicos.',n:'Art. 48.2.m.'},
+  {id:'cv_48.2.n',art:'48.2.n',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'No limpiar las heces de los animales que defequen en la vía pública y/o no utilizar los depósitos instalados al efecto.',n:'Art. 48.2.n.'},
+  {id:'cv_48.2.o',art:'48.2.o',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Dar de comer a los animales en la vía pública y espacios públicos salvo autorización municipal expresa con acreditación técnica.',n:'Modificación BOP 11/07/2018 (Art. 48.2.o).'},
+  {id:'cv_48.2.p1',art:'48.2.p1',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Depositar basuras en los contenedores fuera del horario previsto por el Ayuntamiento (de 20:00 a 22:00 horas).',n:'Art. 48.2.p.'},
+  {id:'cv_48.2.p2',art:'48.2.p2',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Hurgar dentro de los contenedores de basura causando molestias a los vecinos.',n:'Art. 48.2.p.'},
+  {id:'cv_48.2.p3',art:'48.2.p3',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Abandonar, dejar o depositar restos de basura en la vía pública fuera de los contenedores instalados al efecto.',n:'Art. 48.2.p.'},
+  {id:'cv_48.2.q',art:'48.2.q',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Encender barbacoas en la vía o espacios públicos sin autorización municipal.',n:'Art. 48.2.q. En playa aplica Ordenanza Litoral (Grave Art. 63.c).'},
+  {id:'cv_48.2.r',art:'48.2.r',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Depositar o abandonar restos de poda en lugares o zonas no autorizadas.',n:'Art. 48.2.r.'},
+  {id:'cv_48.3.a',art:'48.3.a',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'Hacer uso de instalaciones municipales sin autorización (piscinas públicas, pistas deportivas, etc.).',n:'Art. 48.3.a.'},
+  {id:'cv_48.3.b',art:'48.3.b',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'No utilizar papeleras o recipientes de basura o ensuciar las instalaciones municipales.',n:'Art. 48.3.b.'},
+  {id:'cv_48.3.c',art:'48.3.c',g:'L',cat:'ESPACIO',eur:'50,00 € (hasta 300 €)',t:'No atender las indicaciones del conserje, socorrista, encargado o responsable de una instalación municipal.',n:'Art. 48.3.c.'},
+  {id:'cv_52.1.a',art:'52.1.a',g:'L',cat:'VANDAL',eur:'150,00 € (hasta 300 €)',t:'Realizar conductas vandálicas, agresivas o negligentes en el uso del mobiliario urbano.',n:'Sin perjuicio de reparación de daños (Art. 73).'},
+  {id:'cv_52.1.b',art:'52.1.b',g:'G',cat:'VANDAL',eur:'300,01 € (300,01–1.000 €)',t:'Realizar conductas vandálicas, agresivas o negligentes en el uso del mobiliario urbano que generen riesgo o peligro para la salud/integridad física o bienes.',n:'Infracción GRAVE (Art. 53.1).'},
+  {id:'cv_52.2.1',art:'52.2.1',g:'L',cat:'VANDAL',eur:'300,00 € (hasta 300 €)',t:'Deteriorar gravemente los espacios públicos, sus instalaciones o elementos muebles o inmuebles.',n:'Valorar delito de daños (Art. 263 CP) si supera cuantía penal.'},
+  {id:'cv_52.3.1',art:'52.3.1',g:'L',cat:'VANDAL',eur:'100,00 € (hasta 300 €)',t:'Mover papeleras, contenedores, estatuas, obras de arte urbanas, bancos y demás mobiliario urbano.',n:'Art. 52.3.'},
+  {id:'cv_52.3.2',art:'52.3.2',g:'L',cat:'VANDAL',eur:'300,00 € (hasta 300 €)',t:'Arrancar papeleras, contenedores, estatuas, obras de arte urbanas, bancos y demás mobiliario urbano.',n:'Art. 52.3. Valorar delito de daños.'},
+  {id:'cv_52.3.3',art:'52.3.3',g:'L',cat:'VANDAL',eur:'300,00 € (hasta 300 €)',t:'Incendiar papeleras, contenedores, estatuas, obras de arte urbanas, bancos y demás mobiliario urbano.',n:'Art. 52.3. Valorar delito de daños/incendio (CP).'},
+  {id:'cv_52.3.4',art:'52.3.4',g:'L',cat:'VANDAL',eur:'150,00 € (hasta 300 €)',t:'Volcar papeleras, contenedores, estatuas, obras de arte urbanas, bancos y demás mobiliario urbano.',n:'Art. 52.3.'},
+  {id:'cv_52.3.5',art:'52.3.5',g:'L',cat:'VANDAL',eur:'100,00 € (hasta 300 €)',t:'Vaciar el contenido de las papeleras y contenedores en las vías y espacios públicos.',n:'Art. 52.3.'},
+  {id:'cv_52.3.6',art:'52.3.6',g:'L',cat:'VANDAL',eur:'100,00 € (hasta 300 €)',t:'Hacer inscripciones, adherir papeles/pegatinas o deteriorar la estética de papeleras, contenedores, estatuas, bancos y mobiliario urbano.',n:'Art. 52.3.'},
+  {id:'cv_52.3.7',art:'52.3.7',g:'L',cat:'VANDAL',eur:'100,00 € (hasta 300 €)',t:'Entorpecer el uso de papeleras, contenedores, bancos y demás mobiliario urbano.',n:'Art. 52.3.'},
+  {id:'cv_52.4.1',art:'52.4.1',g:'L',cat:'VANDAL',eur:'150,00 € (hasta 300 €)',t:'Lanzar o dirigir petardos o similares sobre personas o animales.',n:'Intervención cautelar de artificios pirotécnicos (Art. 54).'},
+  {id:'cv_52.4.2',art:'52.4.2',g:'L',cat:'VANDAL',eur:'100,00 € (hasta 300 €)',t:'Colocar petardos o similares sobre la vegetación, espacios verdes, mobiliario urbano o bienes públicos/privados.',n:'Intervención cautelar (Art. 54).'},
+  {id:'cv_52.5.1',art:'52.5.1',g:'L',cat:'VANDAL',eur:'100,00 € (hasta 300 €)',t:'Detonar petardos o similares en Pinar de Campoverde y especialmente en el Área Natural «Río Seco», Mil Palmeras y Riomar.',n:'Prohibición territorial específica por riesgo de incendio y fauna (Art. 52.5).'},
+  {id:'cv_55.1.1',art:'55.1.1',g:'L',cat:'SEGALC',eur:'300,00 € (hasta 300 €)',t:'Consumir o poseer drogas tóxicas, estupefacientes o sustancias psicotrópicas en lugares, vías, establecimientos o transportes públicos (no penal).',n:'Nota: en la práctica policial preferente tramitar por LO 4/2015 Art. 36.16 (Grave 601–30.000 €) con incautación.'},
+  {id:'cv_55.1.2',art:'55.1.2',g:'L',cat:'SEGALC',eur:'300,00 € (hasta 300 €)',t:'Abandonar en lugares, vías, establecimientos o transportes públicos útiles o instrumentos utilizados para el consumo de drogas.',n:'Relacionado también con LO 4/2015 Art. 36.16.'},
+  {id:'cv_55.2.1',art:'55.2.1',g:'L',cat:'SEGALC',eur:'300,00 € (hasta 300 €)',t:'Exhibición de objetos peligrosos para la integridad física de las personas con la finalidad de causar intimidación.',n:'Art. 56.2: incautación obligatoria. Valorar LO 4/2015 Art. 36.10.'},
+  {id:'cv_55.2.2',art:'55.2.2',g:'L',cat:'SEGALC',eur:'150,00 € (hasta 300 €)',t:'Tenencia de objetos peligrosos para la integridad física de las personas.',n:'Art. 56.2: incautación de objetos peligrosos.'},
+  {id:'cv_55.3.1',art:'55.3.1',g:'L',cat:'SEGALC',eur:'300,00 € (hasta 300 €)',t:'Desobedecer los mandatos de la Autoridad o de sus Agentes dictados en aplicación de normativa de seguridad ciudadana u ordenanzas (no penal).',n:'Art. 71.5: tras 3 denuncias previas → Atestado Art. 556 CP. Valorar LO 4/2015 Art. 36.6.'},
+  {id:'cv_55.4.1',art:'55.4.1',g:'L',cat:'SEGALC',eur:'300,00 € (hasta 300 €)',t:'Alterar la seguridad colectiva u originar desórdenes en vías, espacios o establecimientos públicos.',n:'Valorar LO 4/2015 Art. 36.3 / 36.4.'},
+  {id:'cv_55.5.1',art:'55.5.1',g:'L',cat:'SEGALC',eur:'300,00 € (hasta 300 €)',t:'Menospreciar, insultar o proferir expresiones que supongan falta de respeto a la Autoridad o a sus Agentes (no penal).',n:'Valorar LO 4/2015 Art. 37.4.'},
+  {id:'cv_55.6.1',art:'55.6.1',g:'L',cat:'SEGALC',eur:'200,00 € (hasta 300 €)',t:'No prestar la colaboración necesaria a la Autoridad o a sus Agentes conforme a las ordenanzas municipales.',n:'Art. 55.6.'},
+  {id:'cv_55.6.2',art:'55.6.2',g:'G',cat:'SEGALC',eur:'400,00 € (300,01–1.000 €)',t:'Facilitar información o datos personales inexactos o incorrectos a la Autoridad o a sus Agentes, cuando no constituya delito.',n:'Infracción GRAVE (Art. 56.1). Valorar LO 4/2015 Art. 36.6.'},
+  {id:'cv_58.1.1',art:'58.1.1',g:'L',cat:'SEGALC',eur:'100,00 € (hasta 300 €)',t:'Consumir alcohol en la vía y espacios públicos sin autorización (fuera de terrazas autorizadas).',n:'Art. 60: INCAUTACIÓN CAUTELAR de las bebidas alcohólicas.'},
+  {id:'cv_65.1.1',art:'65.1.1',g:'L',cat:'OTRAS',eur:'100,00 € (hasta 300 €)',t:'Causar ruidos evitables en vía pública o interior de viviendas (especialmente de 22:00 a 08:00 h) causando molestias a los vecinos.',n:'Art. 65.1 (cantar, gritar, aparatos, obras domésticas). También aplicable Ordenanza Contaminación Acústica.'},
+  {id:'cv_65.2.1',art:'65.2.1',g:'L',cat:'OTRAS',eur:'100,00 € (hasta 300 €)',t:'No mantener los inmuebles en las adecuadas condiciones de limpieza, salubridad y seguridad.',n:'Art. 65.2.'},
+  {id:'cv_65.3.1',art:'65.3.1',g:'L',cat:'OTRAS',eur:'50,00 € (hasta 300 €)',t:'Encender fuego o mantenerlo encendido sin autorización municipal o fuera del horario/lugares previstos.',n:'Art. 65.3.'},
+  {id:'cv_65.4.1',art:'65.4.1',g:'L',cat:'OTRAS',eur:'150,00 € (hasta 300 €)',t:'No atender las instrucciones y/o indicaciones del personal de Protección Civil en el ejercicio de sus funciones.',n:'Art. 65.4.'},
+  {id:'cv_65.5.1',art:'65.5.1',g:'L',cat:'OTRAS',eur:'100,00 € (hasta 300 €)',t:'Invadir las zonas o espacios acotados por la Policía mediante cinta de balizamiento u otros medios.',n:'Art. 65.5.'},
+  {id:'cv_65.5.2',art:'65.5.2',g:'L',cat:'OTRAS',eur:'100,00 € (hasta 300 €)',t:'Romper o deshacer por cualquier medio las medidas de acotamiento instaladas por la Policía o Protección Civil.',n:'Art. 65.5.'},
+  {id:'cv_65.6.1',art:'65.6.1',g:'L',cat:'OTRAS',eur:'200,00 € (hasta 300 €)',t:'Colocar señales de tráfico así como placas de vado permanente sin autorización municipal.',n:'Art. 65.6. Retirada cautelar de la placa/señal (Art. 76).'}
+];
+
 var ORD_DATA={
   litoral:{resumen:ORD_LIT_RESUMEN,tits:ORD_LIT_TITS,arts:ORD_LIT_ARTS,cats:ORD_LIT_CATS,infs:ORD_LIT_INFS},
   acustica:{resumen:ORD_ACU_RESUMEN,tits:ORD_ACU_TITS,arts:ORD_ACU_ARTS,cats:ORD_ACU_CATS,infs:ORD_ACU_INFS},
-  venta:{resumen:ORD_VEN_RESUMEN,tits:ORD_VEN_TITS,arts:ORD_VEN_ARTS,cats:ORD_VEN_CATS,infs:ORD_VEN_INFS}
+  venta:{resumen:ORD_VEN_RESUMEN,tits:ORD_VEN_TITS,arts:ORD_VEN_ARTS,cats:ORD_VEN_CATS,infs:ORD_VEN_INFS},
+  convivencia:{resumen:ORD_CONV_RESUMEN,tits:ORD_CONV_TITS,arts:ORD_CONV_ARTS,cats:ORD_CONV_CATS,infs:ORD_CONV_INFS}
 };
 
 var ordState={view:'hub',selId:'litoral',busTit:'ALL',codCat:'ALL',codGrav:'',codFav:0,codQ:'',codExp:{}};
@@ -7781,6 +8159,7 @@ function ordOpenHub(){
   $('ord-resumen').classList.add('hide');
   $('ord-buscador').classList.add('hide');
   $('ord-codificado').classList.add('hide');
+  $('ord-acta').classList.add('hide');
   $('ord-sub').textContent='Ordenanzas Municipales de Pilar de la Horadada · Referencia policial';
   $('btn-back-ord').innerHTML=svg('back',15)+' Inicio';
   $('ord-hub-list').innerHTML=ORD_CATALOG.map(function(o){
@@ -7809,11 +8188,14 @@ function ordSelect(id){
   $('ord-resumen').classList.add('hide');
   $('ord-buscador').classList.add('hide');
   $('ord-codificado').classList.add('hide');
+  $('ord-acta').classList.add('hide');
   $('ord-sel-name').textContent=o.titulo;
   $('ord-sel-meta').textContent=o.meta;
   if($('ord-desc-res'))$('ord-desc-res').textContent=o.descRes||'';
   if($('ord-desc-bus'))$('ord-desc-bus').textContent=o.descBus||'';
   if($('ord-desc-cod'))$('ord-desc-cod').textContent=o.descCod||'';
+  var myCnt=ordActUserList(id).length;
+  if($('ord-desc-act'))$('ord-desc-act').textContent='Generar Acta Denuncia con nº correlativo, firma táctil en pantalla y PDF oficial · Guardadas en tu área personal: '+myCnt;
   if($('ordb-q'))$('ordb-q').placeholder=o.busPh||'Buscar palabra o artículo...';
   if($('ordc-q'))$('ordc-q').placeholder=o.codPh||'Buscar infracción...';
   $('ord-sub').textContent=o.corto;
@@ -7828,17 +8210,27 @@ function ordOpenSub(sub){
   $('ord-resumen').classList.toggle('hide',sub!=='resumen');
   $('ord-buscador').classList.toggle('hide',sub!=='buscador');
   $('ord-codificado').classList.toggle('hide',sub!=='codificado');
+  $('ord-acta').classList.toggle('hide',sub!=='acta');
   var o=ordCurMeta();
-  var lbls={resumen:'Resumen Operativo',buscador:'Buscador de la Ordenanza',codificado:'Codificado de Infracciones'};
+  var lbls={resumen:'Resumen Operativo',buscador:'Buscador de la Ordenanza',codificado:'Codificado de Infracciones',acta:'Acta Denuncia'};
   $('ord-sub').textContent=o.corto+' · '+(lbls[sub]||'');
   $('btn-back-ord').innerHTML=svg('back',15)+' Volver';
   if(sub==='resumen')renderOrdResumen();
   if(sub==='buscador')renderOrdBuscador();
   if(sub==='codificado')renderOrdCod();
+  if(sub==='acta'){ordActCloudSyncUser();ordActShow('list');}
   window.scrollTo(0,0);
 }
 
 function ordBack(){
+  if(ordState.view==='acta'){
+    if(!$('oa-form-view').classList.contains('hide')||!$('oa-detail-view').classList.contains('hide')){
+      ordActShow('list');
+      return;
+    }
+    ordSelect(ordState.selId);
+    return;
+  }
   if(ordState.view==='resumen'||ordState.view==='buscador'||ordState.view==='codificado'){
     ordSelect(ordState.selId);
     return;
@@ -8024,9 +8416,517 @@ function renderOrdCod(){
     h+='<div class="cd-foot">';
     h+='<button type="button" class="btn sec" onclick="ordCodTogExp(\''+r.id+'\')">'+(isExp?'Ocultar detalles':'Detalles y redacción')+'</button>';
     h+='<button type="button" class="btn sec" onclick="ordCodCopy(\''+r.id+'\')">'+svg('copy',13)+' Copiar texto</button>';
+    h+='<button type="button" class="btn" style="padding:5px 10px;font-size:12px" onclick="ordActNewFromCod(\''+r.id+'\')">'+svg('edit',13)+' Acta Denuncia</button>';
     h+='</div></div>';
     return h;
   }).join('');
+}
+
+
+/* ==================== ACTA DENUNCIA DE ORDENANZAS + FIRMA TÁCTIL + CONTADOR CORRELATIVO ==================== */
+var oaEditId=null, oaReservedNum='', oaSigs={den:'',ag1:'',ag2:''}, sigPads={};
+
+function ordUserKey(){
+  if(authUser&&authUser.uid)return authUser.uid;
+  if(authUser&&authUser.email)return authUser.email.toLowerCase();
+  return (S.name||'local').toLowerCase();
+}
+
+function ordActAllUser(){
+  S.ordActasByUser=S.ordActasByUser||{};
+  var k=ordUserKey();
+  S.ordActasByUser[k]=S.ordActasByUser[k]||[];
+  return S.ordActasByUser[k];
+}
+
+function ordActUserList(ordId){
+  var id=ordId||ordState.selId;
+  return ordActAllUser().filter(function(a){return a.ordId===id}).sort(function(a,b){return (b.id||0)-(a.id||0)});
+}
+
+function ordActCloudSyncUser(){
+  if(!authUser||!authUser.uid||!authUser.idToken)return;
+  var url=esCloudUrl();
+  if(!url)return;
+  fetch(url+'/ord_actas_usuario/'+encodeURIComponent(authUser.uid)+'.json'+fbAuthParam())
+    .then(function(r){return r.ok?r.json():null})
+    .then(function(obj){
+      if(!obj)return;
+      var rem=Object.keys(obj).map(function(k){return obj[k]}).filter(Boolean);
+      var loc=ordActAllUser(), map={};
+      loc.forEach(function(x){if(x&&x.id)map[x.id]=x});
+      rem.forEach(function(x){if(x&&x.id&&(!map[x.id]||(x.upd||'')>(map[x.id].upd||'')))map[x.id]=x});
+      S.ordActasByUser[ordUserKey()]=Object.keys(map).map(function(k){return map[k]});
+      save();
+      if(ordState.view==='acta'&&!$('oa-list-view').classList.contains('hide'))renderOrdActList();
+    }).catch(function(){});
+}
+
+function ordActCloudSaveOne(a){
+  if(!authUser||!authUser.uid||!authUser.idToken)return;
+  var url=esCloudUrl();
+  if(!url)return;
+  fetch(url+'/ord_actas_usuario/'+encodeURIComponent(authUser.uid)+'/'+encodeURIComponent(a.id)+'.json'+fbAuthParam(),{
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(a)
+  }).catch(function(){});
+}
+
+function ordActCloudDelOne(id){
+  if(!authUser||!authUser.uid||!authUser.idToken)return;
+  var url=esCloudUrl();
+  if(!url)return;
+  fetch(url+'/ord_actas_usuario/'+encodeURIComponent(authUser.uid)+'/'+encodeURIComponent(id)+'.json'+fbAuthParam(),{method:'DELETE'}).catch(function(){});
+}
+
+function ordReserveCorrelative(ordId){
+  var yr=String(new Date().getFullYear());
+  S.ordCounters=S.ordCounters||{};
+  S.ordCounters[ordId]=S.ordCounters[ordId]||{};
+  var locCur=parseInt(S.ordCounters[ordId][yr],10)||0;
+  var url=esCloudUrl();
+  if(!url||!authUser||!authUser.idToken){
+    var nxt=locCur+1;
+    S.ordCounters[ordId][yr]=nxt;
+    save();
+    return Promise.resolve({num:nxt+'/'+yr,cloud:false});
+  }
+  var path=url+'/ord_contadores/'+encodeURIComponent(ordId)+'/'+yr+'.json'+fbAuthParam();
+  return fetch(path).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  }).then(function(val){
+    var remCur=parseInt(val,10)||0;
+    var nxt=Math.max(remCur,locCur)+1;
+    return fetch(path,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(nxt)
+    }).then(function(r2){
+      if(!r2.ok)throw new Error('HTTP '+r2.status);
+      S.ordCounters[ordId][yr]=nxt;
+      save();
+      return {num:nxt+'/'+yr,cloud:true};
+    });
+  }).catch(function(){
+    var nxt=locCur+1;
+    S.ordCounters[ordId][yr]=nxt;
+    save();
+    return {num:nxt+'/'+yr,cloud:false};
+  });
+}
+
+function ordActShow(sub){
+  $('oa-list-view').classList.toggle('hide',sub!=='list');
+  $('oa-form-view').classList.toggle('hide',sub!=='form');
+  $('oa-detail-view').classList.toggle('hide',sub!=='detail');
+  if(sub==='list')renderOrdActList();
+  window.scrollTo(0,0);
+}
+
+function ordActFillInfSelect(preInfId){
+  var data=ordCurData();
+  var h='<option value="">— Seleccionar infracción del codificado (o escribir manualmente) —</option>';
+  data.infs.forEach(function(r){
+    var gl=r.g==='MG'?'MUY GRAVE':(r.g==='G'?'GRAVE':'LEVE');
+    var shortT=r.t.length>88?(r.t.slice(0,88)+'…'):r.t;
+    h+='<option value="'+esc(r.id)+'"'+(preInfId===r.id?' selected':'')+'>['+gl+'] Art. '+esc(r.art)+' · '+esc(shortT)+'</option>';
+  });
+  $('oa-inf-sel').innerHTML=h;
+  if(preInfId)ordActPickInf(preInfId);
+}
+
+function ordActPickInf(infId){
+  if(!infId)return;
+  var data=ordCurData(), meta=ordCurMeta();
+  var r=data.infs.filter(function(x){return x.id===infId})[0];
+  if(!r)return;
+  var gl=r.g==='MG'?'MUY GRAVE':(r.g==='G'?'GRAVE':'LEVE');
+  $('oa-art').value=meta.artPrefix+r.art;
+  $('oa-grav').value=gl;
+  $('oa-imp').value=r.eur||'';
+  $('oa-org').value=meta.organo||'Alcaldía-Presidencia';
+  if(!$('oa-hechos').value.trim()||$('oa-hechos').dataset.auto==='1'){
+    $('oa-hechos').value=r.t;
+    $('oa-hechos').dataset.auto='1';
+  }
+}
+
+function ordActNewFromCod(infId){
+  ordOpenSub('acta');
+  ordActNew(infId);
+}
+
+function ordActNew(preInfId){
+  var meta=ordCurMeta();
+  oaEditId=null;
+  oaReservedNum='';
+  oaSigs={den:'',ag1:'',ag2:''};
+  var now=new Date();
+  $('oa-ftitle').textContent='Nueva Acta Denuncia · '+meta.corto;
+  $('oa-num-badge').textContent='Número correlativo: se asignará y reservará al guardar (ej. X/'+now.getFullYear()+')';
+  $('oa-fecha').value=key(now.getFullYear(),now.getMonth(),now.getDate());
+  $('oa-hora').value=pad(now.getHours())+':'+pad(now.getMinutes());
+  $('oa-lugar').value='';
+  $('oa-ag1').value=(authUser&&authUser.nip)?authUser.nip:(S.name||'');
+  $('oa-ag2').value='';
+  $('oa-dnom').value='';
+  $('oa-ddni').value='';
+  $('oa-dfnac').value='';
+  $('oa-dtel').value='';
+  $('oa-ddom').value='';
+  $('oa-dtutor').value='';
+  $('oa-dveh').value='';
+  $('oa-art').value='';
+  $('oa-grav').value='LEVE';
+  $('oa-imp').value='';
+  $('oa-org').value=meta.organo||'Alcaldía-Presidencia';
+  $('oa-hechos').value='';
+  $('oa-hechos').dataset.auto='1';
+  $('oa-med').value='Ninguna';
+  $('oa-copia').value='Se entrega copia al denunciado';
+  $('oa-dec').value='';
+  $('oa-manif').value='';
+  $('oa-neg-den').checked=false;
+  $('sig-pad-wrap-den').classList.remove('hide');
+  ['den','ag1','ag2'].forEach(function(k){
+    $('sig-body-'+k).classList.add('hide');
+    sigResetCanvas(k);
+    sigUpdateBadge(k);
+  });
+  ordActFillInfSelect(preInfId||'');
+  ordActShow('form');
+}
+
+function ordActEdit(id){
+  var a=ordActAllUser().filter(function(x){return x.id===id})[0];
+  if(!a)return;
+  var meta=ordCurMeta();
+  oaEditId=id;
+  oaReservedNum=a.num||'';
+  oaSigs={den:a.sigDen||'',ag1:a.sigAg1||'',ag2:a.sigAg2||''};
+  $('oa-ftitle').textContent='Editar Acta Denuncia · '+meta.corto;
+  $('oa-num-badge').textContent='Nº Acta Denuncia reservado: '+a.num;
+  $('oa-fecha').value=a.fecha||'';
+  $('oa-hora').value=a.hora||'';
+  $('oa-lugar').value=a.lugar||'';
+  $('oa-ag1').value=a.ag1||'';
+  $('oa-ag2').value=a.ag2||'';
+  $('oa-dnom').value=a.dnom||'';
+  $('oa-ddni').value=a.ddni||'';
+  $('oa-dfnac').value=a.dfnac||'';
+  $('oa-dtel').value=a.dtel||'';
+  $('oa-ddom').value=a.ddom||'';
+  $('oa-dtutor').value=a.dtutor||'';
+  $('oa-dveh').value=a.dveh||'';
+  ordActFillInfSelect('');
+  $('oa-inf-sel').value=a.infId||'';
+  $('oa-art').value=a.art||'';
+  $('oa-grav').value=a.grav||'LEVE';
+  $('oa-imp').value=a.imp||'';
+  $('oa-org').value=a.org||meta.organo;
+  $('oa-hechos').value=a.hechos||'';
+  $('oa-hechos').dataset.auto='0';
+  $('oa-med').value=a.med||'Ninguna';
+  $('oa-copia').value=a.copia||'Se entrega copia al denunciado';
+  $('oa-dec').value=a.dec||'';
+  $('oa-manif').value=a.manif||'';
+  $('oa-neg-den').checked=!!a.negDen;
+  $('sig-pad-wrap-den').classList.toggle('hide',!!a.negDen);
+  ['den','ag1','ag2'].forEach(function(k){
+    $('sig-body-'+k).classList.add('hide');
+    sigResetCanvas(k);
+    sigUpdateBadge(k);
+  });
+  ordActShow('form');
+}
+
+/* ----- MOTOR DE FIRMA TÁCTIL (CANVAS) ----- */
+function sigInitPad(k){
+  var cv=$('sig-cv-'+k);
+  if(!cv)return;
+  var rect=cv.getBoundingClientRect();
+  var w=Math.max(260,Math.round(rect.width||300));
+  var h=155;
+  var dpr=window.devicePixelRatio||1;
+  cv.width=w*dpr;
+  cv.height=h*dpr;
+  var ctx=cv.getContext('2d');
+  ctx.scale(dpr,dpr);
+  ctx.fillStyle='#ffffff';
+  ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle='#0a1a3a';
+  ctx.lineWidth=2.4;
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+
+  if(oaSigs[k]){
+    var img=new Image();
+    img.onload=function(){ctx.drawImage(img,0,0,w,h);};
+    img.src=oaSigs[k];
+  }
+
+  if(!cv.dataset.bound){
+    cv.dataset.bound='1';
+    var drawing=false, hasInk=!!oaSigs[k];
+    sigPads[k]={w:w,h:h,hasInk:hasInk};
+
+    function getPos(ev){
+      var r=cv.getBoundingClientRect();
+      var p=ev.touches?ev.touches[0]:ev;
+      return {x:p.clientX-r.left,y:p.clientY-r.top};
+    }
+    function start(ev){
+      if(ev.cancelable)ev.preventDefault();
+      drawing=true;
+      sigPads[k].hasInk=true;
+      var pt=getPos(ev);
+      var c2=cv.getContext('2d');
+      c2.beginPath();
+      c2.moveTo(pt.x,pt.y);
+    }
+    function move(ev){
+      if(!drawing)return;
+      if(ev.cancelable)ev.preventDefault();
+      var pt=getPos(ev);
+      var c2=cv.getContext('2d');
+      c2.lineTo(pt.x,pt.y);
+      c2.stroke();
+    }
+    function end(){
+      if(!drawing)return;
+      drawing=false;
+      oaSigs[k]=cv.toDataURL('image/png');
+      sigUpdateBadge(k);
+    }
+    cv.addEventListener('touchstart',start,{passive:false});
+    cv.addEventListener('touchmove',move,{passive:false});
+    cv.addEventListener('touchend',end);
+    cv.addEventListener('mousedown',start);
+    cv.addEventListener('mousemove',move);
+    window.addEventListener('mouseup',end);
+  }else{
+    sigPads[k]={w:w,h:h,hasInk:!!oaSigs[k]};
+  }
+}
+
+function sigResetCanvas(k){
+  var cv=$('sig-cv-'+k);
+  if(!cv)return;
+  var ctx=cv.getContext('2d');
+  ctx.save();
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.fillStyle='#ffffff';
+  ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.restore();
+  if(sigPads[k])sigPads[k].hasInk=false;
+}
+
+function sigToggle(k){
+  var b=$('sig-body-'+k);
+  if(!b)return;
+  var opening=b.classList.contains('hide');
+  b.classList.toggle('hide',!opening);
+  if(opening)setTimeout(function(){sigInitPad(k)},30);
+}
+
+function sigClear(k){
+  oaSigs[k]='';
+  sigResetCanvas(k);
+  sigUpdateBadge(k);
+}
+
+function sigConfirm(k){
+  var cv=$('sig-cv-'+k);
+  if(cv&&sigPads[k]&&sigPads[k].hasInk){
+    oaSigs[k]=cv.toDataURL('image/png');
+  }
+  $('sig-body-'+k).classList.add('hide');
+  sigUpdateBadge(k);
+}
+
+function sigSetNegDen(checked){
+  $('sig-pad-wrap-den').classList.toggle('hide',checked);
+  if(checked)oaSigs.den='';
+  sigUpdateBadge('den');
+}
+
+function sigUpdateBadge(k){
+  var el=$('sig-st-'+k);
+  if(!el)return;
+  if(k==='den'&&$('oa-neg-den')&&$('oa-neg-den').checked){
+    el.className='sig-st no';
+    el.textContent='Se niega a firmar';
+    return;
+  }
+  if(oaSigs[k]){
+    el.className='sig-st ok';
+    el.textContent='✓ Firmado';
+  }else{
+    el.className='sig-st';
+    el.textContent='Pendiente';
+  }
+}
+
+function ordActSave(){
+  var lugar=$('oa-lugar').value.trim();
+  var ag1=$('oa-ag1').value.trim();
+  var dnom=$('oa-dnom').value.trim();
+  var ddni=$('oa-ddni').value.trim().toUpperCase();
+  var art=$('oa-art').value.trim();
+  var hechos=$('oa-hechos').value.trim();
+  if(!lugar||!ag1||!dnom||!art){
+    banner('Completa al menos Lugar, Agente 1 (NIP), Denunciado y Artículo infringido.','');
+    return;
+  }
+  var btn=$('oa-save-btn');
+  if(btn){btn.disabled=true;btn.textContent='Reservando nº y guardando...';}
+
+  var pNum=oaEditId?Promise.resolve({num:oaReservedNum,cloud:true}):ordReserveCorrelative(ordState.selId);
+  pNum.then(function(res){
+    var meta=ordCurMeta();
+    var negDen=!!$('oa-neg-den').checked;
+    var obj={
+      id:oaEditId||Date.now(),
+      ordId:ordState.selId,
+      ordTitulo:meta.titulo,
+      ordMeta:meta.meta,
+      num:res.num,
+      fecha:$('oa-fecha').value,
+      hora:$('oa-hora').value,
+      lugar:lugar,
+      ag1:ag1,
+      ag2:$('oa-ag2').value.trim(),
+      dnom:dnom,
+      ddni:ddni,
+      dfnac:$('oa-dfnac').value,
+      dtel:$('oa-dtel').value.trim(),
+      ddom:$('oa-ddom').value.trim(),
+      dtutor:$('oa-dtutor').value.trim(),
+      dveh:$('oa-dveh').value.trim(),
+      infId:$('oa-inf-sel').value,
+      art:art,
+      grav:$('oa-grav').value,
+      imp:$('oa-imp').value.trim(),
+      org:$('oa-org').value.trim(),
+      hechos:hechos,
+      med:$('oa-med').value,
+      copia:$('oa-copia').value,
+      dec:$('oa-dec').value.trim(),
+      manif:$('oa-manif').value.trim()||'No desea manifestar nada.',
+      negDen:negDen?1:0,
+      sigDen:negDen?'':(oaSigs.den||''),
+      sigAg1:oaSigs.ag1||'',
+      sigAg2:oaSigs.ag2||'',
+      upd:new Date().toISOString()
+    };
+    var L=ordActAllUser();
+    if(oaEditId){
+      var idx=L.findIndex(function(x){return x.id===oaEditId});
+      if(idx>=0)L[idx]=obj;else L.unshift(obj);
+    }else{
+      L.unshift(obj);
+    }
+    save();
+    ordActCloudSaveOne(obj);
+    banner('Acta Denuncia nº '+obj.num+' guardada en tu área personal'+(res.cloud?' (nº reservado en nube)':' (nº local)')+'.','');
+    ordActView(obj.id);
+  }).finally(function(){
+    if(btn){btn.disabled=false;btn.innerHTML=svg('save',15)+' Guardar y ver Acta Denuncia';}
+  });
+}
+
+function renderOrdActList(){
+  var L=ordActUserList(ordState.selId);
+  var q=($('oa-q')?$('oa-q').value:'').trim().toLowerCase();
+  var res=L.filter(function(a){
+    if(!q)return true;
+    return ((a.num||'')+' '+(a.dnom||'')+' '+(a.ddni||'')+' '+(a.art||'')+' '+(a.lugar||'')+' '+(a.hechos||'')).toLowerCase().indexOf(q)>=0;
+  });
+  $('oa-cnt').textContent=L.length+' acta'+(L.length===1?'':'s')+' en tu área personal';
+  if(!res.length){
+    $('oa-cards').innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:24px 14px">No tienes Actas Denuncia guardadas para esta ordenanza. Pulsa «Nueva Acta Denuncia» para crear una.</div>';
+    return;
+  }
+  $('oa-cards').innerHTML=res.map(function(a){
+    var gCls=a.grav==='MUY GRAVE'?'cd-p-MG':(a.grav==='GRAVE'?'cd-p-G':'cd-p-L');
+    var h='<div class="bn-card">';
+    h+='<div class="bn-top"><span class="cd-code">ACTA Nº '+esc(a.num)+'</span><span class="cd-pill '+gCls+'">'+esc(a.grav)+'</span><span class="bn-time">'+esc(a.fecha)+' '+esc(a.hora)+'</span></div>';
+    h+='<div class="bn-head">'+esc(a.dnom)+(a.ddni?' <span style="font-size:12.5px;color:var(--mut);font-weight:600">('+esc(a.ddni)+')</span>':'')+'</div>';
+    h+='<div class="bn-meta"><span><b>Precepto:</b> '+esc(a.art)+'</span><span><b>Lugar:</b> '+esc(a.lugar)+'</span>'+(a.imp?'<span><b>Cuantía:</b> '+esc(a.imp)+'</span>':'')+'</div>';
+    h+='<div class="bn-foot">';
+    h+='<button type="button" class="btn" style="padding:5px 10px;font-size:12px" onclick="ordActPrint('+a.id+')">PDF / Imprimir</button>';
+    h+='<button type="button" class="btn sec" onclick="ordActView('+a.id+')">Ver</button>';
+    h+='<button type="button" class="btn sec" onclick="ordActEdit('+a.id+')">'+svg('edit',13)+' Editar</button>';
+    h+='<button type="button" class="btn sec" onclick="ordActDel('+a.id+')" title="Eliminar">'+svg('trash',13)+'</button>';
+    h+='</div></div>';
+    return h;
+  }).join('');
+}
+
+function ordActDel(id){
+  if(!confirm('¿Eliminar esta Acta Denuncia de tu área personal? (El número correlativo seguirá reservado para evitar duplicados)'))return;
+  S.ordActasByUser[ordUserKey()]=ordActAllUser().filter(function(x){return x.id!==id});
+  save();
+  ordActCloudDelOne(id);
+  ordActShow('list');
+  banner('Acta eliminada de tu área personal.','');
+}
+
+function ordActView(id){
+  var a=ordActAllUser().filter(function(x){return x.id===id})[0];
+  if(!a)return;
+  var gCls=a.grav==='MUY GRAVE'?'cd-p-MG':(a.grav==='GRAVE'?'cd-p-G':'cd-p-L');
+  var h='<div class="pc-card">';
+  h+='<div class="bar" style="margin-bottom:10px;flex-wrap:wrap"><div><div style="font-size:11.5px;color:var(--mut);text-transform:uppercase">Policía Local Pilar de la Horadada</div><h3 style="margin:2px 0 0;font-size:17px;color:var(--gold2)">ACTA DENUNCIA Nº '+esc(a.num)+'</h3></div>';
+  h+='<div style="display:flex;gap:6px;flex-wrap:wrap"><button type="button" class="btn" style="padding:6px 12px;font-size:12.5px" onclick="ordActPrint('+a.id+')">Generar PDF / Imprimir</button><button type="button" class="btn sec" style="padding:6px 10px;font-size:12px" onclick="ordActEdit('+a.id+')">Editar</button><button type="button" class="btn sec" style="padding:6px 10px;font-size:12px" onclick="ordActShow(\'list\')">Listado</button></div></div>';
+
+  h+='<div class="cd-det-box"><b>Ordenanza:</b> '+esc(a.ordTitulo)+'<br><b>Fecha y hora:</b> '+esc(a.fecha)+' · '+esc(a.hora)+' · <b>Lugar:</b> '+esc(a.lugar)+'<br><b>Agentes actuantes:</b> NIP '+esc(a.ag1)+(a.ag2?' y NIP '+esc(a.ag2):'')+'</div>';
+
+  h+='<div class="cd-det-box"><b>DENUNCIADO:</b> '+esc(a.dnom)+' · <b>DNI/NIE:</b> '+esc(a.ddni||'—')+(a.dfnac?' · <b>F. Nac.:</b> '+esc(a.dfnac):'')+'<br><b>Domicilio:</b> '+esc(a.ddom||'—')+(a.dtel?' · <b>Tel.:</b> '+esc(a.dtel):'')+(a.dtutor?'<br><b>Tutor/Representante:</b> '+esc(a.dtutor):'')+(a.dveh?'<br><b>Vehículo/Puesto:</b> '+esc(a.dveh):'')+'</div>';
+
+  h+='<div class="cd-det-box"><b>INFRACCIÓN:</b> '+esc(a.art)+' <span class="cd-pill '+gCls+'" style="margin-left:6px">'+esc(a.grav)+'</span><br><b>Cuantía:</b> '+esc(a.imp||'Según ordenanza')+' · <b>Órgano:</b> '+esc(a.org||'Alcaldía-Presidencia')+'<br><br><b>HECHOS OBSERVADOS:</b><br><div style="white-space:pre-wrap;margin-top:4px">'+esc(a.hechos)+'</div></div>';
+
+  h+='<div class="cd-det-box"><b>Medidas cautelares:</b> '+esc(a.med)+(a.dec?' ('+esc(a.dec)+')':'')+'<br><b>Entrega copia:</b> '+esc(a.copia)+'<br><b>Manifestaciones del denunciado:</b> '+esc(a.manif)+'</div>';
+
+  h+='<div class="cd-det-grid">';
+  h+='<div class="cd-ditem"><small>Firma Denunciado</small>'+(a.negDen?'<b style="color:#ff8694">SE NIEGA A FIRMAR</b>':(a.sigDen?'<img class="sig-prev-img" src="'+a.sigDen+'">':'<b>Sin firma</b>'))+'</div>';
+  h+='<div class="cd-ditem"><small>Firma Agente 1 (NIP '+esc(a.ag1)+')</small>'+(a.sigAg1?'<img class="sig-prev-img" src="'+a.sigAg1+'">':'<b>Sin firma</b>')+'</div>';
+  h+='<div class="cd-ditem"><small>Firma Agente 2'+(a.ag2?' (NIP '+esc(a.ag2)+')':'')+'</small>'+(a.sigAg2?'<img class="sig-prev-img" src="'+a.sigAg2+'">':'<b>—</b>')+'</div>';
+  h+='</div></div>';
+
+  $('oa-detail-view').innerHTML=h;
+  ordActShow('detail');
+}
+
+function ordActPrint(id){
+  var a=ordActAllUser().filter(function(x){return x.id===id})[0];
+  if(!a)return;
+  var w=window.open('','_blank');
+  if(!w){alert('Permite ventanas emergentes para generar el PDF o imprimir.');return;}
+  var sigDenHtml=a.negDen?'<div style="height:56px;display:flex;align-items:center;justify-content:center;color:#9b1c2c;font-weight:700;font-size:11px">SE NIEGA A FIRMAR</div>':(a.sigDen?'<img src="'+a.sigDen+'" style="max-height:58px;max-width:100%">':'<div style="height:56px"></div>');
+  var sigAg1Html=a.sigAg1?'<img src="'+a.sigAg1+'" style="max-height:58px;max-width:100%">':'<div style="height:56px"></div>';
+  var sigAg2Html=a.sigAg2?'<img src="'+a.sigAg2+'" style="max-height:58px;max-width:100%">':'<div style="height:56px"></div>';
+
+  w.document.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Acta Denuncia '+esc(a.num)+'</title><style>body{font:12px/1.45 Arial,sans-serif;color:#111;margin:20px}h1{font-size:15px;margin:0;text-transform:uppercase}h2{font-size:12px;margin:12px 0 5px;border-bottom:1.5px solid #222;padding-bottom:2px;text-transform:uppercase}.hd{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:10px}.hd img{width:54px;height:54px;object-fit:contain}.grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;margin-bottom:8px}.box{border:1px solid #999;padding:8px;border-radius:4px;white-space:pre-wrap;min-height:34px;margin-bottom:6px}.signs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:20px;text-align:center}.sbox{border:1px solid #ccc;border-radius:4px;padding:6px}.sline{border-top:1px solid #333;padding-top:4px;margin-top:6px;font-size:10.5px}.foot{margin-top:14px;font-size:10px;color:#444;border-top:1px solid #ccc;padding-top:6px}@media print{body{margin:10mm}.noprint{display:none}}</style></head><body>');
+  w.document.write('<div class="hd"><div style="display:flex;align-items:center;gap:10px"><img src="'+ESC+'"><div><h1>AYUNTAMIENTO DE PILAR DE LA HORADADA · POLICÍA LOCAL</h1><div style="font-weight:700;font-size:13px">ACTA DENUNCIA POR INFRACCIÓN A ORDENANZA MUNICIPAL</div><div style="font-size:11px;color:#333">'+esc(a.ordTitulo)+'</div></div></div><div style="text-align:right"><div style="font-size:14px;font-weight:800;border:1.5px solid #000;padding:4px 10px;border-radius:4px">Nº '+esc(a.num)+'</div><div style="font-size:10.5px;margin-top:3px">'+esc(a.fecha)+' · '+esc(a.hora)+'</div></div></div>');
+
+  w.document.write('<h2>1. Datos de la Actuación y Agentes</h2><div class="grid"><div><b>Fecha y Hora:</b> '+esc(a.fecha)+' a las '+esc(a.hora)+' h</div><div><b>Lugar de los hechos:</b> '+esc(a.lugar)+'</div><div><b>Agente Actuante 1:</b> NIP '+esc(a.ag1)+'</div><div><b>Agente Actuante 2:</b> '+(a.ag2?'NIP '+esc(a.ag2):'—')+'</div></div>');
+
+  w.document.write('<h2>2. Datos de la Persona Denunciada</h2><div class="grid"><div><b>Nombre / Razón social:</b> '+esc(a.dnom)+'</div><div><b>DNI / NIE / Pasaporte:</b> '+esc(a.ddni||'—')+'</div><div><b>Fecha nacimiento:</b> '+esc(a.dfnac||'—')+'</div><div><b>Teléfono:</b> '+esc(a.dtel||'—')+'</div><div style="grid-column:1/-1"><b>Domicilio:</b> '+esc(a.ddom||'—')+'</div>'+(a.dtutor?'<div style="grid-column:1/-1"><b>Padre / Madre / Tutor / Representante:</b> '+esc(a.dtutor)+'</div>':'')+(a.dveh?'<div style="grid-column:1/-1"><b>Vehículo / Embarcación / Puesto:</b> '+esc(a.dveh)+'</div>':'')+'</div>');
+
+  w.document.write('<h2>3. Infracción Observada y Hechos</h2><div class="grid"><div><b>Precepto infringido:</b> '+esc(a.art)+'</div><div><b>Calificación:</b> '+esc(a.grav)+'</div><div><b>Cuantía / Tramo:</b> '+esc(a.imp||'Según ordenanza')+'</div><div><b>Órgano competente:</b> '+esc(a.org||'Alcaldía-Presidencia')+'</div></div><div class="box"><b>Hechos directamente observados:</b>\n'+esc(a.hechos)+'</div>');
+
+  w.document.write('<h2>4. Medidas Cautelares y Manifestaciones</h2><div class="grid"><div><b>Medida adoptada:</b> '+esc(a.med)+'</div><div><b>Copia:</b> '+esc(a.copia)+'</div></div>'+(a.dec?'<div class="box"><b>Detalle de decomiso / medida:</b> '+esc(a.dec)+'</div>':'')+'<div class="box"><b>Manifestaciones del denunciado:</b> '+esc(a.manif)+'</div>');
+
+  w.document.write('<h2>5. Firmas</h2><div class="signs"><div class="sbox">'+sigDenHtml+'<div class="sline"><b>EL DENUNCIADO</b><br>'+esc(a.dnom)+'</div></div><div class="sbox">'+sigAg1Html+'<div class="sline"><b>AGENTE ACTUANTE 1</b><br>NIP '+esc(a.ag1)+'</div></div><div class="sbox">'+sigAg2Html+'<div class="sline"><b>AGENTE ACTUANTE 2</b><br>'+(a.ag2?'NIP '+esc(a.ag2):'—')+'</div></div></div>');
+
+  w.document.write('<div class="foot">Se informa a la persona denunciada que la presente Acta Denuncia será remitida al órgano sancionador competente ('+esc(a.org||'Alcaldía-Presidencia')+'), pudiendo formular las alegaciones y proponer las pruebas que estime convenientes en el plazo legalmente establecido conforme a la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común. La firma del denunciado no implica conformidad con los hechos.</div>');
+  w.document.write('<div class="noprint" style="text-align:center;margin-top:16px"><button onclick="window.print()" style="padding:10px 22px;font-size:14px;font-weight:700;cursor:pointer">Imprimir / Guardar como PDF</button></div>');
+  w.document.write('</body></html>');
+  w.document.close();
+  setTimeout(function(){try{w.focus();w.print();}catch(e){}},350);
 }
 
 </script>
