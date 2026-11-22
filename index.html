@@ -34,8 +34,8 @@
   --M:#c99c3c;
   --T:#a55a2c;
   --N:#1c3154;
-  --L:#3a6b52;
-  --Lbg:#152b23;
+  --L:#8fd8b2;
+  --Lbg:#e3f6ec;
   --X:#7d1d2c;
   --shadow:0 6px 20px rgba(0,0,0,.38);
 }
@@ -512,9 +512,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 .dc[data-s="M"] .xi{background:rgba(14,26,46,.18);color:#0e1a2e}
 .dc[data-s="T"]{background:var(--T);border-color:#8d4b22;color:#fff}
 .dc[data-s="N"]{background:var(--N);border-color:#2c4875;color:#f3f6fb}
-.dc[data-s="L"]{background:var(--Lbg);border-color:rgba(58,107,82,.45);color:var(--tx)}
-.dc[data-s="L"] .si{color:#65b88f}
-.dc[data-s="L"] .xi{background:rgba(125,29,44,.25);color:#f3a3b0}
+.dc[data-s="L"]{background:var(--Lbg);border-color:#93d6b2;color:#0e291d}
+.dc[data-s="L"] .si{color:#1f7a4d}
+.dc[data-s="L"] .xi{background:rgba(125,29,44,.16);color:#7d1d2c}
+.dc[data-s="L"] .xn{background:rgba(14,41,29,.12);color:#0e291d}
 
 /* Extra highlight */
 .dc[data-x="1"]{
@@ -3716,8 +3717,8 @@ function drawCal(){
     cnt[sh]++;
     if(o&&o.x)o.x.forEach(function(g){
       tot+=g.a;
-      var a=agg[g.n]||(agg[g.n]={c:0,t:0,i:g.i});
-      a.c++;a.t+=g.a;
+      var a=agg[g.n]||(agg[g.n]={c:0,t:0,i:g.i,dates:[]});
+      a.c++;a.t+=g.a;a.dates.push(pad(d.getDate())+'/'+pad(d.getMonth()+1));
     });
     cells.push({k:k,d:d.getDate(),m:d.getMonth(),sh:sh,o:o});
   }
@@ -3741,7 +3742,7 @@ function drawCal(){
   h+='<span class="leg-item"><i class="sw" style="background:var(--M)"></i> Mañana</span>';
   h+='<span class="leg-item"><i class="sw" style="background:var(--T)"></i> Tarde</span>';
   h+='<span class="leg-item"><i class="sw" style="background:var(--N)"></i> Noche</span>';
-  h+='<span class="leg-item"><i class="sw" style="background:var(--L)"></i> Libre</span>';
+  h+='<span class="leg-item"><i class="sw" style="background:var(--Lbg);border:1px solid #93d6b2"></i> Libre</span>';
   h+='<span class="leg-item" style="font-weight:600;color:var(--tx)"><i class="sw" style="background:var(--X);border:1.5px solid var(--gold)"></i> Con extra</span>';
   h+='</div></div>';
 
@@ -3758,7 +3759,7 @@ function drawCal(){
   g+='<div class="card"><div class="card-hd">'+svg('clip',15)+' Resumen '+(vmode==='P'?'del periodo de cobro':'del mes')+'</div><table><tr><th>Concepto</th><th>Nº</th><th>Importe</th></tr>';
   var ks=Object.keys(agg);
   if(!ks.length)g+='<tr><td colspan="3" style="color:var(--mut)">Sin gratificaciones registradas en este periodo.</td></tr>';
-  ks.forEach(function(n){g+='<tr><td><span class="ic-badge">'+svg(agg[n].i,14)+'</span>'+esc(n)+'</td><td>'+agg[n].c+'</td><td>'+eur(agg[n].t)+'</td></tr>'});
+  ks.forEach(function(n){var fts=agg[n].dates.join(', ');g+='<tr><td><span class="ic-badge">'+svg(agg[n].i,14)+'</span>'+esc(n)+' <span style="color:var(--gold2);font-size:12px;font-weight:600">('+esc(fts)+')</span></td><td>'+agg[n].c+'</td><td>'+eur(agg[n].t)+'</td></tr>'});
   g+='<tr><td><b>TOTAL</b></td><td></td><td><b>'+eur(tot)+'</b></td></tr></table><div class="leg"><span>Días de servicio: <b>'+(cnt.M+cnt.T+cnt.N)+'</b></span><span>Libres: <b>'+cnt.L+'</b></span></div></div>';
   $('t-cal').innerHTML=g+notesCard();
 }
