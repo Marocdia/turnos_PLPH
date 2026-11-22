@@ -1630,14 +1630,21 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
    <div class="view-hd">
     <div>
      <h2 id="ac-title"></h2>
-     <div style="font-size:12px;color:var(--mut);margin-top:2px">Nota de Servicio Jefatura PL Pilar de la Horadada (20/11/2026) · Art. 85.1 LTSV (LO 11/2022) · Arts. 282–295 LECrim</div>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px">Protocolo Jefatura PL Pilar de la Horadada (20/11/2026) · Art. 85.1 LTSV · Criterio Fiscalía 0,40 mg/l · LECrim</div>
     </div>
     <button class="btn sec" onclick="go('menu')" id="btn-back-ac"></button>
    </div>
 
-   <div class="pc-panel">
+   <div class="tabs" id="ac-tabs">
+    <button type="button" class="tab on" data-at="guia" onclick="acTab('guia')" id="ac-tab-guia"></button>
+    <button type="button" class="tab" data-at="marco" onclick="acTab('marco')" id="ac-tab-marco"></button>
+    <button type="button" class="tab" data-at="docs" onclick="acTab('docs')" id="ac-tab-docs"></button>
+   </div>
+
+   <!-- PESTAÑA 1: GUÍA INTERACTIVA PASO A PASO -->
+   <div id="ac-guia" class="pc-panel">
     <div class="pc-cfg">
-     <div class="dr-lbl">1. Resultado lesivo del siniestro</div>
+     <div class="dr-lbl">1. Resultado lesivo / Situación inicial</div>
      <div class="pc-opts" id="ac-modes"></div>
      <div id="ac-subcfg"></div>
     </div>
@@ -1652,43 +1659,48 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
     </div>
 
     <div id="ac-step-body"></div>
+   </div>
 
+   <!-- PESTAÑA 2: MARCO LEGAL, CRITERIO FISCALÍA Y JURISPRUDENCIA -->
+   <div id="ac-marco" class="hide pc-panel">
     <div class="card">
-     <div class="bar" style="margin-bottom:4px">
-      <div class="card-hd" style="margin:0" id="ac-law-hd"></div>
-      <button class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('ac-law-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
-     </div>
-     <div id="ac-law-wrap" class="hide" style="margin-top:8px;overflow-x:auto">
+     <div class="card-hd" id="ac-law-hd"></div>
+     <div style="margin-top:8px;overflow-x:auto">
       <table>
-       <tr><th>Norma / Precepto</th><th>Mandato clave para la actuación policial</th></tr>
-       <tr><td><b>Nota de Servicio PL</b><br><small>20/11/2026 · Atestados</small></td><td>Obligatorio instruir <b>atestado policial y remitirlo al Juzgado</b> en todo accidente urbano con heridos graves o fallecidos, <b>incluidos accidentes con un único vehículo</b> y aunque no existan indicios iniciales de delito. El parte simplificado/ordinario nunca sustituye al atestado.</td></tr>
-       <tr><td><b>Art. 85.1 LTSV</b><br><small>Redacción LO 11/2022</small></td><td><i>"En todo caso, cuando se produzca un accidente de tráfico con resultado de lesión o muerte, la autoridad administrativa lo pondrá en conocimiento de la autoridad judicial, acompañando la comunicación del oportuno atestado."</i> Si hay indicios de delito, suspender procedimiento administrativo sancionador.</td></tr>
-       <tr><td><b>Arts. 142.2 y 152.2 CP</b><br><small>LO 11/2022</small></td><td>Se reputará <b>en todo caso imprudencia menos grave</b> (si no es grave) cuando sea determinante una infracción grave de tráfico (LTSV). El homicidio por imprudencia menos grave con vehículo a motor es <b>delito público</b> (no requiere denuncia previa).</td></tr>
-       <tr><td><b>Art. 382 bis CP</b><br><small>LO 11/2022</small></td><td><b>Abandono del lugar del accidente:</b> delito autónomo del conductor que abandone voluntariamente el lugar tras causar accidente con fallecidos o lesiones de arts. 147.1, 149 o 150 CP (fuera del art. 195 CP).</td></tr>
-       <tr><td><b>Arts. 282, 284 y 295 LECrim</b></td><td>Deber de Policía Judicial de averiguar delitos, proteger víctimas, recoger efectos/pruebas (art. 282), comunicar inmediatamente a Autoridad Judicial/Fiscal (art. 284) y remitir diligencias en un plazo máximo de <b>24 horas</b> (art. 295).</td></tr>
-       <tr><td><b>Arts. 292, 326 y 340 LECrim</b></td><td>Extender atestado exacto con declaraciones, circunstancias e indicios (art. 292); inspección ocular y conservación de vestigios (art. 326); identificación y protocolo de autopsia/levantamiento en muerte violenta (art. 340).</td></tr>
+       <tr><th>Norma / Precepto</th><th>Mandato operativo para la actuación policial</th></tr>
+       <tr><td><b>Protocolo PL Pilar de la Horadada</b><br><small>20/11/2026 · Área de Atestados</small></td><td>Obligatorio instruir <b>atestado policial y remitirlo al Juzgado</b> en todo accidente urbano con heridos graves o fallecidos, <b>incluidos accidentes con un único vehículo</b> y aunque no existan indicios iniciales de delito. El parte ordinario/simplificado nunca sustituye al atestado.</td></tr>
+       <tr><td><b>Art. 85.1 LTSV</b><br><small>Redacción LO 11/2022</small></td><td>Ante cualquier accidente de tráfico con resultado de lesión o muerte, la autoridad administrativa debe ponerlo en conocimiento de la autoridad judicial acompañando el oportuno atestado, suspendiendo la vía administrativa si hay indicios de delito.</td></tr>
+       <tr><td><b>Art. 14.2 LTSV y Arts. 21 y ss. RGC</b></td><td><b>Obligatoriedad de pruebas de alcohol y drogas</b> a todos los conductores implicados en accidentes con heridos graves o fallecidos (si el estado clínico lo permite), con independencia de que presenten o no síntomas externos o de que haya un solo vehículo.</td></tr>
+       <tr><td><b>Criterio Fiscalía (0,40 mg/l)</b><br><small>Guía interna · Art. 379.2 CP</small></td><td>Superar <b>0,40 mg/l</b> en aire espirado en accidente (con o sin heridos) activa el paquete de diligencias penales (requerimiento, tiques, sintomatología, derechos). <b>No es automático:</b> debe valorarse conjuntamente con signos externos, conducción y circunstancias del siniestro (sin perjuicio de indicios penales con tasas inferiores).</td></tr>
+       <tr><td><b>Arts. 142.2 y 152.2 CP</b><br><small>LO 11/2022</small></td><td>Se considera en todo caso <b>imprudencia menos grave</b> (si no es grave) cuando sea determinante una infracción grave de tráfico (LTSV). El homicidio imprudente con vehículo a motor es delito público (perseguible de oficio).</td></tr>
+       <tr><td><b>Art. 382 bis y 383 CP</b></td><td><b>382 bis CP:</b> delito autónomo de abandono del lugar del accidente con fallecidos o lesiones graves. <b>383 CP:</b> delito de negativa a someterse a las pruebas legalmente establecidas de alcohol o drogas.</td></tr>
+       <tr><td><b>Arts. 282, 284, 292, 295, 326, 340 y 796.1.7ª LECrim</b></td><td>Policía Judicial: proteger víctimas y recoger vestigios (282, 326), comunicar inmediatamente al Juzgado/Fiscalía (284), remitir atestado en máx. <b>24 horas</b> (295), protocolo de levantamiento/autopsia (340) y control judicial de muestras biológicas hospitalarias sin consentimiento válido.</td></tr>
       </table>
      </div>
     </div>
 
     <div class="card">
-     <div class="bar" style="margin-bottom:4px">
-      <div class="card-hd" style="margin:0" id="ac-chk-hd"></div>
-      <button class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('ac-chk-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
-     </div>
-     <div id="ac-chk-wrap" class="hide" style="margin-top:8px;font-size:13px;color:#cfd9ea;line-height:1.5">
+     <div class="card-hd" id="ac-chk-hd"></div>
+     <div style="margin-top:8px;font-size:13px;color:#cfd9ea;line-height:1.55">
       <ul style="margin:0;padding-left:18px">
-       <li><b>Diligencia de inicio / comparecencia:</b> fecha, hora exacta de aviso y llegada, lugar exacto, unidad interviniente y agentes actuantes (NIP).</li>
-       <li><b>Comunicación a Jefatura / Área de Atestados:</b> hora de aviso al responsable del servicio y recursos activados.</li>
-       <li><b>Inspección técnico-ocular y croquis:</b> anchura de calzada, señalización, iluminación, estado del firme, clima, huellas de frenada/derrape, restos, punto de colisión y posición final.</li>
-       <li><b>Reportaje fotográfico:</b> vistas generales de aproximación, semigenerales de vehículos/escena y primeros planos de daños, vestigios, elementos de seguridad y señalización.</li>
-       <li><b>Filiación y manifestaciones:</b> conductores, ocupantes, peatones y testigos presenciales (teléfonos y domicilios completos).</li>
-       <li><b>Pruebas de alcohol y drogas (Art. 14 LTSV):</b> tickets etilómetro/test indiciario o diligencia de solicitud de extracción sanguínea en hospital.</li>
-       <li><b>Documentación y factores concurrentes:</b> permisos de conducir, permisos de circulación, ITV, seguro obligatorio, velocidad estimada, estado técnico del vehículo.</li>
-       <li><b>Partes médicos / Defunción:</b> copia de parte de asistencia/lesiones (o diligencia de levantamiento de cadáver y traslado al IMLCF).</li>
-       <li><b>Diligencias penales (si procede):</b> lectura de derechos (art. 118/520 LECrim), investigado/detenido, inmovilización o depósito judicial del vehículo (arts. 104–105 LTSV).</li>
+       <li><b>1. Exposición de hechos e identificación:</b> fecha, hora exacta de aviso y llegada, unidades intervinientes, implicados y testigos. En <b>mortales</b>, documentación cronológica estricta con fechas y horas.</li>
+       <li><b>2. Inspección técnico-ocular, vestigios, fotos y croquis:</b> coordinación con Área de Atestados; estado del firme, señalización, huellas, punto de colisión y posiciones finales.</li>
+       <li><b>3. Pruebas de alcohol y drogas:</b> tiques de ambas mediciones, datos del etilómetro, diligencia de requerimiento y, si &gt;0,40 mg/l o indicios, diligencia detallada de sintomatología y derechos.</li>
+       <li><b>4. Imposibilidad clínica (Hospital):</b> diligencia motivada, contacto con facultativos, solicitud de conservación de muestras asistenciales y, si no hay consentimiento válido, <b>solicitud de autorización al Juzgado de Guardia</b> con garantía de cadena de custodia.</li>
+       <li><b>5. Manifestaciones y ofrecimiento de acciones:</b> toma de declaración a conductores, ocupantes y testigos; ofrecimiento de acciones a perjudicados.</li>
+       <li><b>6. Partes médicos e informe técnico:</b> incorporación de partes de lesiones/informes médicos por cauces legales, informe técnico y diligencias complementarias.</li>
+       <li><b>7. Remisión judicial:</b> envío del atestado al Juzgado competente (máx. 24h si detenido/urgente).</li>
       </ul>
      </div>
+    </div>
+   </div>
+
+   <!-- PESTAÑA 3: ACTAS Y OFICIOS EN PDF (LISTA PARA ADJUNTAR MODELOS) -->
+   <div id="ac-docs" class="hide pc-panel">
+    <div class="pc-card">
+     <div class="card-hd" style="margin-bottom:6px">Biblioteca de Actas y Oficios Oficiales (PDF)</div>
+     <div style="font-size:12.5px;color:var(--mut);margin-bottom:10px">Acceso rápido para descargar e imprimir los modelos normalizados del Área de Atestados de Pilar de la Horadada. Cuando subas los archivos PDF, quedarán integrados directamente en estos botones.</div>
+     <div id="ac-docs-list" class="bn-list"></div>
     </div>
    </div>
   </div>
@@ -3549,6 +3561,9 @@ function initStaticIcons(){
   $('btn-back-ac').innerHTML=svg('back',15)+' Inicio';
   $('ac-law-hd').innerHTML=svg('scale',15)+' Marco normativo y fundamento legal';
   $('ac-chk-hd').innerHTML=svg('clip',15)+' Estructura y checklist del atestado (Área de Atestados)';
+  if($('ac-tab-guia'))$('ac-tab-guia').innerHTML=svg('clip',14)+' Guía Paso a Paso';
+  if($('ac-tab-marco'))$('ac-tab-marco').innerHTML=svg('scale',14)+' Ley y Jurisprudencia';
+  if($('ac-tab-docs'))$('ac-tab-docs').innerHTML=svg('folder',14)+' Actas PDF';
   $('pm-title').innerHTML=svg('idcard',18)+' Vigencia de Permisos';
   $('btn-back-pm').innerHTML=svg('back',15)+' Inicio';
   $('pm-inm-hd').innerHTML=svg('car',15)+' Regla general de inmovilización del vehículo (Arts. 104–105 LTSV)';
@@ -4778,130 +4793,158 @@ function renderCod(){
 
 
 /* ==================== GUÍA INTERACTIVA: ACCIDENTES CON HERIDOS GRAVES O FALLECIDOS ==================== */
-var acState={res:'grave',veh:'multi',pen:'no',step:0,chk:{}};
+var acState={tab:'guia',res:'grave',veh:'multi',alc:'ok',step:0,chk:{}};
 
-function acSetRes(v){acState.res=v;acState.step=0;acState.chk={};renderAcc();}
-function acSetVeh(v){acState.veh=v;renderAcc();}
-function acSetPen(v){acState.pen=v;renderAcc();}
+/* Catálogo de Actas y Oficios PDF (listo para incrustar los PDFs definitivos) */
+var AC_DOCS=[
+  {id:'of_hosp',t:'Oficio al Centro Hospitalario',s:'Solicitud de valoración facultativa, conservación de muestras biológicas asistenciales y cadena de custodia (Punto 5 Protocolo)',cat:'Hospital / Muestras',pdf:''},
+  {id:'of_juzg',t:'Oficio al Juzgado de Guardia',s:'Solicitud de autorización judicial para obtención, análisis o utilización de muestras biológicas sin consentimiento válido (Punto 5)',cat:'Judicial',pdf:''},
+  {id:'dil_sint',t:'Diligencia de Sintomatología y Signos Externos',s:'Imprescindible en tasas > 0,40 mg/l (criterio Fiscalía) o indicios de conducción bajo influencia de alcohol/drogas (Punto 3)',cat:'Alcoholemia / Drogas',pdf:''},
+  {id:'act_req',t:'Acta / Diligencia de Requerimiento y Pruebas',s:'Requerimiento formal (Art. 14.2 LTSV / Arts. 21 y ss. RGC), datos de etilómetro, ambas mediciones y resultado',cat:'Alcoholemia / Drogas',pdf:''},
+  {id:'ofr_acc',t:'Acta de Ofrecimiento de Acciones',s:'Información de derechos a perjudicados y víctimas del siniestro (Punto 2 Protocolo)',cat:'Víctimas / Perjudicados',pdf:''},
+  {id:'der_inv',t:'Acta de Información de Derechos al Investigado',s:'Lectura de derechos (Arts. 118 / 520 LECrim) cuando concurran indicios de responsabilidad penal',cat:'Penal',pdf:''}
+];
+
+function acTab(t){
+  acState.tab=t;
+  document.querySelectorAll('#ac-tabs .tab').forEach(function(b){b.classList.toggle('on',b.dataset.at===t)});
+  ['guia','marco','docs'].forEach(function(x){$('ac-'+x).classList.toggle('hide',x!==t)});
+  if(t==='guia')renderAccGuia();
+  if(t==='docs')renderAccDocs();
+}
+
+function acSetRes(v){acState.res=v;acState.step=0;acState.chk={};renderAccGuia();}
+function acSetVeh(v){acState.veh=v;renderAccGuia();}
+function acSetAlc(v){acState.alc=v;renderAccGuia();}
 function acGoStep(n){
   var steps=acBuildSteps();
   if(n<0)n=0;if(n>=steps.length)n=steps.length-1;
   acState.step=n;
-  renderAcc();
+  renderAccGuia();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function acTogChk(id,val){
   if(val)acState.chk[id]=1;else delete acState.chk[id];
-  renderAcc();
+  renderAccGuia();
 }
-function acReset(){acState.step=0;acState.chk={};renderAcc();}
+function acReset(){acState.step=0;acState.chk={};renderAccGuia();}
 
 function acBuildSteps(){
-  var r=acState.res, v=acState.veh, p=acState.pen;
-  var isFall=(r==='fallecido'), isAgra=(r==='agravado'), isUnico=(v==='unico'), isPen=(p==='si');
+  var r=acState.res, v=acState.veh, a=acState.alc;
+  var isFall=(r==='fallecido'), isAgra=(r==='agravado'), isUnico=(v==='unico');
+  var isTasa=(a==='tasa'), isImp=(a==='imp');
 
   var s1={
     short:'Activación',
-    title: isAgra ? 'Conocimiento del agravamiento y activación de Atestados' : 'Auxilio, protección y comunicación inmediata',
-    sub: isAgra ? 'Punto 6 Nota de Servicio · Parte simplificado que deriva en grave/fallecido' : 'Punto 1 y 2 Nota de Servicio · Art. 51 LTSV',
+    title: isAgra ? '1. Agravamiento posterior y activación de Atestados' : '1. Auxilio, protección y comunicación inmediata',
+    sub: isAgra ? 'Punto 6 Protocolo · Parte simplificado que pasa a grave o fallecido' : 'Punto 1 Protocolo · Coordinación inicial con Jefatura y Atestados',
     alert: isFall
-      ? {t:'red',tx:'<b>VÍCTIMA MORTAL (EXIGENCIA MÁXIMA):</b> Comunicar de inmediato al Responsable del Servicio / Jefatura, Área de Atestados y <b>Juzgado de Guardia / Médico Forense</b> (Art. 340 LECrim). No mover el cadáver salvo estricta necesidad de auxilio o autorización judicial.'}
+      ? {t:'red',tx:'<b>ACCIDENTE MORTAL (PUNTOS 1 Y 2):</b> Comunicar <b>inmediatamente</b> al responsable del servicio y al <b>Juzgado de Guardia</b>. Documentar <b>cronológicamente</b> todas las actuaciones con fechas y horas exactas.'}
       : (isAgra
-          ? {t:'gold',tx:'<b>CONVERSIÓN OBLIGATORIA A ATESTADO (PUNTO 6):</b> Cuando un accidente documentado inicialmente con parte simplificado resulte posteriormente de mayor gravedad o fallezca algún implicado, dar cuenta inmediata al <b>Responsable de Atestados</b> para instruir/completar diligencias y comunicar al Juzgado.'}
-          : {t:'red',tx:'<b>COMUNICACIÓN INMEDIATA (PUNTO 1):</b> Avisar sin demora al <b>Responsable del Servicio</b> y activar al <b>Área de Atestados</b> y recursos necesarios para la investigación del siniestro.'}),
+          ? {t:'gold',tx:'<b>PARTE SIMPLIFICADO AGRAVADO (PUNTO 6):</b> Al tener conocimiento de lesiones graves o fallecimiento posterior, comunicar <b>inmediatamente al responsable de Atestados</b> para completar diligencias y remitir al Juzgado.'}
+          : {t:'gold',tx:'<b>COMUNICACIÓN INMEDIATA (PUNTO 1):</b> Avisar de inmediato al responsable del servicio para activar recursos y coordinar la instrucción obligatoria del atestado.'}),
     items: isAgra ? [
-      {id:'a1_1',tx:'Recabar confirmación médica o hospitalaria del empeoramiento de lesiones o del fallecimiento del implicado.'},
-      {id:'a1_2',tx:'Dar cuenta inmediata al <b>Responsable de Atestados</b> y a la Jefatura del Servicio.'},
-      {id:'a1_3',tx:'Localizar el <b>parte simplificado / ordinario</b> inicial, croquis, fotografías y datos de agentes intervinientes.'},
-      {id:'a1_4',tx:'Abrir <b>atestado policial formal</b> (el parte ordinario no sustituye al atestado) y planificar diligencias complementarias.'}
+      {id:'a1_1',tx:'Recabar confirmación médica/hospitalaria del carácter grave de las lesiones o del fallecimiento.'},
+      {id:'a1_2',tx:'Comunicar <b>inmediatamente al responsable de Atestados</b> para transformar el parte simplificado en atestado judicial.'},
+      {id:'a1_3',tx:'Aportar toda la documentación previa (parte inicial, fotos, filiaciones, tiques de pruebas) y efectuar comunicaciones judiciales.'}
     ] : [
-      {id:'a1_1',tx:'<b>Proteger la zona del siniestro:</b> señalización policial, balizamiento y corte/regulación del tráfico para evitar nuevos accidentes.'},
-      {id:'a1_2',tx:'<b>Auxiliar a las víctimas</b> y solicitar/coordinar servicios sanitarios (112/SAMU) y bomberos si hay atrapados (Art. 51 LTSV).'},
-      {id:'a1_3',tx:'<b>Comunicar inmediatamente</b> al Responsable del Servicio / Jefatura para activar al <b>Área de Atestados</b> y recursos de investigación.'},
-      isFall ? {id:'a1_4',tx:'<b>Protocolo de fallecido:</b> preservar el cuerpo, evitar su alteración, proteger la intimidad (biombo/pantalla) y avisar a <b>Autoridad Judicial y Médico Forense</b>.'} : null
+      {id:'a1_1',tx:'Asegurar la zona del siniestro, prestar auxilio y activar servicios sanitarios (112) y bomberos si procede.'},
+      {id:'a1_2',tx:'<b>Comunicar inmediatamente al responsable del servicio</b> para activar al Área de Atestados y recursos de apoyo.'},
+      isFall ? {id:'a1_3',tx:'<b>Aviso inmediato al Juzgado de Guardia</b> y seguir instrucciones recibidas (levantamiento de cadáver / IMLCF).'} : null,
+      isFall ? {id:'a1_4',tx:'Abrir <b>registro cronológico estricto</b> anotando fecha y hora exacta de cada hito (aviso, llegada, llamadas, pruebas, levantamiento).'} : null,
+      isUnico ? {id:'a1_5',tx:'<b>Único vehículo (Punto 4):</b> confirmar apertura de atestado aunque no haya terceros perjudicados ni indicios iniciales de delito.'} : null
     ].filter(Boolean)
   };
 
   var s2={
-    short:'Inspección',
-    title:'Preservación del lugar, vestigios e inspección ocular',
-    sub:'Punto 2 Nota de Servicio · Arts. 282, 326 y 334 LECrim',
-    alert:{t:'gold',tx:'<b>PRESERVACIÓN DE VESTIGIOS:</b> Ningún vehículo ni vestigio debe moverse antes de fijar su posición exacta (salvo urgencia vital), documentando todo mediante reportaje fotográfico y mediciones antes de despejar la vía.'},
+    short:'Escena',
+    title:'2. Inspección ocular, vestigios, fotografías y croquis',
+    sub:'Puntos 2 y 7 Protocolo · Art. 326 LECrim · Coordinación con Atestados',
+    alert: isFall
+      ? {t:'red',tx:'<b>PRESERVACIÓN ESTRICTA (FALLECIDOS):</b> No alterar la posición del cuerpo ni de los vehículos salvo estricta necesidad asistencial. Acordonar y custodiar vestigios hasta la llegada de la comisión judicial / Atestados.'}
+      : {t:'green',tx:'<b>COORDINACIÓN (PUNTO 7):</b> Para croquis, inspecciones técnico-oculares, informes técnicos y diligencias especiales, coordinarse con el responsable de Atestados.'},
     items:[
-      {id:'a2_1',tx:'<b>Acordonar y preservar</b> la escena evitando la contaminación de pruebas por curiosos o tránsito.'},
-      {id:'a2_2',tx:'<b>Fijar y recoger vestigios:</b> huellas de frenada/derrape, restos de cristales/plásticos, manchas de fluidos, punto de impacto y posición final de vehículos y víctimas.'},
-      {id:'a2_3',tx:'<b>Reportaje fotográfico completo:</b> vistas generales (sentido de marcha de cada implicado), semigenerales y detalles de daños, señalización y vestigios.'},
-      {id:'a2_4',tx:'<b>Croquis y mediciones:</b> anchura de carriles, distancias de frenado, visibilidad, señalización vertical/horizontal y estado del pavimento/iluminación.'},
-      {id:'a2_5',tx:'Comprobar existencia de <b>cámaras de tráfico o de comercios/viviendas</b> cercanas y gestionar su conservación inmediata.'}
+      {id:'a2_1',tx:'Acordonar y preservar la escena evitando la destrucción de huellas de frenada, derrape, restos de cristales o piezas.'},
+      {id:'a2_2',tx:'Realizar <b>reportaje fotográfico completo</b>: vistas generales de aproximación, semigenerales, daños, vestigios, señalización e iluminación.'},
+      {id:'a2_3',tx:'Tomar datos para <b>inspección ocular y croquis</b>: anchura calzada, estado del firme, clima, visibilidad, punto de colisión y posiciones finales.'},
+      {id:'a2_4',tx:'Recoger y reseñar vestigios relevantes (elementos de seguridad, cinturón, casco, airbag, posibles cámaras de la zona).'}
     ]
   };
 
   var s3={
-    short:'Implicados',
-    title:'Identificación, testigos y factores concurrentes',
-    sub: isUnico ? 'Punto 5 Nota de Servicio · Investigación obligatoria en vehículo único' : 'Punto 2 y 5 Nota de Servicio · Art. 14 LTSV',
-    alert: isUnico
-      ? {t:'red',tx:'<b>ACCIDENTE CON UN ÚNICO VEHÍCULO IMPLICADO (PUNTO 5):</b> Es <b>igualmente obligatorio</b> instruir atestado y remitirlo al Juzgado aunque el conductor sea el único lesionado, no existan terceros perjudicados ni indicios iniciales de delito.'}
-      : {t:'green',tx:'<b>INVESTIGACIÓN DE CAUSAS:</b> Documentar con rigor todos los factores concurrentes (velocidad, alcohol/drogas, vía, vehículo y elementos de seguridad) sin prejuzgar responsabilidad penal.'},
-    items:[
-      {id:'a3_1',tx:'<b>Identificar plenamente</b> a conductores, ocupantes, peatones lesionados y titulares de los vehículos (DNI/NIE/PAS, domicilio, teléfono).'},
-      {id:'a3_2',tx:'<b>Localizar e identificar testigos presenciales</b> independientes y tomarles manifestación breve en el lugar (o citarlos en dependencias).'},
-      {id:'a3_3',tx:'<b>Pruebas de alcohol y drogas (Art. 14.2 LTSV):</b> realizarlas a todos los conductores implicados. Si hay imposibilidad por lesiones/traslado hospitalario, aplicar el protocolo de <b>Prueba de Contraste / Presunto Delito en sangre</b>.'},
-      {id:'a3_4',tx:'<b>Comprobar factores concurrentes:</b> velocidad estimada, estado del vehículo (neumáticos, frenos, luces, reformas), documentación (permiso, ITV, seguro) y uso de cinturón/casco/SRI.'},
-      isUnico ? {id:'a3_5',tx:'<b>Descartar o confirmar causas externas (vehículo único):</b> estado de la calzada, obstáculos, señalización deficiente, fallo mecánico o indisposición súbita del conductor.'} : null
-    ].filter(Boolean)
+    short:'Alc/Drogas',
+    title:'3. Pruebas obligatorias de alcohol y drogas',
+    sub:'Puntos 3, 4 y 5 Protocolo · Art. 14.2 LTSV · Arts. 21 y ss. RGC · Criterio Fiscalía 0,40 mg/l',
+    alert: isImp
+      ? {t:'red',tx:'<b>IMPOSIBILIDAD CLÍNICA EN HOSPITAL (PUNTO 5):</b> Si el conductor está inconsciente, intubado o en situación incompatible, <b>dejar constancia motivada</b>, contactar con el hospital para valoración y <b>conservación de muestras asistenciales</b>, y solicitar <b>autorización al Juzgado de Guardia</b> si no existe consentimiento válido.'}
+      : (isTasa
+          ? {t:'red',tx:'<b>CRITERIO FISCALÍA (&gt; 0,40 mg/l) / INDICIOS PENALES (PUNTO 3):</b> Incorporar paquete completo de diligencias penales. <b>Importante:</b> superar 0,40 mg/l no implica delito automático; debe valorarse junto con sintomatología, conducción observada y circunstancias del siniestro.'}
+          : {t:'gold',tx:'<b>OBLIGATORIEDAD (PUNTOS 3 Y 4):</b> Practicar pruebas de alcohol y drogas a <b>todos los conductores implicados</b> (incluso vehículo único y sin síntomas externos), siempre que su estado clínico lo permita.'}),
+    extraBtn: isImp
+      ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0"><button type="button" class="btn sec" style="padding:6px 10px;font-size:12px" onclick="acTab(\'docs\')">'+svg('folder',13)+' Ir a Oficios Hospital / Juzgado (PDF)</button><button type="button" class="btn sec" style="padding:6px 10px;font-size:12px" onclick="go(\'contraste\')">'+svg('tube',13)+' Abrir Guía Prueba de Contraste</button></div>'
+      : (isTasa ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0"><button type="button" class="btn sec" style="padding:6px 10px;font-size:12px" onclick="acTab(\'docs\')">'+svg('folder',13)+' Abrir Diligencia Sintomatología / Actas PDF</button></div>' : ''),
+    items: isImp ? [
+      {id:'a3_1',tx:'Extender <b>diligencia haciendo constar la imposibilidad</b> física/clínica de practicar las pruebas ordinarias en el lugar.'},
+      {id:'a3_2',tx:'<b>Contactar con el centro hospitalario</b> para que el personal facultativo valore las pruebas procedentes.'},
+      {id:'a3_3',tx:'Interesar por oficio (cauces legales) la <b>conservación de posibles muestras biológicas</b> obtenidas con fines asistenciales.'},
+      {id:'a3_4',tx:'Solicitar <b>autorización al Juzgado de Guardia</b> (modelo de oficio) cuando sea necesaria para obtener, analizar o utilizar muestras sin consentimiento válido.'},
+      {id:'a3_5',tx:'Garantizar documentalmente la <b>conservación y cadena de custodia</b> de todas las muestras biológicas.'}
+    ] : (isTasa ? [
+      {id:'a3_1',tx:'Extender <b>Diligencia de requerimiento y práctica de las pruebas</b> (Art. 14.2 LTSV / Arts. 21 y ss. RGC).'},
+      {id:'a3_2',tx:'Adjuntar <b>tiques de ambas mediciones</b> (con intervalo reglamentario) y datos completos del etilómetro (marca, modelo, serie, verificación).'},
+      {id:'a3_3',tx:'Cumplimentar <b>Diligencia de sintomatología y signos externos</b> apreciados (habla, deambulación, olor, ojos, comportamiento, actitud).'},
+      {id:'a3_4',tx:'Practicar <b>información de derechos al investigado</b> (Arts. 118 / 520 LECrim) cuando concurran indicios de responsabilidad penal.'},
+      {id:'a3_5',tx:'Practicar prueba de <b>detección de drogas</b> si procede y valorar inmovilización/depósito del vehículo (Arts. 104–105 LTSV).'}
+    ] : [
+      {id:'a3_1',tx:'Practicar prueba de <b>detección de alcohol</b> (aire espirado) a todos los conductores implicados cuya situación clínica lo permita.'},
+      {id:'a3_2',tx:'Practicar prueba indiciaria de <b>detección de drogas</b> conforme a protocolo (independientemente de ausencia de síntomas externos).'},
+      {id:'a3_3',tx:'Adjuntar tiques y resultado al atestado. Recordar que incluso con tasas ≤ 0,40 mg/l pueden apreciarse indicios penales si hay conducción anómala o síntomas evidentes.'}
+    ])
   };
 
   var s4={
-    short:'Penal',
-    title:'Valoración penal y diligencias específicas',
-    sub: isPen ? 'Punto 4 Nota de Servicio · Arts. 142, 152, 379–384 CP · Art. 520 LECrim' : 'Punto 3 y 5 Nota de Servicio · Ausencia de indicios iniciales de delito',
-    alert: isPen
-      ? {t:'red',tx:'<b>INDICIOS DE DELITO (PUNTO 4):</b> Practicar todas las diligencias específicas (lectura de derechos Art. 118/520 LECrim, valoración de detención o investigado no detenido, inmovilización/depósito judicial del vehículo). Recordar que según <b>LO 11/2022</b> una infracción grave LTSV determinante del resultado implica al menos imprudencia menos grave.'}
-      : {t:'gold',tx:'<b>SIN INDICIOS INICIALES DE DELITO (PUNTOS 3 Y 5):</b> La ausencia de indicios penales <b>NO exime</b> de instruir el atestado ni de su comunicación judicial. Instruir el atestado <b>no supone atribuir automáticamente responsabilidad penal</b> al conductor.'},
-    items: isPen ? [
-      {id:'a4_1',tx:'Tipificar los posibles indicios penales: <b>Seguridad Vial</b> (Arts. 379–384 CP), <b>Homicidio/Lesiones imprudentes</b> (Arts. 142/152 CP) o <b>Abandono del lugar</b> (Art. 382 bis CP).'},
-      {id:'a4_2',tx:'Practicar <b>información de derechos</b> al investigado/detenido (Arts. 118 o 520 LECrim) y asistencia letrada si procede.'},
-      {id:'a4_3',tx:'Acordar <b>inmovilización y depósito del vehículo</b> a disposición judicial (Arts. 104–105 LTSV y Art. 334 LECrim) si es pieza de convicción o requiere peritaje mecánico.'},
-      {id:'a4_4',tx:'<b>Suspender</b> cualquier procedimiento administrativo sancionador por los mismos hechos hasta resolución judicial (Art. 85.1 LTSV).'}
-    ] : [
-      {id:'a4_1',tx:'Hacer constar objetivamente en el atestado que inicialmente no se aprecian indicios de ilícito penal, sin perjuicio de la valoración judicial.'},
-      {id:'a4_2',tx:'Verificar si existe alguna <b>infracción grave LTSV</b> que haya podido ser determinante del resultado (criterio LO 11/2022 sobre imprudencia menos grave).'},
-      {id:'a4_3',tx:'Dejar los vehículos a disposición de sus titulares o retirarlos de la calzada una vez finalizada la inspección técnico-ocular, salvo que proceda peritaje.'},
-      {id:'a4_4',tx:'Recabar datos del hospital de destino para incorporar el <b>parte médico de lesiones</b> definitivo al atestado.'}
-    ]
+    short:'Personas',
+    title:'4. Filiación, manifestaciones y ofrecimiento de acciones',
+    sub:'Punto 2 Protocolo · Art. 292 LECrim · Derechos de perjudicados e investigados',
+    alert:{t:'green',tx:'<b>TESTIGOS Y PERJUDICADOS:</b> Recabar datos completos de localización (teléfono y domicilio) de todos los testigos presenciales antes de que abandonen el lugar y practicar el ofrecimiento de acciones cuando corresponda.'},
+    items:[
+      {id:'a4_1',tx:'Identificación completa de conductores, ocupantes, peatones implicados y <b>testigos presenciales</b>.'},
+      {id:'a4_2',tx:'Recoger <b>manifestaciones</b> detalladas de implicados y testigos sobre la dinámica del accidente.'},
+      {id:'a4_3',tx:'Practicar el <b>ofrecimiento de acciones</b> a los perjudicados / familiares cuando corresponda.'},
+      {id:'a4_4',tx:'Comprobar documentación administrativa de todos los vehículos y conductores (permiso conducir, circulación, ITV y SOA).'},
+      isTasa ? {id:'a4_5',tx:'Verificar que consta firmada la <b>lectura de derechos</b> del investigado/detenido (Arts. 118 / 520 LECrim).'} : null
+    ].filter(Boolean)
   };
 
   var s5={
-    short:'Atestado',
-    title:'Instrucción completa del atestado policial',
-    sub:'Puntos 3, 5 y 6 Nota de Servicio · Arts. 292 y 293 LECrim',
-    alert:{t:'red',tx:'<b>PROHIBIDO SUSTITUIR POR PARTE ORDINARIO/SIMPLIFICADO:</b> En todos los supuestos de heridos graves o fallecidos (incluso con un solo vehículo) es obligatoria la instrucción de <b>atestado policial completo</b>.'},
+    short:'Médicos',
+    title:'5. Partes de lesiones, informe técnico y diligencias',
+    sub:'Puntos 2 y 7 Protocolo · Cauces legales de obtención de informes médicos',
+    alert:{t:'gold',tx:'<b>RECUERDA (PUNTOS 4 Y 7):</b> La confección de un parte ordinario o simplificado <b>NUNCA sustituye</b> a la instrucción del atestado policial en accidentes urbanos con heridos graves o fallecidos (tampoco en vehículo único).'},
     items:[
-      {id:'a5_1',tx:'Redactar <b>diligencia de inicio / comparecencia</b> con cronología exacta, agentes actuantes (NIP) y hechos constatados.'},
-      {id:'a5_2',tx:'Incorporar <b>inspección técnico-ocular, croquis acotado y reportaje fotográfico</b> ordenado y numerado.'},
-      {id:'a5_3',tx:'Adjuntar <b>manifestaciones firmadas</b> de implicados y testigos, tickets/actas de alcohol y drogas y comprobaciones documentales.'},
-      {id:'a5_4',tx:'Adjuntar <b>partes médicos de lesiones</b> (o diligencia de levantamiento de cadáver/autopsia) y <b>parecer técnico / informe de causas</b> del siniestro.'},
-      {id:'a5_5',tx:'Revisar firmas de Instructor, Secretario y comparecientes en todas las diligencias (Art. 293 LECrim).'}
-    ]
+      {id:'a5_1',tx:'Incorporar <b>partes de lesiones e informes médicos</b> obtenidos estrictamente por los cauces legales.'},
+      isFall ? {id:'a5_2',tx:'Incorporar diligencia de <b>levantamiento de cadáver</b>, identificación y traslado al IMLCF para autopsia (Art. 340 LECrim).'} : null,
+      {id:'a5_3',tx:'Elaborar <b>informe técnico</b> y diligencias complementarias en coordinación con el responsable de Atestados.'},
+      {id:'a5_4',tx:'Revisar coherencia entre exposición de hechos, croquis, fotografías, manifestaciones y pruebas practicadas.'}
+    ].filter(Boolean)
   };
 
   var s6={
-    short:'Remisión',
-    title:'Comunicación y remisión a la Autoridad Judicial',
-    sub:'Art. 85.1 LTSV (LO 11/2022) · Arts. 284 y 295 LECrim',
-    alert:{t:'green',tx:'<b>PLAZO MÁXIMO 24 HORAS (Art. 295 LECrim):</b> Poner en conocimiento de la Autoridad Judicial competente (Juzgado de Instrucción / Guardia) acompañando el atestado. Si quedan pruebas pendientes (analíticas, evolución médica), remitir el atestado principal y anunciar <b>diligencias ampliatorias</b>.'},
+    short:'Juzgado',
+    title:'6. Remisión del atestado a la Autoridad Judicial',
+    sub:'Art. 85.1 LTSV (LO 11/2022) · Art. 295 LECrim · Cierre en Atestados',
+    alert:{t:'green',tx:'<b>REMISIÓN OBLIGATORIA:</b> Remitir el atestado completo al Juzgado competente (máx. 24 h si hay detenido o diligencias urgentes, Art. 295 LECrim). Si existen indicios de delito, suspender cualquier procedimiento administrativo sancionador (Art. 85.1 LTSV).'},
     summary:[
-      {k:'Destino judicial',v:'Juzgado de Instrucción / Guardia competente (y Fiscalía si procede)'},
-      {k:'Plazo legal máximo',v:'Inmediata comunicación · Máx. 24 horas (Art. 295 LECrim)'},
-      {k:'Documento obligatorio',v:'Atestado policial completo (NUNCA parte simplificado)'},
-      {k:'Registro interno',v:'Área de Atestados PL Pilar de la Horadada · Estadística DGT (Art. 114 LTSV)'}
+      {k:'Tipo de diligencias',v: isFall ? 'Atestado urgente (Accidente Mortal) + cronología' : 'Atestado policial completo (obligatorio)'},
+      {k:'Destino judicial',v: isFall ? 'Juzgado de Guardia (aviso inmediato + remisión)' : 'Juzgado de Instrucción / Guardia competente'},
+      {k:'Pruebas alcohol/drogas',v: isImp ? 'Vía hospitalaria (oficios + custodia + autorización judicial)' : (isTasa ? 'Paquete Fiscalía >0,40 mg/l + sintomatología' : 'Pruebas obligatorias incorporadas al atestado')},
+      {k:'Coordinación interna',v:'Responsable del servicio y Área de Atestados'}
     ],
     items:[
-      {id:'a6_1',tx:'<b>Remitir el atestado policial</b> al Juzgado de Instrucción / Guardia competente (Art. 85.1 LTSV y Art. 284 LECrim).'},
-      {id:'a6_2',tx:'Si existen diligencias pendientes (resultados toxicológicos, parte de sanidad o evolución de heridos graves), hacer constar que se remitirán en <b>diligencias ampliatorias</b>.'},
-      {id:'a6_3',tx:'Registrar el siniestro en el sistema policial / <b>Registro Nacional de Víctimas de Accidentes de Tráfico (DGT)</b> (Art. 114 LTSV).'},
-      {id:'a6_4',tx:'Dar cuenta del cierre y entrega a la <b>Jefatura / Área de Atestados</b>.'}
+      {id:'a6_1',tx:'Verificar que el atestado incluye todas las actas, tiques, croquis, reportaje fotográfico, oficios y partes médicos.'},
+      {id:'a6_2',tx:'<b>Remitir el atestado a la Autoridad Judicial competente</b> (Art. 85.1 LTSV y Art. 295 LECrim).'},
+      {id:'a6_3',tx:'Si concurren indicios de delito, dejar constancia de la <b>suspensión de la vía administrativa sancionadora</b>.'},
+      {id:'a6_4',tx:'Entregar copia / registrar cierre definitivo en el <b>Área de Atestados</b>.'}
     ]
   };
 
@@ -4909,42 +4952,44 @@ function acBuildSteps(){
 }
 
 function renderAcc(){
-  var r=acState.res, v=acState.veh, p=acState.pen;
+  acTab(acState.tab||'guia');
+}
+
+function renderAccGuia(){
+  var r=acState.res, v=acState.veh, a=acState.alc;
   var modes=[
-    {id:'grave',t:'Herido Grave',s:'Lesiones graves / ingreso',i:'alert',cl:'c-amber'},
-    {id:'fallecido',t:'Fallecido',s:'Víctima mortal en siniestro',i:'siren',cl:'c-crim'},
-    {id:'agravado',t:'Agravamiento',s:'Parte previo que empeora',i:'clip',cl:'c-purp'}
+    {id:'grave',t:'Herido Grave',s:'Atestado obligatorio',i:'alert',cl:'c-gold'},
+    {id:'fallecido',t:'Fallecido',s:'Cronología + Juzgado Guardia',i:'siren',cl:'c-crim'},
+    {id:'agravado',t:'Agravamiento',s:'Parte previo → Atestados',i:'clip',cl:'c-blue'}
   ];
   $('ac-modes').innerHTML=modes.map(function(x){
     return '<div class="pc-opt'+(r===x.id?' on':'')+'" onclick="acSetRes(\''+x.id+'\')"><div class="oi '+x.cl+'">'+svg(x.i,18)+'</div><div><b>'+x.t+'</b><small>'+x.s+'</small></div></div>';
   }).join('');
 
-  var sub='<div class="dr-lbl" style="margin-top:6px">2. Vehículos implicados e indicios penales</div>';
-  sub+='<div class="pc-opts two">';
+  var sub='<div class="dr-lbl" style="margin-top:8px">2. Vehículos implicados (Punto 4)</div><div class="pc-opts two">';
   [
-    ['multi','Varios implicados / Atropello','Colisión, peatón, ciclista o VMP','crash','c-blue'],
-    ['unico','Único vehículo implicado','Obligatorio atestado (Punto 5)','car','c-gold']
+    ['multi','Varios vehículos / Peatón','Colisión, atropello o terceros','car','c-blue'],
+    ['unico','Único vehículo','Incluso solo conductor lesionado','car','c-amber']
   ].forEach(function(o){
     sub+='<div class="pc-opt'+(v===o[0]?' on':'')+'" onclick="acSetVeh(\''+o[0]+'\')"><div class="oi '+o[4]+'">'+svg(o[3],16)+'</div><div><b>'+o[1]+'</b><small>'+o[2]+'</small></div></div>';
   });
-  sub+='</div><div class="pc-opts two" style="margin-bottom:0">';
+  sub+='</div><div class="dr-lbl" style="margin-top:8px">3. Situación pruebas alcohol y drogas (Puntos 3 y 5)</div><div class="pc-opts">';
   [
-    ['no','Sin indicios iniciales de delito','Igualmente atestado + Juzgado','shield','c-green'],
-    ['si','Con indicios de delito / Fuga','Alcohol/drogas, 379–384, 382 bis CP','scale','c-crim']
+    ['ok','Pruebas viables','≤ 0,40 mg/l / Neg.','check','c-green'],
+    ['tasa','> 0,40 mg/l / Penal','Criterio Fiscalía','siren','c-crim'],
+    ['imp','Imposible (Hospital)','Inconsciente / Intubado','hosp','c-purp']
   ].forEach(function(o){
-    sub+='<div class="pc-opt'+(p===o[0]?' on':'')+'" onclick="acSetPen(\''+o[0]+'\')"><div class="oi '+o[4]+'">'+svg(o[3],16)+'</div><div><b>'+o[1]+'</b><small>'+o[2]+'</small></div></div>';
+    sub+='<div class="pc-opt'+(a===o[0]?' on':'')+'" onclick="acSetAlc(\''+o[0]+'\')"><div class="oi '+o[4]+'">'+svg(o[3],16)+'</div><div><b>'+o[1]+'</b><small>'+o[2]+'</small></div></div>';
   });
   sub+='</div>';
   $('ac-subcfg').innerHTML=sub;
 
   var steps=acBuildSteps();
-  var totChk=0, doneChk=0;
-  steps.forEach(function(st){
-    st.items.forEach(function(it){totChk++;if(acState.chk[it.id])doneChk++});
-  });
-  var pct=totChk?Math.round((doneChk/totChk)*100):0;
+  var tot=0,done=0;
+  steps.forEach(function(st){st.items.forEach(function(it){tot++;if(acState.chk[it.id])done++})});
+  var pct=tot?Math.round((done/tot)*100):0;
   $('ac-prog-txt').textContent='Paso '+(acState.step+1)+' de '+steps.length+' · '+steps[acState.step].short;
-  $('ac-chk-cnt').textContent=doneChk+'/'+totChk+' ('+pct+'%)';
+  $('ac-chk-cnt').textContent=done+'/'+tot+' ('+pct+'%)';
   $('ac-bar-in').style.width=pct+'%';
 
   $('ac-steps').innerHTML=steps.map(function(st,ix){
@@ -4953,42 +4998,49 @@ function renderAcc(){
     return '<div class="'+cls+'" onclick="acGoStep('+ix+')">'+(allDone?'✓ ':'')+(ix+1)+'<span>'+esc(st.short)+'</span></div>';
   }).join('');
 
-  var curS=steps[acState.step];
+  var s=steps[acState.step];
   var h='<div class="pc-card">';
-  h+='<div class="pc-step-hd"><div class="pc-step-num">'+(acState.step+1)+'</div><div><h3>'+esc(curS.title)+'</h3><small>'+esc(curS.sub)+'</small></div></div>';
-
-  if(curS.alert){
-    var aico=curS.alert.t==='red'?'siren':(curS.alert.t==='green'?'shield':'alert');
-    h+='<div class="pc-alert '+curS.alert.t+'">'+svg(aico,18)+'<div>'+curS.alert.tx+'</div></div>';
+  h+='<div class="pc-step-hd"><div class="pc-step-num">'+(acState.step+1)+'</div><div><h3>'+esc(s.title)+'</h3><small>'+esc(s.sub)+'</small></div></div>';
+  if(s.alert){
+    var aico=s.alert.t==='red'?'siren':(s.alert.t==='green'?'shield':'alert');
+    h+='<div class="pc-alert '+s.alert.t+'">'+svg(aico,18)+'<div>'+s.alert.tx+'</div></div>';
   }
-
-  if(curS.summary){
-    h+='<div class="pc-summary-grid">'+curS.summary.map(function(b){
+  if(s.extraBtn)h+=s.extraBtn;
+  if(s.summary){
+    h+='<div class="pc-summary-grid">'+s.summary.map(function(b){
       return '<div class="pc-sbox"><small>'+esc(b.k)+'</small><b>'+esc(b.v)+'</b></div>';
     }).join('')+'</div>';
   }
-
-  h+='<div class="pc-chks">'+curS.items.map(function(it){
+  h+='<div class="pc-chks">'+s.items.map(function(it){
     var ck=acState.chk[it.id]?'checked':'';
     return '<label class="pc-chk"><input type="checkbox" '+ck+' onchange="acTogChk(\''+it.id+'\',this.checked)"><span class="pc-ct">'+it.tx+'</span></label>';
   }).join('')+'</div>';
-
-  if(acState.step===2){
-    h+='<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn sec" style="font-size:12.5px" onclick="pcSetMode(\'delito\');go(\'contraste\')">'+svg('tube',14)+' Abrir guía Prueba de Contraste / Extracción en hospital</button><button type="button" class="btn sec" style="font-size:12.5px" onclick="go(\'bloc\')">'+svg('note',14)+' Abrir Bloc de Notas (filiaciones/testigos)</button></div>';
-  }
-
   h+='<div class="pc-nav">';
-  h+='<button class="btn sec" '+(acState.step===0?'disabled style="opacity:.4;cursor:default"':'onclick="acGoStep('+(acState.step-1)+')"')+'>'+svg('prev',15)+' Anterior</button>';
-  h+='<button class="btn sec" style="font-size:12.5px" onclick="acReset()">'+svg('refresh',14)+' Reiniciar</button>';
+  h+='<button type="button" class="btn sec" '+(acState.step===0?'disabled style="opacity:.4;cursor:default"':'onclick="acGoStep('+(acState.step-1)+')"')+'>'+svg('prev',15)+' Anterior</button>';
+  h+='<button type="button" class="btn sec" style="font-size:12.5px" onclick="acReset()">'+svg('refresh',14)+' Reiniciar</button>';
   if(acState.step<steps.length-1){
-    h+='<button class="btn" onclick="acGoStep('+(acState.step+1)+')">Siguiente '+svg('next',15)+'</button>';
+    h+='<button type="button" class="btn" onclick="acGoStep('+(acState.step+1)+')">Siguiente '+svg('next',15)+'</button>';
   }else{
-    h+='<button class="btn" onclick="go(\'menu\')">'+svg('check',15)+' Finalizar</button>';
+    h+='<button type="button" class="btn" onclick="acTab(\'docs\')">'+svg('folder',15)+' Ver Actas PDF</button>';
   }
   h+='</div></div>';
   $('ac-step-body').innerHTML=h;
 }
 
+function renderAccDocs(){
+  var h=AC_DOCS.map(function(d){
+    var ready=!!d.pdf;
+    return '<div class="bn-card '+(ready?'t-otr':'t-veh')+'">'+
+      '<div class="bn-top"><span class="bn-badge '+(ready?'t-otr':'t-veh')+'">'+esc(d.cat)+'</span><span class="bn-time">'+(ready?'PDF disponible':'Pendiente de adjuntar PDF')+'</span></div>'+
+      '<div class="bn-head" style="font-size:14.5px">'+esc(d.t)+'</div>'+
+      '<div style="font-size:12.5px;color:var(--mut);margin-top:2px">'+esc(d.s)+'</div>'+
+      '<div class="bn-foot">'+(ready
+        ? '<a class="btn" style="text-decoration:none;padding:6px 11px;font-size:12px" href="'+d.pdf+'" download="'+esc(d.id)+'.pdf">⬇ Descargar / Imprimir PDF</a>'
+        : '<button type="button" class="btn sec" disabled style="opacity:.55;cursor:default">Listo para adjuntar tu PDF</button>')+
+      '</div></div>';
+  }).join('');
+  $('ac-docs-list').innerHTML=h;
+}
 
 /* ==================== GUÍA INTERACTIVA: VIGENCIA DE PERMISOS ==================== */
 var PM_TREE={
