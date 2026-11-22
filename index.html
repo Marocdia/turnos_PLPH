@@ -7596,6 +7596,43 @@ var ORD_CATALOG=[
     organo:'Alcaldía-Presidencia (Art. 65)',
     cuantiaRef:'Anexo III',
     respLbl:'Conductor / Titular / Arrendatario (Arts. 65–69)'
+  },
+  {
+    id:'alcohol',
+    noActa:true,
+    titulo:'Ordenanza Relativa al Consumo de Bebidas Alcohólicas',
+    corto:'Consumo de Bebidas Alcohólicas',
+    meta:'Ayuntamiento de Pilar de la Horadada · Pleno 25/05/2000 · BOP Alicante nº 240 (18/10/2000) · 5 artículos + D.A. (Sin Acta Denuncia)',
+    icono:'alert',
+    color:'c-crim',
+    descRes:'Venta/suministro a menores, máquinas expendedoras, cartelería obligatoria, prohibición de botelleo en vía pública y medidas provisionales (incautación/clausura)',
+    descBus:'Búsqueda instantánea en el articulado completo (Exposición de motivos, Arts. 1 a 5, Disposición Adicional y Disposición Final)',
+    descCod:'Infracciones tipificadas (Arts. 1 a 4), remisión sancionadora (Art. 5 · Ley 3/1997 GVA) y medidas provisionales de intervención policial',
+    busPh:'Buscar palabra o artículo (ej: menores, 16, 18, máquina, cartel, vía pública, terraza, incautación, clausura)...',
+    codPh:'Buscar infracción (ej: menor, máquina, cartel, vía pública, botelleo, terraza)...',
+    copyPrefix:'Ordenanza Consumo de Bebidas Alcohólicas Pilar de la Horadada (BOP 18/10/2000)',
+    artPrefix:'Ord. Alcohol · Art. ',
+    organo:'Alcaldía-Presidencia / GVA (Art. 5)',
+    cuantiaRef:'Art. 5',
+    respLbl:'Autor / Titular establecimiento o máquina'
+  },
+  {
+    id:'solares',
+    titulo:'Ordenanza Municipal de Limpieza, Vallado de Solares y Parcelas en Suelo Urbano',
+    corto:'Limpieza y Vallado de Solares',
+    meta:'Ayuntamiento de Pilar de la Horadada · BOP Alicante nº 68 (13/04/2021) y Definitiva nº 151 (11/08/2021) · 18 artículos',
+    icono:'store',
+    color:'c-amber',
+    descRes:'Deber de limpieza permanente sin requerimiento previo, prohibición de vertidos, vallado (no obligatorio sin obras), ejecución subsidiaria, sanciones 750–3.000 € y cesión para aparcamiento',
+    descBus:'Búsqueda instantánea en los 18 artículos, Disposición Final y Derogatoria',
+    descCod:'Infracciones Leves (750 €), Graves (1.500 €) y Muy Graves (3.000 €) del Art. 16 y Art. 17 con copia rápida y Acta Denuncia',
+    busPh:'Buscar palabra o artículo (ej: solar, maleza, incendio, pozo, vertido, vallado, obra, acopio, aparcamiento, ejecución)...',
+    codPh:'Buscar infracción (ej: 16, vallado, residuos, maleza, incendio, obra, acopio, acera, arrojar, orden de ejecución)...',
+    copyPrefix:'Ordenanza Limpieza y Vallado de Solares Pilar de la Horadada (BOP 11/08/2021)',
+    artPrefix:'Ord. Solares · Art. ',
+    organo:'Alcaldía-Presidencia / Órgano Municipal Competente',
+    cuantiaRef:'Art. 17',
+    respLbl:'Propietario / Usufructuario / Arrendatario / Infractor (Arts. 3 y 8)'
   }
 ];
 
@@ -8426,13 +8463,125 @@ var ORD_CIR_INFS=[
   {id:'cir_anx7.1',art:'CIR 7.1 (Anexo)',g:'L',cat:'MUN',eur:'80 € (red. 40 €)',t:'Circular un vehículo o ciclomotor con nivel de emisión de ruido superior a 4 dB(A) sobre el nivel fijado en ficha de homologación (ciclomotores sin dato: >91 dB(A)).',n:'Anexo I (Decreto 19/2004). Escape libre o silenciador ineficaz: Grave 200 € (CIR 7.2).'}
 ];
 
+/* ----- 7. DATOS: ORDENANZA CONSUMO DE BEBIDAS ALCOHÓLICAS (BOP 18/10/2000) ----- */
+var ORD_ALC_RESUMEN=[
+  {tit:'1. Prohibiciones a Menores y Máquinas Expendedoras (Arts. 1–3)',col:'c-crim',pts:[
+    'Venta y suministro a menores (Art. 1): prohibida la venta, dispensación y suministro (gratuito o no) de cualquier bebida alcohólica a menores de 16 años, y de graduación ≥18° a menores de 18 años. (Nota normativa: la legislación autonómica vigente —Ley 10/2014 Salud CV / DL 1/2003— elevó la prohibición general a menores de 18 años para cualquier bebida alcohólica).',
+    'Máquinas automáticas expendedoras (Art. 2): solo permitidas en instalaciones abiertas al público si su ubicación permite control absoluto por los responsables impidiendo el acceso a menores. PROHIBIDO colocar estas máquinas en espacios abiertos al tránsito público (viales y parques).',
+    'Cartelería obligatoria (Art. 3): en todos los establecimientos, lugares de suministro y máquinas expendedoras deben colocarse carteles visibles advirtiendo de las prohibiciones del Art. 1 en la zona donde se adquiere la bebida.'
+  ]},
+  {tit:'2. Prohibición de Botelleo en Vía Pública (Art. 4)',col:'c-gold',pts:[
+    'Prohibida la venta, suministro y consumo de bebidas alcohólicas en la vía pública.',
+    'Únicas excepciones: terrazas adscritas a bares, cafeterías o restaurantes con preceptiva autorización municipal, y días de fiesta local acordados por la Comisión de Gobierno.'
+  ]},
+  {tit:'3. Sanciones y Medidas Provisionales Policiales (Art. 5 y D.A.)',col:'c-blue',pts:[
+    'Régimen sancionador (Art. 5): remisión a la Ley 3/1997 de la Generalitat Valenciana (multa de hasta 2.000.000 ptas. / 12.020,24 €; sustituida por DL 1/2003 y Ley 10/2014 CV; ver también Ordenanza de Convivencia Ciudadana Art. 58 para botelleo).',
+    'Medidas provisionales (Disposición Adicional): a) exigencia de fianza o caución; b) INCAUTACIÓN de los bienes directamente relacionados con los hechos; c) suspensión temporal de la licencia de actividad; d) clausura provisional del local.'
+  ]}
+];
+
+var ORD_ALC_TITS=[
+  ['ALL','Todos'],['ART','Articulado (1–5)'],['DISP','Disposiciones']
+];
+
+var ORD_ALC_ARTS=[
+  {n:'Exposición de Motivos',tit:'ART',t:'Finalidad contra el «botelleo» y protección de menores',txt:'Afronta el auge del consumo desordenado y abusivo de bebidas alcohólicas en vías públicas («botelleo»), máquinas expendedoras sin control y venta a menores, complementando la Ley 3/1997, de 16 de junio, de la Generalitat Valenciana.'},
+  {n:'Artículo 1',tit:'ART',t:'Prohibición de venta, dispensación y suministro a menores',txt:'Queda prohibida la venta, dispensación y suministro, gratuitos o no, por cualquier medio, de cualquier tipo de bebidas alcohólicas a menores de dieciséis años, y de aquéllas con graduación alcohólica igual o superior a dieciocho grados centesimales a menores de dieciocho años.'},
+  {n:'Artículo 2',tit:'ART',t:'Máquinas automáticas expendedoras de bebidas alcohólicas',txt:'El suministro mediante máquinas automáticas en instalaciones abiertas al público solo podrá efectuarse cuando su ubicación permita el absoluto control por los responsables o sus representantes para impedir el acceso a menores de dieciséis años. Se prohíbe colocar estas máquinas en espacios abiertos al tránsito público, como viales y parques en general.'},
+  {n:'Artículo 3',tit:'ART',t:'Cartelería obligatoria de advertencia',txt:'En todos los establecimientos, instalaciones o lugares donde se suministren bebidas alcohólicas, así como en las máquinas expendedoras automáticas, deberán colocarse de forma visible para el público carteles que adviertan de las prohibiciones del artículo 1, en la zona a la que haya que dirigirse para adquirir la bebida.'},
+  {n:'Artículo 4',tit:'ART',t:'Prohibición de venta, suministro y consumo en vía pública',txt:'No se permitirá la venta, suministro y consumo de bebidas alcohólicas en la vía pública, salvo en las terrazas adscritas a bares, cafeterías o restaurantes siempre que cuenten con la preceptiva autorización municipal, y en los días de fiesta local en que se acuerde por la Comisión de Gobierno.'},
+  {n:'Artículo 5',tit:'ART',t:'Régimen sancionador',txt:'Las infracciones a la presente Ordenanza serán sancionadas con multa de hasta dos millones de pesetas (12.020,24 €) conforme a lo dispuesto en la Ley 3/1997, de 16 de junio, de la Generalitat Valenciana.'},
+  {n:'Disposición Adicional',tit:'DISP',t:'Medidas provisionales',txt:'Para asegurar el cumplimiento de la resolución y de la legalidad podrán adoptarse: a) Exigencia de fianza o caución; b) Incautación de los bienes directamente relacionados con los hechos; c) Suspensión temporal de la licencia de actividad; d) Clausura provisional del local.'},
+  {n:'Disposición Final',tit:'DISP',t:'Entrada en vigor',txt:'Entrará en vigor el día siguiente al de la publicación de su aprobación definitiva en el Boletín Oficial de la Provincia (BOP Alicante nº 240, 18/10/2000), permaneciendo vigente en tanto no sea modificada o derogada.'}
+];
+
+var ORD_ALC_CATS=[
+  ['ALL','Todas'],['MENORES','Menores'],['MAQUINAS','Máquinas/Cartel'],['VIAPUB','Vía Pública']
+];
+
+var ORD_ALC_INFS=[
+  {id:'alc_1.1',art:'1 (Menores)',g:'G',cat:'MENORES',eur:'Hasta 12.020,24 € (Ley 3/1997)',t:'Vender, dispensar o suministrar, gratuitamente o no y por cualquier medio, bebidas alcohólicas a menores de edad (cualquier graduación a <16 años; ≥18° a <18 años en texto de 2000).',n:'Nota operativa: la normativa autonómica posterior (Ley 10/2014 de Salud CV) prohíbe cualquier bebida alcohólica a menores de 18 años. Posible medida provisional de incautación/clausura (D.A.).'},
+  {id:'alc_2.1',art:'2.1 (Máquinas sin control)',g:'G',cat:'MAQUINAS',eur:'Hasta 12.020,24 € (Ley 3/1997)',t:'Suministrar bebidas alcohólicas mediante máquinas automáticas en instalaciones abiertas al público sin ubicación que permita control absoluto para impedir el acceso a menores.',n:'Responsable: titular de la instalación o máquina.'},
+  {id:'alc_2.2',art:'2.2 (Máquinas en vía/parque)',g:'G',cat:'MAQUINAS',eur:'Hasta 12.020,24 € (Ley 3/1997)',t:'Colocar máquinas automáticas expendedoras de bebidas alcohólicas en espacios abiertos al tránsito público, como viales y parques en general.',n:'Procede medida provisional de incautación/retirada (D.A.).'},
+  {id:'alc_3',art:'3 (Cartelería)',g:'L',cat:'MAQUINAS',eur:'Según Art. 5 / Ley 3/1997',t:'No colocar de forma visible en establecimiento, lugar de suministro o máquina expendedora los carteles que adviertan de la prohibición de venta de alcohol a menores en la zona de adquisición.',n:'Art. 3.'},
+  {id:'alc_4',art:'4 (Vía pública / Botelleo)',g:'L',cat:'VIAPUB',eur:'Según Art. 5 / Ord. Conviv. 100 €',t:'Vender, suministrar o consumir bebidas alcohólicas en la vía pública fuera de terrazas autorizadas o días de fiesta local acordados.',n:'D.A. ap. b): procede INCAUTACIÓN de las bebidas/bienes directamente relacionados. En práctica municipal actual, ver también Art. 58.1.1 Ordenanza Convivencia Ciudadana (100 €).'}
+];
+
+/* ----- 8. DATOS: ORDENANZA LIMPIEZA Y VALLADO DE SOLARES (BOP 11/08/2021) ----- */
+var ORD_SOL_RESUMEN=[
+  {tit:'1. Sujetos Obligados e Inspección Policial (Arts. 1–6)',col:'c-amber',pts:[
+    'Sujetos obligados (Art. 3): propietarios (Art. 15 TRLSRU); si hay separación de dominio, el titular del dominio útil; si existe uso, usufructo o arrendamiento, el usuario/usufructuario/arrendatario como sustituto. En herencias yacentes basta notificar a un heredero conocido.',
+    'Concepto de solar (Art. 4): suelo apto para edificación (Art. 177 LOTUP) y parcelas no utilizables por reducida extensión, forma irregular o emplazamiento.',
+    'Inspección (Art. 6): corresponde a los servicios técnicos municipales y a los agentes de la Policía Local.'
+  ]},
+  {tit:'2. Limpieza Permanente, Vertidos y Ejecución Subsidiaria (Arts. 7–10)',col:'c-green',pts:[
+    'Obligación SIN requerimiento previo (Art. 7): mantener parcelas, solares y terrenos permanentemente limpios, sin maleza/capa vegetal ni materiales inflamables, sin residuos ni restos orgánicos/minerales que alberguen plagas o malos olores, y protegiendo o eliminando pozos y desniveles peligrosos.',
+    'Tala de árboles (Art. 7): NO se entiende por limpieza la tala de masas arbóreas, vegetación arbustiva o árboles aislados (requiere licencia municipal).',
+    'Prohibición de vertidos (Art. 8): prohibido arrojar residuos, basuras, escombros o mobiliario en solares/parcelas de todo el término municipal. Independientemente de la sanción al infractor, el propietario sigue obligado a limpiar.',
+    'Orden de ejecución y ejecución forzosa (Arts. 9–10): audiencia 10 días con presupuesto; si incumple, ejecución subsidiaria municipal a costa del obligado por vía de apremio (Arts. 99 y 102 Ley 39/2015).'
+  ]},
+  {tit:'3. Vallado de Solares y Cesión para Aparcamiento (Arts. 11–14 y 18)',col:'c-blue',pts:[
+    'Obligación de vallar (Art. 11): mientras NO se practiquen obras de nueva construcción, los propietarios NO están obligados a vallar (salvo disposiciones particulares).',
+    'Autorización y mantenimiento (Arts. 12–14): el vallado está sujeto a Declaración Responsable (Art. 214 LOTUP), salvo orden de ejecución. Obligación de mantener el vallado en condiciones de seguridad, salubridad y ornato.',
+    'Cesión temporal para aparcamiento (Art. 18): acuerdo administrativo (mín. 5 años; recuperable tras 1 año con preaviso de 6 meses). Exime al propietario de limpieza mientras se use, pero mantiene su responsabilidad de seguridad.'
+  ]},
+  {tit:'4. Régimen Sancionador (Arts. 15–17)',col:'c-crim',pts:[
+    'Infracciones LEVES (Art. 16 y 17): 750 € (deterioro del vallado e incumplimientos residuales).',
+    'Infracciones GRAVES (Art. 16 y 17): 1.500 € (solar/obra sin limpieza o con residuos; sin seguridad/salubridad/ornato; incumplir prevención de incendios/maleza; elementos o acopio de obra fuera de lugar autorizado/vallado; no reponer acera tras desplazar valla).',
+    'Infracciones MUY GRAVES (Art. 16 y 17): 3.000 € (arrojar residuos a solares/parcelas vallados por propietario o terceros; incumplir orden de ejecución). Además, orden de restauración de la legalidad.'
+  ]}
+];
+
+var ORD_SOL_TITS=[
+  ['ALL','Todos'],['CAP1','Cap. I General'],['CAP2','Cap. II Limpieza'],
+  ['CAP3','Cap. III Vallado'],['CAP4','Cap. IV Sanciones'],['CAP5','Cap. V Aparc./Disp.']
+];
+
+var ORD_SOL_ARTS=[
+  {n:'Arts. 1–2',tit:'CAP1',t:'Objeto y Régimen Legal',txt:'Regula la limpieza y vallado de solares y parcelas en suelo urbano (Arts. 180.1 y 182.2 LOTUP y Art. 40 PGOU). Ordenanza de Construcción o Policía Urbana no ligada a planeamiento concreto.'},
+  {n:'Artículo 3',tit:'CAP1',t:'Deber legal del propietario y sujetos obligados',txt:'Deber de conservar en seguridad, salubridad, accesibilidad universal y ornato (Art. 15 TRLSRU). Recae en el titular del dominio útil, usuario, usufructuario o arrendatario como sustituto (notificando al propietario a efectos informativos). En herencias indivisas basta notificar a un heredero conocido.'},
+  {n:'Arts. 4–5',tit:'CAP1',t:'Concepto de solar y de vallado',txt:'Solar: superficies aptas para edificación (Art. 177 LOTUP) y parcelas no utilizables por reducida extensión, forma irregular o emplazamiento. Vallado: obra exterior de nueva planta, no permanente, limitada al simple cerramiento físico.'},
+  {n:'Artículo 6',tit:'CAP2',t:'Inspección Municipal',txt:'Las funciones de inspección y comprobación corresponden a los servicios técnicos del órgano municipal competente y a los agentes de la Policía Local.'},
+  {n:'Artículo 7',tit:'CAP2',t:'Obligación de limpieza de los Solares y Parcelas',txt:'Sin necesidad de requerimiento previo, mantener parcelas, solares y terrenos permanentemente limpios, eliminando capa vegetal y materiales inflamables, residuos y restos orgánicos/minerales que alberguen plagas o malos olores, y protegiendo o eliminando pozos o desniveles peligrosos. La tala de masas arbóreas, vegetación arbustiva o árboles aislados NO es limpieza y requiere licencia municipal.'},
+  {n:'Artículo 8',tit:'CAP2',t:'Prohibición de arrojar residuos',txt:'Prohibido verter residuos, basuras, escombros, mobiliario o desperdicios en solares y parcelas de todo el término municipal (salvo puntos verdes/ecoparques). Sin perjuicio de sancionar al autor del vertido, el propietario sigue obligado a limpiar y puede ser sancionado.'},
+  {n:'Arts. 9–10',tit:'CAP2',t:'Orden de ejecución, ejecución forzosa y coste',txt:'Incoación de orden de ejecución y expediente sancionador. Si incumple, ejecución forzosa (Art. 99 Ley 39/2015 y Art. 182.5 LOTUP) previa audiencia de 10 días con presupuesto. Costes, daños y perjuicios exigibles al obligado por vía de apremio (Art. 102 Ley 39/2015).'},
+  {n:'Arts. 11–14',tit:'CAP3',t:'Vallado: no obligatoriedad sin obras, características, mantenimiento y DR',txt:'Art. 11: sin obras de nueva construcción no es obligatorio vallar. Art. 12: según Art. 22 Ordenanza Edificación (urbano) o Art. 192 PGOU (no urbanizable común). Art. 13: obligación de mantener el vallado en seguridad, salubridad y ornato. Art. 14: sujeto a Declaración Responsable (Art. 214 LOTUP) salvo orden de ejecución.'},
+  {n:'Arts. 15–17',tit:'CAP4',t:'Infracciones (Leves, Graves, Muy Graves) y Multas (750 / 1.500 / 3.000 €)',txt:'Clasificación en Leves (750 €), Graves (1.500 €) y Muy Graves (3.000 €), más orden de restauración de la legalidad.'},
+  {n:'Art. 18 y Disp.',tit:'CAP5',t:'Cesión de solares para aparcamiento, Disposición Final y Derogatoria',txt:'Art. 18: cesión temporal voluntaria al Ayuntamiento para aparcamiento (mín. 5 años; recuperación tras 1 año con preaviso de 6 meses; exime de limpieza pero mantiene responsabilidad de seguridad). Deroga la Ordenanza de 06/02/2008. Aprobación definitiva BOP nº 151 de 11/08/2021.'}
+];
+
+var ORD_SOL_CATS=[
+  ['ALL','Todas'],['LIMP','Limpieza/Incendios'],['VERT','Vertidos'],['OBRA','Obras/Vallado'],['ORD','Orden Ejecución']
+];
+
+var ORD_SOL_INFS=[
+  /* MUY GRAVES (3.000 €) */
+  {id:'sol_16.mg1',art:'16 (Muy Grave)',g:'MG',cat:'VERT',eur:'3.000 €',t:'Arrojar cualquier tipo de residuo a los solares o parcelas vallados, por parte de los propietarios o por terceras personas.',n:'Art. 8 y 16. Además de la multa (3.000 €), orden de restauración de la legalidad (Art. 17).'},
+  {id:'sol_16.mg2',art:'16 (Muy Grave)',g:'MG',cat:'ORD',eur:'3.000 €',t:'Incumplir la orden de ejecución dictada por el órgano competente de los trabajos necesarios para mantener solares, parcelas u obras que supongan más de una infracción grave o la conjunción de una grave y alguna leve.',n:'Art. 9, 16 y 17. Procede ejecución subsidiaria a costa del obligado (Arts. 9–10).'},
+  {id:'sol_16.mg3',art:'16 (Muy Grave)',g:'MG',cat:'ORD',eur:'3.000 €',t:'Incumplir la orden de ejecución dictada por el órgano competente de los trabajos necesarios para mantener los terrenos, parcelas y solares en las debidas condiciones de seguridad, salubridad y ornato público.',n:'Art. 9, 16 y 17. Procede ejecución subsidiaria a costa del obligado.'},
+
+  /* GRAVES (1.500 €) */
+  {id:'sol_16.g1',art:'16 (Grave)',g:'G',cat:'LIMP',eur:'1.500 €',t:'Mantener un solar, parcela u obra sin el adecuado estado de limpieza, conteniendo cualquier tipo de residuos.',n:'Art. 7: obligación permanente sin necesidad de requerimiento previo.'},
+  {id:'sol_16.g2',art:'16 (Grave)',g:'G',cat:'LIMP',eur:'1.500 €',t:'Mantener un solar, parcela u obra sin estar en condiciones de seguridad, salubridad, ornato público y decoro (incluyendo pozos o desniveles sin proteger).',n:'Arts. 3 y 7.'},
+  {id:'sol_16.g3',art:'16 (Grave)',g:'G',cat:'LIMP',eur:'1.500 €',t:'No respetar las medidas preventivas de protección contra incendios incumpliendo el deber de mantener el solar/parcela libre de maleza o de cualquier otro material inflamable que facilite la propagación del fuego.',n:'Art. 7 y 16.'},
+  {id:'sol_16.g4',art:'16 (Grave)',g:'G',cat:'OBRA',eur:'1.500 €',t:'Colocar elementos de la obra (materiales, maquinaria, andamios, contenedores, etc.) fuera de los lugares autorizados, dentro del solar o parcela, en la vía pública u otros espacios públicos.',n:'Art. 16.'},
+  {id:'sol_16.g5',art:'16 (Grave)',g:'G',cat:'OBRA',eur:'1.500 €',t:'Realizar acopio de materiales de obra fuera del recinto vallado.',n:'Art. 16.'},
+  {id:'sol_16.g6',art:'16 (Grave)',g:'G',cat:'OBRA',eur:'1.500 €',t:'Falta de reposición de la acera a un estado practicable tras el desplazamiento de la valla a la línea de fachada.',n:'Art. 16.'},
+
+  /* LEVES (750 €) */
+  {id:'sol_16.l1',art:'16 (Leve)',g:'L',cat:'OBRA',eur:'750 €',t:'Mantener el vallado de un solar o parcela en estado de deterioro.',n:'Art. 13 y 16.'},
+  {id:'sol_16.l2',art:'16 (Leve)',g:'L',cat:'LIMP',eur:'750 €',t:'Incumplir cualesquiera otros requisitos, obligaciones y prohibiciones establecidos en esta ordenanza que no estén recogidos como graves o muy graves (ej. vallar sin Declaración Responsable).',n:'Arts. 14, 16 y 17.'}
+];
+
 var ORD_DATA={
   litoral:{resumen:ORD_LIT_RESUMEN,tits:ORD_LIT_TITS,arts:ORD_LIT_ARTS,cats:ORD_LIT_CATS,infs:ORD_LIT_INFS},
   acustica:{resumen:ORD_ACU_RESUMEN,tits:ORD_ACU_TITS,arts:ORD_ACU_ARTS,cats:ORD_ACU_CATS,infs:ORD_ACU_INFS},
   venta:{resumen:ORD_VEN_RESUMEN,tits:ORD_VEN_TITS,arts:ORD_VEN_ARTS,cats:ORD_VEN_CATS,infs:ORD_VEN_INFS},
   convivencia:{resumen:ORD_CONV_RESUMEN,tits:ORD_CONV_TITS,arts:ORD_CONV_ARTS,cats:ORD_CONV_CATS,infs:ORD_CONV_INFS},
   terrazas:{resumen:ORD_TER_RESUMEN,tits:ORD_TER_TITS,arts:ORD_TER_ARTS,cats:ORD_TER_CATS,infs:ORD_TER_INFS},
-  circulacion:{resumen:ORD_CIR_RESUMEN,tits:ORD_CIR_TITS,arts:ORD_CIR_ARTS,cats:ORD_CIR_CATS,infs:ORD_CIR_INFS}
+  circulacion:{resumen:ORD_CIR_RESUMEN,tits:ORD_CIR_TITS,arts:ORD_CIR_ARTS,cats:ORD_CIR_CATS,infs:ORD_CIR_INFS},
+  alcohol:{resumen:ORD_ALC_RESUMEN,tits:ORD_ALC_TITS,arts:ORD_ALC_ARTS,cats:ORD_ALC_CATS,infs:ORD_ALC_INFS},
+  solares:{resumen:ORD_SOL_RESUMEN,tits:ORD_SOL_TITS,arts:ORD_SOL_ARTS,cats:ORD_SOL_CATS,infs:ORD_SOL_INFS}
 };
 
 var ordState={view:'hub',selId:'litoral',busTit:'ALL',codCat:'ALL',codGrav:'',codFav:0,codQ:'',codExp:{}};
