@@ -2306,7 +2306,7 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
        <div class="ts" style="white-space:normal" id="ord-desc-cod"></div>
       </div>
      </div>
-     <div class="dtile act" style="padding:16px 14px" onclick="ordOpenSub('acta')">
+     <div class="dtile act" id="ord-tile-acta" style="padding:16px 14px" onclick="ordOpenSub('acta')">
       <div class="ib c-crim" style="width:46px;height:46px" id="ord-ic-act"></div>
       <div class="txt">
        <div class="tt"><span>ACTA DENUNCIA</span></div>
@@ -7559,6 +7559,43 @@ var ORD_CATALOG=[
     organo:'Alcaldía-Presidencia (Art. 68)',
     cuantiaRef:'Cuadro Infractor',
     respLbl:'Autor / Grupo solidario / Padres menores (Art. 69)'
+  },
+  {
+    id:'terrazas',
+    titulo:'Ordenanza Reguladora de Ocupación de la Vía Pública: Terrazas y Montajes Análogos',
+    corto:'Terrazas y Montajes Análogos',
+    meta:'Ayuntamiento de Pilar de la Horadada · Pleno 31/05/2024 · BOP Alicante nº 145 (30/07/2024) · 21 artículos + Anexo Modelos A–D',
+    icono:'store',
+    color:'c-amber',
+    descRes:'Superficies (1 mesa+4 sillas=4 m²), prohibiciones (música, caballetes, cerramientos), estufas, modelos A–D, retirada policial inmediata y cuantías',
+    descBus:'Búsqueda instantánea de palabras y artículos (Arts. 1 a 21, Disposiciones Adicionales/Transitoria y Anexo Modelos A, B, C-1, C-2 y D)',
+    descCod:'Las 23 infracciones del Art. 19 (6 Leves 100–750 €, 13 Graves 751–1.500 € y 4 Muy Graves 1.501–3.000 €), excesos de superficie, favoritos y Acta Denuncia',
+    busPh:'Buscar palabra o artículo (ej: sombrilla, toldo, estufa, tarima, 20%, 50%, apilamiento, caballete, Calle Mayor, Mesa informativa, corte)...',
+    codPh:'Buscar infracción (ej: sin licencia, 20%, 50%, apilamiento, horario, cartel, hidrante, retirada, limpieza, mobiliario)...',
+    copyPrefix:'Ordenanza Terrazas y Montajes Análogos Pilar de la Horadada (BOP 30/07/2024)',
+    artPrefix:'Ord. Terrazas · Art. ',
+    organo:'Alcaldía-Presidencia (Art. 19)',
+    cuantiaRef:'Art. 19',
+    respLbl:'Titular de la instalación/establecimiento (Art. 19)'
+  },
+  {
+    id:'circulacion',
+    noActa:true,
+    titulo:'Ordenanza Municipal de Circulación',
+    corto:'Ordenanza Municipal de Circulación',
+    meta:'Ayuntamiento de Pilar de la Horadada · BOP Alicante nº 37 (21/02/2019) · 71 artículos + Anexos I–III (Sin Acta Denuncia)',
+    icono:'car',
+    color:'c-blue',
+    descRes:'Velocidad 30/10 km/h, bicicletas, VMP (A/B/C), patines, caballos, paradas/estacionamientos (48h caravanas, Se vende, 72h obras), carga/descarga 30 min y retiradas',
+    descBus:'Búsqueda instantánea de palabras y artículos (Arts. 1 a 71, Disposiciones y Anexos I Ruidos y II VMP)',
+    descCod:'Cuadro de infracciones propias OMCIR y municipales del Anexo III (bicis, VMP, caballos, estacionamientos, carga/descarga, ruidos) con importes y reducción 50%',
+    busPh:'Buscar palabra o artículo (ej: 30 km/h, bicicleta, VMP, caballo, 48 horas, se vende, 3.500, balcón, 72 horas, carga, 30 minutos, ruido, 91 dB)...',
+    codPh:'Buscar infracción (ej: OMCIR, caballito, derrape, bici, VMP, casco, caballo, doble fila, 48 horas, se vende, 3.500, balcón, carga, contenedor, ruido)...',
+    copyPrefix:'Ordenanza Municipal de Circulación Pilar de la Horadada (BOP 21/02/2019)',
+    artPrefix:'OMCIR · Art. ',
+    organo:'Alcaldía-Presidencia (Art. 65)',
+    cuantiaRef:'Anexo III',
+    respLbl:'Conductor / Titular / Arrendatario (Arts. 65–69)'
   }
 ];
 
@@ -8139,11 +8176,263 @@ var ORD_CONV_INFS=[
   {id:'cv_65.6.1',art:'65.6.1',g:'L',cat:'OTRAS',eur:'200,00 € (hasta 300 €)',t:'Colocar señales de tráfico así como placas de vado permanente sin autorización municipal.',n:'Art. 65.6. Retirada cautelar de la placa/señal (Art. 76).'}
 ];
 
+/* ----- 5. DATOS: ORDENANZA TERRAZAS Y MONTAJES ANÁLOGOS (BOP 30/07/2024) ----- */
+var ORD_TER_RESUMEN=[
+  {tit:'1. Objeto, Ámbito y Regla de Medición (Arts. 1–6 y D.A. 1ª)',col:'c-amber',pts:[
+    'Ámbito: aprovechamiento del dominio público municipal con mesas, sillas y elementos análogos anejos a establecimientos hosteleros permanentes. NO aplica a suelo privado ni a ferias/festejos (Art. 1).',
+    'Equivalencia de medición (Art. 4.b): ante dificultad de medición, 1 mesa + 4 sillas = 4 m².',
+    'Carácter de la autorización (Art. 6 y D.A. 1ª): personal e intransferible (prohibido arrendar, subarrendar o ceder), temporal (máx. 1 año natural, renovación en enero) y a precario. No se concede con deudas tributarias locales (Art. 5).'
+  ]},
+  {tit:'2. Prohibiciones Clave y Espacios Vedados (Art. 5, D.A. 2ª y 3ª)',col:'c-crim',pts:[
+    'Elementos PROHIBIDOS en terraza (Art. 5 y Anexo): billares, futbolines, máquinas recreativas, vitrinas, expendedoras de tabaco, aparatos infantiles con sonido, barbacoas, barra exterior, aparatos audiovisuales, reproductores de sonido y actuaciones en directo.',
+    'Prohibida la terraza separada del local por calzada abierta al tráfico rodado (Art. 5) y la ocupación de la acera de enfrente (D.A. 3ª).',
+    'Espacios donde NUNCA se autoriza (Arts. 5 y 6.10): vados, salidas de emergencia, carril-bici, paradas de transporte público, pasos de peatones/minusválidos, entradas a edificios/lugares públicos, bocas de riego, hidrantes, alcantarillado, arquetas y centros de transformación.',
+    'Caballetes y publicidad (D.A. 2ª): PROHIBIDOS caballetes de menú/ofertas en vía pública; solo se admite 1 cartel de menú colocado en el INTERIOR de la terraza. Publicidad comercial limitada a: mesas 15×15, sillas 12×8, sombrillas 20×20, toldos 15×8, paravientos 15×15 cm.',
+    'PROHIBIDO CERRAMIENTOS (D.A. 3ª): en toda la Calle Mayor, calles peatonales, Plazas y Paseos Marítimos.'
+  ]},
+  {tit:'3. Pasos Peatonales, Mobiliario, Estufas y Modelos A–D (Arts. 4, 10 y Anexo)',col:'c-gold',pts:[
+    'Paso peatonal libre: mínimo 1,80 m en aceras (Anexo ap. 2; Art. 10 cita 1 m en acera y 1,5 m en calles peatonales), 2 m desde fachada en Modelo D, y ≥0,50 m respecto a alcorques y bancos públicos (prohibido atar/clavar a árboles). En vías rodadas debe quedar libre al menos la mitad de la calzada.',
+    'Mobiliario y ruido (Art. 4.b y 14.9): un solo modelo (salvo locales vintage), color liso no estridente, gomas en patas y cadenas aislantes; PROHIBIDO arrastrar mobiliario y PROHIBIDO almacenarlo o apilarlo en la vía pública tras el cierre.',
+    'Sombrillas y toldos (Art. 4.c–d): sombrillas ≥2,20 m con sistema antivuelco sin taladrar pavimento; toldos de fachada ≥2,50 m sin laterales ni anclaje al suelo (textil ignífugo M2).',
+    'Estufas de gas propano (Art. 4.i): solo de OCTUBRE a ABRIL, máx. 1 cada 4 mesas, ≥2 m de fachadas/árboles/farolas/textiles, ≥1 m de toldo/sombrilla M2 (con ≥25% abierto), carcasa protectora, retirada diaria y extintor polvo ABC 21A-113B. Prohibidas acometidas eléctricas aéreas.',
+    'Modelos normalizados (Anexo y D.T. Única): Modelo A (tarima ignífuga antideslizante sin césped/moqueta + valla metálica 90–120 cm no escalable + jardineras, moratoria 2 años); Modelo B (toldo abatible, 2 años); Modelo C-1/C-2 (cerramiento techo/acristalado 3 caras, libre cara fachada, proyecto técnico, 4 años); Modelo D (Plazas, C/ Mayor, peatonales y paseos marítimos: solo sombrillas/toldo cofre, prohibidas jardineras y vallados, 4 años).'
+  ]},
+  {tit:'4. Horario, Obligaciones, Mesas Informativas y Cortes (Arts. 12–18)',col:'c-blue',pts:[
+    'Horario (Art. 13): delimitado por el horario oficial de apertura y cierre del local según Orden anual de la Generalitat Valenciana.',
+    'Documentación obligatoria (Art. 14.2 y 14.10): autorización EXHIBIDA en lugar visible desde el exterior; justificante de pago de tasa y seguro de RC e incendios en vigor a disposición de Policía Local.',
+    'Limpieza y cese (Arts. 12 y 14): limpieza diaria (con agua/desengrasante si procede), papeleras/ceniceros estables obligatorios; cierre del local >2 meses seguidos deja sin efecto la autorización.',
+    'Mesas informativas (Art. 15): solo entidades sin ánimo de lucro/ONG/sindicatos/partidos; ÚNICA ubicación permitida: Plaza de la Iglesia; máx. 1,50×2,50 m, sin perforar suelo, máx. 2 mesas/día y 2 días/semana; PROHIBIDA cualquier venta.',
+    'Corte de calle (Art. 17) y ampliaciones (Art. 18): cortar calle requiere autorización expresa de Policía Local. Ampliaciones en Navidad, Semana Santa o Festivos: 15 a 25 días naturales, máx. 3 veces/año.'
+  ]},
+  {tit:'5. Control Policial, Retirada Inmediata y Cuantías (Arts. 19–21)',col:'c-teal',pts:[
+    'Potestad policial inmediata (Arts. 19 y 20): ante ocupación sin licencia, exceso de superficie o fuera de horario, requerir la RETIRADA INMEDIATA. Si el titular hace caso omiso → retirar y depositar mesas, sillas y elementos a costa del titular.',
+    'Defecto de seguridad en tarima (Art. 4.f): implica la SUSPENSIÓN INMEDIATA del uso de la terraza hasta su subsanación.',
+    'Excesos de superficie (Art. 19): hasta +20% = LEVE · >20% a <50% = GRAVE · >50% = MUY GRAVE.',
+    'Cuantías (Art. 19): LEVES 100–750 € y/o susp. 1 mes · GRAVES 751–1.500 € y/o susp. 3 meses · MUY GRAVES 1.501–3.000 € y/o revocación o susp. >3 meses a 1 año. Plazo máximo de resolución del expediente: 3 meses.'
+  ]}
+];
+
+var ORD_TER_TITS=[
+  ['ALL','Todos'],['ART1-5','Arts. 1–5'],['ART6-11','Arts. 6–11'],['ART12-18','Arts. 12–18'],
+  ['ART19-21','Arts. 19–21'],['DISP','Dispos.'],['ANEX','Anexo Modelos']
+];
+
+var ORD_TER_ARTS=[
+  {n:'Arts. 1–3',tit:'ART1-5',t:'Finalidad, Ámbito y Títulos Habilitantes',txt:'Regula la ocupación del dominio público con terrazas y montajes análogos anejos a establecimientos hosteleros permanentes en todo Pilar de la Horadada. Excluye ferias/festejos y suelo privado. Instalaciones desmontables requieren autorización; obras/instalaciones fijas requieren concesión.'},
+  {n:'Art. 4 (a–e)',tit:'ART1-5',t:'Definiciones: Terraza, Mesas/Sillas, Sombrillas, Toldos y Maceteros',txt:'1 mesa + 4 sillas = 4 m². Mobiliario de aluminio, médula, madera, lona o mimbre; un solo modelo (salvo vintage), color liso no estridente, patas con gomas y cadenas aislantes. Sombrillas ≥2,20 m, sin taladrar suelo y antivuelco. Toldos fachada ≥2,50 m sin laterales ni anclaje al suelo. Maceteros en esquinas.'},
+  {n:'Art. 4 (f–k)',tit:'ART1-5',t:'Tarimas, Barreras, Estufas, Paravientos y Cerramientos',txt:'Tarimas desmontables antideslizantes con barandilla empotrada ≥90 cm no escalable (huecos ≤10 cm, reflectantes, sin cubrición); defecto de seguridad = suspensión inmediata. Barreras 90–120 cm sin tirafondos. Estufas gas propano: oct–abr, máx. 1/4 mesas, ≥2 m de fachada/árboles/farolas, ≥1 m de toldo M2, extintor 21A-113B, sin cableado aéreo, retirada diaria. Publicidad máx.: mesas 15×15, sillas 12×8, sombrillas 20×20, toldos 15×8, paravientos 15×15 cm. Cerramientos máx. 3 caras (abierta la de fachada).'},
+  {n:'Art. 5',tit:'ART1-5',t:'Requisitos de Ocupación y Prohibiciones Expresas',txt:'Coincide con línea de fachada (rebasarla exige escrito firmado de colindantes). Prohibida barra exterior y prohibida terraza separada por calzada abierta al tráfico. Prohibidos billares, futbolines, máquinas recreativas, vitrinas, tabaco, aparatos infantiles con sonido, barbacoas, audiovisuales, música y actuaciones en directo. ≥0,50 m a alcorques y bancos; prohibido anclar a árboles. Prohibido ocupar vados, salidas de emergencia, carril-bici, paradas bus, pasos de peatones y entradas a edificios. Sin deudas locales.'},
+  {n:'Arts. 6–8',tit:'ART6-11',t:'Autorización Administrativa, Plazos y Solicitantes',txt:'Previa tasa e informes de Servicios Técnicos y Policía Local. Intransferible (prohibido arrendar/ceder), vigencia anual y a precario. Dejar libres bocas de riego, hidrantes, alcantarillado, arquetas y transformadores. Renovación: durante el mes de enero; nueva ocupación: al menos 1 mes antes.'},
+  {n:'Art. 9',tit:'ART6-11',t:'Tipos de Autorizaciones y Documentación Exigible',txt:'Alta inicial: CIF/NIF, plano y croquis A-4 a escala, licencia de funcionamiento/DR, informe favorable si anclajes, catálogo/ficha de mobiliario, seguro RC e incendios con cobertura de terraza, documentación de estufas, acreditación de espacio interior/local para guardar mobiliario y alta IAE restauración. Renovación sin cambios: docs 1, 4, 6, 7 y 9.'},
+  {n:'Arts. 10–11',tit:'ART6-11',t:'Espacios Susceptibles de Ocupación y Colisión de Solicitudes',txt:'Aceras (≥1 m Art. 10; ≥1,80 m según Anexo accesibilidad), calles peatonales (≥1,5 m), plazas/bulevares y zonas de aparcamiento en vías rodadas solo excepcionalmente previo informe de Policía Local y con barrera protectora. Conflictos de espacio: distribuye el Ayuntamiento previo informe policial.'},
+  {n:'Arts. 12–13',tit:'ART12-18',t:'Cese de Actividad (>2 meses) y Horario de Terrazas',txt:'Cierre del local >2 meses ininterrumpidos deja sin efecto la autorización (obligación de reponer vía pública). Horario máximo de terrazas: el horario oficial de apertura y cierre del local según Orden anual de la Generalitat Valenciana (Ley 14/2010).'},
+  {n:'Art. 14',tit:'ART12-18',t:'Obligaciones del Titular de la Terraza',txt:'Pago de tasas; tener a disposición de Policía Local autorización, pago tasa y seguro RC/incendios; exhibir autorización visible desde el exterior; acotar en vías rodadas; limpieza diaria (agua/desengrasante si precisa) y papeleras/ceniceros estables; liberar vía por eventos/obras o paso de vehículos de urgencia; prohibido arrastrar mesas/sillas o apilarlas si no está acotada.'},
+  {n:'Art. 15',tit:'ART12-18',t:'Mesas Informativas (Plaza de la Iglesia)',txt:'Solo entidades sin ánimo de lucro, ONG, sindicatos, partidos o asociaciones. Ubicación ÚNICA: Plaza de la Iglesia. Máx. 1,50×2,50 m (carpa permitida, sin perforar suelo). Solicitud con 20 días de antelación + seguro RC. Máx. 2 mesas/día, 2 días/semana y 24 semanas/año. PROHIBIDA venta de productos.'},
+  {n:'Arts. 16–18',tit:'ART12-18',t:'Ocupación Comercial, Corte de Calle y Ampliaciones Especiales',txt:'Art. 16: ocupación comercial requiere alta censal; prohibida venta no autorizada o dificultar señales/tráfico. Art. 17: corte de calle para mesas/sillas requiere autorización expedida por Policía Local. Art. 18: ampliación extraordinaria en Navidad, Semana Santa o Festivos de 15 a 25 días naturales (máx. 3 veces/año).'},
+  {n:'Art. 19',tit:'ART19-21',t:'Infracciones, Cuantías y Procedimiento Sancionador',txt:'Resolución en máx. 3 meses. Responsable: titular de la instalación. Leves (6 supuestos, exceso ≤20%): 100–750 € y/o susp. 1 mes. Graves (13 supuestos, exceso >20% a <50%, horario, apilamiento, sin tasa): 751–1.500 € y/o susp. 3 meses. Muy Graves (4 supuestos, exceso >50%, sin autorización, negativa a retirar): 1.501–3.000 € y/o revocación o susp. >3 meses a 1 año. Retirada inmediata de excesos.'},
+  {n:'Arts. 20–21',tit:'ART19-21',t:'Control Policial, Medidas Cautelares y Revocación',txt:'Policía Local vigila el cumplimiento y puede requerir retirada inmediata ante carencia de licencia, exceso de espacio o fuera de horario; ante caso omiso, retirada y depósito a costa del titular. Art. 21: revocación con devolución proporcional (informe policial, interés general, cese) o sin devolución (quejas vecinales medioambientales no subsanadas o impago de tasas).'},
+  {n:'Disp. Adic. 1ª–3ª',tit:'DISP',t:'Carácter, Prohibición de Publicidad/Caballetes y Denegaciones',txt:'D.A. 1ª: intransferible, a precario, máx. 1 año natural. D.A. 2ª: prohibida publicidad/captación en calle y prohibidos caballetes de menú (solo 1 cartel menú en interior de terraza); prohibido subarriendo/cesión. D.A. 3ª: denegación si supera banda de aparcamiento o no deja libre mitad de calzada; PROHIBIDOS cerramientos en Calle Mayor, calles peatonales, Plazas y Paseos Marítimos.'},
+  {n:'Disp. Trans. y Final',tit:'DISP',t:'Plazos de Moratoria para Adaptación a Modelos A–D y Estufas',txt:'Desde entrada en vigor (BOP 30/07/2024): Modelo A y B = 2 años; Modelo C-1, C-2 y D = 4 años; documentación de estufas = 1 año. Transcurrido el plazo sin autorización: cierre y desmontaje.'},
+  {n:'Anexo: Criterios y Modelos A–B',tit:'ANEX',t:'Normalización: Elementos, Modelo A (Tarima+Valla) y Modelo B (Toldo)',txt:'Ancho libre peatonal acera ≥1,80 m. Retirada diaria obligatoria del mobiliario (prohibido apilar en vía pública). Modelo A (aparcamiento): tarima ignífuga antideslizante sin césped/moqueta + valla metálica 90–120 cm (no madera) + jardineras laterales (mín. 60×40 cm, no plástico ni madera, separación ≤15 cm). Modelo B: toldo abatible sobre calzada ≥2,50 m sin laterales ni anclaje al suelo, textil M2.'},
+  {n:'Anexo: Modelos C-1, C-2 y D',tit:'ANEX',t:'Cerramientos (C-1, C-2) y Zonas Singulares (Modelo D)',txt:'Modelos C-1 (tarima+vallado+techo, ventana transparente ≥50%) y C-2 (acristalado vidrio seguridad): altura interior ≥2,50 m, máx. 3 m, libre la cara de fachada y acera libre ≥2,20 m de alto, proyecto técnico obligatorio, nada fuera del cerramiento. Modelo D (Plazas, C/ Mayor, peatonales y paseos marítimos): solo sombrillas o toldo cofre con ruedas (5,10×2,80 m) a 2 m de fachada y 0,50 m de alcorques; PROHIBIDAS jardineras, vallados, cartelería y audiovisuales.'}
+];
+
+var ORD_TER_CATS=[
+  ['ALL','Todas'],['SUPERF','Superficie/Lic.'],['HORARIO','Horario/Orden'],['MOBIL','Mobiliario/Publ.'],
+  ['SEGUR','Seguridad/Paso'],['LIMPIEZA','Limpieza/Obras']
+];
+
+var ORD_TER_INFS=[
+  /* LEVES (Art. 19.1: 100–750 € y/o advertencia y/o susp. hasta 1 mes) */
+  {id:'ter_19.1.1',art:'19.1 (Leve 1ª)',g:'L',cat:'LIMPIEZA',eur:'100 – 750 €',t:'La carencia de limpieza o decoro de las instalaciones durante el horario de uso de las mismas, cuando ello no constituya infracción grave.',n:'Art. 14.11: obligación de mantener salubridad, ornato y disponer de papeleras/ceniceros estables. Si es grave o reiterado pasa a GRAVE.'},
+  {id:'ter_19.1.2',art:'19.1 (Leve 2ª)',g:'L',cat:'SUPERF',eur:'100 – 750 €',t:'La ocupación de dominio público con una superficie superior a la autorizada, en un exceso de hasta un 20%.',n:'Art. 4.b: 1 mesa + 4 sillas = 4 m². Requerir retirada inmediata del exceso (Art. 19 y 20). >20% a <50% = Grave; >50% = Muy Grave.'},
+  {id:'ter_19.1.3',art:'19.1 (Leve 3ª)',g:'L',cat:'LIMPIEZA',eur:'100 – 750 €',t:'No dejar limpia la zona de la vía pública autorizada cuando se retire a diario la instalación.',n:'Art. 14.4 y 14.11: incluye limpieza con agua y desengrasante si es necesario.'},
+  {id:'ter_19.1.4',art:'19.1 (Leve 4ª)',g:'L',cat:'HORARIO',eur:'100 – 750 €',t:'La falta de exposición en lugar visible para usuarios, vecinos y agentes de la policía local del documento de autorización de la terraza.',n:'Art. 14.10: debe exhibirse en el interior del establecimiento en espacio visible desde el exterior en la zona concedida.'},
+  {id:'ter_19.1.5',art:'19.1 (Leve 5ª)',g:'L',cat:'LIMPIEZA',eur:'100 – 750 €',t:'La falta de reposición del pavimento afectado por la instalación que conlleve algún tipo de anclaje, una vez extinguida la autorización.',n:'Art. 12 y 14.7.'},
+  {id:'ter_19.1.6',art:'19.1 (Leve 6ª)',g:'L',cat:'HORARIO',eur:'100 – 750 €',t:'La no retirada de terraza a petición de la administración por motivo de eventos, obras o cualquier otra circunstancia que lo exija (supuesto leve).',n:'Art. 14.5. Nota: esta conducta aparece tipificada tanto en 19.1 (Leve) como en 19.2 (Grave); si hay negativa expresa ante requerimiento de agentes pasa a Muy Grave (Art. 19.3).'},
+
+  /* GRAVES (Art. 19.2: 751–1.500 € y/o suspensión hasta 3 meses) */
+  {id:'ter_19.2.1',art:'19.2 (Grave 1ª)',g:'G',cat:'MOBIL',eur:'751 – 1.500 €',t:'El almacenamiento o apilamiento en la vía pública de productos o materiales objeto de la instalación.',n:'Art. 14.9 y Anexo ap. 3: el mobiliario debe retirarse diariamente al interior del local o almacén alternativo (Art. 9.A.8).'},
+  {id:'ter_19.2.2',art:'19.2 (Grave 2ª)',g:'G',cat:'SUPERF',eur:'751 – 1.500 €',t:'La ocupación de dominio público con una superficie superior a la autorizada, en un exceso superior a un 20% e inferior al 50%.',n:'Art. 19 y 20: requerir retirada inmediata del exceso; si no obedece, retirada y depósito a costa del titular.'},
+  {id:'ter_19.2.3',art:'19.2 (Grave 3ª)',g:'G',cat:'HORARIO',eur:'751 – 1.500 €',t:'La realización del aprovechamiento fuera del horario autorizado.',n:'Art. 13: horario delimitado por la Orden anual de la Generalitat Valenciana. Habilita requerimiento de retirada inmediata (Art. 20.2).'},
+  {id:'ter_19.2.4',art:'19.2 (Grave 4ª)',g:'G',cat:'SUPERF',eur:'751 – 1.500 €',t:'La instalación de los veladores en un emplazamiento distinto al autorizado.',n:'Comprobar croquis/plano de la autorización (Art. 6.11 y Art. 9).'},
+  {id:'ter_19.2.5',art:'19.2 (Grave 5ª)',g:'G',cat:'MOBIL',eur:'751 – 1.500 €',t:'La instalación de cualquier tipo de carteles, vallas publicitarias y otros elementos de reclamo que no consistan en el nombre del establecimiento o logotipo del mismo.',n:'D.A. 2ª: prohibidos caballetes de menú en vía pública (solo 1 cartel menú dentro de la terraza). Límites publicidad comercial en Art. 4.j.'},
+  {id:'ter_19.2.6',art:'19.2 (Grave 6ª)',g:'G',cat:'MOBIL',eur:'751 – 1.500 €',t:'La utilización de mobiliario distinto al autorizado.',n:'Art. 4 y Anexo: modelos no normalizados, colores estridentes, sin gomas en patas, césped/moqueta en tarima o elementos prohibidos (Art. 5: billares, barbacoas, audiovisuales).'},
+  {id:'ter_19.2.7',art:'19.2 (Grave 7ª)',g:'G',cat:'LIMPIEZA',eur:'751 – 1.500 €',t:'La no conservación de la zona ocupada en perfecto estado de salubridad, limpieza y ornato, cuando sea con carácter grave o reiterado.',n:'Art. 14.4 y 14.11. Documentar reiteración o gravedad con reportaje fotográfico.'},
+  {id:'ter_19.2.8',art:'19.2 (Grave 8ª)',g:'G',cat:'SEGUR',eur:'751 – 1.500 €',t:'La colocación de elementos que impidan o dificulten el acceso a edificios, locales comerciales o de servicios, pasos de peatones señalizados, salidas de emergencia o visibilidad de señales de circulación.',n:'Arts. 5 y 14.6. Requerir retirada inmediata por seguridad ciudadana y vial.'},
+  {id:'ter_19.2.9',art:'19.2 (Grave 9ª)',g:'G',cat:'SEGUR',eur:'751 – 1.500 €',t:'La ocupación de bocas de riego, hidrantes, registros de alcantarillado, paradas de transporte público, centros de transformación y arquetas de registro impidiendo su utilización inmediata.',n:'Arts. 5 y 6.10.'},
+  {id:'ter_19.2.10',art:'19.2 (Grave 10ª)',g:'G',cat:'HORARIO',eur:'751 – 1.500 €',t:'El incumplimiento de las órdenes emanadas del Ayuntamiento tendentes a corregir deficiencias observadas en las instalaciones.',n:'Art. 4.f: si la deficiencia afecta a la seguridad de una tarima, conlleva suspensión inmediata de la terraza.'},
+  {id:'ter_19.2.11',art:'19.2 (Grave 11ª)',g:'G',cat:'SUPERF',eur:'751 – 1.500 €',t:'Ocupar la vía pública sin licencia o sin el pago de la tasa correspondiente.',n:'Art. 14.1–2 y Art. 20.2: requerir retirada inmediata. Si carece totalmente de autorización o está en periodo no autorizado, valorar también Muy Grave (Art. 19.3).'},
+  {id:'ter_19.2.12',art:'19.2 (Grave 12ª)',g:'G',cat:'HORARIO',eur:'751 – 1.500 €',t:'La no retirada de terraza a petición de la administración por motivo de eventos, obras o cualquier otra circunstancia que lo exija (supuesto grave).',n:'Art. 14.5 y 14.8 (incluye obstaculizar paso de vehículos de urgencia).'},
+  {id:'ter_19.2.13',art:'19.2 (Grave 13ª)',g:'G',cat:'HORARIO',eur:'751 – 1.500 €',t:'La comisión de tres faltas leves en el periodo de un año.',n:'Hacer constar expedientes/denuncias leves previas en los últimos 12 meses.'},
+
+  /* MUY GRAVES (Art. 19.3: 1.501–3.000 € y/o revocación o suspensión >3 meses a 1 año) */
+  {id:'ter_19.3.1',art:'19.3 (Muy Grave 1ª)',g:'MG',cat:'SUPERF',eur:'1.501 – 3.000 €',t:'La ocupación de dominio público con una superficie superior a la autorizada, en un exceso superior a un 50%.',n:'Art. 19 y 20.2: requerir retirada inmediata del exceso; si no se retira, retirada municipal y depósito a costa del titular.'},
+  {id:'ter_19.3.2',art:'19.3 (Muy Grave 2ª)',g:'MG',cat:'SUPERF',eur:'1.501 – 3.000 €',t:'La utilización del dominio público sin haber obtenido la correspondiente autorización o en un periodo no autorizado.',n:'Art. 20.2: requerir retirada inmediata de todos los elementos; si hace caso omiso, retirada y depósito a costa del titular.'},
+  {id:'ter_19.3.3',art:'19.3 (Muy Grave 3ª)',g:'MG',cat:'SEGUR',eur:'1.501 – 3.000 €',t:'La obstaculización o negativa a retirar el mobiliario cuando ello sea requerido a instancias de los agentes de la autoridad.',n:'Art. 20.2.d: proceder a la retirada y depósito municipal a costa del titular. Valorar LO 4/2015 Art. 36.6 por desobediencia.'},
+  {id:'ter_19.3.4',art:'19.3 (Muy Grave 4ª)',g:'MG',cat:'HORARIO',eur:'1.501 – 3.000 €',t:'La comisión de dos faltas graves en el periodo de un año.',n:'Acreditar expedientes graves previos en los últimos 12 meses. Sanción: 1.501–3.000 € y/o revocación o suspensión hasta 1 año.'}
+];
+
+/* ----- 6. DATOS: ORDENANZA MUNICIPAL DE CIRCULACIÓN (BOP 21/02/2019) ----- */
+var ORD_CIR_RESUMEN=[
+  {tit:'1. Velocidad Urbana, Zonas Peatonales y Motos/Quads (Arts. 1–9 y 37–39)',col:'c-blue',pts:[
+    'Velocidad máxima general en vías urbanas y travesías (Art. 37.1): 30 km/h (salvo señalización específica). En zonas peatonales, calles de un solo carril o gran aglomeración: máx. 10 km/h (Art. 37.4).',
+    'Zonas de prioridad invertida (Art. 6): bicis, patines y VMP tienen prioridad sobre el resto de vehículos, pero nunca sobre peatones.',
+    'Motos, triciclos a motor, quads y ciclomotores (Art. 8): prohibido circular por aceras/paseos/carril bici; prohibido hacer caballitos (apoyar una sola rueda), sujetarse a vehículos en marcha o hacer frenadas/derrapes peligrosos (Grave 200 €).',
+    'Artefactos con motor no homologados (Art. 9.3): prohibida su circulación sin autorización específica del Ayuntamiento (100 €). Ruidos (Anexo I): máx. +4 dB(A) sobre ficha de homologación (ciclomotores sin dato: 91 dB(A)).'
+  ]},
+  {tit:'2. Bicicletas y Patines / Monopatines (Arts. 10–21 y 31–32)',col:'c-green',pts:[
+    'Velocidades bicicletas (Arts. 11–15): carril bici en calzada = máx. 30 km/h; acera-bici / senda ciclable = máx. 15 km/h; calles residenciales S-28 (contrasentido permitido sin prioridad) y aceras/zonas peatonales (>5 m ancho y >3 m paso libre) = máx. 10 km/h, manteniendo ≥1 m a peatones y fachadas.',
+    'Ciclocalles (Art. 13 y 19.4): velocidad máx. 30 km/h para todos los vehículos, prioridad ciclista y PROHIBIDO adelantar a bicicletas en el mismo carril (Grave 200 €). Distancia detrás de bici ≥2 m; adelantamiento a >50 km/h dejando ≥1,5 m.',
+    'Equipamiento y menores: timbre obligatorio, luces de noche (blanca delante, roja detrás) y reflectantes; casco obligatorio para menores de 16 años (Art. 10.7); sillita homologada hasta 7 años con casco (Art. 18.2); remolque homologado solo de día, conductor mayor de edad y banderín 1,4–1,8 m si lleva personas (Art. 17).',
+    'Estacionamiento bicis (Art. 16): en aparcabicis; si no hay a <50 m, atar a mobiliario EXCEPTO farolas, árboles, semáforos, bancos, barandillas y fachadas, con protección plástica y dejando >1,50 m de paso peatonal.'
+  ]},
+  {tit:'3. Vehículos de Movilidad Personal — VMP (Arts. 22–30 y Anexo II)',col:'c-teal',pts:[
+    'Edad mínima municipal (Art. 22.4): prohibida la conducción por menores de 16 años.',
+    'Clasificación Anexo II: Tipo A (≤20 km/h, ≤25 kg, 1 pers., solo de día, carril bici/plataforma única/parques); Tipo B (≤30 km/h, ≤50 kg, 1 pers., casco homologado obligatorio, alumbrado ciclomotor si noche); Tipo C0/C1/C2 (≤45 km/h, ≤300 kg, calzada, casco o estructura con cinturón). (Nota: tener en cuenta también la normativa estatal DGT vigente sobre VMP).',
+    'Documentación obligatoria a mostrar a agentes (Art. 29): DNI/edad, homologación CE, certificado de velocidad/masa en vacío y recibo de seguro si es obligatorio. No mostrarla = causa de INMOVILIZACIÓN (Art. 61.2).',
+    'Actividades económicas/turísticas (Arts. 26–27 y 30): autorización municipal previa, guía obligatorio (máx. 2 pers. sin ruta / 6 con ruta), registro obligatorio (Grave) y seguro obligatorio de RC (Muy Grave 500 €).'
+  ]},
+  {tit:'4. Circulación a Caballo (Arts. 33–36 y 63)',col:'c-amber',pts:[
+    'Sentido de marcha igual al tráfico rodado, evitando vías más transitadas; si va más de 1 montura, en fila india (Art. 33).',
+    'Prohibiciones (Art. 34): prohibido galope o trote en casco urbano (SOLO al paso); prohibido circular bajo efectos de alcohol o drogas (100 €); prohibido dejarlo suelto o corriendo junto a peatones.',
+    'Menores y amarre (Arts. 35–36): menores de 18 años acompañados de adulto; prohibido amarrar a farolas, árboles, señales o rejas (debe ir siempre a la mano). Causa de inmovilización/retirada si alcohol o menor sin adulto (Art. 63).'
+  ]},
+  {tit:'5. Paradas, Estacionamientos y Prohibiciones Municipales (Arts. 43–52)',col:'c-crim',pts:[
+    'Parada (<2 min sin abandonar vehículo, Art. 43) vs. Estacionamiento (>2 min, Art. 47). Distancia máxima al bordillo: 20 cm (Art. 50). En sentido único se puede estacionar a ambos lados si queda carril libre ≥3 m (Art. 48.5).',
+    'Prohibiciones municipales específicas (Art. 51): vehículos MMA >3.500 kg en vía urbana (salvo autorizados); vehículos >2,5 m altura bajo balcones; estacionar con cartel «Se vende» y teléfono (Art. 51.5.a); CARAVANAS Y AUTOCARAVANAS más de 48 horas (Art. 51.5.b); remolques sueltos; delante de contenedores; en vados (ni el titular, salvo con conductor dentro).',
+    'Motos y ciclomotores de 2 ruedas en acera (Art. 51.6.t–u): prohibido cuando perjudiquen el tránsito peatonal (Grave 200 €).',
+    'Alteraciones provisionales (obras, limpieza, eventos · Art. 52): señalización mínima con 72 HORAS de antelación (con hora inicio/fin) → retirada con grúa, denuncia y tasa. En urgente necesidad: desplazamiento sin coste + aviso al conductor.'
+  ]},
+  {tit:'6. Carga y Descarga, Medidas Cautelares y Sanciones (Arts. 53–71)',col:'c-gold',pts:[
+    'Carga y descarga (Arts. 53–57): tiempo máximo general 30 minutos (exhibiendo hora de inicio en parabrisas si se exige); prohibido dejar mercancía en vía pública. Camiones >12,5 Tn solo en intercambiadores, interior de locales o con autorización especial (Art. 56). Personas con movilidad reducida: hasta 30 min en carga/descarga si no hay plaza próxima (Art. 51.6.d).',
+    'Medidas cautelares (Arts. 58–64): inmovilización y retirada de vehículos (levantar inmovilización sin permiso = desobediencia), bicis (fractura de candado si atada en sitio prohibido; residuo sólido si faltan ≥3 elementos), VMP (sin documentación o sin casco), patines, caballos y objetos sin autorización.',
+    'Régimen sancionador (Arts. 65–71 y Anexo III): competencia Alcalde (salvo Título IV LSV → JPT). Importes por defecto si no figura en Anexo: Leves 80 €, Graves 200 €, Muy Graves 500 €. No identificar al conductor (Art. 69): doble de multa si leve, triple si grave/muy grave.'
+  ]}
+];
+
+var ORD_CIR_TITS=[
+  ['ALL','Todos'],['PREL','Prelim.'],['CAP1','Peat./Motos'],['CAP2','Bicicletas'],
+  ['CAP3-4','VMP/Patines'],['CAP5-7','Cab./Vel./Señ.'],['CAP8','Parada/Estac.'],
+  ['TIT2','Carga/Desc.'],['TIT3-5','Caut./Sanc.'],['ANEX','Anexos I–II']
+];
+
+var ORD_CIR_ARTS=[
+  {n:'Arts. 1–3',tit:'PREL',t:'Competencia, Objeto y Ámbito de Aplicación',txt:'Ordenación del tráfico en vías urbanas y travesías de Pilar de la Horadada (LBRL y RDL 6/2015 LSV). Obliga a titulares y usuarios de vías públicas urbanas, vías de uso común y vías privadas de uso colectivo indeterminado.'},
+  {n:'Arts. 4–7',tit:'CAP1',t:'Peatones, Zonas Peatonales, Prioridad Invertida y Limitaciones',txt:'Peatones por acera (derecha), cruces por pasos o extremos perpendicularmente, rodear rotondas. Zonas peatonales (excepciones: emergencias, limpieza, enfermos/PMR, garajes, carga/descarga en horario). Zonas prioridad invertida (Art. 6): bicis/VMP/patines tienen prioridad sobre coches pero no sobre peatones. Limitaciones por Bando de Alcaldía (Art. 7).'},
+  {n:'Arts. 8–9',tit:'CAP1',t:'Motocicletas, Quads, Ciclomotores y Vehículos Prohibidos',txt:'Art. 8: prohibido circular motos/quads/ciclomotores por aceras, paseos y carril bici; prohibido hacer caballitos (una rueda), sujetarse a vehículos en marcha o maniobras bruscas/derrapes. Art. 9: prohibidos vehículos oruga, tracción animal con llanta metálica y artefactos con motor no homologados sin autorización.'},
+  {n:'Arts. 10–14',tit:'CAP2',t:'Bicicletas: Normas, Carril-Bici, Senda Ciclable, Ciclocalle y S-28',txt:'Bicis por carril bici o calzada (carril derecho, parte central). Timbre, reflectantes y luces de noche (blanca/roja); casco obligatorio <16 años. Velocidades: carril bici calzada 30 km/h; acera-bici y senda ciclable 15 km/h; ciclocalles máx. 30 km/h y prohibido adelantar bicis en mismo carril; calles residenciales S-28 permitido contrasentido sin prioridad máx. 10 km/h.'},
+  {n:'Arts. 15–18',tit:'CAP2',t:'Bicicletas: Aceras, Estacionamiento, Remolques y Usos Turísticos',txt:'Art. 15: aceras/paseos/zonas peatonales >5 m ancho y >3 m paso libre, máx. 10 km/h, ≥1 m de peatones y fachadas; <12 años con adulto a paso peatón. Art. 16: aparcabicis o mobiliario (si no hay en 50 m) excepto farolas, árboles, semáforos, bancos, barandillas y fachadas, dejando >1,50 m. Art. 17: remolque homologado de día, mayor de edad, banderín 1,4–1,8 m y casco <16 años. Art. 18: ciclos turísticos >2 ruedas requieren permiso; sillita homologada hasta 7 años con casco.'},
+  {n:'Arts. 19–21',tit:'CAP2',t:'Bicicletas: Obligaciones de Otros Usuarios, Prohibiciones y Bici-Registro',txt:'Art. 19: adelantamiento a >50 km/h dejando ≥1,5 m; distancia detrás ≥2 m; prohibido parar/estacionar en carril bici o aparcabicis. Art. 20: prohibido caballitos, sujetarse a vehículos, derrapes, llevar pasajeros (salvo sillita <7 años) o bultos que resten visión. Art. 21: bici-registro municipal voluntario.'},
+  {n:'Arts. 22–25',tit:'CAP3-4',t:'VMP: Definición, Categorías (A, B, C0–C2) y Normas de Circulación',txt:'Art. 22: edad mínima 16 años. Tipo A (≤20 km/h, ≤25 kg): solo de día, carril bici/plataforma única/parques/aceras >5 m (>3 m libre, máx. 10 km/h). Tipo B (≤30 km/h, ≤50 kg): casco homologado obligatorio, carril bici o calzada (de noche solo con alumbrado de ciclomotor); excepción PMR. Tipos C0/C1/C2 (≤45 km/h, ≤300 kg): calzada, alumbrado ciclomotor de noche, casco o estructura con cinturón.'},
+  {n:'Arts. 26–30',tit:'CAP3-4',t:'VMP: Usos Turísticos, Seguro, Estacionamiento, Documentación y Registro',txt:'Art. 26: VMP turísticos requieren autorización municipal y guía (máx. 2 sin ruta / 6 con ruta). Art. 27: seguro RC obligatorio en actividades económicas (infracción Muy Grave). Art. 28: estacionamiento igual que bicis. Art. 29: documentación obligatoria (DNI, CE, certificado velocidad/masa, seguro). Art. 30: registro obligatorio para actividades económicas (Grave).'},
+  {n:'Arts. 31–32',tit:'CAP3-4',t:'Patines, Monopatines y Similares',txt:'Por carriles bici (respetando ciclistas), plataforma única, parques o aceras >5 m (>3 m libre) máx. 10 km/h y ≥1 m de peatones y edificios; si no, a pie. Art. 32: prohibido ser arrastrados por otros vehículos.'},
+  {n:'Arts. 33–36',tit:'CAP5-7',t:'Circulación a Caballo en Casco Urbano',txt:'En calzada sentido del tráfico, fila india si >1 montura, solo al paso (prohibido trote/galope). Prohibido bajo alcohol/drogas o dejarlo suelto. Menores de 18 años acompañados de adulto. Prohibido amarrar a farolas, árboles, señales o rejas.'},
+  {n:'Arts. 37–39',tit:'CAP5-7',t:'Velocidad Urbana (30/10 km/h), Obras y Emisiones/Ruidos',txt:'Art. 37: límite máximo general 30 km/h en vías urbanas y travesías; 10 km/h en zonas peatonales, calles de un carril o gran aglomeración. Art. 38: obras/contenedores requieren autorización; prohibido arrojar/abandonar objetos. Art. 39: prohibido exceder ruidos/humos o reformas no autorizadas; obligación de colaborar en pruebas.'},
+  {n:'Arts. 40–42',tit:'CAP5-7',t:'Señalización Urbana y Modificaciones Temporales',txt:'Competencia municipal. Obligación de obedecer señales; señales en entrada de núcleo o zona peatonal rigen para todo el perímetro. Modificación temporal por emergencias o eventos.'},
+  {n:'Arts. 43–46',tit:'CAP8',t:'Paradas: Definición (<2 min), Normas y Lugares Prohibidos',txt:'Parada: <2 min sin abandonar el vehículo. Arrimado a derecha (o izquierda en sentido único); calles sin acera ≥1 m de fachada. Art. 46: prohibido en señalizado, obstrucción grave, doble fila (salvo carril libre sin tráfico intenso ni hueco en 40 m), isletas, vados, PMR, aceras, <5 m de esquina/cruce, túneles, paradas bus, carril bus/bici, rebajes PMR, salidas de emergencia y medio de calzada.'},
+  {n:'Arts. 47–50',tit:'CAP8',t:'Estacionamiento: Normas Generales, Tipos y Distancia (20 cm)',txt:'Estacionamiento: >2 min. Evitar puesta en movimiento en ausencia. Doble sentido: lado derecho; sentido único: ambos lados si queda ≥3 m libres. Norma general en fila (cordón), dentro de marcas viales y a máximo 20 cm del bordillo (Art. 50).'},
+  {n:'Arts. 51–52',tit:'CAP8',t:'Prohibiciones de Estacionamiento y Alteraciones Provisionales (72h)',txt:'Art. 51: prohibido transporte MMA >3.500 kg en vía urbana; vehículos >2,5 m bajo balcones; vehículos con cartel «Se vende» y teléfono; caravanas/autocaravanas >48 horas; doble fila; carga/descarga (excep. PMR 30 min); vados (ni titular salvo conductor dentro); contenedores; aceras (motos 2 ruedas solo si no perjudican peatones); remolques sueltos; calles sin acera. Art. 52: obras/limpieza/eventos avisar con ≥72 horas → grúa, denuncia y tasa; urgente necesidad sin coste + aviso.'},
+  {n:'Arts. 53–57',tit:'TIT2',t:'Carga y Descarga: Normas, Camiones >12,5 Tn y Límite 30 Minutos',txt:'Preferentemente en interior de locales o zonas reservadas en horario. Por el lado de acera, sin ruidos, dejando limpia la vía y sin depositar mercancía en la calle. Art. 56: camiones ≥12,5 Tn solo en intercambiadores, interior de locales o con permiso especial. Art. 57: tiempo máx. 30 min; exhibir hora de inicio en parabrisas; tras 30 min vehículo cerrado = estacionamiento indebido y grúa.'},
+  {n:'Arts. 58–64',tit:'TIT3-5',t:'Medidas Cautelares: Inmovilización y Retirada (Vehículos, Bicis, VMP, Caballos, Objetos)',txt:'Art. 58: inmovilización (levantarla sin permiso = desobediencia). Art. 59: retirada y depósito (se suspende si comparece antes de iniciar marcha la grúa y liquida tasa; dejar aviso). Art. 60: bicis (posible fractura de candado si atada prohibido; residuo sólido si faltan ≥3 elementos). Art. 61: VMP (inmovilización sin documentación; retirada sin casco o abandono 1 mes). Art. 62: patines (alcohol/peligro). Art. 63: caballos (alcohol/menor). Art. 64: retirada de objetos sin permiso.'},
+  {n:'Arts. 65–71',tit:'TIT3-5',t:'Régimen y Procedimiento Sancionador, Identificación del Conductor y Cobro',txt:'Competencia Alcalde (salvo Título IV LSV → JPT). Cuantías Anexo III (+30% agravación Art. 81 LSV). Art. 69: no identificar al conductor = Muy Grave (doble si leve, triple si grave/muy grave). Disposición Derogatoria y Final (vigor a los 3 meses).'},
+  {n:'Anexos I y II',tit:'ANEX',t:'Anexo I (Ruidos +4 dB / 91 dB) y Anexo II (Tabla Técnica VMP A, B, C0–C2)',txt:'Anexo I (D. 19/2004): límite ruido = ficha homologación + 4 dB(A); ciclomotores sin dato = 91 dB(A). Anexo II VMP: Tipo A (≤20 km/h, ≤25 kg, 1 pers., ancho 0,6 m, largo 1 m); Tipo B (≤30 km/h, ≤50 kg, 1 pers., timbre/freno SÍ); C0/C1/C2 (≤45 km/h, ≤300 kg, ancho 1,5 m, largo 1,9 m, C1 viajeros, C2 mercancías).'}
+];
+
+var ORD_CIR_CATS=[
+  ['ALL','Todas'],['ESTAC','Parada/Estac.'],['BICIS','Bicicletas'],['VMP','VMP/Patines'],
+  ['MOTOS','Motos/Caballos'],['CARGA','Carga/Desc.'],['MUN','Ruidos/Vía Púb.']
+];
+
+var ORD_CIR_INFS=[
+  /* MOTOS / QUADS / ARTEFACTOS (OMCIR 8-9) */
+  {id:'cir_om8.2a.1',art:'OMCIR 8.2A.1',g:'G',cat:'MOTOS',eur:'200 € (red. 100 €)',t:'Iniciar la marcha con una motocicleta, triciclo a motor, quad o ciclomotor apoyando únicamente las ruedas traseras o delanteras en la calzada.',n:'Calif. Grave (Art. 76.m LSV). Responsable: Conductor.'},
+  {id:'cir_om8.2a.2',art:'OMCIR 8.2A.2',g:'G',cat:'MOTOS',eur:'200 € (red. 100 €)',t:'Circular con una motocicleta, triciclo a motor, quad o ciclomotor apoyando únicamente las ruedas traseras o delanteras en la calzada.',n:'Calif. Grave (Art. 76.m LSV). Responsable: Conductor.'},
+  {id:'cir_om8.2b.1',art:'OMCIR 8.2B.1',g:'G',cat:'MOTOS',eur:'200 € (red. 100 €)',t:'Circular con una motocicleta, triciclo a motor, quad o ciclomotor sujetándose a otros vehículos en marcha.',n:'Calif. Grave (Art. 76.m LSV). Responsable: Conductor.'},
+  {id:'cir_om8.2b.2',art:'OMCIR 8.2B.2',g:'G',cat:'MOTOS',eur:'200 € (red. 100 €)',t:'Circular con una motocicleta, triciclo a motor, quad o ciclomotor efectuando maniobras bruscas, frenadas o derrapes.',n:'Calif. Grave (Art. 76.m LSV). Responsable: Conductor.'},
+  {id:'cir_om9.3',art:'OMCIR 9.3',g:'L',cat:'MOTOS',eur:'100 € (red. 50 €)',t:'Circular con un artefacto mecánico impulsado por cualquier tipo de motor, no homologado como vehículo, careciendo de autorización específica otorgada por el Ayuntamiento.',n:'Responsable: Conductor.'},
+
+  /* BICICLETAS (OMCIR 10-20) */
+  {id:'cir_om10.1',art:'OMCIR 10.1',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Circular en bicicleta por fuera de los carriles o zonas habilitados para la circulación de bicicletas donde existan.',n:'Responsable: Conductor.'},
+  {id:'cir_om10.2.1',art:'OMCIR 10.2.1',g:'L',cat:'BICIS',eur:'100 € (red. 50 €)',t:'Circular en bicicleta por carril de circulación en sentido contrario al establecido, fuera de los casos permitidos.',n:'Excepción: calles residenciales S-28 sin prioridad máx. 10 km/h (Art. 14.2).'},
+  {id:'cir_om10.2.2',art:'OMCIR 10.2.2',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'No utilizar el carril más próximo a la acera circulando en bicicleta.',n:'Responsable: Conductor.'},
+  {id:'cir_om10.3',art:'OMCIR 10.3',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Circular en bicicleta por carril de circulación reservado a otros usos donde no lo habilita la señalización.',n:'Responsable: Conductor.'},
+  {id:'cir_om10.6',art:'OMCIR 10.6',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Circular con un ciclo o bicicleta entre el ocaso y la salida del sol sin hacer uso del alumbrado establecido en la ordenanza (blanca delante, roja detrás).',n:'Especificar defecto de alumbrado.'},
+  {id:'cir_om11.4',art:'OMCIR 11.4',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Circular en ciclo o bicicleta por los carriles-bici y aceras-bici realizando maniobras bruscas.',n:'Velocidad máx.: 30 km/h en carril bici calzada, 15 km/h en acera-bici.'},
+  {id:'cir_om12.2',art:'OMCIR 12.2',g:'G',cat:'BICIS',eur:'200 € (red. 100 €)',t:'Circular en bicicleta por una senda ciclable sin respetar la preferencia de los peatones.',n:'Calif. Grave (Art. 76.m LSV). Velocidad máx. en senda ciclable: 15 km/h.'},
+  {id:'cir_om13.2.1',art:'OMCIR 13.2.1',g:'G',cat:'BICIS',eur:'200 € (red. 100 €)',t:'Circular en un vehículo por una ciclocalle sin adaptar su velocidad a la de los ciclos (máx. 30 km/h).',n:'Calif. Grave (Art. 76.m LSV).'},
+  {id:'cir_om13.2.2',art:'OMCIR 13.2.2',g:'G',cat:'BICIS',eur:'200 € (red. 100 €)',t:'Realizar un adelantamiento a un ciclista, con un vehículo, en el mismo carril de circulación, circulando en una ciclocalle.',n:'Calif. Grave (Art. 76.m LSV).'},
+  {id:'cir_om15',art:'OMCIR 15',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Circular en bicicleta por una acera, jardín público, paseo o zona peatonal incumpliendo las condiciones reglamentarias (>5 m ancho, >3 m libre, ≤10 km/h, ≥1 m peatones/fachadas).',n:'Especificar incumplimiento.'},
+  {id:'cir_om16.3',art:'OMCIR 16.3',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Estacionar una bicicleta atándola a un elemento en condiciones distintas a las reglamentarias (farolas, árboles, semáforos, bancos, barandillas, fachadas o sin protección plástica).',n:'Art. 60.1.a: posible retirada y fractura del sistema de sujeción.'},
+  {id:'cir_om17',art:'OMCIR 17',g:'L',cat:'BICIS',eur:'80 € (red. 40 €)',t:'Circular en bicicleta llevando un remolque para transporte de personas, animales o mercancías en condiciones distintas a las reglamentarias.',n:'Solo de día, homologado, conductor >18 años, banderín 1,4–1,8 m y casco <16 años.'},
+  {id:'cir_om18.1.1',art:'OMCIR 18.1.1',g:'L',cat:'BICIS',eur:'100 € (red. 50 €)',t:'Realizar actividades turísticas o de ocio en un ciclo de más de 2 ruedas sin haber obtenido autorización municipal.',n:'Responsable: Titular / Arrendatario / Conductor.'},
+  {id:'cir_om18.1.2',art:'OMCIR 18.1.2',g:'L',cat:'BICIS',eur:'100 € (red. 50 €)',t:'Incumplir las condiciones de la autorización municipal realizando actividades turísticas o de ocio en un ciclo de más de 2 ruedas.',n:'Responsable: Titular / Arrendatario / Conductor.'},
+  {id:'cir_om18.2.1',art:'OMCIR 18.2.1',g:'L',cat:'BICIS',eur:'80 € (red. 40 €)',t:'Circular en bicicleta construida para una sola persona con un menor de 7 años sin llevar asiento adicional homologado.',n:'Responsable: Conductor.'},
+  {id:'cir_om18.2.2',art:'OMCIR 18.2.2',g:'L',cat:'BICIS',eur:'80 € (red. 40 €)',t:'Circular en bicicleta construida para una sola persona con un menor de 7 años sin llevar el menor casco de protección homologado.',n:'Nota: en vía urbana valorar también CIR 118.1 (Grave 200 € para <16 años).'},
+  {id:'cir_om19.1',art:'OMCIR 19.1',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Circular un peatón por un carril bici o permanecer en este fuera de los casos permitidos.',n:'Responsable: Peatón.'},
+  {id:'cir_om19.2',art:'OMCIR 19.2',g:'G',cat:'BICIS',eur:'200 € (red. 100 €)',t:'Circular con un vehículo motorizado y adelantar a una bicicleta sin dejar espacio lateral suficiente (≥1,5 m si >50 km/h).',n:'Calif. Grave (Art. 76.m LSV).'},
+  {id:'cir_om19.3.1',art:'OMCIR 19.3.1',g:'L',cat:'BICIS',eur:'80 € (red. 40 €)',t:'Circular en vehículo motorizado detrás de una bicicleta sin dejar distancia prudencial de al menos 2 metros, sin peligro para el ciclista.',n:'Responsable: Conductor.'},
+  {id:'cir_om19.3.2',art:'OMCIR 19.3.2',g:'G',cat:'BICIS',eur:'200 € (red. 100 €)',t:'Circular en vehículo motorizado detrás de una bicicleta sin dejar distancia prudencial de al menos 2 metros, con peligro para el ciclista.',n:'Calif. Grave (Art. 76.m LSV).'},
+  {id:'cir_om19.4',art:'OMCIR 19.4',g:'L',cat:'BICIS',eur:'80 € (red. 40 €)',t:'Circular en vehículo motorizado por una ciclocalle sin respetar la prioridad de paso de los ciclistas.',n:'Responsable: Conductor.'},
+  {id:'cir_om19.6',art:'OMCIR 19.6',g:'L',cat:'BICIS',eur:'80 € (red. 40 €)',t:'Estacionar un vehículo distinto de una bicicleta en un estacionamiento señalizado para uso exclusivo de bicicletas.',n:'Responsable: Titular / Arrendatario / Conductor.'},
+  {id:'cir_om20.a',art:'OMCIR 20.A',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Iniciar la marcha o circular en bicicleta apoyado en una sola rueda.',n:'Responsable: Conductor.'},
+  {id:'cir_om20.b.1',art:'OMCIR 20.B.1',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Circular en bicicleta sujeto a un vehículo en marcha.',n:'Responsable: Conductor.'},
+  {id:'cir_om20.b.2',art:'OMCIR 20.B.2',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Circular en bicicleta realizando maniobras bruscas, frenadas o derrapes.',n:'Responsable: Conductor.'},
+  {id:'cir_om20.c',art:'OMCIR 20.C',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Circular en bicicleta transportando más personas de las permitidas.',n:'Excepción: menor de 7 años en sillita homologada.'},
+  {id:'cir_om20.d.1',art:'OMCIR 20.D.1',g:'L',cat:'BICIS',eur:'60 € (red. 30 €)',t:'Circular en bicicleta transportando objetos que dificultan su utilización o reducen la visión del conductor.',n:'Art. 20.D.1 / 20.D.2.'},
+
+  /* VMP Y PATINES (OMCIR 23-31) */
+  {id:'cir_om23.1.1',art:'OMCIR 23.1.1',g:'L',cat:'VMP',eur:'60 € (red. 30 €)',t:'Circular con VMP tipo A por la calzada fuera de los casos establecidos, o de noche / con visibilidad reducida.',n:'OMCIR 23.1.1 / 23.1.3.'},
+  {id:'cir_om23.1.4',art:'OMCIR 23.1.4',g:'L',cat:'VMP',eur:'60 € (red. 30 €)',t:'Circular con VMP tipo A por carril bici sin respetar preferencia de ciclistas, o por acera/zona peatonal incumpliendo condiciones.',n:'OMCIR 23.1 / 23.3.'},
+  {id:'cir_om24.1',art:'OMCIR 24.1',g:'L',cat:'VMP',eur:'60 € (red. 30 €)',t:'Circular con VMP tipo B por carril bici sin respetar la preferencia de los ciclistas, o por acera/zona peatonal incumpliendo condiciones.',n:'OMCIR 24.1 / 24.4 / 24.5.'},
+  {id:'cir_om24.2',art:'OMCIR 24.2',g:'L',cat:'VMP',eur:'80 € (red. 40 €)',t:'Circular con VMP tipo B sin usar casco homologado.',n:'Art. 61.4.b: causa específica de RETIRADA del VMP. (Valorar también normativa estatal LSV/RGC vigente).'},
+  {id:'cir_om24.3',art:'OMCIR 24.3',g:'L',cat:'VMP',eur:'80 € (red. 40 €)',t:'Circular con VMP tipo B o C (C0/C1/C2) por la calzada de noche o con visibilidad reducida incumpliendo alumbrado reglamentario.',n:'OMCIR 24.3.1 / 25.2.'},
+  {id:'cir_om25.3.1',art:'OMCIR 25.3.1',g:'L',cat:'VMP',eur:'100 € (red. 50 €)',t:'Circular con VMP tipo C0, C1 o C2 por carril de circulación en sentido contrario al establecido (o no usar el carril más próximo a la acera: 60 €).',n:'OMCIR 25.3.1 / 25.3.2.'},
+  {id:'cir_om26.1',art:'OMCIR 26.1',g:'L',cat:'VMP',eur:'100 € (red. 50 €)',t:'Realizar actividades turísticas o de ocio con VMP sin autorización municipal, incumpliendo sus condiciones o las de grupos turísticos (guía, máx. 2/6 pers.).',n:'OMCIR 26.1.1 / 26.1.2 / 26.2.'},
+  {id:'cir_om27.2',art:'OMCIR 27.2',g:'MG',cat:'VMP',eur:'500 € (red. 250 €)',t:'Realizar actividades económicas con un VMP sin tener contratado seguro obligatorio de responsabilidad civil.',n:'Infracción MUY GRAVE (Art. 27.3). Responsable: Titular.'},
+  {id:'cir_om28',art:'OMCIR 28',g:'L',cat:'VMP',eur:'60 € (red. 30 €)',t:'Estacionar un VMP incumpliendo las normas de estacionamiento establecidas o atándolo a elemento prohibido.',n:'OMCIR 28.1 / 28.3.'},
+  {id:'cir_om29.1',art:'OMCIR 29.1',g:'L',cat:'VMP',eur:'60 € (red. 30 €)',t:'No exhibir a solicitud del agente de la autoridad la documentación obligatoria del VMP (DNI, CE, velocidad/masa, seguro).',n:'Art. 61.2.a: causa específica de INMOVILIZACIÓN del VMP.'},
+  {id:'cir_om30.1',art:'OMCIR 30.1',g:'G',cat:'VMP',eur:'100 € (red. 50 €)',t:'Incumplir la obligación de registrar un VMP destinado a actividades económicas.',n:'Art. 30.6 (calif. Grave en texto, importe 100/50 € en Anexo III).'},
+  {id:'cir_om31',art:'OMCIR 31',g:'L',cat:'VMP',eur:'60 € (red. 30 €)',t:'Circular con patines, monopatines o similares por carril bici sin respetar preferencia de ciclistas o por acera/zona peatonal incumpliendo condiciones.',n:'OMCIR 31.1 / 31.2. Art. 62: inmovilización si alcohol o peligro.'},
+
+  /* CABALLOS (OMCIR 33-36) */
+  {id:'cir_om33.2',art:'OMCIR 33.2',g:'L',cat:'MOTOS',eur:'100 € (red. 50 €)',t:'Circular a caballo en sentido contrario al establecido en la calzada.',n:'Responsable: Conductor.'},
+  {id:'cir_om34.b',art:'OMCIR 34.B',g:'L',cat:'MOTOS',eur:'100 € (red. 50 €)',t:'Circular a caballo dentro del casco urbano bajo la influencia de bebidas alcohólicas, estupefacientes, psicotrópicos o sustancias análogas.',n:'Art. 63.1.a: inmovilización/retirada hasta que se haga cargo adulto en condiciones adecuadas.'},
+  {id:'cir_om34.c',art:'OMCIR 34.C',g:'L',cat:'MOTOS',eur:'80 € (red. 40 €)',t:'Circular a caballo incumpliendo las obligaciones establecidas (al trote/galope, sin fila india, menor sin adulto, dejarlo suelto).',n:'Especificar obligación incumplida (Arts. 33–35).'},
+  {id:'cir_om36',art:'OMCIR 36',g:'L',cat:'MOTOS',eur:'60 € (red. 30 €)',t:'Amarrar caballos a farolas, árboles, señales, rejas o elementos prohibidos.',n:'Debe permanecer siempre a la mano de persona competente.'},
+
+  /* PARADAS Y ESTACIONAMIENTOS MUNICIPALES (OMCIR 46, 51 y CIR Anexo III) */
+  {id:'cir_om46.c',art:'OMCIR 46.C',g:'L',cat:'ESTAC',eur:'60 € (red. 30 €)',t:'Parar en doble fila en condiciones distintas a las reglamentarias.',n:'Art. 46.c: solo permitida si queda carril libre, tráfico no intenso, sin peligro y sin hueco en 40 m.'},
+  {id:'cir_om46.h',art:'OMCIR 46.H',g:'L',cat:'ESTAC',eur:'80 € (red. 40 €)',t:'Parar a menos de 5 metros de una esquina, cruce o bifurcación salvo los casos autorizados.',n:'Responsable: Conductor.'},
+  {id:'cir_om46.q',art:'OMCIR 46.Q',g:'G',cat:'ESTAC',eur:'200 € (red. 100 €)',t:'Parar obstaculizando los accesos y salidas de emergencia señalizadas de colegios, edificios, locales o recintos de espectáculos/actos públicos.',n:'Calif. Grave (Art. 76.d LSV).'},
+  {id:'cir_om51.3',art:'OMCIR 51.3',g:'L',cat:'ESTAC',eur:'80 € (red. 40 €)',t:'Estacionar un vehículo destinado al transporte de viajeros o mercancías con MMA superior a 3.500 kg en vía urbana fuera de los casos autorizados.',n:'Responsable: Titular / Arrendatario / Conductor.'},
+  {id:'cir_om51.4',art:'OMCIR 51.4',g:'L',cat:'ESTAC',eur:'80 € (red. 40 €)',t:'Estacionar un vehículo de más de 2,5 metros de altura, en vía urbana, bajo un balcón.',n:'Responsable: Titular / Arrendatario / Conductor.'},
+  {id:'cir_om51.5.a',art:'OMCIR 51.5.A',g:'L',cat:'ESTAC',eur:'80 € (red. 40 €)',t:'Estacionar un vehículo en vía pública urbana con el fin de destinarlo a su venta, conteniendo cartel informativo «Se vende» o similar y teléfono.',n:'Infracción específica municipal muy frecuente en zonas costeras y avenidas.'},
+  {id:'cir_om51.5.b',art:'OMCIR 51.5.B',g:'L',cat:'ESTAC',eur:'80 € (red. 40 €)',t:'Estacionar en vía pública urbana una caravana o autocaravana por tiempo superior a 48 horas.',n:'Acreditar permanencia >48 h (marca temporal / actas previas).'},
+  {id:'cir_om51.6.f',art:'OMCIR 51.6.F',g:'G',cat:'ESTAC',eur:'200 € (red. 100 €)',t:'Estacionar delante de los accesos de edificios destinados a espectáculos o actos públicos, en las horas de celebración.',n:'Calif. Grave (Art. 76.d LSV).'},
+  {id:'cir_om51.6.g',art:'OMCIR 51.6.G',g:'G',cat:'ESTAC',eur:'200 € (red. 100 €)',t:'Estacionar obstaculizando accesos y salidas de emergencia señalizadas de colegios, edificios, locales o recintos de espectáculos.',n:'Calif. Grave (Art. 76.d LSV).'},
+  {id:'cir_om51.6.s',art:'OMCIR 51.6.S',g:'L',cat:'ESTAC',eur:'80 € (red. 40 €)',t:'Estacionar delante de los lugares reservados para contenedores del Servicio Municipal de Limpieza.',n:'Responsable: Titular / Arrendatario / Conductor.'},
+  {id:'cir_om51.6.u',art:'OMCIR 51.6.U',g:'G',cat:'ESTAC',eur:'200 € (red. 100 €)',t:'Estacionar sobre una acera o paseo un vehículo o ciclomotor de dos ruedas perjudicando el tránsito de los peatones.',n:'Calif. Grave (Art. 76.d LSV).'},
+  {id:'cir_anx94.2e',art:'CIR 94.2-E (Anexo)',g:'L',cat:'ESTAC',eur:'90 € (red. 45 €)',t:'Estacionar sobre una acera (o delante de un vado señalizado correctamente sin conductor: CIR 94.2-F, 90 €/45 €).',n:'Cuantía municipal específica en Anexo III (90 € / 45 €). Si obliga a peatones a bajar a la calzada → Grave 200 €.'},
+  {id:'cir_anx154.m',art:'CIR 154 (Anexo)',g:'L',cat:'ESTAC',eur:'80 € (red. 40 €)',t:'No obedecer señal de prohibición de estacionamiento por discos portátiles o por mercado semanal.',n:'Art. 52: discos portátiles con ≥72 h de antelación habilitan retirada con grúa y tasa.'},
+
+  /* CARGA Y DESCARGA (OMCIR 54, 57) */
+  {id:'cir_om54',art:'OMCIR 54',g:'L',cat:'CARGA',eur:'80 € (red. 40 €)',t:'Realizar operaciones de carga y descarga incumpliendo las condiciones reglamentarias (ruidos, dejar suciedad, lado contrario a acera, dejar mercancía en vía).',n:'Especificar incumplimiento (Art. 54).'},
+  {id:'cir_om57.2',art:'OMCIR 57.2',g:'L',cat:'CARGA',eur:'80 € (red. 40 €)',t:'Exceder el tiempo máximo establecido (30 minutos) para operaciones de carga y descarga en lugar reservado.',n:'Art. 57.5: transcurridos 30 min con vehículo cerrado sin conductor procede retirada con grúa.'},
+  {id:'cir_om57.3',art:'OMCIR 57.3',g:'L',cat:'CARGA',eur:'80 € (red. 40 €)',t:'No exhibir en el parabrisas del vehículo la hora de inicio de las operaciones de carga y descarga estando en zona reservada.',n:'Art. 57.3–4.'},
+
+  /* RUIDOS Y VÍA PÚBLICA MUNICIPALES (Anexo III CIR 4 y 7) */
+  {id:'cir_anx4.2.3',art:'CIR 4.2 (Anexo)',g:'L',cat:'MUN',eur:'60 € (red. 30 €)',t:'Arrojar agua a la vía pública, realizar tareas de lavado/limpieza en la vía pública o reservar espacio en la vía pública sin autorización mediante obstáculos.',n:'Cuantía municipal específica en Anexo III (60 € / 30 €).'},
+  {id:'cir_anx7.1',art:'CIR 7.1 (Anexo)',g:'L',cat:'MUN',eur:'80 € (red. 40 €)',t:'Circular un vehículo o ciclomotor con nivel de emisión de ruido superior a 4 dB(A) sobre el nivel fijado en ficha de homologación (ciclomotores sin dato: >91 dB(A)).',n:'Anexo I (Decreto 19/2004). Escape libre o silenciador ineficaz: Grave 200 € (CIR 7.2).'}
+];
+
 var ORD_DATA={
   litoral:{resumen:ORD_LIT_RESUMEN,tits:ORD_LIT_TITS,arts:ORD_LIT_ARTS,cats:ORD_LIT_CATS,infs:ORD_LIT_INFS},
   acustica:{resumen:ORD_ACU_RESUMEN,tits:ORD_ACU_TITS,arts:ORD_ACU_ARTS,cats:ORD_ACU_CATS,infs:ORD_ACU_INFS},
   venta:{resumen:ORD_VEN_RESUMEN,tits:ORD_VEN_TITS,arts:ORD_VEN_ARTS,cats:ORD_VEN_CATS,infs:ORD_VEN_INFS},
-  convivencia:{resumen:ORD_CONV_RESUMEN,tits:ORD_CONV_TITS,arts:ORD_CONV_ARTS,cats:ORD_CONV_CATS,infs:ORD_CONV_INFS}
+  convivencia:{resumen:ORD_CONV_RESUMEN,tits:ORD_CONV_TITS,arts:ORD_CONV_ARTS,cats:ORD_CONV_CATS,infs:ORD_CONV_INFS},
+  terrazas:{resumen:ORD_TER_RESUMEN,tits:ORD_TER_TITS,arts:ORD_TER_ARTS,cats:ORD_TER_CATS,infs:ORD_TER_INFS},
+  circulacion:{resumen:ORD_CIR_RESUMEN,tits:ORD_CIR_TITS,arts:ORD_CIR_ARTS,cats:ORD_CIR_CATS,infs:ORD_CIR_INFS}
 };
 
 var ordState={view:'hub',selId:'litoral',busTit:'ALL',codCat:'ALL',codGrav:'',codFav:0,codQ:'',codExp:{}};
@@ -8194,6 +8483,7 @@ function ordSelect(id){
   if($('ord-desc-res'))$('ord-desc-res').textContent=o.descRes||'';
   if($('ord-desc-bus'))$('ord-desc-bus').textContent=o.descBus||'';
   if($('ord-desc-cod'))$('ord-desc-cod').textContent=o.descCod||'';
+  if($('ord-tile-acta'))$('ord-tile-acta').classList.toggle('hide',!!o.noActa);
   var myCnt=ordActUserList(id).length;
   if($('ord-desc-act'))$('ord-desc-act').textContent='Generar Acta Denuncia con nº correlativo, firma táctil en pantalla y PDF oficial · Guardadas en tu área personal: '+myCnt;
   if($('ordb-q'))$('ordb-q').placeholder=o.busPh||'Buscar palabra o artículo...';
@@ -8204,6 +8494,7 @@ function ordSelect(id){
 }
 
 function ordOpenSub(sub){
+  if(sub==='acta'&&ordCurMeta().noActa)return;
   ordState.view=sub;
   $('ord-hub').classList.add('hide');
   $('ord-menu').classList.add('hide');
@@ -8416,7 +8707,7 @@ function renderOrdCod(){
     h+='<div class="cd-foot">';
     h+='<button type="button" class="btn sec" onclick="ordCodTogExp(\''+r.id+'\')">'+(isExp?'Ocultar detalles':'Detalles y redacción')+'</button>';
     h+='<button type="button" class="btn sec" onclick="ordCodCopy(\''+r.id+'\')">'+svg('copy',13)+' Copiar texto</button>';
-    h+='<button type="button" class="btn" style="padding:5px 10px;font-size:12px" onclick="ordActNewFromCod(\''+r.id+'\')">'+svg('edit',13)+' Acta Denuncia</button>';
+    if(!meta.noActa)h+='<button type="button" class="btn" style="padding:5px 10px;font-size:12px" onclick="ordActNewFromCod(\''+r.id+'\')">'+svg('edit',13)+' Acta Denuncia</button>';
     h+='</div></div>';
     return h;
   }).join('');
