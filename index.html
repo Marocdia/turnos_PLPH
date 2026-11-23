@@ -1091,6 +1091,13 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
   border-top:1px solid var(--line);
 }
 .bn-foot .btn{padding:5px 9px;font-size:12px}
+.bn-photo-box{margin-top:8px;background:var(--bg2);border:1.5px dashed var(--line);border-radius:9px;padding:9px 10px}
+.bn-photo-bar{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.bn-photo-bar label{cursor:pointer;margin:0;padding:6px 11px;font-size:12.5px}
+.bn-photo-prev{margin-top:8px;position:relative;display:inline-block;max-width:100%}
+.bn-photo-prev img{display:block;max-width:100%;max-height:190px;border-radius:8px;border:1px solid var(--line)}
+.bn-card-img{margin-top:8px;cursor:pointer}
+.bn-card-img img{display:block;max-width:100%;max-height:210px;border-radius:8px;border:1px solid var(--line)}
 
 
 /* Codificado DGT */
@@ -4264,7 +4271,7 @@ var BN_CATS=[
   {id:'man',n:'Manifestación',i:'chat'},
   {id:'otr',n:'Nota rápida',i:'note'}
 ];
-var bnCat='per', bnFilter='all', bnEditId=null, bnRec=null;
+var bnCat='per', bnFilter='all', bnEditId=null, bnRec=null, bnPhoto='';
 
 function bnList(){S.bloc=S.bloc||[];return S.bloc}
 
@@ -4317,10 +4324,57 @@ function renderBlocForm(){
     h+='<div style="margin-bottom:8px"><input class="bn-in" id="bf-1" placeholder="Título breve (opcional)" autocomplete="off"></div>';
     h+='<textarea class="bn-ta" id="bf-txt" style="min-height:96px" placeholder="Anota cualquier dato rápido del servicio..."></textarea>';
   }
+  h+='<div class="bn-photo-box">';
+  h+='<div class="bn-photo-bar">';
+  h+='<label class="btn sec">📷 Hacer foto<input type="file" accept="image/*" capture="environment" style="display:none" onchange="bnHandlePhoto(this)"></label>';
+  h+='<label class="btn sec">🖼 Galería<input type="file" accept="image/*" style="display:none" onchange="bnHandlePhoto(this)"></label>';
+  h+='<button type="button" class="btn sec'+(bnPhoto?'':' hide')+'" id="bn-photo-clr" style="padding:6px 10px;font-size:12px" onclick="bnClearPhoto()">Quitar foto</button>';
+  h+='</div>';
+  h+='<div id="bn-photo-prev">'+(bnPhoto?'<div class="bn-photo-prev"><img src="'+bnPhoto+'" alt="Foto adjunta"></div>':'')+'</div>';
+  h+='</div>';
   $('bn-fields').innerHTML=h;
   $('bn-form-lbl').textContent=bnEditId?'Editando nota':'Nueva nota rápida';
   $('bn-cancel-btn').classList.toggle('hide',!bnEditId);
   $('bn-save-btn').innerHTML=svg('save',15)+(bnEditId?' Actualizar nota':' Guardar nota');
+}
+
+function bnHandlePhoto(inp){
+  var file=inp&&inp.files&&inp.files[0];
+  if(!file)return;
+  var rd=new FileReader();
+  rd.onload=function(ev){
+    var im=new Image();
+    im.onload=function(){
+      var max=1000,w=im.width,h=im.height;
+      if(w>max||h>max){
+        if(w>=h){h=Math.round(h*max/w);w=max;}
+        else{w=Math.round(w*max/h);h=max;}
+      }
+      var cv=document.createElement('canvas');
+      cv.width=w;cv.height=h;
+      cv.getContext('2d').drawImage(im,0,0,w,h);
+      try{bnPhoto=cv.toDataURL('image/jpeg',0.72);}catch(e){bnPhoto=ev.target.result;}
+      if($('bn-photo-prev'))$('bn-photo-prev').innerHTML='<div class="bn-photo-prev"><img src="'+bnPhoto+'" alt="Foto adjunta"></div>';
+      if($('bn-photo-clr'))$('bn-photo-clr').classList.remove('hide');
+    };
+    im.onerror=function(){banner('No se pudo cargar la imagen seleccionada.','');};
+    im.src=ev.target.result;
+  };
+  rd.readAsDataURL(file);
+  inp.value='';
+}
+
+function bnClearPhoto(){
+  bnPhoto='';
+  if($('bn-photo-prev'))$('bn-photo-prev').innerHTML='';
+  if($('bn-photo-clr'))$('bn-photo-clr').classList.add('hide');
+}
+
+function bnZoomPhoto(id){
+  var item=bnList().filter(function(z){return z.id===id})[0];
+  if(!item||!item.img)return;
+  $('modal').innerHTML='<div class="mb" style="max-width:min(860px,98vw);padding:12px"><div class="bar" style="margin-bottom:8px"><b style="font-size:13.5px;color:var(--gold2)">Foto adjunta · '+esc(item.ts||'')+'</b><button type="button" class="btn sec" style="padding:5px 10px;font-size:12px" onclick="closeR()">Cerrar</button></div><img src="'+item.img+'" style="width:100%;height:auto;border-radius:8px;display:block"></div>';
+  $('modal').classList.remove('hide');
 }
 
 function bnSave(){
@@ -4331,7 +4385,7 @@ function bnSave(){
   var txt=$('bf-txt')?$('bf-txt').value.trim():'';
   if(bnCat==='veh')f1=f1.toUpperCase();
   if(bnCat==='per')f2=f2.toUpperCase();
-  if(!f1&&!f2&&!f3&&!f4&&!txt){
+  if(!f1&&!f2&&!f3&&!f4&&!txt&&!bnPhoto){
     banner('Introduce al menos un dato para guardar la nota.','');
     return;
   }
@@ -4341,12 +4395,13 @@ function bnSave(){
   if(bnEditId){
     var item=L.filter(function(z){return z.id===bnEditId})[0];
     if(item){
-      item.cat=bnCat;item.f1=f1;item.f2=f2;item.f3=f3;item.f4=f4;item.txt=txt;item.upd=ts;
+      item.cat=bnCat;item.f1=f1;item.f2=f2;item.f3=f3;item.f4=f4;item.txt=txt;item.img=bnPhoto||'';item.upd=ts;
     }
     bnEditId=null;
   }else{
-    L.unshift({id:Date.now(),cat:bnCat,f1:f1,f2:f2,f3:f3,f4:f4,txt:txt,ts:ts,pin:0});
+    L.unshift({id:Date.now(),cat:bnCat,f1:f1,f2:f2,f3:f3,f4:f4,txt:txt,img:bnPhoto||'',ts:ts,pin:0});
   }
+  bnPhoto='';
   save();
   renderBlocForm();
   renderBlocList();
@@ -4355,6 +4410,7 @@ function bnSave(){
 
 function bnCancelEdit(){
   bnEditId=null;
+  bnPhoto='';
   renderBlocForm();
 }
 
@@ -4363,6 +4419,7 @@ function bnEdit(id){
   if(!item)return;
   bnEditId=id;
   bnCat=item.cat;
+  bnPhoto=item.img||'';
   renderBlocForm();
   if($('bf-1'))$('bf-1').value=item.f1||'';
   if($('bf-2'))$('bf-2').value=item.f2||'';
@@ -4498,6 +4555,7 @@ function renderBlocList(){
     if(head)h+='<div class="bn-head">'+head+'</div>';
     if(meta.length)h+='<div class="bn-meta">'+meta.join('')+'</div>';
     if(x.txt)h+='<div class="bn-body">'+esc(x.txt)+'</div>';
+    if(x.img)h+='<div class="bn-card-img" onclick="bnZoomPhoto('+x.id+')"><img src="'+x.img+'" alt="Foto adjunta"><div style="font-size:11px;color:var(--gold2);margin-top:3px">🔍 Toca la foto para ampliar</div></div>';
     h+='<div class="bn-foot">';
     h+='<button class="btn sec" onclick="bnCopy('+x.id+')">'+svg('copy',13)+' Copiar</button>';
     h+='<button class="btn sec" onclick="bnPin('+x.id+')">'+svg('star',13)+(x.pin?' Quitar':' Fijar')+'</button>';
