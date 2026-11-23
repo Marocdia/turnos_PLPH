@@ -2887,7 +2887,82 @@ var S;
 try{S=JSON.parse(localStorage.getItem('plpilar')||'null')}catch(e){S=null}
 S=S||JSON.parse(JSON.stringify(DEF));
 
-function save(){try{localStorage.setItem('plpilar',JSON.stringify(S))}catch(e){}}
+var _pSyncT=null,_pSyncing=false;
+function save(skipCloud){
+  if(!skipCloud){
+    S.updatedAt=Date.now();
+    if(authUser&&authUser.uid)S._uid=authUser.uid;
+  }
+  try{localStorage.setItem('plpilar',JSON.stringify(S))}catch(e){}
+  if(!skipCloud&&authUser&&authUser.uid&&authUser.idToken){
+    if(_pSyncT)clearTimeout(_pSyncT);
+    _pSyncT=setTimeout(function(){syncPersonalPush(false)},650);
+  }
+}
+
+function syncPersonalPush(showToast){
+  if(!authUser||!authUser.uid||!authUser.idToken)return Promise.resolve(false);
+  var url=esCloudUrl();
+  S._uid=authUser.uid;
+  if(!S.updatedAt)S.updatedAt=Date.now();
+  return fetch(url+'/datos_personales/'+encodeURIComponent(authUser.uid)+'.json'+fbAuthParam(),{
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(S)
+  }).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    if(showToast)banner('Datos personales guardados en la nube.','');
+    return true;
+  }).catch(function(e){
+    if(showToast)banner('Error al subir datos personales ('+e.message+').','');
+    return false;
+  });
+}
+
+function syncPersonalFromCloud(showToast){
+  if(!authUser||!authUser.uid||!authUser.idToken||_pSyncing)return Promise.resolve();
+  _pSyncing=true;
+  var uid=authUser.uid;
+  /* If local data belongs to another user, reset local before pulling */
+  if(S._uid&&S._uid!==uid){
+    S=JSON.parse(JSON.stringify(DEF));
+    try{localStorage.setItem('plpilar',JSON.stringify(S))}catch(e){}
+  }
+  var url=esCloudUrl();
+  return fetch(url+'/datos_personales/'+encodeURIComponent(uid)+'.json'+fbAuthParam()).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  }).then(function(remote){
+    var locHasData=(Object.keys(S.days||{}).length>0)||(Object.keys(S.notes||{}).length>0)||((S.bloc||[]).length>0)||!!S.updatedAt;
+    if(remote&&typeof remote==='object'&&remote.cfg){
+      var rTs=remote.updatedAt||0, lTs=S.updatedAt||0;
+      if(rTs>=lTs||!locHasData){
+        S=remote;
+        S._uid=uid;
+        if(!S.cfg)S.cfg=JSON.parse(JSON.stringify(DEF.cfg));
+        if(!S.cat)S.cat=JSON.parse(JSON.stringify(DEF_CAT));
+        if(!S.days)S.days={};
+        if(!S.notes)S.notes={};
+        try{localStorage.setItem('plpilar',JSON.stringify(S))}catch(e){}
+        renderDash();
+        updateStatusBar();
+        if(curView==='turnos')draw();
+        if(curView==='bloc')renderBloc();
+        if(curView==='codificado')renderCod();
+        if(showToast)banner('Cuadrante y Bloc de Notas sincronizados desde la nube.','');
+      }else{
+        return syncPersonalPush(showToast);
+      }
+    }else if(locHasData){
+      /* First time syncing existing mobile data to cloud */
+      return syncPersonalPush(showToast);
+    }
+  }).catch(function(e){
+    if(showToast)banner('No se pudo sincronizar ('+e.message+').','');
+  }).finally(function(){
+    _pSyncing=false;
+  });
+}
 function $(i){return document.getElementById(i)}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function eur(v){return v.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'}
@@ -3275,7 +3350,6 @@ function authEnterApp(prof,sess){
     exp:sess.exp
   });
   S.name=prof.nip||prof.nombre||prof.email;
-  save();
   $('login').classList.add('hide');
   $('app').classList.remove('hide');
   $('who-nip').textContent=(prof.nip?(prof.nip+(prof.nombre?' · '+prof.nombre:'')):(prof.nombre||prof.email||'GAO')).toUpperCase();
@@ -3283,6 +3357,7 @@ function authEnterApp(prof,sess){
   if($('nv-adm'))$('nv-adm').classList.toggle('hide',!isAdm);
   if($('hero-adm-wrap'))$('hero-adm-wrap').classList.toggle('hide',!isAdm);
   go('menu');
+  syncPersonalFromCloud(false);
   if(isAdm)admLoadUsers(false);
 }
 
@@ -3911,7 +3986,7 @@ function restore(){try{var o=JSON.parse($('bk').value);if(!o.cfg||!o.cat)throw 0
 
 function drawCfg(){
   var f=S.cfg;
-  var h=permHtml();
+  var h='<div class="card"><div class="card-hd">'+svg('refresh',15)+' Sincronización en la nube (Móvil ↔ Ordenador)</div><p style="color:var(--mut);font-size:13px;margin:4px 0 10px">Tu cuadrante, gratificaciones, anotaciones y Bloc de Notas se sincronizan automáticamente con tu cuenta privada de Firebase.</p><div class="row" style="margin-bottom:0"><button class="btn" onclick="syncPersonalFromCloud(true)">↻ Sincronizar ahora</button><button class="btn sec" onclick="syncPersonalPush(true)">↑ Subir este dispositivo</button></div></div>'+permHtml();
   h+='<div class="card"><label style="display:flex;gap:10px;align-items:center;cursor:pointer;font-weight:600"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--gold)" '+(f.auto?'checked':'')+' onchange="S.cfg.auto=this.checked;save();draw()"> Rellenar automáticamente con el ciclo 7×7</label></div>';
   h+=backupCard();
   h+='<div class="card"><div class="card-hd">'+svg('cal',15)+' Ciclo de turnos 7×7</div><p style="color:var(--mut);font-size:13.5px;margin:4px 0 12px">Trabajas 7 días (miércoles a martes) y descansas 7. Indica un miércoles de inicio y su turno; cualquier día se puede corregir a mano.</p>';
