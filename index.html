@@ -1525,6 +1525,68 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
    </div>
   </div>
 
+  <!-- MÓDULO ALCOHOLEMIA (CÁLCULO EMP ORDEN ICT/155/2020 + INFRACCIÓN/DELITO + ACTAS) -->
+  <div id="alcoholemia" class="hide wrap-sm">
+   <div class="view-hd">
+    <div>
+     <h2 id="al-title"></h2>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px">Orden ICT/155/2020 (Anexo XIII · OIML R 126) · Art. 14, 77 y 80 LSV · Art. 379.2 y 383 CP · LECrim</div>
+    </div>
+    <button class="btn sec" onclick="go('menu')" id="btn-back-al"></button>
+   </div>
+
+   <div class="dr-panel" style="max-width:640px">
+    <div class="dr-lbl">1. Tipo de conductor</div>
+    <div class="pc-opts" id="al-drv-opts"></div>
+
+    <div class="dr-lbl" style="margin-top:10px">2. Estado metrológico del etilómetro (EMP · Orden ICT/155/2020)</div>
+    <div class="pc-opts two" id="al-emp-opts"></div>
+
+    <div class="dr-lbl" style="margin-top:10px">3. Resultado del etilómetro (mg/L aire espirado)</div>
+    <div class="bn-grid2" style="margin-bottom:8px">
+     <div>
+      <label style="display:block;font-size:11.5px;color:var(--mut);margin-bottom:4px">1.ª Prueba (mg/L) *</label>
+      <input class="dr-inp" id="al-v1" type="number" inputmode="decimal" step="0.01" min="0" placeholder="0.00" style="width:100%" onkeydown="if(event.key==='Enter')calcAlc()">
+     </div>
+     <div>
+      <label style="display:block;font-size:11.5px;color:var(--mut);margin-bottom:4px">2.ª Prueba (mg/L · mín. 10 min)</label>
+      <input class="dr-inp" id="al-v2" type="number" inputmode="decimal" step="0.01" min="0" placeholder="Opcional" style="width:100%" onkeydown="if(event.key==='Enter')calcAlc()">
+     </div>
+    </div>
+
+    <div class="dr-lbl" style="margin-top:10px">4. Circunstancias concurrentes</div>
+    <div class="dr-ind-list" id="al-flags" style="margin-bottom:12px"></div>
+
+    <div style="display:flex;gap:8px">
+     <button type="button" class="btn dr-calc-btn" id="al-calc-btn" onclick="calcAlc()" style="flex:1"></button>
+     <button type="button" class="btn sec" onclick="resetAlc()" style="padding:0 14px">Limpiar</button>
+    </div>
+
+    <div id="al-res"></div>
+   </div>
+
+   <div class="card" style="max-width:640px;margin:12px auto 0">
+    <div class="bar" style="margin-bottom:4px">
+     <div class="card-hd" style="margin:0" id="al-ref-hd"></div>
+     <button type="button" class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('al-ref-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
+    </div>
+    <div id="al-ref-wrap" class="hide" style="margin-top:8px;font-size:12.5px;color:#cfd9ea;line-height:1.5">
+     <table style="margin-bottom:10px">
+      <tr><th>Rango medida (C)</th><th>En servicio (Periódica)</th><th>Nuevo / Tras reparación</th></tr>
+      <tr><td><b>C ≤ 0,400 mg/L</b></td><td>± 0,030 mg/L</td><td>± 0,020 mg/L</td></tr>
+      <tr><td><b>0,400 &lt; C ≤ 2,000 mg/L</b></td><td>± 7,5 %</td><td>± 5,0 %</td></tr>
+      <tr><td><b>C &gt; 2,000 mg/L</b></td><td>± 20 %</td><td>± 20 %</td></tr>
+     </table>
+     <ul style="margin:0;padding-left:18px">
+      <li><b>Orden ICT/155/2020 (Anexo XIII · OIML R 126):</b> Verificación periódica anual. El resultado del ciclo es siempre la <b>menor</b> de las dos mediciones correctas. Si la diferencia entre ambas supera <b>0,060 mg/L o el 15 %</b>, el ciclo se anula (<i>«Ciclo no válido»</i>).</li>
+      <li><b>LSV (Arts. 14, 77.c, 80.2.a, 104.1.d y Anexo II):</b> Tasas límite: <b>0,25 mg/L</b> general (doble &gt;0,50), <b>0,15 mg/L</b> novel/profesional (doble &gt;0,30) y <b>0,00 mg/L</b> menores de edad. Sanción: 500 € / 4 pts, o 1.000 € / 6 pts si supera el doble o es reincidente en el último año. Procede <b>inmovilización</b> (Art. 104.1.d) salvo conductor habilitado.</li>
+      <li><b>Código Penal (Arts. 379.2 y 383 CP):</b> Delito objetivo con tasa corregida <b>&gt; 0,60 mg/L</b> en aire espirado, o con tasa inferior si existe <b>influencia acreditada por sintomatología</b>. La negativa a someterse a las pruebas constituye delito del <b>Art. 383 CP</b>.</li>
+      <li><b>LECrim (Arts. 118, 520 y 796) y STC 103/1985:</b> La prueba de alcoholemia es constitucional (no vulnera el derecho a no declarar contra sí mismo al ser una pericia técnica). En delito tramitable por Juicio Rápido, informar de derechos al investigado no detenido y entregar cédula de citación.</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+
   <!-- MÓDULO GUÍA INTERACTIVA: PRUEBA DE CONTRASTE -->
   <div id="contraste" class="hide wrap-sm">
    <div class="view-hd">
@@ -2832,6 +2894,7 @@ var DASH_TOOLS=[
   {t:'ACCIDENTES CON HERIDOS',s:'Guía protocolo heridos graves y fallecidos',i:'siren',c:'c-crim',act:1,go:'accidentes'},
   {t:'CONTROL DE VTC',s:'Guía campo GVA, REGVTC, baremo e inmovilización',i:'car',c:'c-blue',act:1,go:'vtc'},
   {t:'ÓXIDO NITROSO',s:'Protocolo, indicios y jurisprudencia N₂O',i:'n2o',c:'c-teal',act:1,go:'oxido'},
+  {t:'ALCOHOLEMIA',s:'Cálculo EMP, infracción/delito y actas',i:'tube',c:'c-amber',act:1,go:'alcoholemia'},
   {t:'PRUEBA DE CONTRASTE',s:'Guía protocolo alcohol/drogas sangre',i:'tube',c:'c-crim',act:1,go:'contraste'},
   {t:'ESTABLECIMIENTOS',s:'Horarios, locales Pilar y acta inspección',i:'store',c:'c-gold',act:1,go:'establecimientos'},
   {t:'4/2015',s:'Codificado LO 4/2015 y artículos policiales',i:'shield',c:'c-blue',act:1,go:'lo415'},
@@ -3680,6 +3743,7 @@ function go(v,fromBack){
   $('menu').classList.toggle('hide',v!=='menu');
   $('turnos').classList.toggle('hide',v!=='turnos');
   $('drogas').classList.toggle('hide',v!=='drogas');
+  if($('alcoholemia'))$('alcoholemia').classList.toggle('hide',v!=='alcoholemia');
   $('contraste').classList.toggle('hide',v!=='contraste');
   $('bloc').classList.toggle('hide',v!=='bloc');
   $('codificado').classList.toggle('hide',v!=='codificado');
@@ -3704,6 +3768,7 @@ function go(v,fromBack){
   updateStatusBar();
   if(v==='turnos')draw();
   if(v==='drogas')renderDrugs();
+  if(v==='alcoholemia')renderAlc();
   if(v==='contraste')renderPerm();
 renderAcc();
 renderContraste();
@@ -3736,6 +3801,10 @@ function initStaticIcons(){
   $('dr-calc-btn').innerHTML=svg('scale',16)+' Calcular';
   $('dr-ind-hd').innerHTML=svg('alert',15)+' Indicios de tráfico (Art. 368 CP)';
   $('dr-tbl-hd').innerHTML=svg('clip',15)+' Tabla oficial INTCF (3–5 días)';
+  if($('al-title'))$('al-title').innerHTML=svg('tube',18)+' Alcoholemia · Cálculo EMP y Actas';
+  if($('btn-back-al'))$('btn-back-al').innerHTML=svg('back',15)+' Inicio';
+  if($('al-calc-btn'))$('al-calc-btn').innerHTML=svg('scale',16)+' Calcular tasa y actuación';
+  if($('al-ref-hd'))$('al-ref-hd').innerHTML=svg('book',15)+' Normativa, tabla EMP (ICT/155/2020) y jurisprudencia';
   $('pc-title').innerHTML=svg('tube',18)+' Prueba de Contraste en Sangre';
   $('btn-back-pc').innerHTML=svg('back',15)+' Inicio';
   $('pc-ref-hd').innerHTML=svg('clip',15)+' Cuadro resumen comparativo del protocolo';
@@ -10536,6 +10605,197 @@ async function pjImportTelegram(inp){
   st.textContent='Importación finalizada: '+uploaded+' fichas guardadas en Firebase'+(skipped?' ('+skipped+' con error).':'.');
   banner('Importación completada: '+uploaded+' personajes cargados.','');
   pjLoad(false);
+}
+
+
+
+/* ==================== MÓDULO ALCOHOLEMIA (EMP ORDEN ICT/155/2020 + ACTAS) ==================== */
+var alState={drv:'gen',emp:'per',flags:{},actasChk:{}};
+
+var AL_DRIVERS=[
+  {id:'gen',t:'General',s:'Límite 0,25 mg/L',lim:0.25,dbl:0.50,i:'car',cl:'c-blue'},
+  {id:'nov',t:'Novel / Prof.',s:'Límite 0,15 mg/L',lim:0.15,dbl:0.30,i:'shield',cl:'c-gold'},
+  {id:'men',t:'Menor (<18)',s:'Tasa 0,00 mg/L',lim:0.00,dbl:0.50,i:'alert',cl:'c-crim'}
+];
+
+var AL_EMPS=[
+  {id:'per',t:'En servicio (Periódica)',s:'±0,030 (≤0,40) · ±7,5% (>0,40)',i:'cfg',cl:'c-gold'},
+  {id:'new',t:'Nuevo / Reparado (<1 año)',s:'±0,020 (≤0,40) · ±5,0% (>0,40)',i:'check',cl:'c-teal'}
+];
+
+var AL_FLAGS=[
+  {id:'sint',t:'Sintomatología evidente de influencia (Art. 379.2 CP)'},
+  {id:'acc',t:'Implicado en accidente de tráfico (Criterio Fiscalía >0,40)'},
+  {id:'rein',t:'Reincidente en el último año (Art. 80.2.a LSV · 1.000 €)'},
+  {id:'neg',t:'Negativa a someterse a las pruebas (Art. 383 CP)'}
+];
+
+var AL_ACTAS_DELITO=[
+  'Acta de determinación del grado de impregnación alcohólica e información de derechos a la persona sometida a la prueba mediante aire espirado',
+  'Acta de Información de Derechos al Investigado No Detenido (Art. 118 y 796 LECrim)',
+  'Acta de Entrega de Cédula de Citación para Juicio Rápido por Delito (Art. 796.1.3ª LECrim)',
+  'Acta de Inmovilización / Depósito de un Vehículo (Arts. 104.1.d y 105 LSV)'
+];
+
+var AL_ACTAS_ADMIN=[
+  'Acta de Información de Derechos a la persona sometida a la prueba de alcoholemia (Art. 14 LSV / Art. 23 RGC · prueba de contraste)',
+  'Acta de Inmovilización / Depósito de un Vehículo (Arts. 104.1.d y 105 LSV)',
+  'Boletín de Denuncia administrativa (infracción muy grave Art. 77.c LSV)'
+];
+
+function alSetDrv(id){alState.drv=id;renderAlc();if($('al-v1')&&$('al-v1').value)calcAlc();}
+function alSetEmp(id){alState.emp=id;renderAlc();if($('al-v1')&&$('al-v1').value)calcAlc();}
+function alTogFlag(id,ck){
+  if(ck)alState.flags[id]=1;else delete alState.flags[id];
+  if(($('al-v1')&&$('al-v1').value)||alState.flags.neg)calcAlc();
+}
+function alTogActa(ix,ck){
+  if(ck)alState.actasChk[ix]=1;else delete alState.actasChk[ix];
+}
+function resetAlc(){
+  if($('al-v1'))$('al-v1').value='';
+  if($('al-v2'))$('al-v2').value='';
+  alState.flags={};
+  alState.actasChk={};
+  if($('al-res'))$('al-res').innerHTML='';
+  renderAlc();
+}
+
+function renderAlc(){
+  $('al-drv-opts').innerHTML=AL_DRIVERS.map(function(d){
+    return '<div class="pc-opt'+(alState.drv===d.id?' on':'')+'" onclick="alSetDrv(\''+d.id+'\')"><div class="oi '+d.cl+'">'+svg(d.i,16)+'</div><div><b>'+d.t+'</b><small>'+d.s+'</small></div></div>';
+  }).join('');
+
+  $('al-emp-opts').innerHTML=AL_EMPS.map(function(e){
+    return '<div class="pc-opt'+(alState.emp===e.id?' on':'')+'" onclick="alSetEmp(\''+e.id+'\')"><div class="oi '+e.cl+'">'+svg(e.i,16)+'</div><div><b>'+e.t+'</b><small>'+e.s+'</small></div></div>';
+  }).join('');
+
+  $('al-flags').innerHTML=AL_FLAGS.map(function(f){
+    return '<label class="dr-chk"><input type="checkbox" '+(alState.flags[f.id]?'checked':'')+' onchange="alTogFlag(\''+f.id+'\',this.checked)"><span>'+esc(f.t)+'</span></label>';
+  }).join('');
+}
+
+function alCalcEmpVal(val,mode){
+  if(val<=0.400){
+    var e=(mode==='new')?0.020:0.030;
+    return {err:e,lbl:(mode==='new'?'0,020 mg/L (C ≤ 0,400)':'0,030 mg/L (C ≤ 0,400)')};
+  }
+  if(val<=2.000){
+    var p=(mode==='new')?0.05:0.075;
+    return {err:val*p,lbl:(mode==='new'?'5,0 % (0,400 < C ≤ 2,000)':'7,5 % (0,400 < C ≤ 2,000)')};
+  }
+  return {err:val*0.20,lbl:'20 % (C > 2,000)'};
+}
+
+function alFmt(v){return v.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:3})}
+
+function calcAlc(){
+  var isNeg=!!alState.flags.neg;
+  var v1=parseFloat(String($('al-v1').value||'').replace(',','.'));
+  var v2=parseFloat(String($('al-v2').value||'').replace(',','.'));
+  var hasV1=(!isNaN(v1)&&v1>=0&&$('al-v1').value.trim()!=='');
+  var hasV2=(!isNaN(v2)&&v2>=0&&$('al-v2').value.trim()!=='');
+
+  if(!isNeg&&!hasV1){
+    $('al-res').innerHTML='<div class="dr-res warn"><div class="dr-verdict"><div class="dr-vico">'+svg('alert',20)+'</div><div><div class="dr-vtit">Introduce el resultado del etilómetro</div><div class="dr-vsub">Escribe al menos el resultado de la 1.ª prueba en mg/L o marca la casilla de negativa.</div></div></div></div>';
+    return;
+  }
+
+  var drv=AL_DRIVERS.filter(function(d){return d.id===alState.drv})[0]||AL_DRIVERS[0];
+  var bruta=hasV1?(hasV2?Math.min(v1,v2):v1):0;
+  var diffWarn='';
+  if(hasV1&&hasV2){
+    var diff=Math.abs(v1-v2);
+    var maxV=Math.max(v1,v2);
+    if(diff>0.060||(maxV>0&&(diff/maxV)>0.15)){
+      diffWarn='<div class="dr-note" style="border-color:#c9384a;background:rgba(201,56,74,.18);color:#ffd0d6"><b>Aviso metrológico (Anexo XIII Orden ICT/155/2020):</b> la diferencia entre la 1.ª y 2.ª prueba ('+alFmt(diff)+' mg/L) supera los 0,060 mg/L o el 15 %. El ciclo debe considerarse <b>no válido</b> y repetirse.</div>';
+    }
+  }
+
+  var empObj=alCalcEmpVal(bruta,alState.emp);
+  var corr=Math.max(0,bruta-empObj.err);
+  var corrR=Math.floor(corr*1000+1e-9)/1000;
+
+  var tipo='negativo', cls='admin', ico='check', tit='', sub='', multa='', pts='', cod='', actas=[];
+
+  if(isNeg){
+    tipo='delito'; cls='delito'; ico='siren';
+    tit='DELITO DE NEGATIVA A PRUEBAS (Art. 383 CP)';
+    sub='Negativa del conductor a someterse a las pruebas legalmente establecidas para la comprobación de las tasas de alcoholemia. Instruir atestado penal y citar a Juicio Rápido. <i>(Si existe sintomatología o resultado previo positivo, instruir también por Art. 379.2 CP).</i>';
+    actas=AL_ACTAS_DELITO;
+  }else if(corrR>0.600){
+    tipo='delito'; cls='delito'; ico='siren';
+    tit='DELITO CONTRA LA SEGURIDAD VIAL (Art. 379.2 CP)';
+    sub='La tasa corregida (<b>'+alFmt(corrR)+' mg/L</b>) <b>supera el límite penal objetivo de 0,60 mg/L</b> en aire espirado. Instruir atestado penal por delito contra la seguridad vial (prisión 3–6 meses o multa 6–12 meses o TBC 31–90 días + privación conducir 1–4 años).';
+    actas=AL_ACTAS_DELITO;
+  }else if(alState.flags.sint&&corrR>0){
+    tipo='delito'; cls='delito'; ico='siren';
+    tit='DELITO POR INFLUENCIA ALCOHÓLICA (Art. 379.2 CP · Inciso 1.º)';
+    sub='Aunque la tasa corregida (<b>'+alFmt(corrR)+' mg/L</b>) no supera 0,60 mg/L, concurre <b>sintomatología evidente</b> de conducción bajo la influencia de bebidas alcohólicas. Detallar exhaustivamente todos los signos externos en el acta.';
+    actas=AL_ACTAS_DELITO;
+  }else if(alState.flags.acc&&corrR>0.400){
+    tipo='delito'; cls='delito'; ico='siren';
+    tit='POSIBLE DELITO EN ACCIDENTE (Criterio Fiscalía > 0,40 mg/L · Art. 379.2 CP)';
+    sub='Tasa corregida de <b>'+alFmt(corrR)+' mg/L</b> en accidente de tráfico (&gt; 0,40 mg/L). Activar diligencias penales, acta de sintomatología y atestado judicial (valorar influencia junto con las circunstancias del siniestro).';
+    actas=AL_ACTAS_DELITO;
+  }else if(corrR>drv.lim){
+    tipo='admin'; cls='warn'; ico='alert';
+    var isDouble=(drv.id!=='men'&&corrR>drv.dbl)||(drv.id==='men'&&corrR>0.500);
+    var isRein=!!alState.flags.rein;
+    if(drv.id==='men'){
+      multa=isRein||isDouble?'1.000 € (500 € pronto pago)':'500 € (250 € pronto pago)';
+      pts=isDouble?'6 puntos (si permiso)':'4 puntos (si permiso)';
+      cod='CIR 020 · Art. 14.1 y 77.c LSV (Menor 0,00)';
+      tit='INFRACCIÓN ADMINISTRATIVA MUY GRAVE · MENOR (Art. 14.1 / 77.c LSV)';
+      sub='Conductor menor de edad con tasa corregida <b>'+alFmt(corrR)+' mg/L</b> (&gt; 0,00 mg/L). Sanción: <b>'+multa+'</b>. Recordar responsabilidad solidaria de padres/tutores (Art. 82.b LSV).';
+    }else if(isDouble||isRein){
+      multa='1.000 € (500 € pronto pago)';
+      pts=isDouble?'6 puntos':'4 puntos';
+      cod=(drv.id==='nov')?'CIR 020.1.5K (Art. 77.c / 80.2.a LSV)':'CIR 020.1.5I (Art. 77.c / 80.2.a LSV)';
+      tit='INFRACCIÓN ADMINISTRATIVA MUY GRAVE · 1.000 € (Art. 77.c LSV)';
+      sub='Tasa corregida <b>'+alFmt(corrR)+' mg/L</b> '+(isDouble?'(supera el doble del límite de '+alFmt(drv.lim)+' mg/L)':'(reincidente en el último año · Art. 80.2.a LSV)')+'. Sanción: <b>'+multa+'</b> y detracción de <b>'+pts+'</b>.';
+    }else{
+      multa='500 € (250 € pronto pago)';
+      pts='4 puntos';
+      cod=(drv.id==='nov')?'CIR 020.1.5G (Art. 77.c LSV)':'CIR 020.1.5E (Art. 77.c LSV)';
+      tit='INFRACCIÓN ADMINISTRATIVA MUY GRAVE · 500 € (Art. 77.c LSV)';
+      sub='Tasa corregida <b>'+alFmt(corrR)+' mg/L</b> (supera el límite de '+alFmt(drv.lim)+' mg/L hasta '+alFmt(drv.dbl)+' mg/L). Sanción: <b>'+multa+'</b> y detracción de <b>'+pts+'</b>.';
+    }
+    actas=AL_ACTAS_ADMIN;
+  }else{
+    tipo='negativo'; cls='admin'; ico='check';
+    tit='RESULTADO NEGATIVO / DENTRO DEL LÍMITE LEGAL';
+    sub='Tras descontar el Error Máximo Permitido ('+empObj.lbl+'), la tasa corregida (<b>'+alFmt(corrR)+' mg/L</b>) no supera el límite legal aplicable ('+alFmt(drv.lim)+' mg/L). No procede denuncia por alcoholemia.';
+  }
+
+  var h='<div class="dr-res '+cls+'">';
+  h+='<div class="dr-verdict"><div class="dr-vico">'+svg(ico,20)+'</div><div><div class="dr-vtit">'+tit+'</div><div class="dr-vsub">'+sub+'</div></div></div>';
+
+  if(!isNeg){
+    h+='<div class="dr-stats">';
+    h+='<div class="dr-stat"><small>Tasa bruta menor</small><b>'+alFmt(bruta)+' mg/L</b></div>';
+    h+='<div class="dr-stat"><small>EMP aplicado</small><b>− '+alFmt(empObj.err)+' mg/L ('+(alState.emp==='new'?(bruta<=0.4?'0,020':(bruta<=2?'5%':'20%')):(bruta<=0.4?'0,030':(bruta<=2?'7,5%':'20%')))+')</b></div>';
+    h+='<div class="dr-stat" style="border-color:var(--gold)"><small>Tasa real corregida</small><b style="color:var(--gold2);font-size:15px">'+alFmt(corrR)+' mg/L</b></div>';
+    h+='<div class="dr-stat"><small>Límite aplicable ('+esc(drv.t)+')</small><b>'+alFmt(drv.lim)+' mg/L</b></div>';
+    h+='</div>';
+  }
+
+  if(cod){
+    h+='<div class="dr-note" style="margin-top:8px"><b>Precepto DGT:</b> '+esc(cod)+' · <b>Multa:</b> '+esc(multa)+' · <b>Puntos:</b> '+esc(pts)+'</div>';
+  }
+  h+=diffWarn;
+
+  if(actas.length){
+    h+='<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line)">';
+    h+='<div class="dr-lbl" style="color:'+(tipo==='delito'?'#ff8694':'var(--gold2)')+'">Actas a confeccionar en el lugar ('+(tipo==='delito'?'VÍA PENAL · DELITO':'VÍA ADMINISTRATIVA')+')</div>';
+    h+='<div class="pc-chks">'+actas.map(function(a,ix){
+      var ck=alState.actasChk[tipo+'_'+ix]?'checked':'';
+      return '<label class="pc-chk"><input type="checkbox" '+ck+' onchange="alTogActa(\''+tipo+'_'+ix+'\',this.checked)"><span class="pc-ct"><b>'+(ix+1)+'.</b> '+esc(a)+'</span></label>';
+    }).join('')+'</div></div>';
+  }
+
+  h+='</div>';
+  $('al-res').innerHTML=h;
 }
 
 </script>
