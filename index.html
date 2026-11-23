@@ -1298,6 +1298,54 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
 .vtc-reg small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin-bottom:3px}
 .vtc-reg b{color:#fff}
 
+/* Módulo Primeros Auxilios · RCP y Metrónomo */
+.rcp-metro{
+  background:linear-gradient(180deg,rgba(125,29,44,.28),rgba(11,20,36,.97));
+  border:2px solid #c9384a;
+  border-radius:14px;
+  padding:14px;
+  text-align:center;
+  margin:10px 0 12px;
+  box-shadow:var(--shadow);
+}
+.rcp-metro.run{border-color:#24c278;background:linear-gradient(180deg,rgba(36,194,120,.16),rgba(11,20,36,.98))}
+.rcp-pulse-ring{
+  width:88px;height:88px;border-radius:50%;margin:6px auto 10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(201,56,74,.22);border:3px solid #ff6b7a;
+  transition:transform .07s ease,background .07s ease,box-shadow .07s ease;
+  font-variant-numeric:tabular-nums;
+}
+.rcp-metro.run .rcp-pulse-ring{background:rgba(36,194,120,.2);border-color:#24c278}
+.rcp-pulse-ring.beat{
+  transform:scale(1.14);
+  background:rgba(36,194,120,.55)!important;
+  box-shadow:0 0 26px rgba(36,194,120,.75);
+}
+.rcp-pulse-ring.vent{
+  border-color:var(--gold2)!important;
+  background:rgba(200,157,60,.38)!important;
+  box-shadow:0 0 22px rgba(226,189,104,.65);
+}
+.rcp-big-btn{
+  width:100%;padding:14px 12px;font-size:15.5px;font-weight:800;
+  letter-spacing:.04em;text-transform:uppercase;border-radius:11px;
+}
+.rcp-stats{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:10px 0;
+}
+.rcp-stat{
+  background:rgba(7,13,24,.7);border:1px solid var(--line);border-radius:8px;padding:7px 5px;
+}
+.rcp-stat small{display:block;font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.rcp-stat b{font-size:16px;color:#fff;font-variant-numeric:tabular-nums}
+.rcp-bpm-row{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.rcp-bpm-btn{
+  background:var(--bg2);border:1px solid var(--line);color:var(--mut);
+  padding:5px 10px;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;
+}
+.rcp-bpm-btn.on{background:var(--navy);border-color:var(--gold2);color:var(--gold2)}
+
 /* Módulo Personajes */
 .pj-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 @media(max-width:600px){.pj-grid{grid-template-columns:1fr}}
@@ -2862,6 +2910,63 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
    <div id="pj-detail-view" class="hide pc-panel"></div>
   </div>
 
+  <!-- MÓDULO PRIMEROS AUXILIOS (HUB ESCALABLE + RCP CON METRÓNOMO SONORO) -->
+  <div id="auxilios" class="hide wrap-sm">
+   <div class="view-hd">
+    <div>
+     <h2 id="aux-title"></h2>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px" id="aux-sub">Guías ERC 2025 · AHA SVB Adulto · Actuación policial hasta llegada de DESA y SAMU</div>
+    </div>
+    <button class="btn sec" onclick="auxBack()" id="btn-back-aux"></button>
+   </div>
+
+   <!-- HUB PRINCIPAL PRIMEROS AUXILIOS (ESCALABLE) -->
+   <div id="aux-hub" class="pc-panel">
+    <div class="pc-opts" style="grid-template-columns:1fr;gap:10px">
+     <div class="dtile act" style="padding:16px 14px" onclick="auxOpen('rcp')">
+      <div class="ib c-crim" style="width:46px;height:46px" id="aux-ic-rcp"></div>
+      <div class="txt">
+       <div class="tt"><span>RCP · PARADA CARDIORRESPIRATORIA</span></div>
+       <div class="ts" style="white-space:normal">Protocolo rápido paso a paso en adulto, metrónomo sonoro (100–120 lpm), aviso de relevo cada 2 min e integración del DESA</div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <!-- SUBMÓDULO: RCP CON METRÓNOMO SONORO -->
+   <div id="aux-rcp" class="hide pc-panel">
+    <!-- BARRA DE PASOS RÁPIDOS -->
+    <div class="pc-prog-wrap" style="margin-bottom:10px">
+     <div class="pc-prog-top">
+      <span id="rcp-prog-txt">Paso 1 de 5 · Seguridad</span>
+      <button type="button" class="btn sec" style="padding:3px 9px;font-size:11.5px" onclick="rcpResetAll()">Reiniciar</button>
+     </div>
+     <div class="pc-steps" style="grid-template-columns:repeat(5,minmax(0,1fr))" id="rcp-steps"></div>
+    </div>
+
+    <!-- CONTENIDO DEL PASO ACTUAL -->
+    <div id="rcp-step-body"></div>
+
+    <!-- REFERENCIA RÁPIDA DESPLEGABLE -->
+    <div class="card">
+     <div class="bar" style="margin-bottom:4px">
+      <div class="card-hd" style="margin:0" id="rcp-ref-hd"></div>
+      <button type="button" class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('rcp-ref-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
+     </div>
+     <div id="rcp-ref-wrap" class="hide" style="margin-top:8px;font-size:12.5px;color:#cfd9ea;line-height:1.5">
+      <ul style="margin:0;padding-left:18px">
+       <li><b>Compresiones de alta calidad:</b> Víctima boca arriba sobre superficie <b>plana y firme</b>. Talón de la mano en el <b>centro del pecho</b> (mitad inferior del esternón), brazos rectos, profundidad <b>5–6 cm</b>, ritmo <b>100–120/min</b>, expansión completa del tórax y mínimas interrupciones.</li>
+       <li><b>30:2 vs Solo compresiones (ERC 2025 / AHA):</b> Si estás entrenado y dispones de barrera/mascarilla: <b>30 compresiones / 2 ventilaciones</b> (1 seg cada una viendo elevar el pecho). Si no estás entrenado o sin barrera: <b>compresiones continuas sin parar</b>.</li>
+       <li><b>Respiración agónica (jadeo/boqueo):</b> NO es respiración normal; es signo de parada cardíaca. <b>Iniciar RCP de inmediato.</b></li>
+       <li><b>Relevo entre compañeros:</b> Cambiar de reanimador cada <b>2 minutos</b> (5 ciclos) para mantener la calidad de las compresiones sin perder más de 5 segundos.</li>
+       <li><b>Situaciones especiales DESA:</b> Pecho mojado → <b>secar</b>; mucho vello → rasurar o depilar con primer juego de parches; marcapasos/bulto → colocar parche a un lado; parches medicinales → retirar con guantes y limpiar; embarazada → usar DESA normal.</li>
+       <li><b>Cuándo detener la RCP:</b> Solo cuando llegue el <b>SAMU/SVA</b> y se haga cargo, la víctima recupere signos claros de vida (respira normal/se mueve) o por agotamiento extremo sin relevo.</li>
+      </ul>
+     </div>
+    </div>
+   </div>
+  </div>
+
   <!-- MÓDULO ADMINISTRACIÓN DE USUARIOS Y ACCESOS -->
   <div id="admin" class="hide wrap-sm">
    <div class="view-hd">
@@ -2998,7 +3103,8 @@ var DASH_TOOLS=[
   {t:'MI CARPETA',s:'Briefing y notas de actuaciones',i:'folder',c:'c-gold'},
   {t:'LEYES',s:'Códigos y leyes nacionales',i:'book',c:'c-teal'},
   {t:'VIOGEN',s:'Resumen VioGén y Violencia Dom.',i:'viogen',c:'c-purp'},
-  {t:'VMP',s:'Protocolo VMP/VPL, clasificación e infracciones',i:'vmp',c:'c-amber',act:1,go:'vmp'}
+  {t:'VMP',s:'Protocolo VMP/VPL, clasificación e infracciones',i:'vmp',c:'c-amber',act:1,go:'vmp'},
+  {t:'PRIMEROS AUXILIOS',s:'RCP adulto con metrónomo sonoro y guía DESA',i:'hosp',c:'c-crim',act:1,go:'auxilios'}
 ];
 
 var SH={
@@ -3822,6 +3928,8 @@ function navBack(){
     }
   }else if(curView==='vmp'){
     if(typeof vmpState!=='undefined'&&vmpState.sub!=='hub'){vmpOpen('hub');return;}
+  }else if(curView==='auxilios'){
+    if(typeof auxState!=='undefined'&&auxState.sub!=='hub'){auxOpen('hub');return;}
   }else if(curView==='lo415'){
     if(typeof loState!=='undefined'&&loState.sub!=='hub'){loOpen('hub');return;}
   }else if(curView==='ordenanzas'){
@@ -3850,6 +3958,8 @@ function go(v,fromBack){
   $('turnos').classList.toggle('hide',v!=='turnos');
   $('drogas').classList.toggle('hide',v!=='drogas');
   if($('vmp'))$('vmp').classList.toggle('hide',v!=='vmp');
+  if($('auxilios'))$('auxilios').classList.toggle('hide',v!=='auxilios');
+  if(v!=='auxilios'&&typeof rcpStopAudio==='function')rcpStopAudio();
   if($('alcoholemia'))$('alcoholemia').classList.toggle('hide',v!=='alcoholemia');
   $('contraste').classList.toggle('hide',v!=='contraste');
   $('bloc').classList.toggle('hide',v!=='bloc');
@@ -3877,6 +3987,7 @@ function go(v,fromBack){
   if(v==='drogas')renderDrugs();
   if(v==='alcoholemia')renderAlc();
   if(v==='vmp')vmpOpen('hub');
+  if(v==='auxilios')auxOpen('hub');
   if(v==='contraste')renderPerm();
 renderAcc();
 renderContraste();
@@ -3913,6 +4024,10 @@ function initStaticIcons(){
   if($('btn-back-vmp'))$('btn-back-vmp').innerHTML=svg('back',15)+' Inicio';
   if($('vmp-ic-proto'))$('vmp-ic-proto').innerHTML=svg('clip',22);
   if($('vmp-ref-hd'))$('vmp-ref-hd').innerHTML=svg('book',15)+' Tabla comparativa VMP / VPL / EPAC / L1e-B y normativa';
+  if($('aux-title'))$('aux-title').innerHTML=svg('hosp',18)+' Primeros Auxilios';
+  if($('btn-back-aux'))$('btn-back-aux').innerHTML=svg('back',15)+' Inicio';
+  if($('aux-ic-rcp'))$('aux-ic-rcp').innerHTML=svg('heart',22);
+  if($('rcp-ref-hd'))$('rcp-ref-hd').innerHTML=svg('book',15)+' Recordatorio técnico RCP y consideraciones DESA (ERC 2025)';
   if($('al-title'))$('al-title').innerHTML=svg('tube',18)+' Alcoholemia · Cálculo EMP y Actas';
   if($('btn-back-al'))$('btn-back-al').innerHTML=svg('back',15)+' Inicio';
   if($('al-calc-btn'))$('al-calc-btn').innerHTML=svg('scale',16)+' Calcular tasa y actuación';
@@ -11259,6 +11374,340 @@ function vmpCopySummary(){
   }else{prompt('Copia el resumen:',txt);}
 }
 
+
+/* ==================== MÓDULO PRIMEROS AUXILIOS · RCP + METRÓNOMO SONORO ==================== */
+var auxState={sub:'hub'};
+var rcpState={
+  step:0,       /* 0:Seguridad, 1:Alerta+DESA, 2:Respiración, 3:Masaje+Metrónomo, 4:Llegada DESA */
+  mode:'cont',  /* 'cont' (solo compresiones) | '30_2' (30 compresiones + 2 ventilaciones) */
+  bpm:110,      /* 100, 110, 120 lpm */
+  running:false,
+  pausedForVent:false,
+  beats:0,
+  cycleCount:0,
+  secTotal:0,
+  secRel:0,     /* segundos desde último relevo (aviso a 120s) */
+  shocks:0,
+  respState:'', /* 'ok' | 'pcr' */
+  audioCtx:null,
+  beatTimer:null,
+  clockTimer:null
+};
+
+function auxOpen(sub){
+  auxState.sub=sub;
+  if(sub!=='rcp')rcpStopAudio();
+  $('aux-hub').classList.toggle('hide',sub!=='hub');
+  $('aux-rcp').classList.toggle('hide',sub!=='rcp');
+  if($('btn-back-aux'))$('btn-back-aux').innerHTML=svg('back',15)+(sub==='hub'?' Inicio':' Volver');
+  if($('aux-sub'))$('aux-sub').textContent=(sub==='rcp'?'Protocolo RCP Adulto · Metrónomo 100–120 lpm · Integración DESA':'Guías ERC 2025 · AHA SVB Adulto · Actuación policial hasta llegada de DESA y SAMU');
+  if(sub==='rcp')renderRcp();
+  window.scrollTo(0,0);
+}
+
+function auxBack(){
+  if(auxState.sub!=='hub'){auxOpen('hub');return;}
+  rcpStopAudio();
+  go('menu');
+}
+
+function rcpEnsureAudio(){
+  var AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC)return null;
+  if(!rcpState.audioCtx)rcpState.audioCtx=new AC();
+  if(rcpState.audioCtx.state==='suspended'){
+    try{rcpState.audioCtx.resume();}catch(e){}
+  }
+  return rcpState.audioCtx;
+}
+
+function rcpBeep(freq,dur,vol){
+  var ctx=rcpEnsureAudio();
+  if(!ctx)return;
+  try{
+    var o=ctx.createOscillator();
+    var g=ctx.createGain();
+    o.type='sine';
+    o.frequency.value=freq||880;
+    g.gain.setValueAtTime(vol||0.38,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+(dur||0.075));
+    o.connect(g);
+    g.connect(ctx.destination);
+    o.start();
+    o.stop(ctx.currentTime+(dur||0.08));
+  }catch(e){}
+}
+
+function rcpStopAudio(){
+  rcpState.running=false;
+  rcpState.pausedForVent=false;
+  if(rcpState.beatTimer){clearInterval(rcpState.beatTimer);rcpState.beatTimer=null;}
+  if(rcpState.clockTimer){clearInterval(rcpState.clockTimer);rcpState.clockTimer=null;}
+}
+
+function rcpToggleMetro(){
+  if(rcpState.running){
+    rcpStopAudio();
+    renderRcp();
+    return;
+  }
+  rcpEnsureAudio();
+  rcpState.running=true;
+  rcpState.pausedForVent=false;
+  rcpStartTimers();
+  renderRcp();
+}
+
+function rcpStartTimers(){
+  if(rcpState.beatTimer)clearInterval(rcpState.beatTimer);
+  if(rcpState.clockTimer)clearInterval(rcpState.clockTimer);
+  var ms=Math.round(60000/rcpState.bpm);
+  rcpDoBeat();
+  rcpState.beatTimer=setInterval(rcpDoBeat,ms);
+  rcpState.clockTimer=setInterval(function(){
+    if(!rcpState.running)return;
+    rcpState.secTotal++;
+    rcpState.secRel++;
+    if(rcpState.secRel===120){
+      /* Aviso acústico doble de relevo / reevaluación cada 2 minutos */
+      rcpBeep(1320,0.16,0.5);
+      setTimeout(function(){rcpBeep(1320,0.16,0.5);},210);
+      banner('2 MINUTOS DE RCP · Cambiar de compañero si hay relevo (máx. 5 s).','');
+    }
+    rcpUpdateLiveDom();
+  },1000);
+}
+
+function rcpDoBeat(){
+  if(!rcpState.running||rcpState.pausedForVent)return;
+  rcpState.beats++;
+  var inCycle=((rcpState.beats-1)%30)+1;
+  var is30=(rcpState.mode==='30_2'&&inCycle===30);
+  rcpBeep(is30?1180:880,is30?0.14:0.065,is30?0.48:0.38);
+
+  var ring=$('rcp-ring');
+  if(ring){
+    ring.classList.add('beat');
+    setTimeout(function(){if($('rcp-ring'))$('rcp-ring').classList.remove('beat');},110);
+  }
+  if(is30){
+    rcpState.cycleCount++;
+    rcpState.pausedForVent=true;
+    setTimeout(function(){
+      if(rcpState.running&&rcpState.pausedForVent){
+        rcpBeep(620,0.18,0.4);
+      }
+    },320);
+  }
+  rcpUpdateLiveDom();
+}
+
+function rcpResumeAfterVent(){
+  rcpState.pausedForVent=false;
+  rcpEnsureAudio();
+  rcpDoBeat();
+  renderRcp();
+}
+
+function rcpResetRelevo(){
+  rcpState.secRel=0;
+  rcpUpdateLiveDom();
+  banner('Contador de relevo reiniciado (2:00).','');
+}
+
+function rcpSetBpm(b){
+  rcpState.bpm=b;
+  if(rcpState.running&&!rcpState.pausedForVent)rcpStartTimers();
+  renderRcp();
+}
+
+function rcpSetMode(m){
+  rcpState.mode=m;
+  rcpState.pausedForVent=false;
+  renderRcp();
+}
+
+function rcpGoStep(n){
+  if(n<0)n=0;if(n>4)n=4;
+  if(n!==3&&rcpState.running)rcpStopAudio();
+  rcpState.step=n;
+  renderRcp();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function rcpStartPcrNow(){
+  rcpState.respState='pcr';
+  rcpState.step=3;
+  rcpEnsureAudio();
+  rcpState.running=true;
+  rcpState.pausedForVent=false;
+  rcpStartTimers();
+  renderRcp();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function rcpDesaArrived(){
+  rcpStopAudio();
+  rcpState.step=4;
+  renderRcp();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function rcpAddShock(){
+  rcpState.shocks++;
+  rcpState.secRel=0;
+  rcpState.step=3;
+  rcpEnsureAudio();
+  rcpState.running=true;
+  rcpState.pausedForVent=false;
+  rcpStartTimers();
+  renderRcp();
+  banner('Descarga #'+rcpState.shocks+' registrada · Reanudando RCP 2 minutos.','');
+}
+
+function rcpResetAll(){
+  rcpStopAudio();
+  rcpState.step=0;
+  rcpState.beats=0;
+  rcpState.cycleCount=0;
+  rcpState.secTotal=0;
+  rcpState.secRel=0;
+  rcpState.shocks=0;
+  rcpState.respState='';
+  renderRcp();
+}
+
+function rcpFmtTime(sec){
+  var m=Math.floor(sec/60), s=sec%60;
+  return pad(m)+':'+pad(s);
+}
+
+function rcpUpdateLiveDom(){
+  var inC=rcpState.beats?(((rcpState.beats-1)%30)+1):0;
+  if($('rcp-num-main'))$('rcp-num-main').textContent=(rcpState.mode==='30_2'?(inC+'/30'):String(rcpState.beats));
+  if($('rcp-t-tot'))$('rcp-t-tot').textContent=rcpFmtTime(rcpState.secTotal);
+  if($('rcp-t-rel')){
+    var rem=120-rcpState.secRel;
+    $('rcp-t-rel').textContent=(rem>0?rcpFmtTime(rem):'¡RELEVO!');
+    $('rcp-t-rel').style.color=(rem<=15?'#ff6b7a':'#fff');
+  }
+  if($('rcp-t-cnt'))$('rcp-t-cnt').textContent=String(rcpState.beats);
+  if(rcpState.pausedForVent&&$('rcp-vent-box'))$('rcp-vent-box').classList.remove('hide');
+}
+
+function renderRcp(){
+  var names=['Seguridad','112 + DESA','Respiración','Masaje RCP','DESA'];
+  $('rcp-prog-txt').textContent='Paso '+(rcpState.step+1)+' de 5 · '+names[rcpState.step];
+  $('rcp-steps').innerHTML=names.map(function(nm,ix){
+    var cls='pc-st'+(ix===rcpState.step?' cur':(ix<rcpState.step?' done':''));
+    return '<div class="'+cls+'" onclick="rcpGoStep('+ix+')">'+(ix+1)+'<span>'+nm+'</span></div>';
+  }).join('');
+
+  var s=rcpState.step, h='';
+
+  if(s===0){
+    h+='<div class="pc-card">';
+    h+='<div class="pc-step-hd"><div class="pc-step-num">1</div><div><h3>Seguridad y Consciencia</h3><small>Proteger la escena y comprobar respuesta</small></div></div>';
+    h+='<div class="pc-alert gold">'+svg('alert',18)+'<div><b>AUTOPROTECCIÓN:</b> Antes de acercarte, asegura la zona (tráfico balizado, electricidad, agresores o peligros).</div></div>';
+    h+='<ul style="margin:8px 0 12px;padding-left:18px;font-size:13.5px;color:#dbe3f0;line-height:1.55">';
+    h+='<li>Arrodíllate junto a la víctima, <b>sacude suavemente sus hombros</b> y pregunta en voz alta: <b>"¿Se encuentra bien?"</b></li>';
+    h+='<li><b>Si responde:</b> déjala en la posición encontrada (si es segura), evalúa lesiones y vigila hasta llegada de sanitarios.</li>';
+    h+='<li><b>Si NO responde:</b> pasa de inmediato al siguiente paso.</li>';
+    h+='</ul>';
+    h+='<button type="button" class="btn rcp-big-btn" style="background:linear-gradient(180deg,#e64558,#b82538);color:#fff" onclick="rcpGoStep(1)">NO RESPONDE · PEDIR AYUDA Y DESA →</button>';
+    h+='</div>';
+  }else if(s===1){
+    h+='<div class="pc-card">';
+    h+='<div class="pc-step-hd"><div class="pc-step-num">2</div><div><h3>Alerta 112 y Solicitar Patrulla con DESA</h3><small>Activar cadena de supervivencia sin demora</small></div></div>';
+    h+='<div class="pc-alert red">'+svg('siren',18)+'<div><b>NO ABANDONES A LA VÍCTIMA:</b> Usa el teléfono en <b>manos libres</b> o la emisora. Si vais dos agentes, uno avisa y solicita DESA mientras el otro valora la respiración.</div></div>';
+    h+='<ul style="margin:8px 0 12px;padding-left:18px;font-size:13.5px;color:#dbe3f0;line-height:1.55">';
+    h+='<li><b>112 / SAMU:</b> Comunicar ubicación exacta y sospecha de persona inconsciente / parada cardiorrespiratoria.</li>';
+    h+='<li><b>Emisora Policía Local:</b> Solicitar <b>patrulla con DESA urgente</b> al punto (o enviar a un testigo a por el DESA más cercano).</li>';
+    h+='</ul>';
+    h+='<div class="pc-nav" style="margin-top:10px;padding-top:10px">';
+    h+='<button type="button" class="btn sec" onclick="rcpGoStep(0)">'+svg('prev',15)+' Atrás</button>';
+    h+='<button type="button" class="btn" onclick="rcpGoStep(2)">Comprobar Respiración →</button>';
+    h+='</div></div>';
+  }else if(s===2){
+    h+='<div class="pc-card">';
+    h+='<div class="pc-step-hd"><div class="pc-step-num">3</div><div><h3>Abrir Vía Aérea y Comprobar Respiración</h3><small>Máximo 10 segundos · Ver, oír y sentir</small></div></div>';
+    h+='<ul style="margin:6px 0 10px;padding-left:18px;font-size:13.5px;color:#dbe3f0;line-height:1.55">';
+    h+='<li><b>Maniobra frente–mentón:</b> Una mano en la frente inclinando suavemente la cabeza atrás y dedos de la otra mano elevando el mentón (si sospecha trauma cervical, usar <i>tracción mandibular</i>).</li>';
+    h+='<li><b>Valorar 5–10 segundos (máx.):</b> Mira si sube el pecho, escucha sonidos respiratorios y siente el aire en tu mejilla.</li>';
+    h+='</ul>';
+    h+='<div class="pc-alert red">'+svg('alert',18)+'<div><b>ATENCIÓN:</b> Los <b>jadeos o boqueos aislados (respiración agónica)</b> NO son respiración normal. Actuar como <b>PARADA CARDIORRESPIRATORIA</b>.</div></div>';
+    h+='<div style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px">';
+    h+='<button type="button" class="btn rcp-big-btn" style="background:linear-gradient(180deg,#e64558,#b82538);color:#fff" onclick="rcpStartPcrNow()">🚨 NO RESPIRA / BOQUEA → INICIAR RCP CON PITIDO</button>';
+    h+='<button type="button" class="btn sec" style="padding:11px;font-weight:700" onclick="rcpState.respState=\'ok\';renderRcp()">✓ SÍ RESPIRA CON NORMALIDAD</button>';
+    h+='</div>';
+    if(rcpState.respState==='ok'){
+      h+='<div class="pc-alert green" style="margin-top:10px">'+svg('shield',18)+'<div><b>POSICIÓN LATERAL DE SEGURIDAD (PLS):</b> Coloca a la víctima de lado (salvo sospecha de traumatismo, mantener boca arriba). Vigila su respiración cada minuto; si deja de respirar, inicia RCP de inmediato.</div></div>';
+    }
+    h+='<div class="pc-nav" style="margin-top:10px;padding-top:10px"><button type="button" class="btn sec" onclick="rcpGoStep(1)">'+svg('prev',15)+' Atrás</button><span></span></div>';
+    h+='</div>';
+  }else if(s===3){
+    var inC=rcpState.beats?(((rcpState.beats-1)%30)+1):0;
+    var rem=120-rcpState.secRel;
+    h+='<div class="rcp-metro'+(rcpState.running?' run':'')+'">';
+    h+='<div style="font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:'+(rcpState.running?'#6de0a8':'#ff8694')+'">'+(rcpState.running?'MASAJE EN CURSO · SIGUE EL PITIDO':'LISTO PARA INICIAR MASAJE CARDÍACO')+'</div>';
+    h+='<div class="rcp-pulse-ring'+(rcpState.pausedForVent?' vent':'')+'" id="rcp-ring">';
+    h+='<div style="font-size:22px;font-weight:900;color:#fff;line-height:1" id="rcp-num-main">'+(rcpState.mode==='30_2'?(inC+'/30'):String(rcpState.beats))+'</div>';
+    h+='<div style="font-size:10px;color:var(--mut);margin-top:2px">'+rcpState.bpm+' LPM</div>';
+    h+='</div>';
+
+    h+='<div id="rcp-vent-box" class="pc-alert gold'+(rcpState.pausedForVent?'':' hide')+'" style="text-align:left;margin:8px 0">';
+    h+=svg('alert',18)+'<div style="flex:1"><b>¡30 COMPRESIONES! DA 2 VENTILACIONES</b> (1 seg c/u viendo elevar el pecho) y pulsa continuar.<div style="margin-top:7px"><button type="button" class="btn" style="width:100%;padding:9px" onclick="rcpResumeAfterVent()">▶ REANUDAR COMPRESIONES</button></div></div></div>';
+
+    h+='<button type="button" class="btn rcp-big-btn" style="background:'+(rcpState.running?'linear-gradient(180deg,#e2bd68,#c89d3c);color:#0a1324':'linear-gradient(180deg,#24c278,#19945a);color:#061a11')+'" onclick="rcpToggleMetro()">'+(rcpState.running?'⏸ PAUSAR PITIDO':'▶ INICIAR PITIDO ('+rcpState.bpm+' LPM)')+'</button>';
+
+    h+='<div class="rcp-stats">';
+    h+='<div class="rcp-stat"><small>Tiempo RCP</small><b id="rcp-t-tot">'+rcpFmtTime(rcpState.secTotal)+'</b></div>';
+    h+='<div class="rcp-stat" onclick="rcpResetRelevo()" style="cursor:pointer" title="Toca tras relevar"><small>Relevo (2 min)</small><b id="rcp-t-rel" style="color:'+(rem<=15?'#ff6b7a':'#fff')+'">'+(rem>0?rcpFmtTime(rem):'¡RELEVO!')+'</b></div>';
+    h+='<div class="rcp-stat"><small>Compresiones</small><b id="rcp-t-cnt">'+rcpState.beats+'</b></div>';
+    h+='</div>';
+
+    h+='<div class="rcp-bpm-row">';
+    h+='<button type="button" class="rcp-bpm-btn'+(rcpState.mode==='cont'?' on':'')+'" onclick="rcpSetMode(\'cont\')">Solo compresiones</button>';
+    h+='<button type="button" class="rcp-bpm-btn'+(rcpState.mode==='30_2'?' on':'')+'" onclick="rcpSetMode(\'30_2\')">Ciclo 30:2</button>';
+    [100,110,120].forEach(function(b){
+      h+='<button type="button" class="rcp-bpm-btn'+(rcpState.bpm===b?' on':'')+'" onclick="rcpSetBpm('+b+')">'+b+' lpm</button>';
+    });
+    h+='</div>';
+    h+='</div>';
+
+    h+='<div class="pc-card" style="padding:12px 14px">';
+    h+='<div class="dr-lbl">Técnica esencial mientras comprimes</div>';
+    h+='<div style="font-size:13px;color:#dbe3f0;line-height:1.5">';
+    h+='• <b>Superficie plana y firme</b> (suelo). Destapar pecho para facilitar el DESA.<br>';
+    h+='• <b>Talón de la mano</b> en el <b>centro del pecho</b> (mitad inferior del esternón), brazos rectos y hombros encima.<br>';
+    h+='• Profundidad <b>5–6 cm</b> · Dejar expandir el pecho tras cada compresión · Relevar cada <b>2 min</b> (toca el reloj de Relevo al cambiar).';
+    h+='</div>';
+    h+='<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">';
+    h+='<button type="button" class="btn rcp-big-btn" style="flex:1;background:linear-gradient(180deg,#e2bd68,#c89d3c);color:#0a1324" onclick="rcpDesaArrived()">⚡ ¡LLEGÓ EL DESA!</button>';
+    h+='</div>';
+    h+='</div>';
+  }else{
+    h+='<div class="pc-card" style="border-top-color:#24c278">';
+    h+='<div class="pc-step-hd"><div class="pc-step-num" style="color:#6de0a8">5</div><div><h3>Llegada y Uso del DESA</h3><small>Desfibrilación precoz · Descargas aplicadas: '+rcpState.shocks+'</small></div></div>';
+    h+='<div class="pc-alert gold">'+svg('bolt',18)+'<div><b>NO PARES EL MASAJE HASTA QUE EL DESA ANALICE:</b> Mientras un agente enciende el DESA y pega los parches, el compañero <b>continúa comprimiendo</b>.</div></div>';
+    h+='<ol style="margin:8px 0 12px;padding-left:18px;font-size:13.5px;color:#dbe3f0;line-height:1.55">';
+    h+='<li><b>Encender el DESA</b> y obedecer sus indicaciones de voz.</li>';
+    h+='<li><b>Pecho desnudo y seco:</b> Pegar los parches según el dibujo (subclavicular derecho y axilar izquierdo). Evitar parches medicinales o bulto de marcapasos.</li>';
+    h+='<li><b>Análisis del ritmo:</b> Cuando el DESA diga <i>"Analizando"</i>, <b>¡NADIE TOCA A LA VÍCTIMA!</b></li>';
+    h+='<li><b>Si indica descarga:</b> Gritar <b>"¡TODOS FUERA!"</b>, comprobar visualmente que nadie la toca y <b>pulsar el botón de descarga</b>.</li>';
+    h+='<li><b>Inmediatamente después</b> (haya o no descarga), <b>reanudar el masaje 2 minutos</b> hasta el siguiente análisis o llegada del SAMU.</li>';
+    h+='</ol>';
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    h+='<button type="button" class="btn" style="padding:12px 8px;background:linear-gradient(180deg,#e64558,#b82538);color:#fff" onclick="rcpAddShock()">⚡ Descarga dada → Reanudar RCP</button>';
+    h+='<button type="button" class="btn" style="padding:12px 8px" onclick="rcpState.secRel=0;rcpStartPcrNow()">▶ Sin descarga → Reanudar RCP</button>';
+    h+='</div>';
+    h+='</div>';
+  }
+
+  $('rcp-step-body').innerHTML=h;
+}
+
 </script>
 </body>
 </html>
+<!-- build: rcp-ready -->
