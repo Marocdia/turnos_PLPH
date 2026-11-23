@@ -4300,9 +4300,15 @@ function banner(x,t){
   var b=document.getElementById('bn');
   if(!b){b=document.createElement('div');b.id='bn';b.style.cssText='position:fixed;left:8px;right:8px;top:calc(8px + env(safe-area-inset-top,0px));z-index:99;display:flex;flex-direction:column;gap:6px';document.body.appendChild(b)}
   var d=document.createElement('div');
-  d.style.cssText='background:var(--navy2);color:#fff;border:1px solid rgba(200,157,60,.4);border-left:5px solid var(--gold);border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,.45)';
+  d.style.cssText='background:var(--navy2);color:#fff;border:1px solid rgba(200,157,60,.4);border-left:5px solid var(--gold);border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,.45);transition:opacity .3s ease';
   d.innerHTML='<span style="color:var(--gold2)">'+svg('bell',20)+'</span><span style="flex:1">'+(t?'<b>'+esc(t)+'</b> · ':'')+esc(x)+'</span><button class="btn" style="padding:5px 11px;font-size:13px" onclick="this.parentNode.remove()">OK</button>';
   b.appendChild(d);
+  setTimeout(function(){
+    if(d&&d.parentNode){
+      d.style.opacity='0';
+      setTimeout(function(){if(d&&d.parentNode)d.remove();},300);
+    }
+  },5000);
 }
 function fire(x,t){try{if('Notification' in window&&Notification.permission==='granted')new Notification('Policía Local · Recordatorio',{body:(t?t+' · ':'')+x})}catch(e){}banner(x,t)}
 function dueCheck(){
@@ -11380,7 +11386,7 @@ var auxState={sub:'hub'};
 var rcpState={
   step:0,          /* 0:Seguridad, 1:Alerta+DESA, 2:Respiración, 3:Masaje+Metrónomo, 4:Llegada DESA */
   mode:'cont',     /* 'cont' (solo compresiones) | '30_2' (30 compresiones + 2 ventilaciones) */
-  bpm:110,         /* 100, 110, 120 lpm */
+  bpm:100,         /* 100, 110, 120 lpm */
   started:false,   /* true desde que se inicia el masaje; el reloj total NUNCA se para */
   startTs:0,       /* timestamp Date.now() de inicio real de RCP */
   startStr:'',     /* HH:MM de inicio para informar al SAMU */
