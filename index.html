@@ -1525,7 +1525,95 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
    </div>
   </div>
 
-  <!-- MÓDULO ALCOHOLEMIA (CÁLCULO EMP ORDEN ICT/155/2020 + TIPO VEHÍCULO + INFRACCIÓN/DELITO + ACTAS) -->
+  <!-- MÓDULO VMP (HUB ESCALABLE + PROTOCOLO DE ACTUACIÓN VMP / VPL / L1e) -->
+  <div id="vmp" class="hide wrap-sm">
+   <div class="view-hd">
+    <div>
+     <h2 id="vmp-title"></h2>
+     <div style="font-size:12px;color:var(--mut);margin-top:2px" id="vmp-sub">Protocolo PL Pilar de la Horadada (Mayo 2026) · RD 52/2026 · Ley 5/2025 · RD 970/2020 · RGCir · LSV · STS 944/2025</div>
+    </div>
+    <button class="btn sec" onclick="vmpBack()" id="btn-back-vmp"></button>
+   </div>
+
+   <!-- HUB PRINCIPAL VMP (ESCALABLE PARA FUTUROS BOTONES) -->
+   <div id="vmp-hub" class="pc-panel">
+    <div class="pc-opts" style="grid-template-columns:1fr;gap:10px">
+     <div class="dtile act" style="padding:16px 14px" onclick="vmpOpen('proto')">
+      <div class="ib c-amber" style="width:46px;height:46px" id="vmp-ic-proto"></div>
+      <div class="txt">
+       <div class="tt"><span>PROTOCOLO DE ACTUACIÓN</span></div>
+       <div class="ts" style="white-space:normal">Actuación paso a paso en calle: clasificación técnica (VMP, VPL, >25 kg, EPAC, L1e-A/B, L3e), consulta Syspol, infracciones DGT 2026 / RGCir y medidas cautelares</div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <!-- SUBMÓDULO 1: PROTOCOLO DE ACTUACIÓN PASO A PASO -->
+   <div id="vmp-proto" class="hide pc-panel">
+    <div class="pc-card">
+     <div class="dr-lbl">Paso 1 · Inspección técnica en calle y clasificación del vehículo</div>
+     <div style="font-size:12px;color:var(--mut);margin-bottom:10px">Una vez detenido el vehículo con seguridad, verifica sus características técnicas reales (<b>STS 944/2025</b>: prima la realidad técnica sobre la denominación comercial o la falta de matrícula/sillín).</div>
+
+     <div class="dr-lbl" style="margin-top:8px">1.1 Velocidad máxima por diseño / constatada</div>
+     <div class="pc-opts" id="vmp-q-vel"></div>
+
+     <div class="dr-lbl" style="margin-top:8px">1.2 Configuración (Sillín, autoequilibrado y pedales)</div>
+     <div class="pc-opts" id="vmp-q-sil"></div>
+
+     <div class="dr-lbl" style="margin-top:8px">1.3 Potencia nominal y estado técnico (trucaje/deslimitación)</div>
+     <div class="pc-opts" id="vmp-q-pot"></div>
+
+     <div class="dr-lbl" style="margin-top:8px">1.4 Masa en orden de marcha (Clave VPL vs SOA · Ley 5/2025)</div>
+     <div class="pc-opts" id="vmp-q-mas"></div>
+
+     <div class="dr-lbl" style="margin-top:8px">1.5 Registro DGT (Syspol), Certificado y Etiqueta / Matrícula (RD 52/2026)</div>
+     <div class="pc-opts two" id="vmp-q-cert"></div>
+
+     <div id="vmp-diag"></div>
+    </div>
+
+    <div class="pc-card">
+     <div class="dr-lbl">Paso 2 · Procedimiento operativo en calle (PL Pilar de la Horadada)</div>
+     <div id="vmp-steps-box" style="font-size:12.5px;color:#cfd9ea;line-height:1.5"></div>
+    </div>
+
+    <div class="pc-card">
+     <div class="bar" style="margin-bottom:6px">
+      <div class="dr-lbl" style="margin:0">Paso 3 · Infracciones observadas (RGCir · LSV · RGVeh · Seguro)</div>
+      <button type="button" class="btn sec" style="padding:5px 10px;font-size:12px" onclick="vmpReset()">Reiniciar</button>
+     </div>
+     <div id="vmp-chk-wrap"></div>
+    </div>
+
+    <div id="vmp-res-wrap"></div>
+
+    <div class="card">
+     <div class="bar" style="margin-bottom:4px">
+      <div class="card-hd" style="margin:0" id="vmp-ref-hd"></div>
+      <button type="button" class="btn sec" style="padding:5px 10px;font-size:12px" onclick="$('vmp-ref-wrap').classList.toggle('hide')">Mostrar / Ocultar</button>
+     </div>
+     <div id="vmp-ref-wrap" class="hide" style="margin-top:8px;overflow-x:auto;font-size:12.5px;color:#cfd9ea;line-height:1.5">
+      <table style="margin-bottom:10px">
+       <tr><th>Categoría</th><th>Velocidad / Potencia / Masa</th><th>Sillín / Pedales</th><th>Registro / Seguro / Permiso</th><th>Vía Penal (384/379 CP)</th></tr>
+       <tr><td><b>Juguete</b></td><td>≤ 6 km/h</td><td>Cualquiera</td><td>No vehículo a efectos de tráfico</td><td><b>NO</b></td></tr>
+       <tr><td><b>VMP / VPL</b><br><small>RD 52/2026 · DA 1ª Ley 5/2025</small></td><td>6–25 km/h (&lt;25 kg)<br>o 6–14 km/h (&gt;25 kg)<br>≤ 1.000 W (auto ≤2.500W · carga ≤1.500W)</td><td>Sin sillín (o autoequilibrado ≥540 mm) · 1 plaza</td><td>Cert. VMP + Registro DGT (<code>M 0001 BBB</code> o <code>Z</code> hasta 22/01/27) + <b>Seguro VPL (SDA 300 €)</b> · No permiso</td><td><b>NO</b> (0 pts · sí arts. 142/152 CP si lesiones/homicidio)</td></tr>
+       <tr><td><b>VMP &gt;25 kg (&gt;14 km/h)</b><br><small>Art. 1 bis Ley 5/2025</small></td><td>14–25 km/h y &gt;25 kg (&lt;50 kg)<br>≤ 1.000 W</td><td>Sin sillín (o autoequilibrado)</td><td>Cert. VMP + Registro DGT + <b>Seguro Veh. Motor (SOA 2.1.5N · 800 €)</b> · No permiso</td><td><b>NO</b> (0 pts · pero SOA de vehículo a motor)</td></tr>
+       <tr><td><b>EPAC</b><br><small>Bici asistida</small></td><td>Corte ≤ 25 km/h · ≤ 250 W</td><td>Con pedales (sin acelerador)</td><td>Es <b>bicicleta</b> · Sin permiso, matrícula ni SOA</td><td><b>NO</b> (0 pts)</td></tr>
+       <tr><td><b>Ciclo de motor L1e-A</b><br><small>Regl. UE 168/2013</small></td><td>Corte ≤ 25 km/h · &gt;250 a ≤1.000 W</td><td>Con pedales (ayuda al pedaleo)</td><td><b>SÍ:</b> Permiso AM + Matrícula + SOA (1.000 €)</td><td><b>SÍ</b> (Art. 384 / 379.2 / 383 CP)</td></tr>
+       <tr><td><b>Ciclomotor L1e-B / L2e</b><br><small>Regl. UE 168/2013 · STS 944/2025</small></td><td>25–45 km/h o &gt;1.000–4.000 W (incl. VMP trucados)</td><td>Con o sin sillín (sillín &gt;540 mm sin autoequil. ya es L1e-B)</td><td><b>SÍ:</b> Permiso AM/B + Matrícula + SOA (1.000 €) + Casco (200 € + 4 pts)</td><td><b>SÍ</b> (Art. 384 CP aunque no sea homologable · STS 944/2025)</td></tr>
+       <tr><td><b>Motocicleta L3e</b><br><small>Regl. UE 168/2013</small></td><td>&gt; 45 km/h o &gt; 4.000 W</td><td>Con o sin sillín</td><td><b>SÍ:</b> Permiso A1/A2/A + Matrícula + SOA + Casco</td><td><b>SÍ</b> (Art. 384 / 379.2 / 383 CP)</td></tr>
+      </table>
+      <ul style="margin:0;padding-left:18px">
+       <li><b>Plazos críticos RD 52/2026 (BOE 30/01/2026):</b> VMP comercializados antes del 22/01/2024 sin certificado llevan matrícula temporal <code>Z 9999 XXX</code> y pueden circular hasta el <b>22/01/2027</b> (desde el 23/01/2027 prohibidos: Art. 1.1 RGVeh, 500 €, inmov. y depósito). Los comercializados desde el 22/01/2024 requieren certificado VMP, placa remachada (104×30 mm), inscripción DGT (<code>M 9999 XXX</code>) y seguro.</li>
+       <li><b>Consulta Syspol (Protocolo PLPH):</b> Al introducir la matrícula VMP (<code>M</code> o <code>Z</code>) en Syspol, si aparece el aviso inicial <i>"matrícula no válida"</i>, <b>continuar con la consulta</b>; finalmente muestra los datos del Registro Nacional de Vehículos. Si fallase, exigir el Certificado de Inscripción y póliza físicamente.</li>
+       <li><b>Doctrina STS 944/2025 (17/11/2025) y STS 120/2022:</b> Para imputar Art. 384 CP en patinetes de altas prestaciones o trucados, es <b>imprescindible</b> describir técnicamente el vehículo en atestado/acta de categorización: potencia (W), velocidad máxima y método de constatación (banco/cinemómetro/velocímetro policial), nº de serie, sillín/pedales, indicios de manipulación y reportaje fotográfico.</li>
+      </ul>
+     </div>
+    </div>
+   </div>
+  </div>
+
+    <!-- MÓDULO ALCOHOLEMIA (CÁLCULO EMP ORDEN ICT/155/2020 + TIPO VEHÍCULO + INFRACCIÓN/DELITO + ACTAS) -->
   <div id="alcoholemia" class="hide wrap-sm">
    <div class="view-hd">
     <div>
@@ -2912,7 +3000,7 @@ var DASH_TOOLS=[
   {t:'MI CARPETA',s:'Briefing y notas de actuaciones',i:'folder',c:'c-gold'},
   {t:'LEYES',s:'Códigos y leyes nacionales',i:'book',c:'c-teal'},
   {t:'VIOGEN',s:'Resumen VioGén y Violencia Dom.',i:'viogen',c:'c-purp'},
-  {t:'VMP',s:'Patinetes eléctricos',i:'vmp',c:'c-amber'},
+  {t:'VMP',s:'Protocolo VMP/VPL, clasificación e infracciones',i:'vmp',c:'c-amber',act:1,go:'vmp'},
   {t:'PARTE AMISTOSO',s:'Declaración amistosa europea',i:'clip',c:'c-blue'},
   {t:'SPRAYS',s:'Listado sprays homologados',i:'spray',c:'c-crim'},
   {t:'CHIP',s:'Buscar microchip de mascotas',i:'paw',c:'c-amber'},
@@ -3720,6 +3808,8 @@ function navBack(){
       if(typeof esSt!=='undefined'&&esSt.step>0){esJump(esSt.step-1);return;}
       esOpen('hub');return;
     }
+  }else if(curView==='vmp'){
+    if(typeof vmpState!=='undefined'&&vmpState.sub!=='hub'){vmpOpen('hub');return;}
   }else if(curView==='lo415'){
     if(typeof loState!=='undefined'&&loState.sub!=='hub'){loOpen('hub');return;}
   }else if(curView==='ordenanzas'){
@@ -3747,6 +3837,7 @@ function go(v,fromBack){
   $('menu').classList.toggle('hide',v!=='menu');
   $('turnos').classList.toggle('hide',v!=='turnos');
   $('drogas').classList.toggle('hide',v!=='drogas');
+  if($('vmp'))$('vmp').classList.toggle('hide',v!=='vmp');
   if($('alcoholemia'))$('alcoholemia').classList.toggle('hide',v!=='alcoholemia');
   $('contraste').classList.toggle('hide',v!=='contraste');
   $('bloc').classList.toggle('hide',v!=='bloc');
@@ -3773,6 +3864,7 @@ function go(v,fromBack){
   if(v==='turnos')draw();
   if(v==='drogas')renderDrugs();
   if(v==='alcoholemia')renderAlc();
+  if(v==='vmp')vmpOpen('hub');
   if(v==='contraste')renderPerm();
 renderAcc();
 renderContraste();
@@ -3805,6 +3897,10 @@ function initStaticIcons(){
   $('dr-calc-btn').innerHTML=svg('scale',16)+' Calcular';
   $('dr-ind-hd').innerHTML=svg('alert',15)+' Indicios de tráfico (Art. 368 CP)';
   $('dr-tbl-hd').innerHTML=svg('clip',15)+' Tabla oficial INTCF (3–5 días)';
+  if($('vmp-title'))$('vmp-title').innerHTML=svg('vmp',18)+' VMP · Patinetes Eléctricos';
+  if($('btn-back-vmp'))$('btn-back-vmp').innerHTML=svg('back',15)+' Inicio';
+  if($('vmp-ic-proto'))$('vmp-ic-proto').innerHTML=svg('clip',22);
+  if($('vmp-ref-hd'))$('vmp-ref-hd').innerHTML=svg('book',15)+' Tabla comparativa VMP / VPL / EPAC / L1e-B y normativa';
   if($('al-title'))$('al-title').innerHTML=svg('tube',18)+' Alcoholemia · Cálculo EMP y Actas';
   if($('btn-back-al'))$('btn-back-al').innerHTML=svg('back',15)+' Inicio';
   if($('al-calc-btn'))$('al-calc-btn').innerHTML=svg('scale',16)+' Calcular tasa y actuación';
@@ -10873,6 +10969,282 @@ function calcAlc(){
 
   h+='</div>';
   $('al-res').innerHTML=h;
+}
+
+
+
+/* ==================== MÓDULO VMP (HUB + PROTOCOLO DE ACTUACIÓN) ==================== */
+var vmpState={sub:'hub',vel:'25',sil:'no',pot:'1000',mas:'le25',cert:'ok',chks:{}};
+
+var VMP_Q_VEL=[
+  {id:'6',t:'≤ 6 km/h',s:'Consideración de juguete',i:'check',cl:'c-slate'},
+  {id:'14',t:'6 – 14 km/h',s:'VMP / VPL incluso >25 kg',i:'check',cl:'c-green'},
+  {id:'25',t:'14 – 25 km/h',s:'Límite legal VMP / EPAC',i:'check',cl:'c-blue'},
+  {id:'45',t:'25 – 45 km/h',s:'Ciclomotor L1e-B / Trucado',i:'alert',cl:'c-amber'},
+  {id:'gt45',t:'> 45 km/h',s:'Motocicleta L3e',i:'siren',cl:'c-crim'}
+];
+var VMP_Q_SIL=[
+  {id:'no',t:'Sin sillín',s:'Patinete estándar (1 plaza)',i:'vmp',cl:'c-blue'},
+  {id:'auto',t:'Autoequilibrado',s:'Con sillín ≥540 mm o sin él',i:'shield',cl:'c-teal'},
+  {id:'si',t:'Sillín sin autoequil.',s:'Excluido de VMP (L1e-B si >540mm)',i:'alert',cl:'c-crim'},
+  {id:'epac',t:'Pedales ≤250W',s:'Sin acelerador (Bici EPAC)',i:'moto',cl:'c-green'},
+  {id:'l1ea',t:'Pedales >250–1000W',s:'Ciclo de motor L1e-A',i:'alert',cl:'c-amber'}
+];
+var VMP_Q_POT=[
+  {id:'1000',t:'≤ 1.000 W',s:'Personal (o ≤1.500W carga / ≤2.500W auto)',i:'bolt',cl:'c-blue'},
+  {id:'4000',t:'> 1.000 – 4.000 W',s:'Excede VMP / Trucado (L1e-B)',i:'alert',cl:'c-amber'},
+  {id:'gt4000',t:'> 4.000 W',s:'Prestaciones Moto L3e',i:'siren',cl:'c-crim'}
+];
+var VMP_Q_MAS=[
+  {id:'le25',t:'≤ 25 kg',s:'VPL hasta 25 km/h (Seguro SDA)',i:'check',cl:'c-green'},
+  {id:'25_50',t:'25 – 50 kg',s:'VPL si ≤14 km/h · SOA 800€ si >14 km/h',i:'alert',cl:'c-amber'},
+  {id:'gt50',t:'> 50 kg',s:'Excede VMP personal (salvo carga <400kg)',i:'siren',cl:'c-crim'}
+];
+var VMP_Q_CERT=[
+  {id:'ok',t:'Inscrito + Matrícula M',s:'Certificado VMP + Placa remachada',i:'check',cl:'c-green'},
+  {id:'z27',t:'Transitorio (Matrícula Z)',s:'Pre-22/01/2024 · Válido hasta 22/01/27',i:'alert',cl:'c-gold'},
+  {id:'no_reg',t:'Sin inscribir / Sin etiqueta',s:'Falta registro DGT o etiqueta M/Z',i:'alert',cl:'c-amber'},
+  {id:'no_cert',t:'Sin certificado (≥2024)',s:'Comercializado tras 22/01/2024 sin cert.',i:'siren',cl:'c-crim'}
+];
+
+var VMP_INFS=[
+  /* Condiciones técnicas y registro (Alta DGT abril 2026) */
+  {id:'tec_mg',g:'Condiciones técnicas (Anexo XXI RGVeh)',t:'Incumplir requisitos técnicos Anexo XXI afectando gravemente a seguridad vial (manipulación velocidad, modificación estructural)',cod:'VEH 22 B-2 5D · Art. 77.ll LSV',eur:'500 € (250 €)',resp:'Titular',inm:1},
+  {id:'tec_g',g:'Condiciones técnicas (Anexo XXI RGVeh)',t:'Incumplir requisitos técnicos Anexo XXI (sin alumbrado operativo, ruedas <8"/lisas, frenos deficientes)',cod:'VEH 22 B-2 5E · Art. 76.o LSV',eur:'200 € (100 €)',resp:'Titular',inm:1},
+  {id:'tec_l',g:'Condiciones técnicas (Anexo XXI RGVeh)',t:'Incumplir requisitos técnicos leves Anexo XXI (sin avisador acústico/timbre o sin pata de cabra)',cod:'VEH 22 B-2 5F · Art. 75.c LSV',eur:'80 € (40 €)',resp:'Titular',inm:0},
+  {id:'no_etiq',g:'Condiciones técnicas (Anexo XXI RGVeh)',t:'No exhibir etiqueta identificativa (M/Z) o placa de marcaje remachada (estando inscrito)',cod:'VEH 22 B-2 5C · Art. 75.c LSV',eur:'80 € / 100 € (50% red.)',resp:'Titular',inm:1},
+  /* Seguro obligatorio (Ley 5/2025) */
+  {id:'sinseg',g:'Seguro Obligatorio (Ley 5/2025 · RDL 8/2004)',t:'Circular sin Seguro Obligatorio (se ajusta automáticamente a SDA 300 € si VPL, SOA 800 € si VMP >25 kg o SOA 1.000 € si L1e/L3e)',cod:'SDA 1 5A / SOA 2.1.5N / SOA 2.1.5F',eur:'300 € / 800 € / 1.000 €',resp:'Titular',inm:1,dynSeg:1},
+  /* Normas de circulación (RGCir RD 1428/2003 y LSV) */
+  {id:'acera',g:'Normas de circulación (RGCir · LSV)',t:'Circular por acera o zona peatonal con VMP',cod:'CIR 121.1.5A · Art. 121.5 RGCir / Art. 25.5 LSV',eur:'200 € (100 €)',resp:'Conductor',inm:0},
+  {id:'inter',g:'Normas de circulación (RGCir · LSV)',t:'Circular por travesía, vía interurbana, autopista, autovía o túnel urbano',cod:'CIR 38.4 · Art. 38.4 RGCir / Art. 76.x LSV',eur:'200 € (100 €)',resp:'Conductor',inm:0},
+  {id:'sema',g:'Normas de circulación (RGCir · LSV)',t:'No respetar luz roja no intermitente de un semáforo',cod:'CIR 143.1B.5A · Art. 146 RGCir / Art. 76.k LSV',eur:'200 € (100 €)',resp:'Conductor',inm:0},
+  {id:'dirp',g:'Normas de circulación (RGCir · LSV)',t:'No obedecer señal R-101 de entrada prohibida (dirección prohibida)',cod:'CIR 145.2B.5B · RGCir',eur:'80 € (40 €)',resp:'Conductor',inm:0},
+  {id:'temer',g:'Normas de circulación (RGCir · LSV)',t:'Conducir de forma temeraria (argumentar conducta y peligro concreto)',cod:'CIR 3.1.5A · Art. 3.1 RGCir / Art. 77.e LSV',eur:'500 € (250 €)',resp:'Conductor',inm:0},
+  {id:'negli',g:'Normas de circulación (RGCir · LSV)',t:'Conducir de forma negligente (zig-zag, sin manos, caballito · argumentar)',cod:'CIR 3.1.5D · Art. 3.1 RGCir / Art. 76.m LSV',eur:'200 € (100 €)',resp:'Conductor',inm:0},
+  {id:'dos',g:'Normas de circulación (RGCir · LSV)',t:'Circular dos o más personas en un VMP (unipersonal)',cod:'CIR 9.1.5E · Art. 9.1 RGCir',eur:'100 € (50 €)',resp:'Conductor',inm:0},
+  {id:'luz',g:'Normas de circulación (RGCir · LSV)',t:'Circular de noche o baja visibilidad sin alumbrado ni prendas reflectantes',cod:'CIR 3.1.5C · Art. 3.1 RGCir',eur:'200 € (100 €)',resp:'Conductor',inm:0},
+  {id:'estac',g:'Normas de circulación (RGCir · LSV)',t:'Parada o estacionamiento antirreglamentario (obstaculizando acera/paso)',cod:'Arts. 90 y ss. RGCir / Ordenanza',eur:'80 € – 200 € (50% red.)',resp:'Conductor/Titular',inm:0},
+  /* Dispositivos, casco y edad */
+  {id:'movil',g:'Dispositivos, casco y edad',t:'Uso manual de teléfono móvil durante la conducción',cod:'CIR 18.2 (opc. 12.2.5B) · Art. 76.g LSV',eur:'200 € (100 €)',resp:'Conductor',inm:0},
+  {id:'auri',g:'Dispositivos, casco y edad',t:'Uso de cascos o auriculares conectados a reproductores de sonido',cod:'CIR 18.2 (opc. 12.2.5A) · Art. 76.f LSV',eur:'200 € (100 €)',resp:'Conductor',inm:0},
+  {id:'casco',g:'Dispositivos, casco y edad',t:'Circular sin casco de protección (obligatorio L1e/L3e Art. 118.1 RGCir; en VMP según Art. 47 LSV / Ordenanza)',cod:'CIR 118.1.5A (L1e/L3e: 200€ + 4 pts) / Art. 47 LSV',eur:'200 € (100 €)',resp:'Conductor',inm:1},
+  {id:'menor16',g:'Dispositivos, casco y edad',t:'Conductor menor de 16 años (Protocolo PLPH: edad mínima 16 años · avisar padres/tutores + Art. 82.b LSV)',cod:'Protocolo PLPH / Art. 82.b LSV',eur:'Resp. solidaria padres/tutores',resp:'Padres/Tutores',inm:1},
+  /* Alcohol y Drogas */
+  {id:'alc',g:'Alcohol y Drogas (RGCir · LSV · CP)',t:'Alcoholemia positiva (≥0,25 mg/L general · >0,00 mg/L menores Art. 14.1 LSV)',cod:'CIR 20.1.5A / LSV 14.1.5B (Art. 379.2 CP si L1e/L3e >0,60)',eur:'500 € / 1.000 € (reinc. o doble)',resp:'Conductor',inm:1,penalIfMotor:1},
+  {id:'drog',g:'Alcohol y Drogas (RGCir · LSV · CP)',t:'Presencia de drogas en el organismo',cod:'LSV 14.1.5A (Art. 379.2 CP si L1e/L3e con influencia)',eur:'1.000 € (500 €)',resp:'Conductor',inm:1,penalIfMotor:1},
+  {id:'neg',g:'Alcohol y Drogas (RGCir · LSV · CP)',t:'Negativa a someterse a pruebas de alcohol o drogas',cod:'CIR 21.1.5F / LSV 14.2.5A (Art. 383 CP si L1e/L3e)',eur:'1.000 € (500 €)',resp:'Conductor',inm:1,penalIfMotor:1}
+];
+
+function vmpOpen(sub){
+  vmpState.sub=sub;
+  $('vmp-hub').classList.toggle('hide',sub!=='hub');
+  $('vmp-proto').classList.toggle('hide',sub!=='proto');
+  if($('btn-back-vmp'))$('btn-back-vmp').innerHTML=svg('back',15)+(sub==='hub'?' Inicio':' Volver');
+  if($('vmp-sub'))$('vmp-sub').textContent=(sub==='proto'?'Protocolo de Actuación · Clasificación técnica, Syspol, infracciones y medidas cautelares':'Protocolo PL Pilar de la Horadada (Mayo 2026) · RD 52/2026 · Ley 5/2025 · RD 970/2020 · RGCir · LSV · STS 944/2025');
+  if(sub==='proto')renderVmpProto();
+  window.scrollTo(0,0);
+}
+
+function vmpBack(){
+  if(vmpState.sub!=='hub'){vmpOpen('hub');return;}
+  go('menu');
+}
+
+function vmpSet(k,val){vmpState[k]=val;renderVmpProto();}
+function vmpTog(id,ck){if(ck)vmpState.chks[id]=1;else delete vmpState.chks[id];renderVmpResult();}
+function vmpReset(){
+  vmpState.vel='25';vmpState.sil='no';vmpState.pot='1000';vmpState.mas='le25';vmpState.cert='ok';vmpState.chks={};
+  renderVmpProto();
+}
+
+function vmpClassify(){
+  var s=vmpState;
+  /* 1. Juguete */
+  if(s.vel==='6'){
+    return {
+      code:'TOY',isMotor:0,cls:'admin',ico:'check',
+      tit:'JUGUETE (≤ 6 km/h · Excluido de VMP)',
+      sub:'Conforme a la Instrucción 2019/S-149 TV-108 y Anexo XXI RGVeh, los aparatos que no superan 6 km/h tienen la consideración de <b>juguetes</b>. No requieren registro, seguro ni certificado.'
+    };
+  }
+  /* 2. Motocicleta L3e (>45 km/h o >4000W) */
+  if(s.vel==='gt45'||s.pot==='gt4000'){
+    return {
+      code:'L3E',isMotor:1,cls:'delito',ico:'siren',
+      tit:'MOTOCICLETA ENCUBIERTA / NO HOMOLOGABLE (Cat. L3e)',
+      sub:'Supera 45 km/h o 4.000 W. <b>NO es un VMP</b> (Regl. UE 168/2013 y <b>STS 944/2025</b>). Requiere permiso A1/A2/A, matrícula, SOA e ITV. <b>Vía penal:</b> instruir diligencias por <b>Art. 384 CP</b> si carece de permiso (y Arts. 379.2/383 CP en alcohol/drogas) + <b>Acta de Categorización Técnica</b> + inmovilización/depósito (Arts. 104–105 LSV).'
+    };
+  }
+  /* 3. Ciclomotor L1e-B (25-45 km/h, >1000W, sillín sin autoequilibrado, o >50kg) */
+  if(s.vel==='45'||s.pot==='4000'||s.sil==='si'||s.mas==='gt50'){
+    var reasons=[];
+    if(s.vel==='45')reasons.push('velocidad entre 25 y 45 km/h');
+    if(s.pot==='4000')reasons.push('potencia >1.000 W o vehículo trucado/deslimitado');
+    if(s.sil==='si')reasons.push('sillín sin sistema de autoequilibrado');
+    if(s.mas==='gt50')reasons.push('masa en orden de marcha >50 kg');
+    return {
+      code:'L1EB',isMotor:1,cls:'delito',ico:'siren',
+      tit:'CICLOMOTOR ENCUBIERTO / NO HOMOLOGABLE (Cat. L1e-B)',
+      sub:'Por presentar <b>'+reasons.join(' + ')+'</b> queda excluido de VMP. Según <b>STS 944/2025</b>, la falta de matrícula o sillín no altera su naturaleza de ciclomotor. Exige permiso AM/B, matrícula, SOA (1.000 €) y casco. <b>Vía penal:</b> instruir diligencias por <b>Art. 384 CP</b> si carece de permiso + <b>Acta de Categorización Técnica</b> + inmovilización/depósito.'
+    };
+  }
+  /* 4. Ciclo de motor L1e-A */
+  if(s.sil==='l1ea'){
+    return {
+      code:'L1EA',isMotor:1,cls:'delito',ico:'alert',
+      tit:'CICLO DE MOTOR (Subcategoría L1e-A · Regl. UE 168/2013)',
+      sub:'Pedaleo asistido con motor auxiliar >250 W y ≤1.000 W (corte ≤25 km/h). Requiere <b>permiso AM</b>, autorización de circulación (matrícula) y <b>SOA (1.000 €)</b>. Aplica vía penal (Art. 384 CP) e inmovilización/depósito si carece de requisitos.'
+    };
+  }
+  /* 5. Bicicleta EPAC */
+  if(s.sil==='epac'){
+    return {
+      code:'EPAC',isMotor:0,cls:'admin',ico:'check',
+      tit:'BICICLETA DE PEDALEO ASISTIDO (EPAC)',
+      sub:'Motor auxiliar ≤250 W que corta al dejar de pedalear o a 25 km/h. <b>Régimen jurídico de bicicleta</b> (exenta de matrícula, permiso y SOA). Vía exclusivamente administrativa y 0 puntos.'
+    };
+  }
+  /* 6. VMP >25 kg con velocidad >14 km/h (NO es VPL, es vehículo a motor a efectos de SOA · Art. 1 bis Ley 5/2025) */
+  if(s.mas==='25_50'&&s.vel==='25'){
+    return {
+      code:'VMP_SOA',isMotor:0,cls:'warn',ico:'alert',
+      tit:'VMP > 25 kg y > 14 km/h (Seguro SOA 800 € · Art. 1 bis Ley 5/2025)',
+      sub:'Es un VMP a efectos de tráfico (vía administrativa · 0 puntos), pero por superar <b>25 kg y 14 km/h</b> NO entra en la categoría VPL: la <b>Ley 5/2025 (Art. 1 bis)</b> lo equipara a vehículo a motor a efectos de seguro obligatorio (<b>SOA 2.1.5N: 800 €</b> si circula sin seguro). Requiere inscripción DGT, etiqueta y certificado.'
+    };
+  }
+  /* 7. VMP / VPL estándar */
+  var extra=(s.cert==='no_cert')?' <b>Sin certificado VMP (≥22/01/2024):</b> infracción VEH 22 B-2 5A (200 €) + inmovilización/depósito.':(s.cert==='no_reg'?' <b>Sin inscripción/etiqueta DGT:</b> infracción VEH 22 B-2 5B/5C (100 €) + inmovilización/depósito (Protocolo PLPH).':(s.cert==='z27'?' Régimen transitorio (matrícula <code>Z</code>): válido solo hasta el <b>22/01/2027</b>.':' Documentación y marcaje conforme a RD 52/2026.'));
+  return {
+    code:'VPL',isMotor:0,cls:(s.cert==='ok'||s.cert==='z27'?'admin':'warn'),ico:(s.cert==='ok'||s.cert==='z27'?'check':'alert'),
+    tit:'VEHÍCULO DE MOVILIDAD PERSONAL / VPL (RD 52/2026 · Ley 5/2025)',
+    sub:'Cumple requisitos de VMP y de <b>Vehículo Personal Ligero (VPL)</b>. Vía <b>exclusivamente administrativa</b> y <b>0 puntos</b> (Art. 65.3 LSV). Obligatorio seguro VPL (<b>SDA 1 5A: 300 €</b>), inscripción DGT y etiqueta <code>M</code>/<code>Z</code>.'+extra
+  };
+}
+
+function renderVmpProto(){
+  function optGrid(elId,arr,key){
+    $(elId).innerHTML=arr.map(function(o){
+      return '<div class="pc-opt'+(vmpState[key]===o.id?' on':'')+'" onclick="vmpSet(\''+key+'\',\''+o.id+'\')"><div class="oi '+o.cl+'">'+svg(o.i,16)+'</div><div><b>'+o.t+'</b><small>'+o.s+'</small></div></div>';
+    }).join('');
+  }
+  optGrid('vmp-q-vel',VMP_Q_VEL,'vel');
+  optGrid('vmp-q-sil',VMP_Q_SIL,'sil');
+  optGrid('vmp-q-pot',VMP_Q_POT,'pot');
+  optGrid('vmp-q-mas',VMP_Q_MAS,'mas');
+  optGrid('vmp-q-cert',VMP_Q_CERT,'cert');
+
+  var diag=vmpClassify();
+  $('vmp-diag').innerHTML='<div class="dr-res '+diag.cls+'" style="margin-top:12px"><div class="dr-verdict" style="margin-bottom:0"><div class="dr-vico">'+svg(diag.ico,20)+'</div><div><div class="dr-vtit">'+diag.tit+'</div><div class="dr-vsub">'+diag.sub+'</div></div></div></div>';
+
+  /* Paso 2: Procedimiento operativo adaptado */
+  var stepsHtml='<ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px">';
+  stepsHtml+='<li><b>Alto y seguridad:</b> Detener el vehículo en lugar seguro e identificar al conductor. Comprobar edad (<b>mínimo 16 años</b> según Protocolo PLPH; si es menor de 16, avisar a padres/tutores legales para hacerse cargo).</li>';
+  if(diag.isMotor){
+    stepsHtml+='<li><b>Comprobación de permiso y vía penal (STS 944/2025):</b> Verificar si posee permiso habilitante (AM/B o A1/A2/A). Si carece de permiso, instruir diligencias por presunto delito <b>Art. 384 CP</b> y redactar <b>Acta de Categorización Técnica</b> (marca, modelo, nº serie, potencia W, velocidad constatada y método, sillín/pedales, indicios de trucaje y reportaje fotográfico).</li>';
+    stepsHtml+='<li><b>Inmovilización y depósito obligatorio:</b> Proceder a inmovilización y depósito en dependencias policiales (<b>Arts. 104.1.a/e y 105.1.c LSV</b>) con acta de inmovilización (dejar copia en el vehículo).</li>';
+  }else if(diag.code==='VPL'||diag.code==='VMP_SOA'){
+    stepsHtml+='<li><b>Consulta en Syspol (Registro DGT):</b> Si porta etiqueta identificativa (<code>M 9999 XXX</code> o transitoria <code>Z 9999 XXX</code>), consultar en Syspol. <i>Nota PLPH: si da error inicial "matrícula no válida", continuar la consulta hasta que cargue los datos; si falla la red, exigir Certificado de Inscripción y póliza físicamente.</i></li>';
+    stepsHtml+='<li><b>Si carece de matrícula/documentación:</b> Recoger en carta Syspol fabricante, marca, modelo, potencia, nº de bastidor/serie, año de fabricación y fotografías.</li>';
+    stepsHtml+='<li><b>Entrega tras inmovilización:</b> Si se inmoviliza por falta de registro/certificado/seguro, dejar copia del acta en el vehículo en dependencias; solo se entregará al titular cuando aporte <b>Certificado de Inscripción DGT + Etiqueta identificativa + Seguro en vigor</b>.</li>';
+  }else{
+    stepsHtml+='<li><b>Comprobación de normas de circulación:</b> Verificar cumplimiento de las normas del RGCir aplicables a bicicletas/juguetes.</li>';
+  }
+  stepsHtml+='</ol>';
+  $('vmp-steps-box').innerHTML=stepsHtml;
+
+  /* Paso 3: Checklist agrupado */
+  var groups={}, order=[];
+  VMP_INFS.forEach(function(it){
+    if(!groups[it.g]){groups[it.g]=[];order.push(it.g);}
+    groups[it.g].push(it);
+  });
+  $('vmp-chk-wrap').innerHTML=order.map(function(g){
+    return '<div class="dr-lbl" style="margin-top:10px;color:var(--gold2)">'+esc(g)+'</div><div class="pc-chks">'+groups[g].map(function(it){
+      var ck=vmpState.chks[it.id]?'checked':'';
+      return '<label class="pc-chk"><input type="checkbox" '+ck+' onchange="vmpTog(\''+it.id+'\',this.checked)"><span class="pc-ct"><b>'+esc(it.t)+'</b><br><small style="color:var(--mut)">'+esc(it.cod)+' · '+esc(it.eur)+'</small></span></label>';
+    }).join('')+'</div>';
+  }).join('');
+
+  renderVmpResult();
+}
+
+function renderVmpResult(){
+  var diag=vmpClassify();
+  var list=[];
+  var needInm=false, needPenal=false;
+
+  /* Infracciones técnicas / documentales inferidas automáticamente del Paso 1 */
+  if(diag.isMotor){
+    needInm=true;
+    needPenal=true;
+    list.push({t:'Circular con vehículo a motor/ciclomotor sin autorización administrativa (sin matrícula / no homologable)',cod:'VEH 1.1 (opc. 1.2.5A / 1.1.5A) · Art. 77.l LSV',eur:'500 € (250 €)',resp:'Titular/Conductor',penal:0});
+    list.push({t:'Conducir sin permiso habilitante (AM/B o A1/A2/A) — Valorar delito Art. 384 CP (STS 944/2025)',cod:'Art. 384 CP (si nunca obtenido) / CON 1.1.5A',eur:'Vía penal o 500 € (250 €)',resp:'Conductor',penal:1});
+  }else if(diag.code==='VPL'||diag.code==='VMP_SOA'){
+    if(vmpState.cert==='no_cert'){
+      needInm=true;
+      list.push({t:'No disponer el VMP del Certificado de Circulación (comercializado ≥22/01/2024)',cod:'VEH 22 B-2 5A · Art. 76.o LSV',eur:'200 € (100 €)',resp:'Conductor/Titular',penal:0});
+    }else if(vmpState.cert==='no_reg'){
+      needInm=true;
+      list.push({t:'No inscribir el VMP en el Registro Nacional de Vehículos (DGT)',cod:'VEH 22 B-2 5B · Art. 75.c LSV',eur:'100 € (50 €)',resp:'Titular/Conductor',penal:0});
+    }
+  }
+
+  VMP_INFS.forEach(function(it){
+    if(!vmpState.chks[it.id])return;
+    if(it.inm)needInm=true;
+    var cod=it.cod, eur=it.eur, txt=it.t;
+    if(it.dynSeg){
+      if(diag.isMotor){cod='SOA 2.1.5F · Arts. 2 y 3 RDL 8/2004';eur='1.000 € (500 €)';txt='Circular sin Seguro Obligatorio de Automóviles (Ciclomotor/Moto L1e/L3e)';}
+      else if(diag.code==='VMP_SOA'){cod='SOA 2.1.5N · Art. 1 bis RDL 8/2004 (Ley 5/2025)';eur='800 € (400 €)';txt='Circular sin Seguro Obligatorio en VMP >25 kg (>14 km/h, no VPL)';}
+      else{cod='SDA 1 5A · DA 1ª Ley 5/2025';eur='300 € (150 €)';txt='Circular con Vehículo Personal Ligero (VPL) sin Seguro Obligatorio RC';}
+    }
+    var isP=(diag.isMotor&&it.penalIfMotor)?1:0;
+    if(isP)needPenal=true;
+    list.push({t:txt,cod:cod,eur:eur,resp:it.resp||'Conductor',penal:isP});
+  });
+
+  var h='<div class="pc-card" style="border-top-color:'+(needPenal?'#e64558':'var(--gold)')+'">';
+  h+='<div class="bar" style="margin-bottom:8px"><div class="card-hd" style="margin:0">'+svg('clip',16)+' Paso 4 · Resultado de la actuación policial</div><button type="button" class="btn sec" style="padding:5px 10px;font-size:12px" onclick="vmpCopySummary()">'+svg('copy',13)+' Copiar resumen</button></div>';
+
+  h+='<div class="pc-summary-grid" style="margin-bottom:10px">';
+  h+='<div class="pc-sbox"><small>Categoría determinada</small><b style="color:'+(diag.isMotor?'#ff8694':'var(--gold2)')+'">'+esc(diag.tit)+'</b></div>';
+  h+='<div class="pc-sbox"><small>Medida cautelar (Arts. 104–105 LSV)</small><b style="color:'+(needInm?'#ff8694':'#6de0a8')+'">'+(needInm?'PROCEDE INMOVILIZACIÓN Y DEPÓSITO':'No requiere inmovilización obligatoria')+'</b></div>';
+  h+='</div>';
+
+  if(!list.length){
+    h+='<div style="font-size:13px;color:var(--mut);padding:6px 0">Sin infracciones detectadas. Si el vehículo está inscrito, con seguro en vigor y el conductor es ≥16 años, puede continuar la marcha.</div>';
+  }else{
+    h+='<div class="dr-lbl" style="margin-top:6px">Infracciones / Diligencias resultantes ('+list.length+') · '+(diag.isMotor?'Con detracción de puntos / Vía penal':'Sin detracción de puntos (Art. 65.3 LSV)')+'</div>';
+    h+='<div style="display:flex;flex-direction:column;gap:6px">'+list.map(function(x,i){
+      return '<div style="background:var(--bg2);border:1px solid var(--line);border-left:3px solid '+(x.penal?'#e64558':'var(--gold)')+';border-radius:8px;padding:8px 10px;font-size:12.5px"><b>'+(i+1)+'. '+esc(x.t)+'</b><div style="color:var(--mut);margin-top:2px">'+esc(x.cod)+' · <b style="color:#8ef0be">'+esc(x.eur)+'</b> · Resp.: '+esc(x.resp)+'</div></div>';
+    }).join('')+'</div>';
+  }
+
+  if(vmpState.chks.menor16){
+    h+='<div class="dr-note"><b>Menor de edad (Protocolo PLPH · Art. 82.b LSV):</b> Edad mínima 16 años. Avisar a padres/tutores legales para personarse y hacerse cargo del menor y del vehículo. Los padres/tutores responden solidariamente de la multa. Tasa de alcohol para menores: <b>0,00 mg/L</b>.</div>';
+  }
+  h+='</div>';
+  $('vmp-res-wrap').innerHTML=h;
+}
+
+function vmpCopySummary(){
+  var diag=vmpClassify();
+  var lines=['[PROTOCOLO ACTUACIÓN VMP / VPL · PL PILAR DE LA HORADADA]','Categoría: '+diag.tit];
+  if(diag.isMotor){
+    lines.push('- VEH 1.1 (500 €) · Sin autorización administrativa / no homologable');
+    lines.push('- Valorar Art. 384 CP (STS 944/2025) + Acta de Categorización Técnica');
+  }else if(diag.code==='VPL'||diag.code==='VMP_SOA'){
+    if(vmpState.cert==='no_cert')lines.push('- VEH 22 B-2 5A (200 €) · Sin Certificado de Circulación VMP');
+    if(vmpState.cert==='no_reg')lines.push('- VEH 22 B-2 5B (100 €) · No inscrito en Registro Nacional de Vehículos');
+  }
+  VMP_INFS.forEach(function(it){
+    if(vmpState.chks[it.id])lines.push('- '+it.t+' ('+it.cod+' · '+it.eur+')');
+  });
+  var txt=lines.join('\n');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){banner('Resumen VMP copiado al portapapeles.','')}).catch(function(){prompt('Copia el resumen:',txt)});
+  }else{prompt('Copia el resumen:',txt);}
 }
 
 </script>
