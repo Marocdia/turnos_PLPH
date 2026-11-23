@@ -3371,13 +3371,15 @@ function dashBindEvents(){
 
 function renderDash(){
   var lists=dashGetLists();
+  var canPj=authCanPersonajes();
+  function allowTile(item){return item.go!=='personajes'||canPj;}
   function tileHtml(item){
     var cls='dtile'+(item.act?' act':'');
     var click=item.go?' onclick="dashTileClick(\''+item.go+'\')"':'';
     return '<div class="'+cls+'" data-k="'+esc(item.t)+'"'+click+'><div class="ib '+item.c+'">'+svg(item.i,20)+'</div><div class="txt"><div class="tt">'+esc(item.t)+'</div><div class="ts">'+esc(item.s)+'</div></div></div>';
   }
-  $('grid-main').innerHTML=lists.main.map(tileHtml).join('');
-  $('grid-tools').innerHTML=lists.tools.map(tileHtml).join('');
+  $('grid-main').innerHTML=lists.main.filter(allowTile).map(tileHtml).join('');
+  $('grid-tools').innerHTML=lists.tools.filter(allowTile).map(tileHtml).join('');
   dashBindEvents();
 }
 
@@ -3417,6 +3419,9 @@ function authLoadSess(){
 }
 function authIsAdmin(){
   return !!(authUser && (authUser.rol==='admin' || (authUser.email||'').toLowerCase()===FB_ADMIN_EMAIL.toLowerCase()));
+}
+function authCanPersonajes(){
+  return !!(authUser && (authIsAdmin() || authUser.accesoPersonajes===true));
 }
 function fbAuthParam(){
   return (authUser&&authUser.idToken)?('?auth='+encodeURIComponent(authUser.idToken)):'';
@@ -3500,6 +3505,7 @@ function authEnterApp(prof,sess){
     nombre:prof.nombre||'',
     rol:prof.rol||'agente',
     estado:prof.estado||'activo',
+    accesoPersonajes:!!prof.accesoPersonajes,
     idToken:sess.idToken,
     refreshToken:sess.refreshToken,
     exp:sess.exp
@@ -3511,6 +3517,7 @@ function authEnterApp(prof,sess){
   var isAdm=authIsAdmin();
   if($('nv-adm'))$('nv-adm').classList.toggle('hide',!isAdm);
   if($('hero-adm-wrap'))$('hero-adm-wrap').classList.toggle('hide',!isAdm);
+  renderDash();
   go('menu');
   syncPersonalFromCloud(false);
   if(isAdm)admLoadUsers(false);
@@ -3639,10 +3646,16 @@ function authVerifyActive(){
         return;
       }
       authUser.rol=prof.rol||'agente';
+      authUser.accesoPersonajes=!!prof.accesoPersonajes;
       authSaveSess(authUser);
       var isAdm=authIsAdmin();
       if($('nv-adm'))$('nv-adm').classList.toggle('hide',!isAdm);
       if($('hero-adm-wrap'))$('hero-adm-wrap').classList.toggle('hide',!isAdm);
+      renderDash();
+      if(curView==='personajes'&&!authCanPersonajes()){
+        banner('Tu acceso al módulo Personajes ha sido desactivado.','');
+        go('menu');
+      }
     });
   }).catch(function(){});
 }
@@ -3730,7 +3743,8 @@ function admRenderList(){
     var stCls=u.estado==='activo'?'cd-p-L':(u.estado==='pendiente'?'cd-p-G':'cd-p-MG');
     var h='<div class="adm-card st-'+esc(u.estado||'pendiente')+'">';
     h+='<div class="adm-top"><div><b style="font-size:15px;color:#fff">'+(u.nip?'NIP '+esc(u.nip)+' · ':'')+esc(u.nombre||'Sin nombre')+'</b><div style="font-size:12px;color:var(--mut)">'+esc(u.email||'')+'</div></div>';
-    h+='<div style="display:flex;gap:5px;flex-wrap:wrap"><span class="cd-pill '+stCls+'">'+esc((u.estado||'').toUpperCase())+'</span><span class="cd-pill cd-p-norm">'+esc((u.rol||'agente').toUpperCase())+'</span></div></div>';
+    var hasPj=(u.rol==='admin'||isMain||u.accesoPersonajes===true);
+    h+='<div style="display:flex;gap:5px;flex-wrap:wrap"><span class="cd-pill '+stCls+'">'+esc((u.estado||'').toUpperCase())+'</span><span class="cd-pill cd-p-norm">'+esc((u.rol||'agente').toUpperCase())+'</span>'+(hasPj?'<span class="cd-pill cd-p-pt">PERSONAJES</span>':'')+'</div></div>';
     if(u.ultimoAcceso){
       h+='<div style="font-size:11.5px;color:var(--mut)">Último acceso: '+esc(u.ultimoAcceso.replace('T',' ').slice(0,16))+'</div>';
     }
@@ -3745,6 +3759,11 @@ function admRenderList(){
           h+='<button type="button" class="btn sec" onclick="admPatchUser(\''+u.uid+'\',{rol:\'agente\'})">Quitar Admin</button>';
         }else{
           h+='<button type="button" class="btn sec" onclick="admPatchUser(\''+u.uid+'\',{rol:\'admin\'})">Hacer Admin</button>';
+          if(u.accesoPersonajes){
+            h+='<button type="button" class="btn sec" style="border-color:rgba(230,69,88,.55);color:#ff94a2" onclick="admPatchUser(\''+u.uid+'\',{accesoPersonajes:false})">✕ Quitar Personajes</button>';
+          }else{
+            h+='<button type="button" class="btn sec" style="border-color:rgba(36,194,120,.55);color:#7ae8b4" onclick="admPatchUser(\''+u.uid+'\',{accesoPersonajes:true})">✓ Dar acceso Personajes</button>';
+          }
         }
       }else{
         h+='<button type="button" class="btn" onclick="admPatchUser(\''+u.uid+'\',{estado:\'activo\'})">Reactivar acceso</button>';
@@ -3876,7 +3895,7 @@ renderContraste();
   if(v==='lo415')loOpen('hub');
   if(v==='ordenanzas')ordOpenHub();
   if(v==='vtc')renderVtc();
-  if(v==='personajes')pjOpen();
+  if(v==='personajes'){if(!authCanPersonajes()){banner('No tienes permiso para acceder a Personajes.','');go('menu');return;}pjOpen();}
   if(v==='oxido')renderOxido();
   if(v==='admin'){if(!authIsAdmin()){go('menu');return;}admLoadUsers(false);}
 }
