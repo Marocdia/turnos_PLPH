@@ -3344,6 +3344,7 @@ function syncPersonalFromCloud(showToast){
         if(!S.cfg)S.cfg=JSON.parse(JSON.stringify(DEF.cfg));
         if(!S.cat)S.cat=JSON.parse(JSON.stringify(DEF_CAT));
         if(!S.days)S.days={};
+        Object.keys(S.days).forEach(function(k){var d=S.days[k];if(d&&!Array.isArray(d.x))d.x=d.x?Object.values(d.x):[];});
         if(!S.notes)S.notes={};
         try{localStorage.setItem('plpilar',JSON.stringify(S))}catch(e){}
         renderDash();
@@ -4275,7 +4276,7 @@ function mv(n){Mo+=n;if(Mo<0){Mo=11;Y--}if(Mo>11){Mo=0;Y++}drawCal()}
 function setV(m){vmode=m;drawCal()}
 function setBrush(c){brush=c;var y=window.scrollY;drawCal();window.scrollTo(0,y)}
 
-function dd(){return S.days[dk]||(S.days[dk]={s:'',x:[]})}
+function dd(){S.days=S.days||{};var o=S.days[dk]||(S.days[dk]={s:'',x:[]});if(!Array.isArray(o.x))o.x=o.x?Object.values(o.x):[];return o}
 function clean(){var o=S.days[dk];if(o&&!o.s&&(!o.x||!o.x.length))delete S.days[dk]}
 
 function openDay(k){
@@ -4288,7 +4289,7 @@ function openDay(k){
 }
 
 function drawModal(){
-  var o=S.days[dk]||{},s=o.s||'',x=o.x||[];
+  var o=(S.days&&S.days[dk])||{},s=o.s||'',x=Array.isArray(o.x)?o.x:(o.x?Object.values(o.x):[]);
   var dt=new Date(dk+'T12:00:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
   var h='<div class="mb"><h3 style="margin:0 0 12px;text-transform:capitalize;font-size:17px">'+esc(dt)+'</h3>';
   h+='<div class="fld"><label>Turno del día</label><select id="ms" onchange="setShift(this.value)"><option value="">Por defecto ('+SH[base(dk)].n+')</option>';
@@ -4315,10 +4316,10 @@ function closeM(){$('modal').classList.add('hide');draw()}
 $('modal').onclick=function(e){if(e.target===$('modal'))closeM()};
 function setShift(v){dd().s=v;clean();save();drawModal()}
 function addG(id){var c=S.cat.filter(function(z){return z.id===id})[0];if(!c)return;dd().x.push({n:c.n,a:c.a,i:c.i});save();drawModal()}
-function upd(j,f,v){var e=dd().x[j];e[f]=f==='a'?(parseFloat(v)||0):v;save();drawModal()}
+function upd(j,f,v){var e=dd().x[j];if(!e)return;e[f]=f==='a'?(parseFloat(v)||0):v;save();drawModal()}
 function del(j){dd().x.splice(j,1);clean();save();drawModal()}
 
-function nl(k){S.notes=S.notes||{};return S.notes[k]||(S.notes[k]=[])}
+function nl(k){S.notes=S.notes||{};if(!Array.isArray(S.notes[k]))S.notes[k]=S.notes[k]?Object.values(S.notes[k]):[];return S.notes[k]}
 function addN(){var x=$('nx').value.trim(),t=$('nt').value;if(!x)return;nl(dk).push({x:x,t:t,done:0,nt:0});save();drawModal();dueCheck()}
 function updN(j,f,v){var n=nl(dk)[j];n[f]=v;n.nt=0;save()}
 function delN(j){nl(dk).splice(j,1);if(!S.notes[dk].length)delete S.notes[dk];save();drawModal()}
