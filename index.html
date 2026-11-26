@@ -4414,7 +4414,7 @@ function drawCal(){
   h+='<span class="leg-item"><i class="sw" style="background:var(--N)"></i> Noche</span>';
   h+='<span class="leg-item"><i class="sw" style="background:var(--Lbg);border:1px solid #93d6b2"></i> Libre</span>';
   h+='<span class="leg-item" style="font-weight:600;color:var(--tx)"><i class="sw" style="background:var(--X);border:1.5px solid var(--gold)"></i> Con extra</span>';
-  h+='</div></div>';
+  h+='</div><div class="bar" style="margin-top:10px;margin-bottom:0"><button class="btn sec ico" onclick="mv(-1)" aria-label="Anterior">'+svg('prev',16)+'</button><h3 style="text-align:center;font-size:15px">'+esc(nm)+'</h3><button class="btn sec ico" onclick="mv(1)" aria-label="Siguiente">'+svg('next',16)+'</button></div></div>';
 
   h+='<div class="card" style="padding:10px 12px"><div style="font-size:12.5px;color:var(--mut);margin-bottom:8px">Selecciona un turno y toca los días para asignarlo. Usa <b>Extras y notas</b> para registrar gratificaciones.</div><div class="tabs" style="margin:0">';
   ['M','T','N','L'].forEach(function(c){
