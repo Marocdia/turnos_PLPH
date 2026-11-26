@@ -3346,6 +3346,7 @@ function syncPersonalFromCloud(showToast){
         if(!S.days)S.days={};
         Object.keys(S.days).forEach(function(k){var d=S.days[k];if(d&&!Array.isArray(d.x))d.x=d.x?Object.values(d.x):[];});
         if(!S.notes)S.notes={};
+        Object.keys(S.notes).forEach(function(k){if(S.notes[k]&&!Array.isArray(S.notes[k]))S.notes[k]=Object.values(S.notes[k]);});
         try{localStorage.setItem('plpilar',JSON.stringify(S))}catch(e){}
         renderDash();
         updateStatusBar();
@@ -4303,16 +4304,16 @@ function drawModal(){
   S.cat.forEach(function(c){
     h+='<button class="chip" onclick="addG('+c.id+')">'+svg(c.i,14)+' '+esc(c.n)+' · <b>'+eur(c.a)+'</b></button>';
   });
-  var L=(S.notes||{})[dk]||[];
+  var _rawN=(S.notes||{})[dk],L=Array.isArray(_rawN)?_rawN:(_rawN?Object.values(_rawN):[]);
   h+='</div><div style="margin:12px 0;border-top:1px solid var(--line);padding-top:12px"><div class="card-hd" style="font-size:14px;margin-bottom:8px">'+svg('note',15)+' Anotaciones</div>';
   L.forEach(function(n,j){
     h+='<div class="row"><input type="checkbox" style="width:20px;height:20px;accent-color:var(--gold)" '+(n.done?'checked':'')+' onchange="togN('+j+')"><input class="nm" value="'+esc(n.x)+'" onchange="updN('+j+',\'x\',this.value)"><input type="time" style="width:98px" value="'+(n.t||'')+'" onchange="updN('+j+',\'t\',this.value)"><button class="btn sec ico" onclick="delN('+j+')">'+svg('trash',15)+'</button></div>';
   });
-  h+='<div class="row"><input class="nm" id="nx" placeholder="Nueva anotación o recordatorio"><input type="time" id="nt" style="width:98px"><button class="btn ico" onclick="addN()" title="Añadir">'+svg('plus',16)+'</button></div></div>';
+  h+='<div class="row"><input class="nm" id="nx" placeholder="Nueva anotación o recordatorio" onkeydown="if(event.key===\'Enter\'){event.preventDefault();addN()}"><input type="time" id="nt" style="width:98px"><button type="button" class="btn ico" onclick="addN()" title="Añadir">'+svg('plus',16)+'</button></div></div>';
   h+='<div class="row" style="justify-content:space-between;margin-top:10px;margin-bottom:0"><b>Total del día: '+eur(x.reduce(function(a,e){return a+e.a},0))+'</b><button class="btn" onclick="closeM()">Hecho</button></div></div>';
   $('modal').innerHTML=h;$('modal').classList.remove('hide');
 }
-function closeM(){$('modal').classList.add('hide');draw()}
+function closeM(){var nx=$('nx');if(nx&&nx.value.trim()){var nt=$('nt');nl(dk).push({x:nx.value.trim(),t:nt?nt.value:'',done:0,nt:0});save();dueCheck();}$('modal').classList.add('hide');draw()}
 $('modal').onclick=function(e){if(e.target===$('modal'))closeM()};
 function setShift(v){dd().s=v;clean();save();drawModal()}
 function addG(id){var c=S.cat.filter(function(z){return z.id===id})[0];if(!c)return;dd().x.push({n:c.n,a:c.a,i:c.i});save();drawModal()}
@@ -4362,7 +4363,8 @@ function applyR(){
 function notesCard(){
   var t=new Date(),tk=key(t.getFullYear(),t.getMonth(),t.getDate()),rows=[];
   Object.keys(S.notes||{}).sort().forEach(function(k){
-    if(k>=tk)S.notes[k].forEach(function(n){if(!n.done)rows.push([k,n])});
+    var arr=Array.isArray(S.notes[k])?S.notes[k]:(S.notes[k]?Object.values(S.notes[k]):[]);
+    if(k>=tk)arr.forEach(function(n){if(n&&!n.done)rows.push([k,n])});
   });
   var h='<div class="card"><div class="card-hd">'+svg('note',15)+' Próximas anotaciones</div>';
   if(!rows.length)h+='<p style="color:var(--mut);font-size:13.5px;margin:6px 0 0">Sin anotaciones pendientes. Selecciona «Extras y notas» y toca un día para añadir.</p>';
@@ -4399,7 +4401,8 @@ function drawCal(){
     if(c.o&&c.o.x&&c.o.x.length){
       c.o.x.forEach(function(g){xHtml+='<span class="xi">'+svg(g.i,10)+'</span>'});
     }
-    if(S.notes&&S.notes[c.k]&&S.notes[c.k].length){
+    var _cn=S.notes&&S.notes[c.k]?(Array.isArray(S.notes[c.k])?S.notes[c.k]:Object.values(S.notes[c.k])):[];
+    if(_cn.length){
       xHtml+='<span class="xn">'+svg('note',10)+'</span>';
     }
     var hx=(c.o&&c.o.x&&c.o.x.length)?'1':'0';
@@ -4475,7 +4478,7 @@ function banner(x,t){
 }
 function fire(x,t){try{if('Notification' in window&&Notification.permission==='granted')new Notification('Policía Local · Recordatorio',{body:(t?t+' · ':'')+x})}catch(e){}banner(x,t)}
 function dueCheck(){
-  var t=new Date(),k=key(t.getFullYear(),t.getMonth(),t.getDate()),hm=pad(t.getHours())+':'+pad(t.getMinutes()),L=(S.notes||{})[k]||[],ch=false;
+  var t=new Date(),k=key(t.getFullYear(),t.getMonth(),t.getDate()),hm=pad(t.getHours())+':'+pad(t.getMinutes()),_dn=(S.notes||{})[k],L=Array.isArray(_dn)?_dn:(_dn?Object.values(_dn):[]),ch=false;
   L.forEach(function(n){if(n.done||n.nt)return;if(n.t&&n.t>hm)return;n.nt=1;ch=true;fire(n.x,n.t)});
   if(ch)save();
 }
