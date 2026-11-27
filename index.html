@@ -3125,14 +3125,43 @@ td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
     <button class="btn sec" onclick="go('menu')" id="btn-back-adm"></button>
    </div>
    <div class="pc-panel">
-    <div class="card" style="padding:12px">
-     <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px">
-      <div class="tabs" style="margin:0" id="adm-tabs"></div>
-      <button type="button" class="btn sec" style="padding:6px 10px;font-size:12px" onclick="admLoadUsers(true)">↻ Actualizar</button>
-     </div>
-     <input class="bn-in" id="adm-q" type="search" placeholder="Buscar por NIP, nombre o correo..." oninput="admRenderList()">
+    <div class="tabs" style="margin-bottom:10px">
+     <button type="button" class="tab on" id="adm-sec-btn-users" onclick="admSetSec('users')">👥 Usuarios y accesos</button>
+     <button type="button" class="tab" id="adm-sec-btn-avisos" onclick="admSetSec('avisos')">📢 Avisos a usuarios</button>
     </div>
-    <div id="adm-list" class="bn-list"></div>
+
+    <div id="adm-sec-users">
+     <div class="card" style="padding:12px">
+      <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px">
+       <div class="tabs" style="margin:0" id="adm-tabs"></div>
+       <button type="button" class="btn sec" style="padding:6px 10px;font-size:12px" onclick="admLoadUsers(true)">↻ Actualizar</button>
+      </div>
+      <input class="bn-in" id="adm-q" type="search" placeholder="Buscar por NIP, nombre o correo..." oninput="admRenderList()">
+     </div>
+     <div id="adm-list" class="bn-list"></div>
+    </div>
+
+    <div id="adm-sec-avisos" class="hide">
+     <div class="pc-card">
+      <div class="dr-lbl">Nuevo aviso para todos los agentes</div>
+      <div style="font-size:12px;color:var(--mut);margin-bottom:10px">El mensaje aparecerá automáticamente en pantalla cuando cada usuario entre en la aplicación (una sola vez hasta que pulse «Entendido»).</div>
+      <div class="bn-grid2">
+       <input class="bn-in" id="av-tit" placeholder="Título del aviso (ej. Nueva gratificación 29N) *">
+       <select class="bn-in" id="av-tipo">
+        <option value="info">Tipo: Novedad / Actualización</option>
+        <option value="warn">Tipo: Aviso importante</option>
+        <option value="urg">Tipo: Urgente</option>
+       </select>
+      </div>
+      <textarea class="bn-ta" id="av-txt" style="min-height:90px" placeholder="Escribe aquí el mensaje que recibirán los usuarios..."></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap">
+       <button type="button" class="btn sec" style="padding:7px 11px;font-size:12px" onclick="avisosLoadAdmin(true)">↻ Actualizar lista</button>
+       <button type="button" class="btn" id="av-send-btn" onclick="avisosPublish()">📢 Enviar aviso a todos</button>
+      </div>
+     </div>
+     <div class="dr-lbl" style="margin:12px 0 8px">Avisos publicados</div>
+     <div id="av-adm-list" class="bn-list"></div>
+    </div>
    </div>
   </div>
  </div>
@@ -3274,7 +3303,8 @@ var DEF_CAT=[
   {id:8,n:'Juzgado Provincia',a:144.41,i:'scale'},
   {id:9,n:'Juzgado Fuera Provincia',a:156.46,i:'scale'},
   {id:10,n:'Servicio Moto',a:14.46,i:'moto'},
-  {id:11,n:'Jefatura Grupo (Agente a Oficial)',a:19.84,i:'award'}
+  {id:11,n:'Jefatura Grupo (Agente a Oficial)',a:19.84,i:'award'},
+  {id:12,n:'Elecciones Generales 29N',a:179.38,i:'award'}
 ];
 
 var DEF={
@@ -3282,12 +3312,27 @@ var DEF={
   cat:JSON.parse(JSON.stringify(DEF_CAT)),
   days:{},
   notes:{},
-  nid:12
+  nid:13
 };
 
 var S;
 try{S=JSON.parse(localStorage.getItem('plpilar')||'null')}catch(e){S=null}
 S=S||JSON.parse(JSON.stringify(DEF));
+function ensureDefaultCats(){
+  if(!Array.isArray(S.cat))S.cat=S.cat?Object.values(S.cat):JSON.parse(JSON.stringify(DEF_CAT));
+  if(!S._m29n){
+    var has29=S.cat.some(function(c){return c&&c.n&&c.n.toLowerCase().indexOf('elecciones generales 29n')>=0;});
+    if(!has29){
+      var nextId=Math.max(S.nid||12,12);
+      S.cat.push({id:nextId,n:'Elecciones Generales 29N',a:179.38,i:'award'});
+      S.nid=nextId+1;
+    }
+    S._m29n=1;
+    return true;
+  }
+  return false;
+}
+if(ensureDefaultCats()){try{localStorage.setItem('plpilar',JSON.stringify(S))}catch(e){}}
 
 var _pSyncT=null,_pSyncing=false;
 function save(skipCloud){
@@ -3343,11 +3388,13 @@ function syncPersonalFromCloud(showToast){
         S._uid=uid;
         if(!S.cfg)S.cfg=JSON.parse(JSON.stringify(DEF.cfg));
         if(!S.cat)S.cat=JSON.parse(JSON.stringify(DEF_CAT));
+        var _catMigrated=ensureDefaultCats();
         if(!S.days)S.days={};
         Object.keys(S.days).forEach(function(k){var d=S.days[k];if(d&&!Array.isArray(d.x))d.x=d.x?Object.values(d.x):[];});
         if(!S.notes)S.notes={};
         Object.keys(S.notes).forEach(function(k){if(S.notes[k]&&!Array.isArray(S.notes[k]))S.notes[k]=Object.values(S.notes[k]);});
         try{localStorage.setItem('plpilar',JSON.stringify(S))}catch(e){}
+        if(_catMigrated)syncPersonalPush(false);
         renderDash();
         updateStatusBar();
         if(curView==='turnos')draw();
@@ -3768,8 +3815,8 @@ function authEnterApp(prof,sess){
   if($('hero-adm-wrap'))$('hero-adm-wrap').classList.toggle('hide',!isAdm);
   renderDash();
   go('menu');
-  syncPersonalFromCloud(false);
-  if(isAdm)admLoadUsers(false);
+  syncPersonalFromCloud(false).then(function(){avisosCheck(false);});
+  if(isAdm){admLoadUsers(false);avisosLoadAdmin(false);}
 }
 
 function authSubmit(){
@@ -3905,6 +3952,7 @@ function authVerifyActive(){
         banner('Tu acceso al módulo Personajes ha sido desactivado.','');
         go('menu');
       }
+      avisosCheck(false);
     });
   }).catch(function(){});
 }
@@ -4050,6 +4098,160 @@ function admDeleteUser(uid){
     .catch(function(){banner('Error al eliminar ficha.','');});
 }
 
+/* ==================== SISTEMA DE AVISOS / MENSAJES A USUARIOS ==================== */
+var admSec='users', avisosCache=[];
+
+function admSetSec(sec){
+  admSec=sec;
+  if($('adm-sec-btn-users'))$('adm-sec-btn-users').classList.toggle('on',sec==='users');
+  if($('adm-sec-btn-avisos'))$('adm-sec-btn-avisos').classList.toggle('on',sec==='avisos');
+  if($('adm-sec-users'))$('adm-sec-users').classList.toggle('hide',sec!=='users');
+  if($('adm-sec-avisos'))$('adm-sec-avisos').classList.toggle('hide',sec!=='avisos');
+  if(sec==='avisos')avisosLoadAdmin(false);
+}
+
+function avisosLoadAdmin(showToast){
+  if(!authIsAdmin())return;
+  var url=esCloudUrl();
+  fetch(url+'/avisos.json'+fbAuthParam()).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  }).then(function(obj){
+    avisosCache=Object.keys(obj||{}).map(function(k){
+      var a=obj[k]||{};a.id=a.id||k;return a;
+    }).sort(function(a,b){return (b.ts||0)-(a.ts||0)});
+    avisosRenderAdmin();
+    if(showToast)banner('Avisos actualizados ('+avisosCache.length+').','');
+  }).catch(function(e){
+    if($('av-adm-list'))$('av-adm-list').innerHTML='<div class="card" style="color:#ff8694">No se pudieron cargar los avisos ('+esc(e.message)+'). Añade la regla «avisos» en Firebase Realtime Database.</div>';
+  });
+}
+
+function avisosRenderAdmin(){
+  var box=$('av-adm-list');
+  if(!box)return;
+  if(!avisosCache.length){
+    box.innerHTML='<div class="card" style="text-align:center;color:var(--mut);padding:20px">No hay avisos publicados todavía.</div>';
+    return;
+  }
+  var tLbl={info:'NOVEDAD',warn:'IMPORTANTE',urg:'URGENTE'};
+  var tCls={info:'cd-p-norm',warn:'cd-p-G',urg:'cd-p-MG'};
+  box.innerHTML=avisosCache.map(function(a){
+    var tp=a.tipo||'info';
+    var h='<div class="adm-card" style="border-left-color:'+(tp==='urg'?'#e64558':(tp==='warn'?'var(--gold2)':'#5fa8ff'))+'">';
+    h+='<div class="adm-top"><b style="font-size:14.5px;color:#fff">'+esc(a.titulo||'Aviso')+'</b><span class="cd-pill '+(tCls[tp]||'cd-p-norm')+'">'+(tLbl[tp]||'AVISO')+'</span></div>';
+    h+='<div style="font-size:13px;color:#dbe3f0;white-space:pre-wrap;line-height:1.45;margin:6px 0">'+esc(a.texto||'')+'</div>';
+    h+='<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--mut);margin-top:8px;padding-top:7px;border-top:1px solid var(--line)">';
+    h+='<span>'+esc(a.fecha||'')+(a.autor?' · '+esc(a.autor):'')+'</span>';
+    h+='<button type="button" class="btn sec" style="padding:4px 9px;font-size:11.5px" onclick="avisosDelete(\''+esc(a.id)+'\')">'+svg('trash',12)+' Eliminar</button>';
+    h+='</div></div>';
+    return h;
+  }).join('');
+}
+
+function avisosPublish(){
+  if(!authIsAdmin())return;
+  var tit=($('av-tit')?$('av-tit').value:'').trim();
+  var txt=($('av-txt')?$('av-txt').value:'').trim();
+  var tipo=($('av-tipo')?$('av-tipo').value:'info');
+  if(!tit||!txt){banner('Escribe título y mensaje para enviar el aviso.','');return;}
+  var btn=$('av-send-btn');
+  if(btn){btn.disabled=true;btn.textContent='Enviando...';}
+  var now=new Date();
+  var id='av_'+Date.now();
+  var obj={
+    id:id,
+    titulo:tit,
+    texto:txt,
+    tipo:tipo,
+    ts:Date.now(),
+    fecha:pad(now.getDate())+'/'+pad(now.getMonth()+1)+'/'+now.getFullYear()+' '+pad(now.getHours())+':'+pad(now.getMinutes()),
+    autor:(authUser&&(authUser.nip?'NIP '+authUser.nip:authUser.nombre))||'Administración'
+  };
+  var url=esCloudUrl();
+  fetch(url+'/avisos/'+encodeURIComponent(id)+'.json'+fbAuthParam(),{
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(obj)
+  }).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    if($('av-tit'))$('av-tit').value='';
+    if($('av-txt'))$('av-txt').value='';
+    banner('Aviso publicado. Todos los usuarios lo verán al entrar.','');
+    avisosLoadAdmin(false);
+  }).catch(function(e){
+    banner('Error al publicar aviso ('+e.message+'). Comprueba las reglas de Firebase.','');
+  }).finally(function(){
+    if(btn){btn.disabled=false;btn.textContent='📢 Enviar aviso a todos';}
+  });
+}
+
+function avisosDelete(id){
+  if(!authIsAdmin())return;
+  if(!confirm('¿Eliminar este aviso? Los usuarios que aún no lo hayan visto ya no lo recibirán.'))return;
+  var url=esCloudUrl();
+  fetch(url+'/avisos/'+encodeURIComponent(id)+'.json'+fbAuthParam(),{method:'DELETE'})
+    .then(function(){banner('Aviso eliminado.','');avisosLoadAdmin(false);})
+    .catch(function(){banner('Error al eliminar aviso.','');});
+}
+
+var _avisosPendingIds=[];
+function avisosCheck(forceAll){
+  if(!authUser||!authUser.uid||!authUser.idToken)return;
+  var url=esCloudUrl();
+  fetch(url+'/avisos.json'+fbAuthParam()).then(function(r){
+    if(!r.ok)return null;
+    return r.json();
+  }).then(function(obj){
+    if(!obj||typeof obj!=='object')return;
+    var readMap=S.readAvisos||{};
+    var list=Object.keys(obj).map(function(k){
+      var a=obj[k]||{};a.id=a.id||k;return a;
+    }).filter(function(a){
+      return a&&a.titulo&&a.texto&&(forceAll||!readMap[a.id]);
+    }).sort(function(a,b){return (b.ts||0)-(a.ts||0)});
+    if(!list.length)return;
+    var modal=$('modal');
+    if(modal&&!modal.classList.contains('hide'))return;
+    avisosShowModal(list);
+  }).catch(function(){});
+}
+
+function avisosShowModal(list){
+  _avisosPendingIds=list.map(function(a){return a.id});
+  var tLbl={info:'NOVEDAD',warn:'AVISO IMPORTANTE',urg:'URGENTE'};
+  var tCls={info:'cd-p-norm',warn:'cd-p-G',urg:'cd-p-MG'};
+  var h='<div class="mb">';
+  h+='<div class="card-hd" style="font-size:16px;margin-bottom:10px">'+svg('bell',18)+' '+(list.length>1?'Nuevos avisos de la aplicación ('+list.length+')':'Aviso de la aplicación')+'</div>';
+  list.forEach(function(a){
+    var tp=a.tipo||'info';
+    var brd=tp==='urg'?'#e64558':(tp==='warn'?'var(--gold2)':'#5fa8ff');
+    h+='<div style="background:var(--bg2);border:1px solid var(--line);border-left:4px solid '+brd+';border-radius:10px;padding:11px 12px;margin-bottom:10px">';
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;margin-bottom:5px"><b style="font-size:14.5px;color:#fff">'+esc(a.titulo)+'</b><span class="cd-pill '+(tCls[tp]||'cd-p-norm')+'">'+(tLbl[tp]||'AVISO')+'</span></div>';
+    h+='<div style="font-size:13.5px;color:#e4ebf5;white-space:pre-wrap;line-height:1.45">'+esc(a.texto)+'</div>';
+    h+='<div style="font-size:11px;color:var(--mut);margin-top:7px">'+esc(a.fecha||'')+(a.autor?' · '+esc(a.autor):'')+'</div>';
+    h+='</div>';
+  });
+  h+='<div style="display:flex;justify-content:flex-end;margin-top:8px"><button type="button" class="btn" style="width:100%;padding:11px" onclick="avisosMarkRead()">'+svg('check',15)+' Entendido</button></div>';
+  h+='</div>';
+  $('modal').innerHTML=h;
+  $('modal').classList.remove('hide');
+  try{
+    if('Notification' in window&&Notification.permission==='granted'&&list[0]){
+      new Notification('Policía Local GAO · '+list[0].titulo,{body:list[0].texto});
+    }
+  }catch(e){}
+}
+
+function avisosMarkRead(){
+  S.readAvisos=S.readAvisos||{};
+  var now=Date.now();
+  _avisosPendingIds.forEach(function(id){S.readAvisos[id]=now;});
+  _avisosPendingIds=[];
+  save();
+  $('modal').classList.add('hide');
+}
+
 function openCodFav(){
   cdState.norm='ALL';
   cdState.grav='';
@@ -4154,7 +4356,7 @@ renderContraste();
   if(v==='vtc')renderVtc();
   if(v==='personajes'){if(!authCanPersonajes()){banner('No tienes permiso para acceder a Personajes.','');go('menu');return;}pjOpen();}
   if(v==='oxido')renderOxido();
-  if(v==='admin'){if(!authIsAdmin()){go('menu');return;}admLoadUsers(false);}
+  if(v==='admin'){if(!authIsAdmin()){go('menu');return;}admLoadUsers(false);avisosLoadAdmin(false);}
 }
 
 function initStaticIcons(){
@@ -4338,7 +4540,7 @@ function drawCat(){
 function cu(j,f,v){S.cat[j][f]=f==='a'?(parseFloat(v)||0):v;save()}
 function cd(j){S.cat.splice(j,1);save();drawCat()}
 function ca(){S.cat.push({id:S.nid++,n:'Nueva gratificación',a:0,i:'star'});save();drawCat()}
-function resetCat(){if(!confirm('¿Restaurar la lista oficial de gratificaciones de Agente? Tus turnos y días ya guardados no se borrarán.'))return;S.cat=JSON.parse(JSON.stringify(DEF_CAT));S.nid=12;save();drawCat()}
+function resetCat(){if(!confirm('¿Restaurar la lista oficial de gratificaciones de Agente? Tus turnos y días ya guardados no se borrarán.'))return;S.cat=JSON.parse(JSON.stringify(DEF_CAT));S.nid=13;S._m29n=1;save();drawCat()}
 
 function openRange(){
   var o=['M','T','N','L'].map(function(c){return '<option value="'+c+'"'+(rs===c?' selected':'')+'>'+SH[c].n+'</option>'}).join('');
